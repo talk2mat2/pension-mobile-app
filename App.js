@@ -33,6 +33,7 @@ export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [u, setU] = useState(null);
+  const [name, setName] = useState(null);
   const [tk, setTk] = useState(null);
   const [etk, setEtk] = useState('');
 	const [online, setOnline] = useState(false);
@@ -68,6 +69,8 @@ export default function App() {
           setTk: setTk,
           u: u,
           setU: setU,
+          name: name,
+          setName: setName,
           online: online,
           setOnline: setOnline
         };
@@ -173,7 +176,9 @@ export default function App() {
          ),
        }}
      />
+     
    </>
+   
    ) : (
     <Tab.Screen
        name="AuthStack"

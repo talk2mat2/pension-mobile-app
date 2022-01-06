@@ -9,7 +9,7 @@ import UserContext from '../contexts/UserContext';
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
-    const [buttonBackground,setButtonBackground] = useState("#00f");
+    const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
 	/**
 	 Test config
@@ -65,9 +65,10 @@ function LoginScreen(){
 				break;
 
 				case "success":
+					console.log("result",result);
                   // Retrieve the JWT token and decode it
 				  /**
-				   * An example
+				   * An example (social)
 				   * decoded:  Object {
   "aud": "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG",
   "exp": 1641507709,
@@ -82,11 +83,42 @@ function LoginScreen(){
   "picture": "https://lh3.googleusercontent.com/a/AATXAJwWJndrzmWLbbcSbMaFAAD07UUGkHihOUyQIKGP=s96-c",
   "sub": "google-oauth2|117923176164825259890",
   "updated_at": "2022-01-06T12:20:07.094Z",
-} 
+}
+
+*Another example (email)
+decoded:  Object {
+  "aud": "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF",
+  "exp": 1641515647,
+  "iat": 1641479647,
+  "iss": "https://pensionjar-development.eu.auth0.com/",
+  "name": "test@yahoo.com",
+  "nickname": "test",
+  "nonce": "nonce",
+  "picture": "https://s.gravatar.com/avatar/88e478531ab3bc303f1b5da82c2e9bbb?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fte.png",
+  "sub": "auth0|61d6fa7a8959640073099134",
+  "updated_at": "2022-01-06T14:19:40.349Z",
+}
 				   **/
 			      const jwtToken = result.params.id_token;
 			      const decoded = jwtDecode(jwtToken);
-	             // console.log("decoded: ",decoded);
+	             console.log("decoded: ",decoded);
+				 helpers.save('pa_tk',decoded.sub);
+
+				 //get the email from the sub
+				 let em = "", n = "", authType = decoded.sub.split('|');
+                 if(authType == "auth0"){
+					 em = decoded.name;
+                     n = decoded.nickname;
+				 }
+				 else if(authType == "google-oauth2"){
+					em = `${decoded.nickname}@gmail.com`;
+					n = decoded.name;
+				}
+		         helpers.save('pa_u',em);
+		         ctx.setTk(decoded.sub);
+		         ctx.setU(em);
+		         ctx.setName(n);
+		         ctx.setLoggedIn(true);
 			      //const { name } = decoded;
 			      //setName(name);
 				break;
@@ -100,7 +132,7 @@ function LoginScreen(){
 	return (
 	   <View style={styles.container}>
 		   <View style={styles.loginLogo}>
-		     <MaterialCommunityIcons name="login" color="#00f" size={200} />
+		     <MaterialCommunityIcons name="login" color="#77f" size={200} />
 		   </View>
 
 		   <View>
@@ -113,9 +145,9 @@ function LoginScreen(){
               /** Do Something **/
 			  console.log("moving..");
 			  setButtonBackground("#fff");
-			  setButtonTextColor("#00f");
+			  setButtonTextColor("#77f");
 			  setTimeout(() => {
-				setButtonBackground("#00f");
+				setButtonBackground("#77f");
 				setButtonTextColor("#fff");
 			  },700);
 			  promptAsync({ useProxy });
