@@ -9,7 +9,8 @@ import UserContext from '../contexts/UserContext';
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
-
+    const [buttonBackground,setButtonBackground] = useState("#00f");
+	const [buttonTextColor,setButtonTextColor] = useState("#fff");
 	/**
 	 Test config
     const Auth0_Domain = "https://dev-phszir2j.us.auth0.com";
@@ -43,14 +44,14 @@ function LoginScreen(){
 	
 	  // Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
-	  console.log(`Redirect URL: ${redirectUri}`);
+	  //console.log(`Redirect URL: ${redirectUri}`);
 
 	  useEffect(() => {
 		if (result) {
 		  if (result.error) {
 			helpers.jarvisAlert({
 			  type: "danger",
-			  message: result.params.error_description || "something went wrong"
+			  message: result.params.error_description || "Something went wrong.."
 			});
 			return;
 		  }
@@ -111,11 +112,17 @@ function LoginScreen(){
 			  onPress={() => {
               /** Do Something **/
 			  console.log("moving..");
+			  setButtonBackground("#fff");
+			  setButtonTextColor("#00f");
+			  setTimeout(() => {
+				setButtonBackground("#00f");
+				setButtonTextColor("#fff");
+			  },700);
 			  promptAsync({ useProxy });
              }}
            >
-		     <View style={styles.loginButton}>
-				 <Text style={styles.loginButtonText}>Login with Auth0</Text>
+		     <View style={[styles.loginButton,{backgroundColor: buttonBackground}]}>
+				 <Text style={[styles.loginButtonText,{color: buttonTextColor}]}>Login with Auth0</Text>
 			 </View>
            </Pressable>
 	   </View>
@@ -149,13 +156,11 @@ const styles = StyleSheet.create({
 	 alignItems: 'center',
 	 marginTop: 50,
 	 padding: 20,
-	 backgroundColor: "rgb(0,0,255)",
 	 color: "#fff",
      width: Dimensions.get('window').width-20
              
   },
-  loginButtonText: {
-	color: "#fff"			
+  loginButtonText: {		
   },
 });
 
