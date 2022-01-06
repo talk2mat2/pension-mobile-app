@@ -1,42 +1,100 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Platform, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
-import AwesomeButton from "react-native-really-awesome-button";
+import { Platform, Pressable, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as AuthSession from 'expo-auth-session';
+import jwtDecode from "jwt-decode";
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
+
+	/**
+	 Test config
+    const Auth0_Domain = "https://dev-phszir2j.us.auth0.com";
+    const Auth0_ClientID = "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG";
+	const authorizationEndpoint = "https://dev-phszir2j.us.auth0.com/authorize";
+	**/
+
+	 //Main config
+    const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+    const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
+
+    const useProxy = Platform.select({ web: false, default: true });
+    const redirectUri = AuthSession.makeRedirectUri({ useProxy });
+
+	const [request, result, promptAsync] = AuthSession.useAuthRequest(
+		{
+		  redirectUri,
+		  clientId: Auth0_ClientID,
+		  // id_token will return a JWT token
+		  responseType: "id_token",
+		  // retrieve the user's profile
+		  scopes: ["openid", "profile"],
+		  extraParams: {
+			// ideally, this will be a random value
+			nonce: "nonce",
+		  },
+		},
+		{ authorizationEndpoint }
+	  );
 	
-	const login = async (cb) => {
-	
-		let etk = await helpers.getValueFor("ace_etk");
-		 //console.log("etk in LoginScreen: ",etk);
-		 
-	try {
-	  let ret = await helpers.tryLogin();
-	  console.log("ret: ",ret);
-      
-	  if(ret.type)
-	  {
-		switch(ret.type)
-	    {
-           case "dismiss":
+	  // Retrieve the redirect URL, add this to the callback URL list
+	  // of your Auth0 application.
+	  console.log(`Redirect URL: ${redirectUri}`);
+
+	  useEffect(() => {
+		if (result) {
+		  if (result.error) {
 			helpers.jarvisAlert({
-				message: "Login attempt dismissed",
-				type: "info",
-			  });
-			break;
+			  type: "danger",
+			  message: result.params.error_description || "something went wrong"
+			});
+			return;
+		  }
+		  if(result.type){
+			switch(result.type){
+			    case "dismiss":
+				  helpers.jarvisAlert({
+					message: "Login attempt dismissed",
+					type: "info",
+				  });
+				break;
+
+				case "success":
+                  // Retrieve the JWT token and decode it
+				  /**
+				   * An example
+				   * decoded:  Object {
+  "aud": "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG",
+  "exp": 1641507709,
+  "family_name": "Kudayisi",
+  "given_name": "Tobi",
+  "iat": 1641471709,
+  "iss": "https://dev-phszir2j.us.auth0.com/",
+  "locale": "en",
+  "name": "Tobi Kudayisi",
+  "nickname": "kudayisitobi",
+  "nonce": "nonce",
+  "picture": "https://lh3.googleusercontent.com/a/AATXAJwWJndrzmWLbbcSbMaFAAD07UUGkHihOUyQIKGP=s96-c",
+  "sub": "google-oauth2|117923176164825259890",
+  "updated_at": "2022-01-06T12:20:07.094Z",
+} 
+				   **/
+			      const jwtToken = result.params.id_token;
+			      const decoded = jwtDecode(jwtToken);
+	             // console.log("decoded: ",decoded);
+			      //const { name } = decoded;
+			      //setName(name);
+				break;
+			   }
+		   }
 	    }
-	  }
-	  
-	  //cb();
-    } catch (error) {
-      console.error(error);
-	  //cb();
-    }
-}
+	  }, [result]);
+
+    
 
 	return (
 	   <View style={styles.container}>
@@ -49,22 +107,17 @@ function LoginScreen(){
 		   </View>
 	     
 		 
-		   <AwesomeButton
-		      type="round"
-			  activeOpacity={0.5}
-			  width={Dimensions.get('window').width-20}
-        textColor="#fff"
-		backgroundColor="rgb(0,0,255)"
-        style={styles.loginButton}
-             progress
-             onPress={next => {
+		   <Pressable
+			  onPress={() => {
               /** Do Something **/
 			  console.log("moving..");
-			  login(next);
+			  promptAsync({ useProxy });
              }}
-    >
-      Login
-    </AwesomeButton>
+           >
+		     <View style={styles.loginButton}>
+				 <Text style={styles.loginButtonText}>Login with Auth0</Text>
+			 </View>
+           </Pressable>
 	   </View>
 	);
 }
@@ -94,8 +147,15 @@ const styles = StyleSheet.create({
   },
   loginButton: {
 	 alignItems: 'center',
-	 
 	 marginTop: 50,
+	 padding: 20,
+	 backgroundColor: "rgb(0,0,255)",
+	 color: "#fff",
+     width: Dimensions.get('window').width-20
+             
+  },
+  loginButtonText: {
+	color: "#fff"			
   },
 });
 

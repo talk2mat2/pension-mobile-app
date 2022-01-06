@@ -9,8 +9,7 @@ import * as RootNavigation from './RootNavigation.js';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
 export const API = "";
-export const Auth0_Domain = "https://dev-phszir2j.us.auth0.com";
-export const Auth0_ClientID = "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG";
+
 
 export function tryParseJSON(jsonString){
     try {
@@ -54,17 +53,13 @@ export async function remove(key) {
 
 export async function tryLogin() {
 	let ret = null;
-  
-  let redirectUri = AuthSession.makeRedirectUri({
-    scheme: "jarvis"
-  });
-  console.log("redirectUri: ", redirectUri);
-  
+  /**
   ret = AuthSession.startAsync({
     authUrl: `${Auth0_Domain}?client_id=${Auth0_ClientID}&redirect_uri=${redirectUri}`
   });
-
-	return ret;
+  **/
+	
+  return ret;
 }
 
 export async function setCredentials(dt) {
