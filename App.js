@@ -1,7 +1,7 @@
 //import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Platform, StyleSheet, View, Text } from 'react-native';
+import { Platform, StyleSheet, View, Text, SafeAreaView } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -9,6 +9,7 @@ import NetInfo from '@react-native-community/netinfo';
 import { navigationRef } from './RootNavigation.js';
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import * as WebBrowser from 'expo-web-browser';
+import AppIntroSlider from 'react-native-app-intro-slider';
 
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
@@ -31,6 +32,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
+  const [showApp,setShowApp] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [u, setU] = useState(null);
   const [name, setName] = useState(null);
@@ -41,6 +43,41 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
   let s = null, nm = "", ntt = "";
+
+  const data = [
+		{
+		  title: 'Title 1',
+      icon: "cash",
+		  copy: "This is the copy for the first slide",
+		  bg: '#59b2ab',
+		},
+		{
+		  title: 'Title 2',
+      icon: "cash-register",
+		  copy: "This is the copy for the second slide",
+		  bg: '#febe29',
+		},
+		{
+		  title: 'Title 3',
+      icon: "cash-multiple",
+		  copy: "This is the copy for the third slide",
+		  bg: '#22bcb5',
+		},
+	  ];
+
+    _renderItem = item => {
+      let ii = item.item;
+      console.log("item: ",ii);
+      return (
+        <View style={[styles.slide,{backgroundColor: ii.bg}]}>
+            <MaterialCommunityIcons name={ii.icon} color="#fff" size={200} />
+            <Text style={styles.title}>{ii.title}</Text>
+            <Text style={styles.copy}>{ii.copy}</Text>
+        </View>
+      );
+    };
+  
+    _keyExtractor = item => item.title;
 
 
   const subscribeToNetworkChanges = NetInfo.addEventListener(state => {
@@ -154,58 +191,97 @@ export default function App() {
 
   
   let irn = loggedIn ? "AppStack" : "AuthStack";
-  return (
-    <UserProvider value={ctx}>
-  <NavigationContainer ref={navigationRef}>
-     <Tab.Navigator
-     initialRouteName={irn}
-       activeColor="#f0edf6"
-       inactiveColor="#3e2465"
-       barStyle={{ backgroundColor: '#694fad' }}
-           
-   >
-   {loggedIn ? (
-   <>
-   <Tab.Screen
-       name="AppStack"
-       component={AppStack}
-       options={{
-         tabBarLabel: 'Dashboard',  
-         tabBarIcon: ({ color }) => (
-           <MaterialCommunityIcons name="view-dashboard" color={color} size={26} />
-         ),
-       }}
-     />
+
+  if(showApp){
+    return (
+      <UserProvider value={ctx}>
+    <NavigationContainer ref={navigationRef}>
+       <Tab.Navigator
+       initialRouteName={irn}
+         activeColor="#f0edf6"
+         inactiveColor="#3e2465"
+         barStyle={{ backgroundColor: '#694fad' }}
+             
+     >
+     {loggedIn ? (
+     <>
+     <Tab.Screen
+         name="AppStack"
+         component={AppStack}
+         options={{
+           tabBarLabel: 'Dashboard',  
+           tabBarIcon: ({ color }) => (
+             <MaterialCommunityIcons name="view-dashboard" color={color} size={26} />
+           ),
+         }}
+       />
+       
+     </>
      
-   </>
-   
-   ) : (
-    <Tab.Screen
-       name="AuthStack"
-       component={AuthStack}
-       options={{
-         tabBarLabel: 'Login',
-         tabBarIcon: ({ color }) => (
-           <MaterialCommunityIcons name="account" color={color} size={26} />
-         ),
-       }}
-     />
-   )}
+     ) : (
+      <Tab.Screen
+         name="AuthStack"
+         component={AuthStack}
+         options={{
+           tabBarLabel: 'Login',
+           tabBarIcon: ({ color }) => (
+             <MaterialCommunityIcons name="account" color={color} size={26} />
+           ),
+         }}
+       />
+     )}
+        
+       </Tab.Navigator>
+     </NavigationContainer>
+     <StatusBar style="auto" />
+       <FlashMessage position="bottom" /> 
+      </UserProvider>
       
-     </Tab.Navigator>
-   </NavigationContainer>
-   <StatusBar style="auto" />
-     <FlashMessage position="bottom" /> 
-    </UserProvider>
-    
- );
+    );
+  }
+  else{
+    return (
+      <>
+      <View style={{flex: 1}}>
+        <StatusBar translucent backgroundColor="transparent" />
+        <AppIntroSlider
+          keyExtractor={_keyExtractor}
+          renderItem={_renderItem}
+          bottomButton
+          showSkipButton
+          showPrevButton
+          data={data}
+          onDone={() => setShowApp(true)}
+        />
+      </View>
+      <StatusBar style="auto" />
+      </>
+    );
+ }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  slide: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 96, // Add padding to offset large buttons and pagination in bottom of page
+  },
+  title: {
+    fontSize: 22,
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 10
+  },
+  copy: {
+    fontSize: 18,
+    color: 'white',
+    textAlign: 'center',
+    marginTop: 10
   },
 });

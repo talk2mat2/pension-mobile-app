@@ -11,6 +11,7 @@ function LoginScreen(){
 	const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
+
 	/**
 	 Test config
     const Auth0_Domain = "https://dev-phszir2j.us.auth0.com";
@@ -21,7 +22,7 @@ function LoginScreen(){
 	 //Main config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
+	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize"
 
     const useProxy = Platform.select({ web: false, default: true });
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
