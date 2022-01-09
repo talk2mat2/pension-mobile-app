@@ -60,16 +60,10 @@ function LoginScreen(){
 
     _getAuthDetails();
 
-	  useEffect(() => {
-		
-		if(cc && cv && tryLogin){
-			console.log("[cc,cv]:",[cc,cv]);
-           /**
-	 code_challenge = dt.code_challenge, verifier = dt.verifier;
 	let authPayload = {
 		redirectUri,
 		clientId: Auth0_ClientID,
-		codeChallenge: code_challenge,
+		codeChallenge: cc,
 		codeChallengeMethod: "S256",
 		// id_token will return a JWT token
 		responseType: "code",
@@ -81,16 +75,29 @@ function LoginScreen(){
 		},
 		audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
 	  };
-	  console.log("auth payload:",authPayload);
+	  
+      
+	  if(cc && cv && !tryLogin){
+		console.log("auth payload:",authPayload);
+		  const [r1, r2, pa] = AuthSession.useAuthRequest(
+		     authPayload,
+		     { authorizationEndpoint }
+	       );
+	      setRequest(r1); setResult(r2), setPromptAsync(pa);
+	  }
+	  
 
-	  // Retrieve the redirect URL, add this to the callback URL list
+	// Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
 	  //console.log(`Redirect URL: ${redirectUri}`);
 
-    **/
-   setTryLogin(false);
+	  useEffect(() => {
+		if(cc && cv && tryLogin){
+			//console.log("[cc,cv]:",[cc,cv]);
+            setTryLogin(false);
 		}
 	  },[cc,cv]);
+	  
 
 	  useEffect(() => {
 		console.log("result",result);
@@ -110,7 +117,7 @@ function LoginScreen(){
 			let fd = new FormData();
 			fd.append("grant_type","authorization_code");
 			fd.append("client_id",Auth0_ClientID);
-			fd.append("code_verifier",verifier);
+			fd.append("code_verifier",cv);
 			fd.append("code",params.code);
 			fd.append("redirect_uri",redirectUri);
 			
