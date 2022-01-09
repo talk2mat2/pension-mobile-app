@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from "jwt-decode";
 import * as Random from 'expo-random';
+import {Buffer} from 'buffer';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 
@@ -40,9 +41,13 @@ function LoginScreen(){
 	//PKCE Authorization flow
 
 	//Create verifier
-	let verifier = helpers.base64URLEncode(Random.getRandomBytes(32));
+	let rb = Random.getRandomBytes(32);
+	let base64String = Buffer.from(rb).toString('base64');
+	let verifier = helpers.base64URLEncode(base64String);
+
     //Create code challenge
-	let code_challenge = helpers.sha(verifier);
+	let cc = helpers.sha(verifier);
+	let code_challenge = helpers.base64URLEncode(cc);
 
 	const [request, result, promptAsync] = AuthSession.useAuthRequest(
 		{
@@ -58,6 +63,7 @@ function LoginScreen(){
 			// ideally, this will be a random value
 			nonce: "nonce",
 		  },
+		  audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
 		},
 		{ authorizationEndpoint }
 	  );
