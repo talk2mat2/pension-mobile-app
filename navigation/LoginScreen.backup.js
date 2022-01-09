@@ -31,8 +31,7 @@ function LoginScreen(){
 	 //Main config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
-	const oauthEndpoint = "https://pensionjar-development.eu.auth0.com/oauth/token";
+	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize"
 
     const useProxy = Platform.select({ web: false, default: true });
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
@@ -69,82 +68,12 @@ function LoginScreen(){
 	  useEffect(() => {
 		console.log("result",result);
 		if (result) {
-			let params = result.params;
 		  if (result.error) {
 			helpers.jarvisAlert({
 			  type: "danger",
 			  message: result.params.error_description || "Something went wrong.."
 			});
 			return;
-		  }
-		  if(params.code){
-			//Exchange the authorization code for access and id tokens
-			//Send POST request
-
-			let fd = new FormData();
-			fd.append("grant_type","authorization_code");
-			fd.append("client_id",Auth0_ClientID);
-			fd.append("code_verifier",verifier);
-			fd.append("code",params.code);
-			fd.append("redirect_uri",redirectUri);
-			
-			//create request
-			let url = oauthEndpoint, dest = "";
-				   
-			const req = new Request(url,{
-				method: 'POST', 
-				headers: {
-					//'Content-Type': 'application/json'
-					// 'Content-Type': 'application/x-www-form-urlencoded',
-				  },
-				body: fd
-			});
-			
-			//fetch request
-			fetch(req)
-			   .then(response => {
-				   /**
-				   if(response.status === 200){
-					   return response.json();
-				   }
-				   else{
-					   return {status: "error", message: "Technical error"};
-				   }
-				   **/
-				  return response.json();
-			   })
-				.catch(error => {
-					alert("Failed first to send new message: " + error);	
-			   })
-			   .then(res => {
-				   console.log('res: ',res);
-				   /**
-					// hideElem(['#rp-loading','#rp-submit']); 
-				   
-				   if(res.status == "ok"){
-					  let nm = "Message sent!", ntt = "success";
-					 showMessage({
-					   message: nm,
-					   type: ntt,
-					 });
-					  dest = "Inbox";	  
-					   resetEmailStorage();
-						RootNavigation.navigate(dest);	  
-				   }
-				   else if(res.status == "error"){
-					   console.log(res.message);
-					 if(res.message == "validation" || res.message == "dt-validation"){
-						 alert(`Please enter all required fields.`);
-					 }
-					 else{
-					   alert("Got an error while sending new message: " + res.message);			
-					 }					 
-				   }
-				 **/
-								
-			   }).catch(error => {
-					alert("Failed to send new message: " + error);
-			   });
 		  }
 		  if(result.type){
 			switch(result.type){
@@ -157,8 +86,38 @@ function LoginScreen(){
 
 				case "success":
                   // Retrieve the JWT token and decode it
-				 
 				  /**
+				   * An example (social)
+				   * decoded:  Object {
+  "aud": "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG",
+  "exp": 1641507709,
+  "family_name": "Kudayisi",
+  "given_name": "Tobi",
+  "iat": 1641471709,
+  "iss": "https://dev-phszir2j.us.auth0.com/",
+  "locale": "en",
+  "name": "Tobi Kudayisi",
+  "nickname": "kudayisitobi",
+  "nonce": "nonce",
+  "picture": "https://lh3.googleusercontent.com/a/AATXAJwWJndrzmWLbbcSbMaFAAD07UUGkHihOUyQIKGP=s96-c",
+  "sub": "google-oauth2|117923176164825259890",
+  "updated_at": "2022-01-06T12:20:07.094Z",
+}
+
+*Another example (email)
+decoded:  Object {
+  "aud": "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF",
+  "exp": 1641515647,
+  "iat": 1641479647,
+  "iss": "https://pensionjar-development.eu.auth0.com/",
+  "name": "test@yahoo.com",
+  "nickname": "test",
+  "nonce": "nonce",
+  "picture": "https://s.gravatar.com/avatar/88e478531ab3bc303f1b5da82c2e9bbb?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fte.png",
+  "sub": "auth0|61d6fa7a8959640073099134",
+  "updated_at": "2022-01-06T14:19:40.349Z",
+}
+				   **/
 			      //const jwtToken = result.params.id_token;
 			      //const decoded = jwtDecode(jwtToken);
 	             console.log("decoded: ",decoded);
@@ -179,8 +138,8 @@ function LoginScreen(){
 					 em: em,
 					 name: n
 				 });
-				 **/
-				
+			      //const { name } = decoded;
+			      //setName(name);
 				break;
 			   }
 		   }

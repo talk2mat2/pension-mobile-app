@@ -17,6 +17,7 @@ import { UserProvider } from './contexts/UserContext';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
+import SettingsStack from './navigation/SettingsStack';
 
 const Tab = createMaterialBottomTabNavigator();
  
@@ -67,7 +68,7 @@ export default function App() {
 
     _renderItem = item => {
       let ii = item.item;
-      console.log("item: ",ii);
+      
       return (
         <View style={[styles.slide,{backgroundColor: ii.bg}]}>
             <MaterialCommunityIcons name={ii.icon} color="#fff" size={200} />
@@ -116,9 +117,10 @@ export default function App() {
       async function prepare() {
         try {
           //make any API calls you need to do here
-      let ttk = await helpers.getValueFor("pa_tk");
+      let ttk = await helpers.getValueFor("pa_tk"), firstView = await helpers.getValueFor("pa_first_view");
       let uu = null, credentials = null;
       
+      if(firstView && firstView == "false") setShowApp(true);
       
       try {
       // Retrieve the credentials
@@ -215,6 +217,16 @@ export default function App() {
            ),
          }}
        />
+       <Tab.Screen
+         name="SettingsStack"
+         component={SettingsStack}
+         options={{
+           tabBarLabel: 'More',  
+           tabBarIcon: ({ color }) => (
+             <MaterialCommunityIcons name="dots-horizontal-circle" color={color} size={26} />
+           ),
+         }}
+       />
        
      </>
      
@@ -251,7 +263,7 @@ export default function App() {
           showSkipButton
           showPrevButton
           data={data}
-          onDone={() => setShowApp(true)}
+          onDone={() => {setShowApp(true); helpers.save("pa_first_view","false");}}
         />
       </View>
       <StatusBar style="auto" />

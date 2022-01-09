@@ -7,6 +7,7 @@ import Constants from 'expo-constants';
 import { useNavigation } from '@react-navigation/native';
 import * as RootNavigation from './RootNavigation.js';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import * as crypto from 'expo-crypto';
 
 export const API = "";
 
@@ -31,6 +32,21 @@ export function tryParseJSON(jsonString){
 export function jarvisAlert(dt)
 {
   showMessage(dt);
+}
+
+export function base64URLEncode(str) {
+  return str.toString('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
+      .replace(/=/g, '');
+}
+
+export async function sha(buffer){
+  const ret = await crypto.digestStringAsync(
+      crypto.CryptoDigestAlgorithm.SHA256,
+      'GitHub stars are neat 🌟'
+    );
+  return ret;
 }
 
 export async function save(key, value) {
