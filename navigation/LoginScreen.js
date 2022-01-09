@@ -13,6 +13,12 @@ function LoginScreen(){
 	const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
+	const [request,setRequest] = useState(null);
+	const [result,setResult] = useState(null);
+	const [promptAsync,setPromptAsync] = useState(null);
+	const [cc,setCC] = useState(null);
+	const [cv,setCV] = useState(null);
+	const [tryLogin,setTryLogin] = useState(true);
 
     const _updateUser = (dt) => {
 		helpers.save('pa_u',dt.em);
@@ -39,38 +45,52 @@ function LoginScreen(){
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
 
 	//PKCE Authorization flow
+    const _getAuthDetails = async () => {
+		//Create verifier
+	    let rb = Random.getRandomBytes(32), base64String = Buffer.from(rb).toString('base64');
+	    let v = helpers.base64URLEncode(base64String);
 
-	//Create verifier
-	let rb = Random.getRandomBytes(32);
-	let base64String = Buffer.from(rb).toString('base64');
-	let verifier = helpers.base64URLEncode(base64String);
+        //Create code challenge
+	    let cc = await helpers.sha(v), c = helpers.base64URLEncode(cc);
 
-    //Create code challenge
-	let cc = helpers.sha(verifier);
-	let code_challenge = helpers.base64URLEncode(cc);
+		setCC(c); setCV(v);
+	}
+    
+	let dt = null, c = null, code_challenge = null, verifier = null;
 
-	const [request, result, promptAsync] = AuthSession.useAuthRequest(
-		{
-		  redirectUri,
-		  clientId: Auth0_ClientID,
-		  codeChallenge: code_challenge,
-          codeChallengeMethod: "S256",
-		  // id_token will return a JWT token
-		  responseType: "code",
-		  // retrieve the user's profile
-		  scopes: ["openid", "profile"],
-		  extraParams: {
-			// ideally, this will be a random value
-			nonce: "nonce",
-		  },
-		  audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
+    _getAuthDetails();
+
+	  useEffect(() => {
+		
+		if(cc && cv && tryLogin){
+			console.log("[cc,cv]:",[cc,cv]);
+           /**
+	 code_challenge = dt.code_challenge, verifier = dt.verifier;
+	let authPayload = {
+		redirectUri,
+		clientId: Auth0_ClientID,
+		codeChallenge: code_challenge,
+		codeChallengeMethod: "S256",
+		// id_token will return a JWT token
+		responseType: "code",
+		// retrieve the user's profile
+		scopes: ["openid", "profile"],
+		extraParams: {
+		  // ideally, this will be a random value
+		  nonce: "nonce",
 		},
-		{ authorizationEndpoint }
-	  );
-	
+		audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
+	  };
+	  console.log("auth payload:",authPayload);
+
 	  // Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
 	  //console.log(`Redirect URL: ${redirectUri}`);
+
+    **/
+   setTryLogin(false);
+		}
+	  },[cc,cv]);
 
 	  useEffect(() => {
 		console.log("result",result);

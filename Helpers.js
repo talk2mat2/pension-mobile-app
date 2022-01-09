@@ -44,7 +44,8 @@ export function base64URLEncode(str) {
 export async function sha(buffer){
   const ret = await crypto.digestStringAsync(
       crypto.CryptoDigestAlgorithm.SHA256,
-      'GitHub stars are neat 🌟'
+      buffer,
+      {encoding: crypto.CryptoEncoding.BASE64}
     );
   return ret;
 }
