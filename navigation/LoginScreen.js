@@ -164,7 +164,10 @@ function LoginScreen(){
 			   })
 			   .then(res => {
 				   console.log('res: ',res);
-				   console.log("[vv,cc,v]:",[vv,cc,v]);
+				   helpers.jarvisAlert({
+					type: "info",
+					message: `The result of /oauth/token API call: ${JSON.stringify(res)}`
+				  });
 				   /**
 					// hideElem(['#rp-loading','#rp-submit']); 
 				   
