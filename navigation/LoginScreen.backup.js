@@ -4,14 +4,22 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as AuthSession from 'expo-auth-session';
 import jwtDecode from "jwt-decode";
 import * as Random from 'expo-random';
+import {Buffer} from 'buffer';
+import * as crypto from 'expo-crypto';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
+import { setNotificationCategoryAsync } from 'expo-notifications';
 
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
+	const [tryLogin,setTryLogin] = useState(true);
+	const [cc,setCC] = useState(null);
+	const [v,setV] = useState(null);
+	const [vv,setVV] = useState(null);
+	const [hasCode,setHasCode] = useState(false);
 
     const _updateUser = (dt) => {
 		helpers.save('pa_u',dt.em);
@@ -19,6 +27,37 @@ function LoginScreen(){
 		         ctx.setU(dt.em);
 		         ctx.setName(dt.name);
 		         ctx.setLoggedIn(true);
+	}
+
+	async function sha(buffer){
+		let ret = await crypto.digestStringAsync(
+			crypto.CryptoDigestAlgorithm.SHA256,
+			buffer,
+			{encoding: crypto.CryptoEncoding.BASE64}
+		  );
+		  return ret;
+	  }
+
+	function URLEncode(str){
+		return str.toString('base64')
+			.replace(/\+/g, '-')
+			.replace(/\//g, '_')
+			.replace(/=/g, '');
+	  }
+    
+	async function loginWithPKCE(){
+       //PKCE Authorization flow
+    
+	//let request = null, result = null, promptAsync = null;
+
+    //Create verifier
+	let rb = await Random.getRandomBytesAsync(32), base64String = Buffer.from(rb).toString('base64');
+	let verifier = URLEncode(base64String);
+
+   //Create code challenge
+   let vv = await sha(verifier);
+   let code_challenge = URLEncode(vv);
+    return {cc: code_challenge, v: verifier, vv: vv};
 	}
 
 	/**
@@ -31,49 +70,128 @@ function LoginScreen(){
 	 //Main config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize"
+	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
+	const oauthEndpoint = "https://pensionjar-development.eu.auth0.com/oauth/token";
 
     const useProxy = Platform.select({ web: false, default: true });
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
-
-	//PKCE Authorization flow
-
-	//Create verifier
-	let verifier = helpers.base64URLEncode(Random.getRandomBytes(32));
-    //Create code challenge
-	let code_challenge = helpers.sha(verifier);
-
-	const [request, result, promptAsync] = AuthSession.useAuthRequest(
-		{
-		  redirectUri,
-		  clientId: Auth0_ClientID,
-		  codeChallenge: code_challenge,
-          codeChallengeMethod: "S256",
-		  // id_token will return a JWT token
-		  responseType: "code",
-		  // retrieve the user's profile
-		  scopes: ["openid", "profile"],
-		  extraParams: {
-			// ideally, this will be a random value
-			nonce: "nonce",
-		  },
+	let authPayload = null;
+    
+	useEffect(async () => {
+	  if(!hasCode){
+		setHasCode(true);
+	    let dt = await loginWithPKCE();
+	    console.log("dt:",dt);
+	    setCC(dt.cc);
+	    setV(dt.v);
+		setVV(dt.vv);
+		setHasCode(true);
+	  }
+	});
+	
+	authPayload = {
+		redirectUri,
+		clientId: Auth0_ClientID,
+		codeChallenge: cc,
+		codeChallengeMethod: "S256",
+		// id_token will return a JWT token
+		responseType: "code",
+		// retrieve the user's profile
+		scopes: ["openid", "profile"],
+		extraParams: {
+		  // ideally, this will be a random value
+		  nonce: "nonce",
 		},
+		audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
+	  }
+	 
+	// setRequest(r1); setResult(r2), setPromptAsync(pa);
+	
+	const [request, result, promptAsync] = AuthSession.useAuthRequest(
+		authPayload,
 		{ authorizationEndpoint }
 	  );
-	
-	  // Retrieve the redirect URL, add this to the callback URL list
+
+	// Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
 	  //console.log(`Redirect URL: ${redirectUri}`);
+	  
 
 	  useEffect(() => {
 		console.log("result",result);
 		if (result) {
+			let params = result.params;
 		  if (result.error) {
 			helpers.jarvisAlert({
 			  type: "danger",
 			  message: result.params.error_description || "Something went wrong.."
 			});
 			return;
+		  }
+		  if(params.code){
+			//Exchange the authorization code for access and id tokens
+			//Send POST request
+
+			let fd = `grant_type=authorization_code&client_id=${Auth0_ClientID}&code_verifier=${v}&code=${params.code}&redirect_uri=${redirectUri}`;
+			
+			//create request
+			let url = "https://pensionjar-development.eu.auth0.com/oauth/token", dest = "";
+				   
+			const req = new Request(url,{
+				method: 'POST', 
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				  },
+				body: new URLSearchParams(fd)
+			});
+			
+			//fetch request
+			fetch(req)
+			   .then(response => {
+				return response.json();
+				  /** 
+				     if(response.status === 200){
+					   return response.json();
+				   }
+				   else{
+					   return {status: "error", message: "Technical error"};
+				   }
+				   **/
+				   
+			   })
+				.catch(error => {
+					alert("Failed first to send new message: " + error);	
+			   })
+			   .then(res => {
+				   console.log('res: ',res);
+				   console.log("[vv,cc,v]:",[vv,cc,v]);
+				   /**
+					// hideElem(['#rp-loading','#rp-submit']); 
+				   
+				   if(res.status == "ok"){
+					  let nm = "Message sent!", ntt = "success";
+					 showMessage({
+					   message: nm,
+					   type: ntt,
+					 });
+					  dest = "Inbox";	  
+					   resetEmailStorage();
+						RootNavigation.navigate(dest);	  
+				   }
+				   else if(res.status == "error"){
+					   console.log(res.message);
+					 if(res.message == "validation" || res.message == "dt-validation"){
+						 alert(`Please enter all required fields.`);
+					 }
+					 else{
+					   alert("Got an error while sending new message: " + res.message);			
+					 }					 
+				   }
+				 **/
+								
+			   }).catch(error => {
+					alert("Failed to send new message: " + error);
+			   });
 		  }
 		  if(result.type){
 			switch(result.type){
@@ -86,38 +204,8 @@ function LoginScreen(){
 
 				case "success":
                   // Retrieve the JWT token and decode it
+				 
 				  /**
-				   * An example (social)
-				   * decoded:  Object {
-  "aud": "wxFJ14uFwhvQg2dHZWPDJfIAyC5A7wXG",
-  "exp": 1641507709,
-  "family_name": "Kudayisi",
-  "given_name": "Tobi",
-  "iat": 1641471709,
-  "iss": "https://dev-phszir2j.us.auth0.com/",
-  "locale": "en",
-  "name": "Tobi Kudayisi",
-  "nickname": "kudayisitobi",
-  "nonce": "nonce",
-  "picture": "https://lh3.googleusercontent.com/a/AATXAJwWJndrzmWLbbcSbMaFAAD07UUGkHihOUyQIKGP=s96-c",
-  "sub": "google-oauth2|117923176164825259890",
-  "updated_at": "2022-01-06T12:20:07.094Z",
-}
-
-*Another example (email)
-decoded:  Object {
-  "aud": "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF",
-  "exp": 1641515647,
-  "iat": 1641479647,
-  "iss": "https://pensionjar-development.eu.auth0.com/",
-  "name": "test@yahoo.com",
-  "nickname": "test",
-  "nonce": "nonce",
-  "picture": "https://s.gravatar.com/avatar/88e478531ab3bc303f1b5da82c2e9bbb?s=480&r=pg&d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fte.png",
-  "sub": "auth0|61d6fa7a8959640073099134",
-  "updated_at": "2022-01-06T14:19:40.349Z",
-}
-				   **/
 			      //const jwtToken = result.params.id_token;
 			      //const decoded = jwtDecode(jwtToken);
 	             console.log("decoded: ",decoded);
@@ -138,8 +226,8 @@ decoded:  Object {
 					 em: em,
 					 name: n
 				 });
-			      //const { name } = decoded;
-			      //setName(name);
+				 **/
+				
 				break;
 			   }
 		   }

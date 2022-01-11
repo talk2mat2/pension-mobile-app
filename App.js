@@ -14,6 +14,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
 import { UserProvider } from './contexts/UserContext';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';

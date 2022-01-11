@@ -5,20 +5,21 @@ import * as AuthSession from 'expo-auth-session';
 import jwtDecode from "jwt-decode";
 import * as Random from 'expo-random';
 import {Buffer} from 'buffer';
+import * as crypto from 'expo-crypto';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
+import { setNotificationCategoryAsync } from 'expo-notifications';
 
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
-	const [request,setRequest] = useState(null);
-	const [result,setResult] = useState(null);
-	const [promptAsync,setPromptAsync] = useState(null);
-	const [cc,setCC] = useState(null);
-	const [cv,setCV] = useState(null);
 	const [tryLogin,setTryLogin] = useState(true);
+	const [cc,setCC] = useState(null);
+	const [v,setV] = useState(null);
+	const [vv,setVV] = useState(null);
+	const [hasCode,setHasCode] = useState(false);
 
     const _updateUser = (dt) => {
 		helpers.save('pa_u',dt.em);
@@ -26,6 +27,37 @@ function LoginScreen(){
 		         ctx.setU(dt.em);
 		         ctx.setName(dt.name);
 		         ctx.setLoggedIn(true);
+	}
+
+	async function sha(buffer){
+		let ret = await crypto.digestStringAsync(
+			crypto.CryptoDigestAlgorithm.SHA256,
+			buffer,
+			{encoding: crypto.CryptoEncoding.BASE64}
+		  );
+		  return ret;
+	  }
+
+	function URLEncode(str){
+		return str.toString('base64')
+			.replace(/\+/g, '-')
+			.replace(/\//g, '_')
+			.replace(/=/g, '');
+	  }
+    
+	async function loginWithPKCE(){
+       //PKCE Authorization flow
+    
+	//let request = null, result = null, promptAsync = null;
+
+    //Create verifier
+	let rb = await Random.getRandomBytesAsync(32), base64String = Buffer.from(rb).toString('base64');
+	let verifier = URLEncode(base64String);
+
+   //Create code challenge
+   let vv = await sha(verifier);
+   let code_challenge = URLEncode(vv);
+    return {cc: code_challenge, v: verifier, vv: vv};
 	}
 
 	/**
@@ -38,29 +70,27 @@ function LoginScreen(){
 	 //Main config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+	const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
 	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
 	const oauthEndpoint = "https://pensionjar-development.eu.auth0.com/oauth/token";
 
     const useProxy = Platform.select({ web: false, default: true });
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
-
-	//PKCE Authorization flow
-    const _getAuthDetails = async () => {
-		//Create verifier
-	    let rb = Random.getRandomBytes(32), base64String = Buffer.from(rb).toString('base64');
-	    let v = helpers.base64URLEncode(base64String);
-
-        //Create code challenge
-	    let cc = await helpers.sha(v), c = helpers.base64URLEncode(cc);
-
-		setCC(c); setCV(v);
-	}
+	let authPayload = null;
     
-	let dt = null, c = null, code_challenge = null, verifier = null;
-
-    _getAuthDetails();
-
-	let authPayload = {
+	useEffect(async () => {
+	  if(!hasCode){
+		setHasCode(true);
+	    let dt = await loginWithPKCE();
+	    console.log("dt:",dt);
+	    setCC(dt.cc);
+	    setV(dt.v);
+		setVV(dt.vv);
+		setHasCode(true);
+	  }
+	});
+	
+	authPayload = {
 		redirectUri,
 		clientId: Auth0_ClientID,
 		codeChallenge: cc,
@@ -68,35 +98,23 @@ function LoginScreen(){
 		// id_token will return a JWT token
 		responseType: "code",
 		// retrieve the user's profile
-		scopes: ["openid", "profile"],
+		scopes: ["openid", "profile", "email", "offline_access"],
 		extraParams: {
 		  // ideally, this will be a random value
 		  nonce: "nonce",
-		},
-		audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
-	  };
-	  
-      
-	  if(cc && cv && !tryLogin){
-		console.log("auth payload:",authPayload);
-		  const [r1, r2, pa] = AuthSession.useAuthRequest(
-		     authPayload,
-		     { authorizationEndpoint }
-	       );
-	      setRequest(r1); setResult(r2), setPromptAsync(pa);
+		}
 	  }
-	  
+	 
+	// setRequest(r1); setResult(r2), setPromptAsync(pa);
+	
+	const [request, result, promptAsync] = AuthSession.useAuthRequest(
+		authPayload,
+		{ authorizationEndpoint }
+	  );
 
 	// Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
 	  //console.log(`Redirect URL: ${redirectUri}`);
-
-	  useEffect(() => {
-		if(cc && cv && tryLogin){
-			//console.log("[cc,cv]:",[cc,cv]);
-            setTryLogin(false);
-		}
-	  },[cc,cv]);
 	  
 
 	  useEffect(() => {
@@ -114,43 +132,39 @@ function LoginScreen(){
 			//Exchange the authorization code for access and id tokens
 			//Send POST request
 
-			let fd = new FormData();
-			fd.append("grant_type","authorization_code");
-			fd.append("client_id",Auth0_ClientID);
-			fd.append("code_verifier",cv);
-			fd.append("code",params.code);
-			fd.append("redirect_uri",redirectUri);
+			let fd = `grant_type=authorization_code&client_id=${Auth0_ClientID}&code_verifier=${v}&code=${params.code}&redirect_uri=${redirectUri}`;
 			
 			//create request
-			let url = oauthEndpoint, dest = "";
+			let url = "https://pensionjar-development.eu.auth0.com/oauth/token", dest = "";
 				   
 			const req = new Request(url,{
 				method: 'POST', 
 				headers: {
-					//'Content-Type': 'application/json'
-					// 'Content-Type': 'application/x-www-form-urlencoded',
+					'Content-Type': 'application/x-www-form-urlencoded',
 				  },
-				body: fd
+				body: new URLSearchParams(fd)
 			});
 			
 			//fetch request
 			fetch(req)
 			   .then(response => {
-				   /**
-				   if(response.status === 200){
+				return response.json();
+				  /** 
+				     if(response.status === 200){
 					   return response.json();
 				   }
 				   else{
 					   return {status: "error", message: "Technical error"};
 				   }
 				   **/
-				  return response.json();
+				   
 			   })
 				.catch(error => {
 					alert("Failed first to send new message: " + error);	
 			   })
 			   .then(res => {
 				   console.log('res: ',res);
+				   console.log("[vv,cc,v]:",[vv,cc,v]);
 				   /**
 					// hideElem(['#rp-loading','#rp-submit']); 
 				   
