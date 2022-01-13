@@ -10,11 +10,11 @@ import { navigationRef } from './RootNavigation.js';
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import * as WebBrowser from 'expo-web-browser';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { Auth0Provider } from "cfs-expo-auth0";
 
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
 import { UserProvider } from './contexts/UserContext';
-import { Auth0Provider } from '@auth0/auth0-react';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
@@ -46,6 +46,13 @@ export default function App() {
   const responseListener = useRef();
   let s = null, nm = "", ntt = "";
 
+  const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+    const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+	const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
+	const authorizationEndpoint = `${Auth0_Domain}/authorize`;
+	const oauthEndpoint = `${Auth0_Domain}/oauth/token`;
+  const redirectUri = "https://auth.expo.io/@pensionjar/jarvis";
+
   const data = [
 		{
 		  title: 'Title 1',
@@ -67,7 +74,7 @@ export default function App() {
 		},
 	  ];
 
-    _renderItem = item => {
+   const _renderItem = item => {
       let ii = item.item;
       
       return (
@@ -79,7 +86,7 @@ export default function App() {
       );
     };
   
-    _keyExtractor = item => item.title;
+   const _keyExtractor = item => item.title;
 
 
   const subscribeToNetworkChanges = NetInfo.addEventListener(state => {
@@ -249,7 +256,6 @@ export default function App() {
      <StatusBar style="auto" />
        <FlashMessage position="bottom" /> 
       </UserProvider>
-      
     );
   }
   else{

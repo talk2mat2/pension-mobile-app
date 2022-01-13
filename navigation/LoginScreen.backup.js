@@ -70,6 +70,7 @@ function LoginScreen(){
 	 //Main config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+	const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
 	const authorizationEndpoint = "https://pensionjar-development.eu.auth0.com/authorize";
 	const oauthEndpoint = "https://pensionjar-development.eu.auth0.com/oauth/token";
 
@@ -92,17 +93,17 @@ function LoginScreen(){
 	authPayload = {
 		redirectUri,
 		clientId: Auth0_ClientID,
+		clientSecret: Auth0_ClientSecret,
 		codeChallenge: cc,
 		codeChallengeMethod: "S256",
 		// id_token will return a JWT token
 		responseType: "code",
 		// retrieve the user's profile
-		scopes: ["openid", "profile"],
+		scopes: ["openid", "profile", "email", "offline_access"],
 		extraParams: {
 		  // ideally, this will be a random value
 		  nonce: "nonce",
-		},
-		audience: "https://pensionjar-development.eu.auth0.com/api/v2/"
+		}
 	  }
 	 
 	// setRequest(r1); setResult(r2), setPromptAsync(pa);
@@ -164,7 +165,10 @@ function LoginScreen(){
 			   })
 			   .then(res => {
 				   console.log('res: ',res);
-				   console.log("[vv,cc,v]:",[vv,cc,v]);
+				   helpers.jarvisAlert({
+					type: "info",
+					message: `The result of /oauth/token API call: ${JSON.stringify(res)}`
+				  });
 				   /**
 					// hideElem(['#rp-loading','#rp-submit']); 
 				   
