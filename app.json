@@ -2,6 +2,7 @@
   "expo": {
     "name": "Jarvis",
     "slug": "jarvis",
+    "scheme": "jarvis",
     "owner": "pensionjar",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -25,15 +26,13 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.pensionjar.jarvis",
-      "scheme": "jarvis"
+      "package": "com.pensionjar.jarvis"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "splash": {
         "image": "./assets/splash.png"
       }
-    },
-    "scheme": "jarvis"
+    }
   }
 }

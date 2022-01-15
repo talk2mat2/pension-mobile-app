@@ -2,13 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Platform, Pressable, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as AuthSession from 'expo-auth-session';
-import jwtDecode from "jwt-decode";
-import * as Random from 'expo-random';
-import {Buffer} from 'buffer';
-import * as crypto from 'expo-crypto';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
-import { setNotificationCategoryAsync } from 'expo-notifications';
 
 
 function LoginScreen(){
@@ -147,14 +142,16 @@ function LoginScreen(){
 					console.log("Failed first to fetch token: ",error);	
 			   })
 			   .then(dt => {
-				   console.log('res: ',dt);
-                   if(dt.status && dt.status == "error"){
+				   console.log('dt: ',dt);
+				   
+                   if(dt.hasOwnProperty('status') && dt.status == "error"){
 					helpers.jarvisAlert({
 						type: "danger",
 						message: `There was an issue with verifying your identity, please try again.`
 					  });
 				   }
 				   else{
+					   try{
 				       // Refetch the access token before it expires
 					   setTimeout(async () => {
 							     oauthPayload.refresh_token = dt.refresh_token;
@@ -170,36 +167,12 @@ function LoginScreen(){
 	                             let dt3 = await response2.json();
 								 console.log("dt3: ",dt3);
 					        },dt.refresh_token.expires_in * 1000 - requestNewAccessTokenBuffer);
+					   }
+					   catch(error){
+						   console.log("error in try block: ",error);
+					   }
 					}
-				   /**
-				  
-
-				   // Retrieve the JWT token and decode it
-				 
-			      const jwtToken = result.params.id_token;
-			      const decoded = jwtDecode(jwtToken);
-	             console.log("decoded: ",decoded);
-				 helpers.save('pa_tk',decoded.sub);
-
-				 //get the email from the sub
-				 let em = "", n = "", authType = decoded.sub.split('|');
-                 if(authType == "auth0"){
-					 em = decoded.name;
-                     n = decoded.nickname;
-				 }
-				 else if(authType == "google-oauth2"){
-					em = `${decoded.nickname}@gmail.com`;
-					n = decoded.name;
-				}
-		         _updateUser({
-					 tk: decoded.sub,
-					 em: em,
-					 name: n,
-					 auth_type: authType
-				 });
-				 
-
-				   **/		
+				
 			   }).catch(error => {
 					console.log("Failed to fetch tokens: ",error);
 			   });
