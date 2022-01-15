@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from './HomeScreen.js';
+import MoreScreen from './MoreScreen.js';
  
 import HeaderBar from '../components/HeaderBar.js';
  
@@ -8,19 +8,19 @@ import HeaderBar from '../components/HeaderBar.js';
  const Stack = createStackNavigator();
 
 
-function AppStack(){
+function MoreStack(){
   
 	return (
 	   <Stack.Navigator
-	    initialRouteName="Home"	
+	    initialRouteName="More"	
 		screenOptions={{
         headerTitle: (props) => <HeaderBar {...props} />
       }}
 	  >
-	   <Stack.Screen name="Home" component={HomeScreen} />
+	   <Stack.Screen name="More" component={MoreScreen} />
 	   </Stack.Navigator>
 	);
 }
 
 
-export default AppStack;
+export default MoreStack;

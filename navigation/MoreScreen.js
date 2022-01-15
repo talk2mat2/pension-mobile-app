@@ -1,7 +1,8 @@
-import React from 'react';
-import {Platform, StyleSheet, View, Text, TextInput, Dimensions, ScrollView, Button} from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import {Platform, StyleSheet, View, Pressable, Modal, Text, TextInput, Dimensions, ScrollView, Button} from 'react-native';
 import * as AuthSession from 'expo-auth-session';
 import * as helpers from '../Helpers';
+import UserContext from '../contexts/UserContext';
 
 function MoreScreen(){
 	

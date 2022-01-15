@@ -17,7 +17,7 @@ import { UserProvider } from './contexts/UserContext';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
-import SettingsStack from './navigation/SettingsStack';
+import MoreStack from './navigation/MoreStack';
 
 const Tab = createMaterialBottomTabNavigator();
  
@@ -37,13 +37,26 @@ export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [u, setU] = useState(null);
   const [name, setName] = useState(null);
-  const [tk, setTk] = useState(null);
+  const [atk, setAtk] = useState(null);
+  const [rtk, setRtk] = useState(null);
   const [etk, setEtk] = useState('');
 	const [online, setOnline] = useState(false);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
   const responseListener = useRef();
   let s = null, nm = "", ntt = "";
+
+   //Development config
+   const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+   const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+ const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
+
+ /**
+ //Staging config
+   const Auth0_Domain = "https://pensionjar-staging.eu.auth0.com";
+   const Auth0_ClientID = "PAQK5rFTPu2jdg2rSM4I0Nwjcwk8XWkI";
+ const Auth0_ClientSecret = "_-NCxLhpJlg5q8J6K2LYKyi_1CNu8uwbrU-X0s3IkxiLj3jhCjF37FdquZK78gUM";
+   **/
 
 
   const data = [
@@ -104,12 +117,12 @@ export default function App() {
           setLoggedIn: setLoggedIn,
           etk: etk,
           setEtk: setEtk,
-          tk: tk,
-          setTk: setTk,
+          atk: atk,
+          setAtk: setAtk,
+          rtk: rtk,
+          setRtk: setRtk,
           u: u,
           setU: setU,
-          name: name,
-          setName: setName,
           online: online,
           setOnline: setOnline
         };
@@ -118,7 +131,7 @@ export default function App() {
       async function prepare() {
         try {
           //make any API calls you need to do here
-      let ttk = await helpers.getValueFor("pa_tk"), firstView = await helpers.getValueFor("pa_first_view");
+      let rtk = await helpers.getValueFor("pa_rtk"), firstView = await helpers.getValueFor("pa_first_view");
       let uu = null, credentials = null;
       
       if(firstView && firstView == "false") setShowApp(true);
@@ -128,10 +141,29 @@ export default function App() {
       uu = await helpers.getValueFor("pa_u");
       if(uu)
      {
-        if(ttk != null && uu != null){
-        setTk(ttk);
-         setU(uu);
-          setLoggedIn(true);
+        if(rtk != null && uu != null){
+          //get auth0 access token using refresh token
+          let refreshTokenData = {
+            grant_type: "refresh_token",
+            client_id: Auth0_ClientID,
+            refresh_token: rtk
+          };
+          let url = `${Auth0_Domain}/oauth/token`;
+          
+          const req = new Request(url,{
+            method: 'POST', 
+           headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+           },
+           body: helpers._urlEncode(refreshTokenData)
+            });
+          let response2 = await fetch(req);
+          let dt = await response2.json();
+
+           helpers.save('pa_atk',dt.access_token);
+           setAtk(dt.access_token);
+           setU(uu);
+           setLoggedIn(true);
       }
       }
       else
@@ -219,8 +251,8 @@ export default function App() {
          }}
        />
        <Tab.Screen
-         name="SettingsStack"
-         component={SettingsStack}
+         name="MoreStack"
+         component={MoreStack}
          options={{
            tabBarLabel: 'More',  
            tabBarIcon: ({ color }) => (

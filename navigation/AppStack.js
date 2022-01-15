@@ -1,6 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import SettingsScreen from './SettingsScreen.js';
+import HomeScreen from './HomeScreen.js';
  
 import HeaderBar from '../components/HeaderBar.js';
  
@@ -12,12 +12,12 @@ function AppStack(){
   
 	return (
 	   <Stack.Navigator
-	    initialRouteName="Settings"	
+	    initialRouteName="Home"	
 		screenOptions={{
         headerTitle: (props) => <HeaderBar {...props} />
       }}
 	  >
-	   <Stack.Screen name="Settings" component={SettingsScreen} />
+	   <Stack.Screen name="Dashboard" component={HomeScreen} />
 	   </Stack.Navigator>
 	);
 }

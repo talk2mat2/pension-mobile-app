@@ -62,6 +62,13 @@ export async function tryLogin() {
   return ret;
 }
 
+export function _urlEncode(dt){
+		const fd = Object.entries(dt).map(
+			([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
+		).join("&");
+		return fd;
+}
+
 export async function setCredentials(dt) {
 	await Keychain.setGenericPassword(dt.u,dt.p);
 }

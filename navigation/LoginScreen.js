@@ -17,18 +17,10 @@ function LoginScreen(){
 
 
     const _updateUser = (dt) => {
-		helpers.save('pa_u',dt.em);
-		         ctx.setTk(dt.tk);
-		         ctx.setU(dt.em);
-		         ctx.setName(dt.name);
+		         ctx.setAtk(dt.atk);
+				 ctx.setRtk(dt.rtk);
+		         ctx.setU(dt.u);
 		         ctx.setLoggedIn(true);
-	}
-
-	const _urlEncode = (dt) => {
-		const fd = Object.entries(oauthPayload).map(
-			([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
-		).join("&");
-		return fd;
 	}
 
      const requestNewAccessTokenBuffer = 5 * 1000;
@@ -123,7 +115,7 @@ function LoginScreen(){
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 				  },
-				body: _urlEncode(oauthPayload)
+				body: helpers._urlEncode(oauthPayload)
 			});
 			
 			//fetch request
@@ -142,8 +134,7 @@ function LoginScreen(){
 					console.log("Failed first to fetch token: ",error);	
 			   })
 			   .then(dt => {
-				   console.log('dt: ',dt);
-				   
+				  
                    if(dt.hasOwnProperty('status') && dt.status == "error"){
 					helpers.jarvisAlert({
 						type: "danger",
@@ -161,11 +152,45 @@ function LoginScreen(){
 								    headers: {
 									   'Content-Type': 'application/x-www-form-urlencoded',
 								    },
-								    body: _urlEncode(oauthPayload)
+								    body: helpers._urlEncode(oauthPayload)
 							       });
 							     let response2 = await fetch(req2);
 	                             let dt3 = await response2.json();
 								 console.log("dt3: ",dt3);
+
+							 //Get the user info
+							 let url3 = `${Auth0_Domain}/userinfo`;
+							 const response3 = await fetch(url3, {
+                                   headers: { Authorization: `Bearer ${dt3.access_token}` },
+                                });
+								let userInfo = await response3.json();
+								
+								/**
+								 * userInfo:  Object {
+  "family_name": "Kudayisi",
+  "given_name": "Tobi",
+  "locale": "en",
+  "name": "Tobi Kudayisi",
+  "nickname": "kkudayisitobi",
+  "picture": "https://lh3.googleusercontent.com/a/AATXAJwsgNCE_3KJN2N4snvDa8x71K6aZylHKSqVKTcP=s96-c",
+  "sub": "google-oauth2|106248341049286054892",
+  "updated_at": "2022-01-15T18:10:44.875Z",
+}
+								 *  **/
+                             
+                              //Save user info, access token, refresh token and update user context
+							  //[YOU ARE HERE: START]
+							  helpers.save('pa_atk',dt3.access_token);
+							  helpers.save('pa_rtk',dt.refresh_token);
+							  helpers.save('pa_u',JSON.stringify(userInfo));
+
+		                      _updateUser({
+					              u: userInfo,
+					              atk: dt3.access_token,
+					              rtk: dt.refresh_token
+				              });
+
+                     //[YOU ARE HERE: END]
 					        },dt.refresh_token.expires_in * 1000 - requestNewAccessTokenBuffer);
 					   }
 					   catch(error){
