@@ -16,11 +16,10 @@ function LoginScreen(){
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
 	const [tryLogin,setTryLogin] = useState(true);
-	const [code_challenge,setCodeChallenge] = useState(null);
-	const [verifier,setVerifier] = useState(null);
-	const [encryptedVerifier,setEncryptedVerifier] = useState(null);
 	const [hasCode,setHasCode] = useState(false);
 	const [discovery,setDiscovery] = useState(null);
+	//const [authPayload,setAuthPayload] = useState(null);
+
 
     const _updateUser = (dt) => {
 		helpers.save('pa_u',dt.em);
@@ -30,22 +29,6 @@ function LoginScreen(){
 		         ctx.setLoggedIn(true);
 	}
 
-	async function sha(buffer){
-		let ret = await crypto.digestStringAsync(
-			crypto.CryptoDigestAlgorithm.SHA256,
-			buffer,
-			{encoding: crypto.CryptoEncoding.BASE64}
-		  );
-		  return ret;
-	  }
-
-	function URLEncode(str){
-		return str.toString('base64')
-			.replace(/\+/g, '-')
-			.replace(/\//g, '_')
-			.replace(/=/g, '');
-	  }
-    
 	async function getPKCE(){
        //Get PKCE codes from external Nodejs server
 	   let pkceEndpoint = "https://floating-ocean-67333.herokuapp.com/pkce";
@@ -56,77 +39,56 @@ function LoginScreen(){
 	const response = await fetch(req);
 	let res = await response.json();
 	return res;
-
-	/**
-	//fetch request
-	fetch(req)
-	   .then(response => {
-		return response.json(); 
-	   })
-		.catch(error => {
-			console.log("Failed first to fetch PKCE codes: ",error);	
-	   })
-	   .then(res => {
-		   console.log('res: ',res);
-      return res;
-	   })
-	   .catch(error => {
-		console.log("Failed to fetch PKCE codes: ", error);	
-       });
-	**/
 	}
 
 
-	 //Main config
+	 //Development config
+    const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+    const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+	const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
+
+	/**
+	//Staging config
     const Auth0_Domain = "https://pensionjar-staging.eu.auth0.com";
     const Auth0_ClientID = "PAQK5rFTPu2jdg2rSM4I0Nwjcwk8XWkI";
 	const Auth0_ClientSecret = "_-NCxLhpJlg5q8J6K2LYKyi_1CNu8uwbrU-X0s3IkxiLj3jhCjF37FdquZK78gUM";
+    **/
+
 	const authorizationEndpoint = `${Auth0_Domain}/authorize`;
 	const oauthEndpoint = `${Auth0_Domain}/oauth/token`;
 
     const useProxy = Platform.select({ web: false, default: true });
-    const redirectUri = AuthSession.makeRedirectUri({ useProxy: true });
-	let disc = null, authPayload = null;
+    const redirectUri = AuthSession.makeRedirectUri({ useProxy });
+	let disc = null, auth0 = null,
+	    request = null, result = null, promptAsync = null;
     
 	useEffect(async () => {
 	  if(!hasCode){
 		setHasCode(true);
-	    let dt = await getPKCE();
-	    console.log("redirectUri:",redirectUri);
-	    setCodeChallenge(dt.code_challenge);
-	    setVerifier(dt.verifier);
-		setEncryptedVerifier(dt.encryptedVerifier);
-		setHasCode(true);
+		console.log("redirectUri: ",redirectUri);
 		disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
 		setDiscovery(disc);
 	  }
 	});
 	
-	authPayload = {
+	const authPayload = {
 		redirectUri: redirectUri,
-		usePKCE: true,
 		clientId: Auth0_ClientID,
-		//clientSecret: Auth0_ClientSecret,
-		//codeChallenge: code_challenge,
-		//codeChallengeMethod: ".S256",
-		// id_token will return a JWT token
 		responseType: AuthSession.ResponseType.Code,
 		// retrieve the user's profile
-		scopes: ["openid", "profile", "email", "offline_access"],
+		scopes: ["openid", "profile", "offline_access"],
 		extraParams: {
 		  // ideally, this will be a random value
-		  nonce: "nonce",
-		  access_type: "offline",
 		  audience: `${Auth0_Domain}/api/v2/`
-		}
-	  }
-	 
-	// setRequest(r1); setResult(r2), setPromptAsync(pa);
-	
-	const [request, result, promptAsync] = AuthSession.useAuthRequest(
+		},
+		prompt: AuthSession.Prompt.Login
+	  };
+
+	 [request, result, promptAsync] = AuthSession.useAuthRequest(
 		authPayload,
 		{ authorizationEndpoint }
 	  );
+    
 
 	// Retrieve the redirect URL, add this to the callback URL list
 	  // of your Auth0 application.
@@ -135,7 +97,7 @@ function LoginScreen(){
 
 	  useEffect(async () => {
 		console.log("authPayload: ",authPayload);
-		console.log("result",result);
+		//console.log("request",request);
 		if (result) {
 			let params = result.params;
 		  if (result.error) {
@@ -154,59 +116,56 @@ function LoginScreen(){
 		  }
 		  if(params.code){
 			//Exchange the authorization code for access and id tokens
-			//console.log("discovery: ",discovery);
-			let oauthPayload = {
-				redirectUri: redirectUri,
-				clientId: Auth0_ClientID,
-				code: params.code,
-				extraParams: { 
-					code_verifier: verifier || ""
-				}
-				
-			};
-			console.log("oauthPayload: ",oauthPayload);
-			let oauthRequest = await AuthSession.exchangeCodeAsync(oauthPayload,discovery);
-			console.log("oauthRequest: ",oauthRequest);
-
+		
 			//Send POST request
-            /**
-			let fd = `grant_type=authorization_code&client_id=${Auth0_ClientID}&code_verifier=${v}&code=${params.code}&redirect_uri=${redirectUri}`;
-			
+           
+			let oauthPayload = {
+               grant_type: "authorization_code",
+			   client_id: Auth0_ClientID,
+			   redirect_uri: redirectUri,
+			   code: params.code,
+			   code_verifier: request.codeVerifier
+			};
+
+			const fd = Object.entries(oauthPayload).map(
+				([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
+			).join("&");
 			//create request
-			let url = "https://pensionjar-development.eu.auth0.com/oauth/token", dest = "";
+			let url = `${Auth0_Domain}/oauth/token`, dest = "";
 				   
 			const req = new Request(url,{
 				method: 'POST', 
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 				  },
-				body: new URLSearchParams(fd)
+				body: fd
 			});
 			
 			//fetch request
 			fetch(req)
 			   .then(response => {
 				return response.json();
-				 
+				 /** 
 				     if(response.status === 200){
 					   return response.json();
 				   }
 				   else{
 					   return {status: "error", message: "Technical error"};
 				   }
-				   
+				  **/ 
 				   
 			   })
 				.catch(error => {
-					alert("Failed first to send new message: " + error);	
+					console.log("Failed first to get access token: " + error);	
 			   })
 			   .then(res => {
 				   console.log('res: ',res);
+				   /**
 				   helpers.jarvisAlert({
 					type: "info",
 					message: `The result of /oauth/token API call: ${JSON.stringify(res)}`
 				  });
-				   /**
+				   
 					// hideElem(['#rp-loading','#rp-submit']); 
 				   
 				   if(res.status == "ok"){
@@ -228,12 +187,11 @@ function LoginScreen(){
 					   alert("Got an error while sending new message: " + res.message);			
 					 }					 
 				   }
-				
+				**/
 								
 			   }).catch(error => {
 					alert("Failed to send new message: " + error);
 			   });
-			   **/
 		  }
 		  if(result.type){
 			switch(result.type){
@@ -299,7 +257,7 @@ function LoginScreen(){
 				setButtonBackground("#77f");
 				setButtonTextColor("#fff");
 			  },700);
-			  promptAsync({ useProxy: true });
+			  promptAsync({ useProxy });
              }}
            >
 		     <View style={[styles.loginButton,{backgroundColor: buttonBackground}]}>
