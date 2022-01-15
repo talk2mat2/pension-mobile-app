@@ -29,19 +29,14 @@ function LoginScreen(){
 		         ctx.setLoggedIn(true);
 	}
 
-	async function getPKCE(){
-       //Get PKCE codes from external Nodejs server
-	   let pkceEndpoint = "https://floating-ocean-67333.herokuapp.com/pkce";
-	   const req = new Request(pkceEndpoint,{
-		method: 'GET'
-	});
-	
-	const response = await fetch(req);
-	let res = await response.json();
-	return res;
+	const _urlEncode = (dt) => {
+		const fd = Object.entries(oauthPayload).map(
+			([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
+		).join("&");
+		return fd;
 	}
 
-
+     const requestNewAccessTokenBuffer = 5 * 1000;
 	 //Development config
     const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
@@ -59,13 +54,12 @@ function LoginScreen(){
 
     const useProxy = Platform.select({ web: false, default: true });
     const redirectUri = AuthSession.makeRedirectUri({ useProxy });
-	let disc = null, auth0 = null,
+	let disc = null, auth0 = null, oauthPayload = null,
 	    request = null, result = null, promptAsync = null;
     
 	useEffect(async () => {
 	  if(!hasCode){
 		setHasCode(true);
-		console.log("redirectUri: ",redirectUri);
 		disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
 		setDiscovery(disc);
 	  }
@@ -96,8 +90,6 @@ function LoginScreen(){
 	  
 
 	  useEffect(async () => {
-		console.log("authPayload: ",authPayload);
-		//console.log("request",request);
 		if (result) {
 			let params = result.params;
 		  if (result.error) {
@@ -119,7 +111,7 @@ function LoginScreen(){
 		
 			//Send POST request
            
-			let oauthPayload = {
+			 oauthPayload = {
                grant_type: "authorization_code",
 			   client_id: Auth0_ClientID,
 			   redirect_uri: redirectUri,
@@ -127,9 +119,7 @@ function LoginScreen(){
 			   code_verifier: request.codeVerifier
 			};
 
-			const fd = Object.entries(oauthPayload).map(
-				([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`
-			).join("&");
+			
 			//create request
 			let url = `${Auth0_Domain}/oauth/token`, dest = "";
 				   
@@ -138,76 +128,56 @@ function LoginScreen(){
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 				  },
-				body: fd
+				body: _urlEncode(oauthPayload)
 			});
 			
 			//fetch request
 			fetch(req)
 			   .then(response => {
-				return response.json();
-				 /** 
+
 				     if(response.status === 200){
 					   return response.json();
 				   }
 				   else{
 					   return {status: "error", message: "Technical error"};
 				   }
-				  **/ 
 				   
 			   })
 				.catch(error => {
-					console.log("Failed first to get access token: " + error);	
+					console.log("Failed first to fetch token: ",error);	
 			   })
-			   .then(res => {
-				   console.log('res: ',res);
+			   .then(dt => {
+				   console.log('res: ',dt);
+                   if(dt.status && dt.status == "error"){
+					helpers.jarvisAlert({
+						type: "danger",
+						message: `There was an issue with verifying your identity, please try again.`
+					  });
+				   }
+				   else{
+				       // Refetch the access token before it expires
+					   setTimeout(async () => {
+							     oauthPayload.refresh_token = dt.refresh_token;
+							     oauthPayload.grant_type = "refresh_token";
+							     const req2 = new Request(url,{
+							     	method: 'POST', 
+								    headers: {
+									   'Content-Type': 'application/x-www-form-urlencoded',
+								    },
+								    body: _urlEncode(oauthPayload)
+							       });
+							     let response2 = await fetch(req2);
+	                             let dt3 = await response2.json();
+								 console.log("dt3: ",dt3);
+					        },dt.refresh_token.expires_in * 1000 - requestNewAccessTokenBuffer);
+					}
 				   /**
-				   helpers.jarvisAlert({
-					type: "info",
-					message: `The result of /oauth/token API call: ${JSON.stringify(res)}`
-				  });
-				   
-					// hideElem(['#rp-loading','#rp-submit']); 
-				   
-				   if(res.status == "ok"){
-					  let nm = "Message sent!", ntt = "success";
-					 showMessage({
-					   message: nm,
-					   type: ntt,
-					 });
-					  dest = "Inbox";	  
-					   resetEmailStorage();
-						RootNavigation.navigate(dest);	  
-				   }
-				   else if(res.status == "error"){
-					   console.log(res.message);
-					 if(res.message == "validation" || res.message == "dt-validation"){
-						 alert(`Please enter all required fields.`);
-					 }
-					 else{
-					   alert("Got an error while sending new message: " + res.message);			
-					 }					 
-				   }
-				**/
-								
-			   }).catch(error => {
-					alert("Failed to send new message: " + error);
-			   });
-		  }
-		  if(result.type){
-			switch(result.type){
-			    case "dismiss":
-				  helpers.jarvisAlert({
-					message: "Login attempt dismissed",
-					type: "info",
-				  });
-				break;
+				  
 
-				case "success":
-                  // Retrieve the JWT token and decode it
+				   // Retrieve the JWT token and decode it
 				 
-				  /**
-			      //const jwtToken = result.params.id_token;
-			      //const decoded = jwtDecode(jwtToken);
+			      const jwtToken = result.params.id_token;
+			      const decoded = jwtDecode(jwtToken);
 	             console.log("decoded: ",decoded);
 				 helpers.save('pa_tk',decoded.sub);
 
@@ -224,13 +194,16 @@ function LoginScreen(){
 		         _updateUser({
 					 tk: decoded.sub,
 					 em: em,
-					 name: n
+					 name: n,
+					 auth_type: authType
 				 });
-				 **/
-				
-				break;
-			   }
-		   }
+				 
+
+				   **/		
+			   }).catch(error => {
+					console.log("Failed to fetch tokens: ",error);
+			   });
+		  }
 	    }
 	  }, [result]);
 
