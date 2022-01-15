@@ -162,7 +162,7 @@ export default function App() {
 
            helpers.save('pa_atk',dt.access_token);
            setAtk(dt.access_token);
-           setU(uu);
+           setU(JSON.parse(uu));
            setLoggedIn(true);
       }
       }
