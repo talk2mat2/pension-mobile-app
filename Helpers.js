@@ -34,17 +34,25 @@ export function jarvisAlert(dt)
 }
 
 export async function save(key, value) {
-  await SecureStore.setItemAsync(key, value);
+  if(Platform.OS == "web"){
+     localStorage.setItem(key,value);
+  }
+  else{
+     await SecureStore.setItemAsync(key, value);
+  }
 }
 
 export async function getValueFor(key) {
-  let result = await SecureStore.getItemAsync(key), ret = null;
-  if (result) {
-    ret = result;
-  } else {
-    //alert('No values stored under that key.');
+  let result = null;
+
+  if(Platform.OS == "web"){
+    result = localStorage.getItem(key);
+  } 
+  else{
+    result = await SecureStore.getItemAsync(key);
   }
-  return ret;
+
+  return result;
 }
 
 export async function remove(key) {
@@ -106,9 +114,9 @@ export async function registerForPushNotificationsAsync() {
       Notifications.getExpoPushTokenAsync()
 	  .then(data => {
 		  //alert(`In getExpoPushTokenAsync(), data = ${data}`);
-		  console.log(` data: `,data);
+		 // console.log(` data: `,data);
 		  token = data.data;
-		  	save('tembo_etk',token); 
+		  	save('pa_etk',token); 
 	  })
 	  .catch(err => {
 		 // alert(`In getExpoPushTokenAsync(), err = ${err}`);

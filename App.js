@@ -82,9 +82,10 @@ export default function App() {
 
    const _renderItem = item => {
       let ii = item.item;
+      const webStyle = Platform.OS == "web" ? {height: "100%"} : null;
       
       return (
-        <View style={[styles.slide,{backgroundColor: ii.bg}]}>
+        <View style={[styles.slide,{backgroundColor: ii.bg},webStyle]}>
             <MaterialCommunityIcons name={ii.icon} color="#fff" size={200} />
             <Text style={styles.title}>{ii.title}</Text>
             <Text style={styles.copy}>{ii.copy}</Text>

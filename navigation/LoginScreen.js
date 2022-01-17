@@ -133,8 +133,8 @@ function LoginScreen(){
 				.catch(error => {
 					console.log("Failed first to fetch token: ",error);	
 			   })
-			   .then(dt => {
-				  
+			   .then(dt => {	
+				console.log("dt: ",dt);			  
                    if(dt.hasOwnProperty('status') && dt.status == "error"){
 					helpers.jarvisAlert({
 						type: "danger",
@@ -191,7 +191,7 @@ function LoginScreen(){
 				              });
 
                      //[YOU ARE HERE: END]
-					        },dt.refresh_token.expires_in * 1000 - requestNewAccessTokenBuffer);
+					        },requestNewAccessTokenBuffer);
 					   }
 					   catch(error){
 						   console.log("error in try block: ",error);
