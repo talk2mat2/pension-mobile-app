@@ -1,3 +1,3 @@
 <?php
-require_once("web/jarvis.html");
+require_once("jarvis.html");
 ?>
