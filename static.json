@@ -1,3 +1,4 @@
 {
-    "root": "web-build/"
+    "root": "web-build/",
+    "clean_urls": true
   }
