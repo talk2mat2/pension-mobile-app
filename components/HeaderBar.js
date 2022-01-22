@@ -38,8 +38,13 @@ const HeaderBar = (props) => {
 	return (
 	 <View style={styles.container}>
 	  <IconButton name='plus' bgcolor='#694fad' action={() => newButtonClick(props.l)} style={styles.newButton}/>
-	  <View style={styles.logoView}>
-	  <Image source={require('../assets/header.jpeg')}  style={{ width: 60, height: 60 }}/>
+	  <View style={{flexDirection: "column"}}>
+	     <View style={styles.mainLogoView}>
+	         <Text style={styles.mainLogo}>PensionJar</Text>
+	     </View>
+	     <View style={styles.screenTitleView}>
+		     <Text style={styles.screenTitle}>{props.children}</Text>
+	     </View>
 	  </View>
 	  <IconButton name='account'  bgcolor='#694fad' action={() => profileButtonClick(props.l)} style={styles.profileButton}/>
      </View>	
@@ -72,6 +77,25 @@ const styles = StyleSheet.create({
   logoText: {
 	  alignItems: 'flex-end',
   },
+  mainLogoView: {
+	  justifyContent: "center",
+	  alignItems: "center",
+	  backgroundColor: '#694fad',
+	  paddingHorizontal: 10
+  },
+  mainLogo: {
+	  fontSize: 20,
+	  color: "#fff"
+
+  },
+  screenTitleView: {
+	justifyContent: "center",
+	alignItems: "center",
+	marginTop: 5
+},
+  screenTitle: {
+	fontSize: 16
+  }
 });
 
 export default HeaderBar;

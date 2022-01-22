@@ -17,7 +17,7 @@ function AppStack(){
         headerTitle: (props) => <HeaderBar {...props} />
       }}
 	  >
-	   <Stack.Screen name="Dashboard" component={HomeScreen} />
+	   <Stack.Screen name="Dashboard" title="Profile" component={HomeScreen} />
 	   </Stack.Navigator>
 	);
 }

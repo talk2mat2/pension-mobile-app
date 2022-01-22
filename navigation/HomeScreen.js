@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {Platform, StyleSheet, View, Text, TextInput, Dimensions, ScrollView, Button} from 'react-native';
 import * as helpers from '../Helpers';
+import UserContext from '../contexts/UserContext';
 
 function HomeScreen({navigation}){
- 
+    const ctx = useContext(UserContext);
 	  let items = [];
 	  let navv = navigation;
-		 //console.log(items);
+    let u = ctx.u;
+		 console.log("uu: ",u);
 		 
     return (
 		<View style={styles.container}>
 		   <Text>Welcome to your profile!</Text>
        <Text>Here is a bit of your information:</Text>
        <Text>Test</Text>
-	    </View>
+	  </View>
     );
   
 }
