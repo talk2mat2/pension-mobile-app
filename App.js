@@ -160,8 +160,9 @@ export default function App() {
             });
           let response2 = await fetch(req);
           let dt = await response2.json();
-
+          console.log("dt from App.js: ",dt);
            helpers.save('pa_atk',dt.access_token);
+           helpers.save('pa_rtk',dt.refresh_token);
            setAtk(dt.access_token);
            setU(JSON.parse(uu));
            setLoggedIn(true);

@@ -179,9 +179,8 @@ function LoginScreen(){
 								 *  **/
                              
                               //Save user info, access token, refresh token and update user context
-							  //[YOU ARE HERE: START]
 							  helpers.save('pa_atk',dt3.access_token);
-							  helpers.save('pa_rtk',dt.refresh_token);
+							  helpers.save('pa_rtk',dt3.refresh_token);
 							  helpers.save('pa_u',JSON.stringify(userInfo));
 
 		                      _updateUser({
@@ -190,7 +189,6 @@ function LoginScreen(){
 					              rtk: dt.refresh_token
 				              });
 
-                     //[YOU ARE HERE: END]
 					        },requestNewAccessTokenBuffer);
 					   }
 					   catch(error){

@@ -8,7 +8,7 @@ function HomeScreen({navigation}){
 	  let items = [];
 	  let navv = navigation;
     let u = ctx.u;
-		 console.log("uu: ",u);
+		 //console.log("uu: ",u);
 		 
     return (
 		<View style={styles.container}>
