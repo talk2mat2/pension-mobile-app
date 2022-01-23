@@ -174,7 +174,7 @@ export default function App() {
       }
     }
    catch (error) {
-      console.log("SecureStore couldn't be accessed!", error);
+      console.log("An error occured:", error);
     }
   
       

@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Platform, Pressable, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
+import React, { useState, useEffect, useRef, useContext } from 'react';
+import { Platform, Animated, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as AuthSession from 'expo-auth-session';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
+import JarvisButton from '../components/JarvisButton';
 
 
 function LoginScreen(){
@@ -13,7 +14,9 @@ function LoginScreen(){
 	const [tryLogin,setTryLogin] = useState(true);
 	const [hasCode,setHasCode] = useState(false);
 	const [discovery,setDiscovery] = useState(null);
-	//const [authPayload,setAuthPayload] = useState(null);
+	
+	const fadeAnim =  useRef(new Animated.Value(1)).current;
+	const [isFading, setIsFading] = useState(false);
 
 
     const _updateUser = (dt) => {
@@ -22,6 +25,25 @@ function LoginScreen(){
 		         ctx.setU(dt.u);
 		         ctx.setLoggedIn(true);
 	}
+
+	useEffect(() => {
+          Animated.loop(
+          Animated.sequence([
+            Animated.timing(fadeAnim,{
+               toValue: 0,
+               duration: 500,
+               useNativeDriver: true
+            }),
+            Animated.timing(fadeAnim,{
+              toValue: 1,
+              duration: 500,
+              useNativeDriver: true
+            })
+          ])
+		  ).start();
+		  //setIsFading(false);
+	    
+      });
 
      const requestNewAccessTokenBuffer = 5 * 1000;
 	 //Development config
@@ -69,6 +91,10 @@ function LoginScreen(){
 		authPayload,
 		{ authorizationEndpoint }
 	  );
+
+	  const _initLogin = () => {
+		promptAsync({ useProxy });
+	  }
     
 
 	// Retrieve the redirect URL, add this to the callback URL list
@@ -165,19 +191,6 @@ function LoginScreen(){
                                 });
 								let userInfo = await response3.json();
 								
-								/**
-								 * userInfo:  Object {
-  "family_name": "Kudayisi",
-  "given_name": "Tobi",
-  "locale": "en",
-  "name": "Tobi Kudayisi",
-  "nickname": "kkudayisitobi",
-  "picture": "https://lh3.googleusercontent.com/a/AATXAJwsgNCE_3KJN2N4snvDa8x71K6aZylHKSqVKTcP=s96-c",
-  "sub": "google-oauth2|106248341049286054892",
-  "updated_at": "2022-01-15T18:10:44.875Z",
-}
-								 *  **/
-                             
                               //Save user info, access token, refresh token and update user context
 							  helpers.save('pa_atk',dt3.access_token);
 							  helpers.save('pa_rtk',dt3.refresh_token);
@@ -207,32 +220,23 @@ function LoginScreen(){
 
 	return (
 	   <View style={styles.container}>
-		   <View style={styles.loginLogo}>
-		     <MaterialCommunityIcons name="login" color="#77f" size={200} />
-		   </View>
-
+		   <Animated.View
+             style={{opacity: fadeAnim}}
+           >
+		      <View style={styles.loginLogo}>
+		        <MaterialCommunityIcons name="alert" color="#FFA500" size={200} />
+		      </View>
+           </Animated.View>
 		   <View>
 		      <Text style={styles.loginText}>You need to login to continue to Jarvis. Click the button below when you're ready!</Text>
 		   </View>
 	     
-		 
-		   <Pressable
-			  onPress={() => {
-              /** Do Something **/
-			  console.log("moving..");
-			  setButtonBackground("#fff");
-			  setButtonTextColor("#77f");
-			  setTimeout(() => {
-				setButtonBackground("#77f");
-				setButtonTextColor("#fff");
-			  },700);
-			  promptAsync({ useProxy });
-             }}
-           >
-		     <View style={[styles.loginButton,{backgroundColor: buttonBackground}]}>
-				 <Text style={[styles.loginButtonText,{color: buttonTextColor}]}>Login with Auth0</Text>
-			 </View>
-           </Pressable>
+		   <JarvisButton
+		        style={styles.loginButton}
+                bgcolor={buttonBackground}
+                 play={_initLogin}
+                 btn="Login with Auth0"
+            />
 	   </View>
 	);
 }
@@ -262,10 +266,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
 	 alignItems: 'center',
-	 marginTop: 50,
-	 padding: 20,
-	 color: "#fff",
-     width: Dimensions.get('window').width-20
+	 marginTop: 50
              
   },
   loginButtonText: {		

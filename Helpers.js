@@ -59,13 +59,17 @@ export async function remove(key) {
   await SecureStore.deleteItemAsync(key);
 }
 
-export async function tryLogin() {
-	let ret = null;
-  /**
-  ret = AuthSession.startAsync({
-    authUrl: `${Auth0_Domain}?client_id=${Auth0_ClientID}&redirect_uri=${redirectUri}`
-  });
-  **/
+export function parseUserData(dt) {
+	let ret = {};
+   //First get the sub
+   let sub = dt.sub, provider = sub.split('|');
+   console.log("provider: ",provider);
+   if(provider[0] == "google-oauth2"){
+     ret.email = `${dt.nickname}@gmail.com`;
+     ret.fname = dt.given_name;
+     ret.lname = dt.family_name;
+     ret.img = dt.picture;
+   }
 	
   return ret;
 }

@@ -43,7 +43,7 @@ function MoreScreen(){
 	    <Text style={styles.caption}>More options</Text>
 		  {
 			items.map(i => ( 
-	        <View style={styles.item}>
+	        <View key={i.key} style={styles.item}>
 			   <Text style={{marginRight: 1}}>{i.caption}</Text>
                <Pressable
 			  onPress={() => {
