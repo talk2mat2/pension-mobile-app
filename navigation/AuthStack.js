@@ -17,7 +17,7 @@ function AuthStack(){
        // headerTitle: (props) => <HeaderBar {...props} />
       }}
 	  >
-	   <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Welcome to Jarvis!' }}/>
+	   <Stack.Screen name="Login" component={LoginScreen} options={{ title: 'Welcome to PensionJar!' }}/>
 	   </Stack.Navigator>
 	);
 }

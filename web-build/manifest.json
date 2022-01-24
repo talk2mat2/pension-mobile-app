@@ -8,6 +8,10 @@
   "orientation": "portrait",
   "related_applications": [
     {
+      "platform": "itunes",
+      "id": "com.pensionjar.jarvis"
+    },
+    {
       "platform": "play",
       "url": "http://play.google.com/store/apps/details?id=com.pensionjar.jarvis",
       "id": "com.pensionjar.jarvis"

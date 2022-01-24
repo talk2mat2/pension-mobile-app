@@ -14,6 +14,7 @@ function LoginScreen(){
 	const [tryLogin,setTryLogin] = useState(true);
 	const [hasCode,setHasCode] = useState(false);
 	const [discovery,setDiscovery] = useState(null);
+	const [loginLoading, setLoginLoading] = useState(false);
 	
 	const fadeAnim =  useRef(new Animated.Value(1)).current;
 	const [isFading, setIsFading] = useState(false);
@@ -168,6 +169,7 @@ function LoginScreen(){
 					  });
 				   }
 				   else{
+					   setLoginLoading(true);
 					   try{
 				       // Refetch the access token before it expires
 					   setTimeout(async () => {
@@ -224,19 +226,26 @@ function LoginScreen(){
              style={{opacity: fadeAnim}}
            >
 		      <View style={styles.loginLogo}>
-		        <MaterialCommunityIcons name="alert" color="#FFA500" size={200} />
+		        <MaterialCommunityIcons name="pause-circle-outline" color="#FFA500" size={200} />
 		      </View>
            </Animated.View>
 		   <View>
-		      <Text style={styles.loginText}>You need to login to continue to Jarvis. Click the button below when you're ready!</Text>
+		      <Text style={styles.loginText}>You need to login to continue to PensionJar. Click any of the button below when you're ready!</Text>
 		   </View>
-	     
+	       <View style={{flexDirection: "row"}}>
 		   <JarvisButton
 		        style={styles.loginButton}
                 bgcolor={buttonBackground}
                  play={_initLogin}
-                 btn="Login with Auth0"
+                 btn="Login"
             />
+			<JarvisButton
+		        style={styles.loginButton}
+                bgcolor={buttonBackground}
+                 play={_initLogin}
+                 btn="Sign up"
+            />
+			</View>
 	   </View>
 	);
 }
@@ -266,7 +275,8 @@ const styles = StyleSheet.create({
   },
   loginButton: {
 	 alignItems: 'center',
-	 marginTop: 50
+	 marginTop: 50,
+	 marginLeft: 20
              
   },
   loginButtonText: {		
