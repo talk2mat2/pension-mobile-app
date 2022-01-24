@@ -56,7 +56,12 @@ export async function getValueFor(key) {
 }
 
 export async function remove(key) {
-  await SecureStore.deleteItemAsync(key);
+  if(Platform.OS == "web"){
+    localStorage.removeItem(key);
+  }
+  else{
+    await SecureStore.deleteItemAsync(key);
+  }
 }
 
 export function parseUserData(dt) {
