@@ -47,7 +47,8 @@ export default function App() {
   let s = null, nm = "", ntt = "";
 
    //Development config
-   const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+   //const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+   const Auth0_Domain = helpers.API;
    const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
  const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
 
@@ -127,7 +128,7 @@ export default function App() {
           online: online,
           setOnline: setOnline
         };
-    
+
     useEffect(() => {
       async function prepare() {
         try {
@@ -232,7 +233,7 @@ export default function App() {
   if(showApp){
     return (
       <UserProvider value={ctx}>
-    <NavigationContainer ref={navigationRef}>
+      <NavigationContainer ref={navigationRef}>
        <Tab.Navigator
        initialRouteName={irn}
          activeColor="#f0edf6"

@@ -8,7 +8,8 @@ import { useNavigation } from '@react-navigation/native';
 import * as RootNavigation from './RootNavigation.js';
 import { showMessage, hideMessage } from "react-native-flash-message";
 
-export const API = "";
+export const API = "https://pensionjar-development.eu.auth0.com";
+export const API2 = "https://api.getjarvis.dev/v1";
 
 
 export function tryParseJSON(jsonString){

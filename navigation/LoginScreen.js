@@ -2,10 +2,10 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Platform, Animated, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as AuthSession from 'expo-auth-session';
+const axios = require('axios');
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
-
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
@@ -46,9 +46,10 @@ function LoginScreen(){
 	    
       });
 
-     const requestNewAccessTokenBuffer = 5 * 1000;
+     const requestNewAccessTokenBuffer = 1000;
 	 //Development config
-    const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+    //const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
+	const Auth0_Domain = helpers.API;
     const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
 	const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
 
@@ -83,7 +84,7 @@ function LoginScreen(){
 		scopes: ["openid", "profile", "offline_access"],
 		extraParams: {
 		  // ideally, this will be a random value
-		  audience: `${Auth0_Domain}/api/v2/`
+		  audience: "https://auth.expo.io/@pensionjar/jarvis"
 		},
 		prompt: AuthSession.Prompt.Login
 	  };
@@ -137,32 +138,21 @@ function LoginScreen(){
 			//create request
 			let url = `${Auth0_Domain}/oauth/token`, dest = "";
 				   
-			const req = new Request(url,{
-				method: 'POST', 
+
+			let payload = await axios({
+				method: "post",
+				url: url,
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 				  },
-				body: helpers._urlEncode(oauthPayload)
-			});
+				data: helpers._urlEncode(oauthPayload)
+			  });
 			
-			//fetch request
-			fetch(req)
-			   .then(response => {
+			  if(payload.status == "200"){
+				  let dt = payload.data;
 
-				     if(response.status === 200){
-					   return response.json();
-				   }
-				   else{
-					   return {status: "error", message: "Technical error"};
-				   }
-				   
-			   })
-				.catch(error => {
-					console.log("Failed first to fetch token: ",error);	
-			   })
-			   .then(dt => {	
-				console.log("dt: ",dt);			  
-                   if(dt.hasOwnProperty('status') && dt.status == "error"){
+				  console.log("dt: ",dt);			  
+                   if(dt.hasOwnProperty('access_token') && dt.access_token.length < 1){
 					helpers.jarvisAlert({
 						type: "danger",
 						message: `There was an issue with verifying your identity, please try again.`
@@ -175,25 +165,34 @@ function LoginScreen(){
 					   setTimeout(async () => {
 							     oauthPayload.refresh_token = dt.refresh_token;
 							     oauthPayload.grant_type = "refresh_token";
-							     const req2 = new Request(url,{
-							     	method: 'POST', 
-								    headers: {
-									   'Content-Type': 'application/x-www-form-urlencoded',
-								    },
-								    body: helpers._urlEncode(oauthPayload)
-							       });
-							     let response2 = await fetch(req2);
-	                             let dt3 = await response2.json();
-								 console.log("dt3: ",dt3);
+							     
+
+								   let dt3response  = await axios({
+									method: "post",
+									url: url,
+									headers: {
+										'Content-Type': 'application/x-www-form-urlencoded',
+									  },
+									data: helpers._urlEncode(oauthPayload)
+								  });
+                                   let dt3 = dt3response.data;
+
+								console.log("dt3: ",dt3);
 
 							 //Get the user info
-							 let url3 = `${Auth0_Domain}/userinfo`;
-							 const response3 = await fetch(url3, {
-                                   headers: { Authorization: `Bearer ${dt3.access_token}` },
-                                });
-								let userInfo = await response3.json();
-								
-                              //Save user info, access token, refresh token and update user context
+
+							 let url3 = `https://api.getjarvis.dev/v1/users/me`;
+							 
+							 let userInfo = await axios({
+								method: "get",
+								url: url3,
+								headers: {
+									Authorization: `Bearer ${dt3.access_token}`,
+								  }
+							  });
+                             console.log("userInfo: ",userInfo);
+							
+						   //Save user info, access token, refresh token and update user context
 							  helpers.save('pa_atk',dt3.access_token);
 							  helpers.save('pa_rtk',dt3.refresh_token);
 							  helpers.save('pa_u',JSON.stringify(userInfo));
@@ -211,30 +210,34 @@ function LoginScreen(){
 					   }
 					}
 				
-			   }).catch(error => {
-					console.log("Failed to fetch tokens: ",error);
-			   });
+			  }
+			  else{
+				return {status: "error", message: "Technical error"};
+			  }
+
 		  }
 	    }
+		console.log("OS:",Platform.OS);
 	  }, [result]);
 
     
 
 	return (
 	   <View style={styles.container}>
-		   <Animated.View
-             style={{opacity: fadeAnim}}
-           >
-		      <View style={styles.loginLogo}>
-		        <MaterialCommunityIcons name="pause-circle-outline" color="#FFA500" size={200} />
-		      </View>
-           </Animated.View>
-		   <View>
-		      <Text style={styles.loginText}>You need to login to continue to PensionJar. Click any of the button below when you're ready!</Text>
+		    <View style={styles.centerView}>
+				<Text style={[styles.loginText,{ fontSize: 40}]}>Jarvis</Text>
+			</View>
+		   <View style={styles.centerView}>
+		     <Text style={styles.loginText}>Login</Text>
 		   </View>
-	       <View style={{flexDirection: "row"}}>
+
+		   <View style={[styles.centerView,{marginTop: 10}]}>
+		     
+		   </View>
+		   
+	       <View style={{flexDirection: "row",alignItems: "space-between"}}>
 		   <JarvisButton
-		        style={styles.loginButton}
+		        style={[styles.loginButton]}
                 bgcolor={buttonBackground}
                  play={_initLogin}
                  btn="Login"
@@ -258,6 +261,10 @@ const styles = StyleSheet.create({
 	paddingLeft: 5,
     //justifyContent: 'center',
   },
+  centerView: {
+	  flexDirection: "row", 
+	  alignSelf: "center"
+	},
   validation: {
     fontSize: 16,
 	fontWeight: "bold",
@@ -279,7 +286,8 @@ const styles = StyleSheet.create({
 	 marginLeft: 20
              
   },
-  loginButtonText: {		
+  form: {	
+
   },
 });
 
