@@ -52,18 +52,26 @@ function KYCBirthdayScreen({route,navigation}){
                  <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>Thanks {fname}, please can you tell us your date of birth?</Text>           
+              <Text style={styles.subHeader}>Thanks {fname}</Text>           
+            </View>
+            <View style={[styles.centerView,{marginTop: 5, marginBottom: 20}]}>
+              <Text style={styles.subHeader}>please tell us your date of birth?</Text>           
             </View>
  
           
             <View style={styles.formGroup}>
                 <View style={styles.centerView, {paddingVertical: 5,marginTop: 10}}>
-                <JarvisButton
-		        style={[styles.loginButton,{marginVertical: 10}]}
-                bgcolor={buttonBackground}
-                 play={() => {setShowDatePicker(true)}}
-                 btn={birthdayDisplay}
-                />
+                 <View style={{flexDirection: "row"}}>
+                      <Text style={styles.bdayText}>{birthdayDisplay}</Text>
+                     <JarvisButton
+		               style={[styles.loginButton,{marginVertical: 10}]}
+                       bgcolor="#ff6c00"
+                       play={() => {setShowDatePicker(true)}}
+                       btn="Select date"
+                       w="50%"
+                    />
+                 </View>
+                
                 {
                  showDatePicker && (
                 <DateTimePicker
@@ -91,7 +99,7 @@ function KYCBirthdayScreen({route,navigation}){
              )}
 
             
-            <View style={{width: "100%",marginTop: 10}}>
+            <View style={{width: "100%",marginTop: 100}}>
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
@@ -111,8 +119,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'flex-start',
-      paddingLeft: 20,
+      alignItems: 'center',
       marginTop: 30,
       //justifyContent: 'center',
     },
@@ -130,12 +137,21 @@ const styles = StyleSheet.create({
        fontSize: 20,
        alignSelf:"center"
     },
+    bdayText: {
+        padding: 10,
+        fontWeight: "bold",
+        fontSize: 16
+    },
     formGroup: {
       width: "90%",
       textAlign: "center",
       marginTop: 20,
       borderColor: "#bbb",
       borderRadius: 5
+    },
+
+    formGroupError: {
+        marginTop: 5
     },
     formInput: {
        padding: 5

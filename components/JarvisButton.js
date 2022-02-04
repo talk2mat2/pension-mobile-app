@@ -6,6 +6,7 @@ import * as RootNavigation from '../RootNavigation.js';
 const JarvisButton = props => {
     const pressedAnim =  useRef(new Animated.Value(1)).current;
     const [isPressed, setIsPressed] = useState(false);
+    const w = props.w ? props.w : "80%";
 
     useEffect(() => {
         if(isPressed){
@@ -27,7 +28,7 @@ const JarvisButton = props => {
 
    return (
     <Animated.View
-    style={{...props.style,width: "80%",opacity: pressedAnim}}
+    style={{...props.style,width: w,opacity: pressedAnim}}
     >
      <Pressable
               onPress={() => {

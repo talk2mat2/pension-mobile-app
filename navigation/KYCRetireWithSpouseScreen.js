@@ -5,13 +5,14 @@ import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 
 import JarvisButton from '../components/JarvisButton';
+import { RadioButton } from 'react-native-paper';
 
 function KYCRetireWithSpouseScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
-    const [retirementAge,setRetirementAge] = useState("");
+    const [retireWithSpouse,setRetireWithSpouse] = useState("yes");
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
 
 	let navv = navigation;
@@ -53,21 +54,22 @@ function KYCRetireWithSpouseScreen({navigation}){
               <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
             </View>
  
-          
-            <View style={styles.formGroup}>
-                <View style={styles.centerView,{paddingVertical: 15}}>
-                    <TextInput 
-                       keyboardType="number-pad"
-                       style={[styles.formInput,{textAlign: "center"}]}
-                       onChangeText={text => {
-                           setRetirementAge(text);
-                           if(parseInt(text) > 1) setRetirementAgeValidation(false);
-                       }}
-                       placeholder="Enter retirement age"
-                       value={retirementAge}
-                    />
+               <View style={styles.borderBox}>
+                <View style={styles.centerView}>
+                  <Text style={styles.radioText}>Yes</Text>
+                <RadioButton
+                  value="yes"
+                  status={ retireWithSpouse === 'yes' ? 'checked' : 'unchecked' }
+                  onPress={() => setRetireWithSpouse('yes')}
+                />
+                <Text style={[styles.radioText,{marginLeft: 20}]}>No</Text>
+                <RadioButton
+                  value="no"
+                  status={ retireWithSpouse === 'no' ? 'checked' : 'unchecked' }
+                  onPress={() => setRetireWithSpouse('no')}
+                />
                 </View>
-            </View>
+                </View>
             {
              retirementAgeValidation && (
             <View style={styles.formGroupError}>
@@ -76,7 +78,7 @@ function KYCRetireWithSpouseScreen({navigation}){
              )}
 
             
-            <View style={{width: "100%",marginTop: 20}}>
+            <View style={{width: "100%",marginTop: 100}}>
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
@@ -96,8 +98,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'flex-start',
-      paddingLeft: 20,
+      alignItems: 'center',
       marginTop: 30,
       //justifyContent: 'center',
     },
@@ -114,6 +115,18 @@ const styles = StyleSheet.create({
     subHeader: {	
        fontSize: 20,
        alignSelf:"center"
+    },
+    radioText: {
+        paddingVertical: 8,
+        fontWeight: "bold",
+        fontSize: 16
+    },
+    borderBox: {
+      marginTop: 20,
+      width: "100%",
+      borderBottomWidth: 1,
+      borderTopWidth: 1,
+      paddingVertical: 5
     },
     formGroup: {
       width: "90%",

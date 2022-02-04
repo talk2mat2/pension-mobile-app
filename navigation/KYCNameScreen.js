@@ -51,7 +51,7 @@ function KYCNameScreen({navigation}){
                  <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>Let's get to know you better</Text>
+              <Text style={styles.subHeader}>Let's get to know you a little bit better</Text>
               
             </View>
  
@@ -79,7 +79,7 @@ function KYCNameScreen({navigation}){
             {
              titleValidation && (
             <View style={styles.formGroupError}>
-                    <Text style={styles.inputError}>This field is required</Text>
+                    <Text style={styles.inputError}>Please select a title</Text>
             </View>
              )}
             <View style={styles.formGroup}>
@@ -98,7 +98,7 @@ function KYCNameScreen({navigation}){
             {
              fnameValidation && (
             <View style={styles.formGroupError}>
-                    <Text style={styles.inputError}>This field is required</Text>
+                    <Text style={styles.inputError}>Please input your first name</Text>
             </View>
             )}
             <View style={styles.formGroup}>
@@ -117,7 +117,7 @@ function KYCNameScreen({navigation}){
             {
              lnameValidation && (
             <View style={styles.formGroupError}>
-                    <Text style={styles.inputError}>This field is required</Text>
+                    <Text style={styles.inputError}>Please input your last name</Text>
             </View>
              )}
             

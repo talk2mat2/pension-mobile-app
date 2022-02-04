@@ -71,12 +71,12 @@ function KYCRetirementAgeScreen({navigation}){
             {
              retirementAgeValidation && (
             <View style={styles.formGroupError}>
-                    <Text style={styles.inputError}>This field is required</Text>
+                    <Text style={styles.inputError}>Please input your desired retirement age</Text>
             </View>
              )}
 
             
-            <View style={{width: "100%",marginTop: 20}}>
+            <View style={{width: "100%",marginTop: 100}}>
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
@@ -96,8 +96,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'flex-start',
-      paddingLeft: 20,
+      alignItems: 'center',
       marginTop: 30,
       //justifyContent: 'center',
     },
@@ -122,6 +121,10 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: "#bbb",
       borderRadius: 5
+    },
+
+    formGroupError: {
+        marginTop: 5
     },
     formInput: {
        padding: 5
