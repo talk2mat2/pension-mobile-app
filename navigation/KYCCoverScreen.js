@@ -25,8 +25,8 @@ function KYCCoverScreen({navigation}){
              
 		   </View>
 
-		   <View style={[styles.centerView,{marginTop: 10}]}>
-		     <Text>To build your retirement profile, we would need to capture some information from you.</Text>
+		   <View style={[styles.centerView,{marginTop: 10, width: "70%"}]}>
+		     <Text style={{textAlign: "center"}}>To build your retirement profile, we would need to capture some information from you.</Text>
 		   </View>
 
            <View style={styles.hrView}>
@@ -37,25 +37,25 @@ function KYCCoverScreen({navigation}){
 
            <View style={styles.hrView}>
                <View style={styles.centerView,{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", alignSelf: "center"}}>1. Personal Information</Text>
+                   <Text style={{fontWeight: "bold", marginLeft: 5}}>1. Personal Information</Text>
                </View> 
 		   </View>
 
            <View style={styles.hrView}>
                <View style={styles.centerView,{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", alignSelf: "center"}}>2. Retirement Profile</Text>
+                   <Text style={{fontWeight: "bold", marginLeft: 5}}>2. Retirement Profile</Text>
                </View> 
 		   </View>
 
            <View style={styles.hrView}>
-               <View style={styles.centerView,{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", alignSelf: "center"}}>3. Pensions & Savings</Text>
+               <View style={{paddingVertical: 10}}>
+                   <Text style={{fontWeight: "bold", marginLeft: 5}}>3. Pensions & Savings</Text>
                </View> 
 		   </View>
 		   
            <>
            <View style={{width: "100%",marginTop: 10}}>
-           <View style={styles.centerView}>
+           <View style={[styles.centerView,{marginTop: 60}]}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
                 bgcolor={buttonBackground}
@@ -74,8 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'flex-start',
-	paddingLeft: 5,
+    alignItems: 'center',
     marginTop: 30,
     //justifyContent: 'center',
   },
@@ -84,7 +83,6 @@ const styles = StyleSheet.create({
 	  alignSelf: "center"
 	},
   loginButton: {
-	 alignItems: 'center',
 	 marginTop: 50,
 	 marginLeft: 20
              
@@ -93,8 +91,7 @@ const styles = StyleSheet.create({
      fontSize: 30
   },
   hrView: {
-    width: "100%",
-    textAlign: "center",
+    width: "80%",
     marginTop: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,

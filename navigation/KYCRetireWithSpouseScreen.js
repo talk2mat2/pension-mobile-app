@@ -6,7 +6,7 @@ import UserContext from '../contexts/UserContext';
 
 import JarvisButton from '../components/JarvisButton';
 
-function KYCRetirementAgeScreen({navigation}){
+function KYCRetireWithSpouseScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
@@ -31,7 +31,7 @@ function KYCRetirementAgeScreen({navigation}){
         }
         else{
             helpers.save("j_kyc_retirement_age",retirementAge);
-            navigation.navigate('KYCRetireWithSpouse');
+           //navigation.navigate('KYCRetireWithSpouse');
         }
         
     }
@@ -46,7 +46,7 @@ function KYCRetirementAgeScreen({navigation}){
                  <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>At what age would you like to retire?</Text>           
+              <Text style={styles.subHeader}>Do you plan retiring with your spouse?</Text>           
             </View>
             <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
             <MaterialCommunityIcons name="information" color="#888" size={18} />
@@ -133,5 +133,5 @@ const styles = StyleSheet.create({
     }
   });
 
-export default KYCRetirementAgeScreen;
+export default KYCRetireWithSpouseScreen;
 

@@ -4,6 +4,7 @@ import KYCCoverScreen from './KYCCoverScreen.js';
 import KYCNameScreen from './KYCNameScreen.js';
 import KYCBirthdayScreen from './KYCBirthdayScreen.js';
 import KYCRetirementAgeScreen from './KYCRetirementAgeScreen.js';
+import KYCRetireWithSpouseScreen from './KYCRetireWithSpouseScreen.js';
  
 import HeaderBar from '../components/HeaderBar.js';
  
@@ -42,6 +43,13 @@ function KYCStack(){
           headerTitle: (props) => <HeaderBar {...props} />
        }} 
        component={KYCRetirementAgeScreen}
+      />
+      <Stack.Screen 
+       name="KYCRetireWithSpouse" 
+       options={{
+          headerTitle: (props) => <HeaderBar {...props} />
+       }} 
+       component={KYCRetireWithSpouseScreen}
       />
       </>
      </Stack.Navigator>

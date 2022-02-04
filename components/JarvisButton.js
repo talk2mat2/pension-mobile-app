@@ -27,7 +27,7 @@ const JarvisButton = props => {
 
    return (
     <Animated.View
-    style={{...props.style,opacity: pressedAnim}}
+    style={{...props.style,width: "80%",opacity: pressedAnim}}
     >
      <Pressable
               onPress={() => {
@@ -47,10 +47,13 @@ const JarvisButton = props => {
 const styles = StyleSheet.create({
     
     button: {
-        padding: 8       
+        padding: 10,
+        borderRadius: 2
+           
      },
      buttonText: {
-       color: "#fff"
+       color: "#fff",
+       textAlign: "center"   
      }
   });
 

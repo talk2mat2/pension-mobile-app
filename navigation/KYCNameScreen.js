@@ -122,7 +122,7 @@ function KYCNameScreen({navigation}){
              )}
             
             <View style={{width: "100%",marginTop: 10}}>
-           <View style={styles.centerView}>
+           <View style={[styles.centerView,{marginTop: 60}]}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
                 bgcolor={buttonBackground}
@@ -141,8 +141,7 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#fff',
-      alignItems: 'flex-start',
-      paddingLeft: 20,
+      alignItems: 'center',
       marginTop: 30,
       //justifyContent: 'center',
     },
@@ -157,11 +156,13 @@ const styles = StyleSheet.create({
                
     },
     subHeader: {	
-       fontSize: 20
+       fontSize: 20,
+       alignContent: "center"
     },
     formGroup: {
       width: "90%",
       textAlign: "center",
+      alignContent: "center",
       marginTop: 20,
       borderWidth: 1,
       borderColor: "#bbb",
