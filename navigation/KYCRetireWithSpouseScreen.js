@@ -3,7 +3,7 @@ import {StyleSheet, View, Text, TextInput} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
-
+import DateTimePicker from '@react-native-community/datetimepicker';
 import JarvisButton from '../components/JarvisButton';
 import { RadioButton } from 'react-native-paper';
 
@@ -14,6 +14,11 @@ function KYCRetireWithSpouseScreen({navigation}){
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireWithSpouse,setRetireWithSpouse] = useState("yes");
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
+    const [birthday,setBirthday] = useState(new Date());
+    const [birthdayObject,setBirthdayObject] = useState("{}");
+    const [birthdayValidation,setBirthdayValidation] = useState(false);
+    const [showDatePicker,setShowDatePicker] = useState(false);
+    const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
 
 	let navv = navigation;
 
@@ -77,6 +82,62 @@ function KYCRetireWithSpouseScreen({navigation}){
             </View>
              )}
 
+             {
+               (retireWithSpouse == "yes") && (
+                 <>
+                 <View style={styles.inlineForm}>
+                   <Text style={styles.inlineFormText}>Enter spouse's name</Text>
+                   <View style={styles.inlineFormGroup}>
+                       <View style={styles.centerView,{paddingVertical: 5}}>
+                           <TextInput 
+                               keyboardType="number-pad"
+                               style={[styles.formInput,{textAlign: "center"}]}
+                               onChangeText={text => {
+                                 // setRetirementAge(text);
+                                 //if(parseInt(text) > 1) setRetirementAgeValidation(false);
+                               }}
+                               placeholder="Enter retirement age"                    
+                           />
+                       </View>
+                  </View>
+                 </View>
+                 <View style={styles.inlineForm}>
+                 {
+                 showDatePicker && (
+                <DateTimePicker
+                  testID="birthdayDateTimePicker"
+                  value={birthday}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={(e,d) => {
+                      if(typeof d != "undefined"){
+                         console.log("d: ",d);
+                      updateBirthday(d); 
+                      }
+                      
+                  }}
+                />
+                 )}
+                   <Text style={styles.inlineFormText}>Enter spouse's name</Text>
+                   <View style={styles.inlineFormGroup}>
+                       <View style={styles.centerView,{paddingVertical: 5}}>
+                          <Text style={styles.bdayText}>{birthdayDisplay}</Text>
+                          <JarvisButton
+		                      style={[styles.loginButton,{marginVertical: 10}]}
+                       bgcolor="#ff6c00"
+                       play={() => {setShowDatePicker(true)}}
+                       btn="Select date"
+                       w="50%"
+                    />
+                       </View>
+                  </View>
+                 </View>
+
+                 </>
+                 
+               )}
+
             
             <View style={{width: "100%",marginTop: 100}}>
            <View style={styles.centerView}>
@@ -136,10 +197,25 @@ const styles = StyleSheet.create({
       borderColor: "#bbb",
       borderRadius: 5
     },
+    inlineFormGroup: {
+      width: "50%",
+      textAlign: "center",
+      marginTop: 20,
+      borderWidth: 1,
+      borderColor: "#bbb",
+      borderRadius: 5
+    },
     formInput: {
        padding: 5
     },
-
+    inlineForm: {
+      flexDirection: "row"
+    },
+    inlineFormText: {
+      marginTop: 10,
+      marginRight: 5,
+      alignSelf: "center"
+    },
     inputError: {
         color: "red",
         fontWeight: "bold"
