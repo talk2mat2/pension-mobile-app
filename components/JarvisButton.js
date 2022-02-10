@@ -31,6 +31,7 @@ const JarvisButton = props => {
     style={{...props.style,width: w,opacity: pressedAnim}}
     >
      <Pressable
+              disabled={props.disabled}
               onPress={() => {
           /** Do Something **/
           setIsPressed(true);

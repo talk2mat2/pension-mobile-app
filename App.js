@@ -14,6 +14,7 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
 import { UserProvider } from './contexts/UserContext';
+import * as AuthSession from 'expo-auth-session';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
@@ -247,6 +248,16 @@ export default function App() {
     {loggedIn ? (
      <>
      <Tab.Screen
+         name="SetupStack"
+         component={SetupStack}
+         options={{
+           tabBarLabel: 'Setup',  
+           tabBarIcon: ({ color }) => (
+             <MaterialCommunityIcons name="account-cog" color={color} size={26} />
+           ),
+         }}
+       />
+       <Tab.Screen
          name="AppStack"
          component={AppStack}
          options={{

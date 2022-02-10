@@ -12,7 +12,7 @@ function LoginScreen(){
 	const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
 	const [buttonTextColor,setButtonTextColor] = useState("#fff");
-	const [tryLogin,setTryLogin] = useState(true);
+	const [loginButtonDisabled,setLoginButtonDisabled] = useState(false);
 	const [hasCode,setHasCode] = useState(false);
 	const [discovery,setDiscovery] = useState(null);
 	const [loginLoading, setLoginLoading] = useState(false);
@@ -80,6 +80,7 @@ function LoginScreen(){
 	const authPayload = {
 		redirectUri: redirectUri,
 		clientId: Auth0_ClientID,
+		clientSecret: Auth0_ClientSecret,
 		responseType: AuthSession.ResponseType.Code,
 		// retrieve the user's profile
 		scopes: ["openid", "profile", "offline_access"],
@@ -108,7 +109,6 @@ function LoginScreen(){
 
 	  useEffect(async () => {
 		if (result) {
-			console.log("result: ",result);
 			let params = result.params;
 		  if (result.error) {
 			helpers.jarvisAlert({
@@ -128,8 +128,8 @@ function LoginScreen(){
 			//Exchange the authorization code for access and id tokens
 		
 			//Send POST request
-             console.log("redirectUri: ",redirectUri);
-             setLoginLoading(true);
+            setLoginLoading(true);
+			 setLoginButtonDisabled(true);
 			 oauthPayload = {
                grant_type: "authorization_code",
 			   client_id: Auth0_ClientID,
@@ -155,7 +155,7 @@ function LoginScreen(){
 			  if(payload.status == "200"){
 				  let dt = payload.data;
 
-				  console.log("dt: ",dt);			  
+				  //console.log("dt: ",dt);			  
                    if(dt.hasOwnProperty('access_token') && dt.access_token.length < 1){
 					helpers.jarvisAlert({
 						type: "danger",
@@ -168,7 +168,7 @@ function LoginScreen(){
 					   setTimeout(async () => {
 							     oauthPayload.refresh_token = dt.refresh_token;
 							     oauthPayload.grant_type = "refresh_token";
-							     
+							    // console.log("oauthPayload: ",oauthPayload);
 
 								   let dt3response  = await axios({
 									method: "post",
@@ -186,6 +186,7 @@ function LoginScreen(){
 
 							 let url3 = `https://api.getjarvis.dev/v1/users/me`;
 							 
+							
 							 let userInfo = await axios({
 								method: "get",
 								url: url3,
@@ -193,19 +194,54 @@ function LoginScreen(){
 									Authorization: `Bearer ${dt3.access_token}`,
 								  }
 							  });
-                             console.log("userInfo: ",userInfo);
+                             
 							
+							 if(userInfo.status == "200"){
+								 let uidt = userInfo.data;
+								// console.log("userInfo: ",uidt);
 						   //Save user info, access token, refresh token and update user context
+						    //User info
+							console.log("userinfo dt: ",uidt.data);
+							let attributes = uidt.data.attributes, included = uidt.data.included[0];
+							let trimmedUserInfo = {
+								name: attributes.name,
+								fname: attributes.firstName,
+								lname: attributes.lastName,
+								email: attributes.email,
+								type: included.type,
+								id: included.id,
+								attributes: included.attributes
+							};
+							console.log("trimmedUserInfo: ",trimmedUserInfo);
 							  helpers.save('pa_atk',dt3.access_token);
 							  helpers.save('pa_rtk',dt3.refresh_token);
-							  helpers.save('pa_u',JSON.stringify(userInfo));
+							  helpers.save('pa_u',JSON.stringify(trimmedUserInfo));
 
 		                      _updateUser({
-					              u: userInfo,
+					              u: trimmedUserInfo,
 					              atk: dt3.access_token,
 					              rtk: dt.refresh_token
 				              });
+							}
+							else{
+								console.log("error fetching user profile");
 
+								/*skipping to setup for presenttion purposes
+								_updateUser({
+									u: {
+										name: "Default User",
+										fname: "Default",
+										lname: "User",
+										email: "default@esoftresponse.com",
+										type: "retirementProfile",
+										id: "default-12343-222",
+										attributes: {}
+									},
+									atk: dt3.access_token,
+									rtk: dt.refresh_token
+								});
+								*/
+							}
 					        },requestNewAccessTokenBuffer);
 					   }
 					   catch(error){
@@ -240,6 +276,7 @@ function LoginScreen(){
 	       <View style={{flexDirection: "row",alignSelf: "center"}}>
 		   <JarvisButton
 		        style={[styles.loginButton]}
+				disabled={loginButtonDisabled}
                 bgcolor={buttonBackground}
                  play={_initLogin}
                  btn="Continue"
