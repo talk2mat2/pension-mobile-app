@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Platform, Animated, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
+import { Platform, Animated, StyleSheet, View, Text, Dimensions } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as AuthSession from 'expo-auth-session';
 const axios = require('axios');
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
+import JarvisLoading from '../components/JarvisLoading';
 
 function LoginScreen(){
 	const ctx = useContext(UserContext);
@@ -82,9 +83,10 @@ function LoginScreen(){
 		responseType: AuthSession.ResponseType.Code,
 		// retrieve the user's profile
 		scopes: ["openid", "profile", "offline_access"],
+		//audience: "https://auth.expo.io/@pensionjar/jarvis",
+		audience: "https://getjarvis.local",
 		extraParams: {
-		  // ideally, this will be a random value
-		  audience: "https://auth.expo.io/@pensionjar/jarvis"
+		  // ideally, this will be a random value	  
 		},
 		prompt: AuthSession.Prompt.Login
 	  };
@@ -106,6 +108,7 @@ function LoginScreen(){
 
 	  useEffect(async () => {
 		if (result) {
+			console.log("result: ",result);
 			let params = result.params;
 		  if (result.error) {
 			helpers.jarvisAlert({
@@ -125,7 +128,8 @@ function LoginScreen(){
 			//Exchange the authorization code for access and id tokens
 		
 			//Send POST request
-           
+             console.log("redirectUri: ",redirectUri);
+             setLoginLoading(true);
 			 oauthPayload = {
                grant_type: "authorization_code",
 			   client_id: Auth0_ClientID,
@@ -159,7 +163,6 @@ function LoginScreen(){
 					  });
 				   }
 				   else{
-					   setLoginLoading(true);
 					   try{
 				       // Refetch the access token before it expires
 					   setTimeout(async () => {
@@ -217,7 +220,7 @@ function LoginScreen(){
 
 		  }
 	    }
-		console.log("OS:",Platform.OS);
+		//console.log("OS:",Platform.OS);
 	  }, [result]);
 
     
@@ -225,28 +228,21 @@ function LoginScreen(){
 	return (
 	   <View style={styles.container}>
 		    <View style={styles.centerView}>
-				<Text style={[styles.loginText,{ fontSize: 40}]}>Jarvis</Text>
+				<Text style={[styles.loginText,{marginBottom: 100, fontSize: 40}]}>Jarvis</Text>
 			</View>
-		   <View style={styles.centerView}>
-		     <Text style={styles.loginText}>Login</Text>
-		   </View>
-
-		   <View style={[styles.centerView,{marginTop: 10}]}>
-		     
+		   <View style={{ alignItems: "center"}}>
+		     <Text style={[styles.loginText,{marginBottom: 50}]}>Welcome to Jarvis!</Text>
+			 <Text style={[styles.loginText,{textAlign: "center",marginBottom: 50}]}>Click the button below to continue to login or signup</Text>
+             
+			 { loginLoading && (<JarvisLoading/>)}
 		   </View>
 		   
-	       <View style={{flexDirection: "row",alignItems: "space-between"}}>
+	       <View style={{flexDirection: "row",alignSelf: "center"}}>
 		   <JarvisButton
 		        style={[styles.loginButton]}
                 bgcolor={buttonBackground}
                  play={_initLogin}
-                 btn="Login"
-            />
-			<JarvisButton
-		        style={styles.loginButton}
-                bgcolor={buttonBackground}
-                 play={_initLogin}
-                 btn="Sign up"
+                 btn="Continue"
             />
 			</View>
 	   </View>
@@ -259,7 +255,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'flex-start',
 	paddingLeft: 5,
-    //justifyContent: 'center',
+    //justifyContent: 'space-around',
   },
   centerView: {
 	  flexDirection: "row", 

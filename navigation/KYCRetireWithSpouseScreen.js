@@ -13,12 +13,16 @@ function KYCRetireWithSpouseScreen({navigation}){
     const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireWithSpouse,setRetireWithSpouse] = useState("yes");
-    const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
+    const [spouseRetirementAgeValidation,setSpouseRetirementAgeValidation] = useState(false);
+    const [spouseName,setSpouseName] = useState("");
+    const [spouseRetirementAge, setSpouseRetirementAge] = useState("");
     const [birthday,setBirthday] = useState(new Date());
     const [birthdayObject,setBirthdayObject] = useState("{}");
     const [birthdayValidation,setBirthdayValidation] = useState(false);
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
+    const [spouseNameValidation, setSpouseNameValidation] = useState(false);
+    const [retireWithSpouseValidation, setRetireWithSpouseValidation] = useState(false);
 
 	let navv = navigation;
 
@@ -27,17 +31,38 @@ function KYCRetireWithSpouseScreen({navigation}){
         setBirthday(tempd);
         setBirthdayDisplay(tempd.toDateString());
       setBirthdayValidation(false);
+      setBirthdayObject(JSON.stringify(tempd));
       setShowDatePicker(false);
      }
 
 
     const _next = () => {
-        if(retirementAge.length < 1 || parseInt(retirementAge) < 1){
-           setRetirementAgeValidation(true);
+       let go = false;
+
+      if(retireWithSpouse == "yes"){
+        if(spouseName == "" || (spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1)){
+        if(spouseName == ""){
+          setSpouseNameValidation(true);
         }
-        else{
-            helpers.save("j_kyc_retirement_age",retirementAge);
-           //navigation.navigate('KYCRetireWithSpouse');
+
+        if(spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1){
+          setSpouseRetirementAgeValidation(true);
+       }
+      }
+      else{
+        go = true;
+      }
+      }
+      else if(retireWithSpouse == "no"){
+        go = true;
+      }
+
+        if(go){
+          helpers.save("j_kyc_retire_with_spouse",retireWithSpouse);
+          helpers.save("j_kyc_spouse_name",spouseName);
+          helpers.save("j_kyc_spouse_birthday",birthdayObject);
+          helpers.save("j_kyc_spouse_retirement_age",spouseRetirementAge);
+            navigation.navigate('KYCRetireLondon');
         }
         
     }
@@ -51,10 +76,10 @@ function KYCRetireWithSpouseScreen({navigation}){
              <View style={styles.centerView}>
                  <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
              </View>
-            <View style={[styles.centerView,{marginTop: 100}]}>
+            <View style={[styles.centerView,{marginTop: 70}]}>
               <Text style={styles.subHeader}>Do you plan retiring with your spouse?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 20}]}>
             <MaterialCommunityIcons name="information" color="#888" size={18} />
               <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
             </View>
@@ -76,7 +101,7 @@ function KYCRetireWithSpouseScreen({navigation}){
                 </View>
                 </View>
             {
-             retirementAgeValidation && (
+             retireWithSpouseValidation && (
             <View style={styles.formGroupError}>
                     <Text style={styles.inputError}>This field is required</Text>
             </View>
@@ -85,24 +110,45 @@ function KYCRetireWithSpouseScreen({navigation}){
              {
                (retireWithSpouse == "yes") && (
                  <>
-                 <View style={styles.inlineForm}>
-                   <Text style={styles.inlineFormText}>Enter spouse's name</Text>
+                 <View style={[styles.inlineForm,styles.hrView]}>
+                   <Text style={[styles.inlineFormText,{marginLeft: 5}]}>Enter spouse's name</Text>
                    <View style={styles.inlineFormGroup}>
                        <View style={styles.centerView,{paddingVertical: 5}}>
                            <TextInput 
-                               keyboardType="number-pad"
                                style={[styles.formInput,{textAlign: "center"}]}
                                onChangeText={text => {
-                                 // setRetirementAge(text);
-                                 //if(parseInt(text) > 1) setRetirementAgeValidation(false);
+                                 setSpouseName(text);
+                                 setSpouseNameValidation(false);
                                }}
-                               placeholder="Enter retirement age"                    
+                               placeholder="Spouse's name"
+                               value={spouseName}                    
                            />
                        </View>
                   </View>
                  </View>
-                 <View style={styles.inlineForm}>
                  {
+                    spouseNameValidation && (
+                     <View style={styles.formGroupError}>
+                        <Text style={styles.inputError}>Please input your spouse's name</Text>
+                     </View>
+                  )}
+                 <View style={[styles.hrView,{alignContent: "space-between"}]}>
+                 
+                   <Text style={[styles.formText,{marginLeft: 5}]}>Enter spouse's date of birth</Text>
+                   <View style={[styles.formGroup,{marginLeft: 5}]}>
+                       <View style={{flexDirection: "row", paddingVertical: 5}}>
+                          <Text style={styles.formText}>{birthdayDisplay}</Text>
+                          <JarvisButton
+		                      style={[styles.loginButton]}
+                       bgcolor="#ff6c00"
+                       play={() => {setShowDatePicker(true)}}
+                       btn="Select date"
+                       w="40%"
+                    />
+                       </View>
+                  </View>
+                  
+                  {
                  showDatePicker && (
                 <DateTimePicker
                   testID="birthdayDateTimePicker"
@@ -119,27 +165,37 @@ function KYCRetireWithSpouseScreen({navigation}){
                   }}
                 />
                  )}
-                   <Text style={styles.inlineFormText}>Enter spouse's name</Text>
+                 </View>
+                 <View style={styles.inlineForm}>
+                   <Text style={styles.inlineFormText}>Spouse's retirement age</Text>
                    <View style={styles.inlineFormGroup}>
                        <View style={styles.centerView,{paddingVertical: 5}}>
-                          <Text style={styles.bdayText}>{birthdayDisplay}</Text>
-                          <JarvisButton
-		                      style={[styles.loginButton,{marginVertical: 10}]}
-                       bgcolor="#ff6c00"
-                       play={() => {setShowDatePicker(true)}}
-                       btn="Select date"
-                       w="50%"
+                          <TextInput 
+                           keyboardType="number-pad"
+                           style={[styles.formInput,{textAlign: "center"}]}
+                           onChangeText={text => {
+                             setSpouseRetirementAge(text);
+                             if(parseInt(text) > 1) setSpouseRetirementAgeValidation(false);
+                           }}
+                       placeholder="Enter retirement age"
+                       value={spouseRetirementAge}
                     />
                        </View>
                   </View>
                  </View>
+                 {
+                    spouseRetirementAgeValidation && (
+                     <View style={styles.formGroupError}>
+                        <Text style={styles.inputError}>Please input your spouse's retirement age</Text>
+                     </View>
+                  )}
 
                  </>
                  
                )}
 
             
-            <View style={{width: "100%",marginTop: 100}}>
+            <View style={{width: "100%",marginTop: 50}}>
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
@@ -168,7 +224,7 @@ const styles = StyleSheet.create({
         alignSelf: "center"
       },
     loginButton: {
-       alignItems: 'center',
+      // alignItems: 'center',
        marginTop: 50,
        marginLeft: 20
                
@@ -193,8 +249,6 @@ const styles = StyleSheet.create({
       width: "90%",
       textAlign: "center",
       marginTop: 20,
-      borderWidth: 1,
-      borderColor: "#bbb",
       borderRadius: 5
     },
     inlineFormGroup: {
@@ -208,6 +262,10 @@ const styles = StyleSheet.create({
     formInput: {
        padding: 5
     },
+    formText: {
+      marginTop: 10,
+      marginRight: 5
+    },
     inlineForm: {
       flexDirection: "row"
     },
@@ -219,6 +277,11 @@ const styles = StyleSheet.create({
     inputError: {
         color: "red",
         fontWeight: "bold"
+    },
+    hrView: {
+      borderBottomWidth: 1, 
+      paddingBottom: 15,
+       width: "100%"
     }
   });
 

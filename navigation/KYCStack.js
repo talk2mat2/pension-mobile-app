@@ -5,8 +5,10 @@ import KYCNameScreen from './KYCNameScreen.js';
 import KYCBirthdayScreen from './KYCBirthdayScreen.js';
 import KYCRetirementAgeScreen from './KYCRetirementAgeScreen.js';
 import KYCRetireWithSpouseScreen from './KYCRetireWithSpouseScreen.js';
+import KYCRetireLondonScreen from './KYCRetireLondonScreen.js';
  
 import HeaderBar from '../components/HeaderBar.js';
+import KYCCompleteScreen from './KYCCompleteScreen.js';
  
  
  const Stack = createStackNavigator();
@@ -50,6 +52,20 @@ function KYCStack(){
           headerTitle: (props) => <HeaderBar {...props} />
        }} 
        component={KYCRetireWithSpouseScreen}
+      />
+      <Stack.Screen 
+       name="KYCRetireLondon" 
+       options={{
+          headerTitle: (props) => <HeaderBar {...props} />
+       }} 
+       component={KYCRetireLondonScreen}
+      />
+       <Stack.Screen 
+       name="KYCComplete" 
+       options={{
+          headerTitle: (props) => <HeaderBar {...props} />
+       }} 
+       component={KYCCompleteScreen}
       />
       </>
      </Stack.Navigator>

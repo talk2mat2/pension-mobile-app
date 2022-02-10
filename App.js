@@ -230,8 +230,8 @@ export default function App() {
     }, [online]);
 
   
-  //let irn = loggedIn ? "AppStack" : "AuthStack";
-  let irn = "SetupStack";
+  let irn = loggedIn ? "AppStack" : "AuthStack";
+  //let irn = "SetupStack";
 
   if(showApp){
     return (
@@ -244,18 +244,32 @@ export default function App() {
          barStyle={{ backgroundColor: '#694fad' }}
              
      >
+    {loggedIn ? (
      <>
      <Tab.Screen
-         name="Setup"
-         component={SetupStack}
+         name="AppStack"
+         component={AppStack}
          options={{
-           tabBarLabel: 'Setup',  
+           tabBarLabel: 'Jarvis',  
            tabBarIcon: ({ color }) => (
              <MaterialCommunityIcons name="view-dashboard" color={color} size={26} />
            ),
          }}
        />
      </>
+
+) : (
+  <Tab.Screen
+     name="AuthStack"
+     component={AuthStack}
+     options={{
+       tabBarLabel: 'Login',
+       tabBarIcon: ({ color }) => (
+         <MaterialCommunityIcons name="account" color={color} size={26} />
+       ),
+     }}
+   />
+ )}
     
         
        </Tab.Navigator>
