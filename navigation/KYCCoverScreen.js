@@ -20,7 +20,7 @@ function KYCCoverScreen({navigation}){
 		    <View style={styles.centerView}>
 				<Text style={[styles.loginText,{ fontSize: 40}]}>Jarvis</Text>
 			</View>
-		   <View style={[styles.centerView,{marginTop: 100}]}>
+		   <View style={[styles.centerView,{marginTop: 80}]}>
 		     <Text style={styles.subHeader}>Welcome to Jarvis</Text>
              
 		   </View>

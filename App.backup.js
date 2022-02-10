@@ -14,10 +14,13 @@ import AppIntroSlider from 'react-native-app-intro-slider';
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
 import { UserProvider } from './contexts/UserContext';
+import * as AuthSession from 'expo-auth-session';
 
 import AuthStack from './navigation/AuthStack';
 import AppStack from './navigation/AppStack';
 import MoreStack from './navigation/MoreStack';
+
+import SetupStack from './navigation/SetupStack.js';
 
 const Tab = createMaterialBottomTabNavigator();
  
@@ -229,6 +232,7 @@ export default function App() {
 
   
   let irn = loggedIn ? "AppStack" : "AuthStack";
+  //let irn = "SetupStack";
 
   if(showApp){
     return (
@@ -241,43 +245,43 @@ export default function App() {
          barStyle={{ backgroundColor: '#694fad' }}
              
      >
-     {loggedIn ? (
+    {loggedIn ? (
      <>
      <Tab.Screen
+         name="SetupStack"
+         component={SetupStack}
+         options={{
+           tabBarLabel: 'Setup',  
+           tabBarIcon: ({ color }) => (
+             <MaterialCommunityIcons name="account-cog" color={color} size={26} />
+           ),
+         }}
+       />
+       <Tab.Screen
          name="AppStack"
          component={AppStack}
          options={{
-           tabBarLabel: 'Dashboard',  
+           tabBarLabel: 'Jarvis',  
            tabBarIcon: ({ color }) => (
              <MaterialCommunityIcons name="view-dashboard" color={color} size={26} />
            ),
          }}
        />
-       <Tab.Screen
-         name="MoreStack"
-         component={MoreStack}
-         options={{
-           tabBarLabel: 'More',  
-           tabBarIcon: ({ color }) => (
-             <MaterialCommunityIcons name="dots-horizontal-circle" color={color} size={26} />
-           ),
-         }}
-       />
-       
      </>
-     
-     ) : (
-      <Tab.Screen
-         name="AuthStack"
-         component={AuthStack}
-         options={{
-           tabBarLabel: 'Login',
-           tabBarIcon: ({ color }) => (
-             <MaterialCommunityIcons name="account" color={color} size={26} />
-           ),
-         }}
-       />
-     )}
+
+) : (
+  <Tab.Screen
+     name="AuthStack"
+     component={AuthStack}
+     options={{
+       tabBarLabel: 'Login',
+       tabBarIcon: ({ color }) => (
+         <MaterialCommunityIcons name="account" color={color} size={26} />
+       ),
+     }}
+   />
+ )}
+    
         
        </Tab.Navigator>
      </NavigationContainer>

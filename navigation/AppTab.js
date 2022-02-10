@@ -1,14 +1,15 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeScreen from './HomeScreen.js';
  
 import HeaderBar from '../components/HeaderBar.js';
  
  
- const Stack = createStackNavigator();
+ const Tab = createMaterialBottomTabNavigator();
 
 
-function AppStack(){
+function AppTab(){
   
 	return (
 	   <Stack.Navigator
@@ -23,4 +24,4 @@ function AppStack(){
 }
 
 
-export default AppStack;
+export default AppTab;

@@ -11,21 +11,25 @@ import ProgressBar from '../components/ProgressBar';
 function KYCNameScreen({navigation}){
 
     const ctx = useContext(UserContext);
+    let navv = navigation;
+    let u = ctx.u;
+    //console.log("u: ",u);
+
     const [buttonBackground,setButtonBackground] = useState("#77f");
-    const [title,setTitle] = useState("none");
-    const [fname,setFname] = useState("");
-    const [lname,setLname] = useState("");
+    const [title,setTitle] = useState(u.attributes.gender ? u.attributes.gender : "mr");
+    const [fname,setFname] = useState(u.fname);
+    const [lname,setLname] = useState(u.lname);
     const [fnameValidation,setFnameValidation] = useState(false);
     const [lnameValidation,setLnameValidation] = useState(false);
     const [titleValidation,setTitleValidation] = useState(false);
 
-	  let navv = navigation;
-   // let u = helpers.parseUserData(ctx.u);
-		 //console.log("uu: ",u);
 
-     const _changePassword = () => {
-      console.log("changing password..");
-    }
+      //Set default values here
+
+      const _updateUser = (dt) => {
+        ctx.setU(dt.u);
+        helpers.save('pa_u',JSON.stringify(dt));
+     }
 
     const _next = () => {
         if(title == "" || fname == "" || lname == ""){

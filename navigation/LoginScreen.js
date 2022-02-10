@@ -201,7 +201,7 @@ function LoginScreen(){
 								// console.log("userInfo: ",uidt);
 						   //Save user info, access token, refresh token and update user context
 						    //User info
-							console.log("userinfo dt: ",uidt.data);
+							//console.log("userinfo dt: ",uidt.data);
 							let attributes = uidt.data.attributes, included = uidt.data.included[0];
 							let trimmedUserInfo = {
 								name: attributes.name,

@@ -17,12 +17,14 @@ import { UserProvider } from './contexts/UserContext';
 import * as AuthSession from 'expo-auth-session';
 
 import AuthStack from './navigation/AuthStack';
-import AppStack from './navigation/AppStack';
+import AppTab from './navigation/AppTab';
 import MoreStack from './navigation/MoreStack';
 
 import SetupStack from './navigation/SetupStack.js';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Tab = createMaterialBottomTabNavigator();
+const Stack = createStackNavigator();
  
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -238,7 +240,7 @@ export default function App() {
     return (
       <UserProvider value={ctx}>
       <NavigationContainer ref={navigationRef}>
-       <Tab.Navigator
+       <Stack.Navigator
        initialRouteName={irn}
          activeColor="#f0edf6"
          inactiveColor="#3e2465"
@@ -247,19 +249,16 @@ export default function App() {
      >
     {loggedIn ? (
      <>
-     <Tab.Screen
+     <Stack.Screen
          name="SetupStack"
          component={SetupStack}
          options={{
-           tabBarLabel: 'Setup',  
-           tabBarIcon: ({ color }) => (
-             <MaterialCommunityIcons name="account-cog" color={color} size={26} />
-           ),
+           headerShown: false
          }}
        />
-       <Tab.Screen
-         name="AppStack"
-         component={AppStack}
+       <Stack.Screen
+         name="AppTab"
+         component={AppTab}
          options={{
            tabBarLabel: 'Jarvis',  
            tabBarIcon: ({ color }) => (
@@ -270,7 +269,7 @@ export default function App() {
      </>
 
 ) : (
-  <Tab.Screen
+  <Stack.Screen
      name="AuthStack"
      component={AuthStack}
      options={{
@@ -283,7 +282,7 @@ export default function App() {
  )}
     
         
-       </Tab.Navigator>
+       </Stack.Navigator>
      </NavigationContainer>
      <StatusBar style="auto" />
        <FlashMessage position="bottom" /> 
