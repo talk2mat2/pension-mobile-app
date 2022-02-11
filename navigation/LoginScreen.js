@@ -204,13 +204,17 @@ function LoginScreen(){
 							//console.log("userinfo dt: ",uidt.data);
 							let attributes = uidt.data.attributes, included = uidt.data.included[0];
 							let trimmedUserInfo = {
-								name: attributes.name,
-								fname: attributes.firstName,
-								lname: attributes.lastName,
-								email: attributes.email,
-								type: included.type,
+								 attributes:{
+                                    title: attributes.title,
+									name: attributes.name,
+									fname: attributes.firstName,
+									lname: attributes.lastName,
+									email: attributes.email,
+									gender: attributes.gender
+								 },
+								 type: included.type,
 								id: included.id,
-								attributes: included.attributes
+								included: [included.attributes]
 							};
 							console.log("trimmedUserInfo: ",trimmedUserInfo);
 							  helpers.save('pa_atk',dt3.access_token);

@@ -14,11 +14,32 @@ function KYCNameScreen({navigation}){
     let navv = navigation;
     let u = ctx.u;
     //console.log("u: ",u);
+    let fullName = u.attributes.name.split(" ");
+    let fn = u.attributes.fname, ln = u.attributes.lname;
+    let tt = u.attributes.title, g = u.attributes.gender;
+    let ttt = "";
+
+    if(!fn){
+        fn = fullName[0] ? fullName[0] : "";
+    }
+    if(!ln){
+        ln = fullName[1] ? fullName[1] : "";
+    }
+
+    if(!tt){
+        if(g){
+           if(g == "male") ttt = "mr";
+           else if(g == "female") ttt = "mrs";
+        }
+        else{
+           ttt = "mr";
+        }
+    }
 
     const [buttonBackground,setButtonBackground] = useState("#77f");
-    const [title,setTitle] = useState(u.attributes.gender ? u.attributes.gender : "mr");
-    const [fname,setFname] = useState(u.fname);
-    const [lname,setLname] = useState(u.lname);
+    const [title,setTitle] = useState(ttt);
+    const [fname,setFname] = useState(fn);
+    const [lname,setLname] = useState(ln);
     const [fnameValidation,setFnameValidation] = useState(false);
     const [lnameValidation,setLnameValidation] = useState(false);
     const [titleValidation,setTitleValidation] = useState(false);
@@ -26,9 +47,33 @@ function KYCNameScreen({navigation}){
 
       //Set default values here
 
-      const _updateUser = (dt) => {
-        ctx.setU(dt.u);
-        helpers.save('pa_u',JSON.stringify(dt));
+      const _updateUser = async (dt) => {
+        //Update the frontend: context and async storage
+        u.attributes.fname = dt.fname;
+        u.attributes.lname = dt.lname;
+        u.attributes.title = dt.title;
+
+        if(dt.title == "mrs" || dt.title == "miss"){
+           u.attributes.gender = "male";
+        }
+        else{
+            u.attributes.gender = "female";
+        }
+        
+        ctx.setU(u);
+        helpers.save('pa_u',JSON.stringify(u));
+
+         /*
+        //Update the backend
+        let url = `${API2}/users/me`;
+		let userInfo = await axios({
+			method: "get",
+			url: url3,
+			headers: {
+						Authorization: `Bearer ${ctx.access_token}`,
+			}
+		});
+        */
      }
 
     const _next = () => {
@@ -38,9 +83,12 @@ function KYCNameScreen({navigation}){
             if(lname == "") setLnameValidation(true);
         }
         else{
-            helpers.save("j_kyc_fname",fname);
-            helpers.save("j_kyc_lname",lname);
-            navigation.navigate('KYCBirthday',{fname: fname,lname: lname});
+            _updateUser({
+                fname: fname,
+                lname: lname,
+                title: title
+            })
+            navigation.navigate('KYCBirthday');
         }
         
     }
@@ -77,6 +125,8 @@ function KYCNameScreen({navigation}){
                      <Picker.Item label="Select title" value="none" />
                      <Picker.Item label="Mr" value="mr" />
                      <Picker.Item label="Mrs" value="mrs" />
+                     <Picker.Item label="Miss" value="miss" />
+                     <Picker.Item label="Dr" value="dr" />
                   </Picker>
                 </View> 
             </View>

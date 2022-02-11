@@ -36,6 +36,8 @@ Notifications.setNotificationHandler({
 
 WebBrowser.maybeCompleteAuthSession();
 
+
+
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
   const [showApp,setShowApp] = useState(false);
@@ -52,17 +54,9 @@ export default function App() {
   let s = null, nm = "", ntt = "";
 
    //Development config
-   //const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
    const Auth0_Domain = helpers.API;
    const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
  const Auth0_ClientSecret = "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
-
- /**
- //Staging config
-   const Auth0_Domain = "https://pensionjar-staging.eu.auth0.com";
-   const Auth0_ClientID = "PAQK5rFTPu2jdg2rSM4I0Nwjcwk8XWkI";
- const Auth0_ClientSecret = "_-NCxLhpJlg5q8J6K2LYKyi_1CNu8uwbrU-X0s3IkxiLj3jhCjF37FdquZK78gUM";
-   **/
 
 
   const data = [

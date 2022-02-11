@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -7,10 +7,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 import JarvisButton from '../components/JarvisButton';
 
-function KYCBirthdayScreen({route,navigation}){
+function KYCBirthdayScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
+    let navv = navigation;
+    let u = ctx.u;
+    console.log("u: ",u);
+
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [birthday,setBirthday] = useState(new Date());
     const [birthdayObject,setBirthdayObject] = useState("{}");
@@ -18,8 +22,6 @@ function KYCBirthdayScreen({route,navigation}){
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
 
-	let navv = navigation;
-    let {fname,lname} = route.params;
 
      const updateBirthday = (d) => {
          let tempd = new Date(d);
@@ -42,17 +44,34 @@ function KYCBirthdayScreen({route,navigation}){
         
     }
 
+    const _goBack = () => {
+      navigation.goBack();
+    }
+
 
     return (
-        <View style={styles.container}>
-             <View style={styles.centerView}>
+      <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
+      <View style={{marginLeft: 5,alignContent:"flex-start"}}>
+      <View>
+        <Pressable
+         onPress={_goBack}
+        >
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#666" size={26} />
+        </Pressable>
+      </View>
+       </View>
+        <View style={styles.container}>    
+              <View >
+              <View style={styles.centerView}>
                  <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
                  <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
              </View>
+             </View>
+             
             <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>Thanks {fname}</Text>           
+              <Text style={styles.subHeader}>Thanks {u.attributes.fname}</Text>           
             </View>
             <View style={[styles.centerView,{marginTop: 5, marginBottom: 20}]}>
               <Text style={styles.subHeader}>please tell us your date of birth?</Text>           
@@ -110,6 +129,7 @@ function KYCBirthdayScreen({route,navigation}){
 			</View>
             </View>
         </View>
+        </View>
      );
   
 }
@@ -117,10 +137,9 @@ function KYCBirthdayScreen({route,navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
+     backgroundColor: '#fff',
       alignItems: 'center',
-      marginTop: 30,
+     // marginTop: 5,
       //justifyContent: 'center',
     },
     centerView: {
