@@ -4,6 +4,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
 
 import JarvisButton from '../components/JarvisButton';
 
@@ -11,7 +12,6 @@ function KYCBirthdayScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
-    let navv = navigation;
     let u = ctx.u;
     console.log("u: ",u);
 
@@ -20,6 +20,7 @@ function KYCBirthdayScreen({navigation}){
     const [birthdayObject,setBirthdayObject] = useState("{}");
     const [birthdayValidation,setBirthdayValidation] = useState(false);
     const [showDatePicker,setShowDatePicker] = useState(false);
+    const [genderValidation, setGenderValidation] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
 
 
@@ -32,13 +33,23 @@ function KYCBirthdayScreen({navigation}){
       setShowDatePicker(false);
      }
 
+     const _updateUser = async (dt) => {
+      //Update the frontend: context and async storage
+      u.included.dateOfBirth = dt.birthday;
+      ctx.setU(u);
+   }
+
+
 
     const _next = () => {
         if(typeof birthday == "undefined" || !birthday){
            setBirthdayValidation(true);
         }
         else{
-            helpers.save("j_kyc_birthday",birthdayObject);
+           // helpers.save("j_kyc_birthday",birthdayObject);
+            _updateUser({
+              birthday: birthdayObject
+            });
             navigation.navigate('KYCRetirementAge');
         }
         
@@ -70,16 +81,47 @@ function KYCBirthdayScreen({navigation}){
              </View>
              </View>
              
-            <View style={[styles.centerView,{marginTop: 100}]}>
+            <View style={[styles.centerView,{marginTop: 70}]}>
               <Text style={styles.subHeader}>Thanks {u.attributes.fname}</Text>           
             </View>
             <View style={[styles.centerView,{marginTop: 5, marginBottom: 20}]}>
-              <Text style={styles.subHeader}>please tell us your date of birth?</Text>           
+              <Text style={styles.subHeader}>What is your date of birth</Text>           
             </View>
- 
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
+            <MaterialCommunityIcons name="information" color="#888" size={18} />
+              <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
+            </View>
+
+            <View style={[{alignSelf: "flex-start", marginLeft: 20}]}>
+              <Text>Gender</Text>
+            </View>
+
+            <View style={styles.formGroup}>
+                <View style={styles.centerView, {paddingVertical: 5}}>
+                   <Picker
+                     selectedValue={u.attributes.gender}
+                     onValueChange={(itemValue, itemIndex) =>{
+                         setTitle(itemValue);
+                         setTitleValidation(false);
+                     }
+                     
+                     }
+                   >
+                     <Picker.Item label="Select gender" value="none" />
+                     <Picker.Item label="Male" value="male" />
+                     <Picker.Item label="Female" value="female" />
+                  </Picker>
+                </View> 
+            </View>
+            {
+             genderValidation && (
+            <View style={styles.formGroupError}>
+                    <Text style={styles.inputError}>Please select a title</Text>
+            </View>
+             )}
           
             <View style={styles.formGroup}>
-                <View style={styles.centerView, {paddingVertical: 5,marginTop: 10}}>
+                <View style={[styles.centerView, {paddingVertical: 5,marginTop: 10}]}>
                  <View style={{flexDirection: "row"}}>
                       <Text style={styles.bdayText}>{birthdayDisplay}</Text>
                      <JarvisButton
@@ -164,7 +206,7 @@ const styles = StyleSheet.create({
     formGroup: {
       width: "90%",
       textAlign: "center",
-      marginTop: 20,
+      marginTop: 5,
       borderColor: "#bbb",
       borderRadius: 5
     },

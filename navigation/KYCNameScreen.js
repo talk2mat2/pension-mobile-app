@@ -54,12 +54,12 @@ function KYCNameScreen({navigation}){
         u.attributes.title = dt.title;
 
         if(dt.title == "mrs" || dt.title == "miss"){
-           u.attributes.gender = "male";
+           u.attributes.gender = "female";
         }
         else{
-            u.attributes.gender = "female";
+            u.attributes.gender = "male";
         }
-        
+
         ctx.setU(u);
         helpers.save('pa_u',JSON.stringify(u));
 

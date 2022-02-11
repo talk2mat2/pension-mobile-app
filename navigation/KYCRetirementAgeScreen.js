@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
-
 import JarvisButton from '../components/JarvisButton';
 
 function KYCRetirementAgeScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
+    let u = ctx.u;
+    console.log("u: ",u);
+
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retirementAge,setRetirementAge] = useState("");
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
@@ -36,8 +38,23 @@ function KYCRetirementAgeScreen({navigation}){
         
     }
 
+    const _goBack = () => {
+      navigation.goBack();
+    }
+
 
     return (
+      <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
+       <View style={{marginLeft: 5,alignContent:"flex-start"}}>
+      <View>
+        <Pressable
+         onPress={_goBack}
+        >
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#666" size={26} />
+        </Pressable>
+      </View>
+       </View>
+
         <View style={styles.container}>
              <View style={styles.centerView}>
                  <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
@@ -87,6 +104,7 @@ function KYCRetirementAgeScreen({navigation}){
 			</View>
             </View>
         </View>
+      </View>
      );
   
 }
@@ -94,10 +112,10 @@ function KYCRetirementAgeScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+     // flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      marginTop: 30,
+     // marginTop: 30,
       //justifyContent: 'center',
     },
     centerView: {
