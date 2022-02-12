@@ -13,15 +13,22 @@ function KYCBirthdayScreen({navigation}){
    
     const ctx = useContext(UserContext);
     let u = ctx.u;
-    console.log("u: ",u);
+    console.log("u bday: ",u);
+    let tempDate = new Date();
+    tempDate.setFullYear(tempDate.getFullYear() - 40);
 
+    if(!u.included[0].dateOfBirth){
+      tempDate = u.included[0].dateOfBirth;
+    }
+
+   
     const [buttonBackground,setButtonBackground] = useState("#77f");
-    const [birthday,setBirthday] = useState(new Date());
+    const [birthday,setBirthday] = useState(tempDate);
     const [birthdayObject,setBirthdayObject] = useState("{}");
     const [birthdayValidation,setBirthdayValidation] = useState(false);
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [genderValidation, setGenderValidation] = useState(false);
-    const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
+    const [birthdayDisplay,setBirthdayDisplay] = useState(tempDate.toDateString());
 
 
      const updateBirthday = (d) => {
@@ -33,9 +40,11 @@ function KYCBirthdayScreen({navigation}){
       setShowDatePicker(false);
      }
 
-     const _updateUser = async (dt) => {
+     const _updateUser = () => {
       //Update the frontend: context and async storage
-      u.included.dateOfBirth = dt.birthday;
+      let tempd = `${birthday.getFullYear()}-${birthday.getMonth()}-${birthday.getDate()}`;
+      console.log(tempd);
+      u.included[0].dateOfBirth = tempd;
       ctx.setU(u);
    }
 
@@ -47,9 +56,7 @@ function KYCBirthdayScreen({navigation}){
         }
         else{
            // helpers.save("j_kyc_birthday",birthdayObject);
-            _updateUser({
-              birthday: birthdayObject
-            });
+            _updateUser();
             navigation.navigate('KYCRetirementAge');
         }
         

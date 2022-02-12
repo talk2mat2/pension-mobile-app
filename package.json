@@ -15,7 +15,7 @@
     "@auth0/auth0-spa-js": "^1.19.3",
     "@react-native-community/datetimepicker": "^5.1.0",
     "@react-native-community/netinfo": "7.1.3",
-    "@react-native-picker/picker": "^2.2.1",
+    "@react-native-picker/picker": "2.2.1",
     "@react-navigation/material-bottom-tabs": "^6.0.9",
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
