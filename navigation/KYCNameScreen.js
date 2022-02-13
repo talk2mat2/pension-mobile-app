@@ -52,14 +52,16 @@ function KYCNameScreen({navigation}){
         u.attributes.fname = dt.fname;
         u.attributes.lname = dt.lname;
         u.attributes.title = dt.title;
+        let gg = null;
 
         if(dt.title == "mrs" || dt.title == "miss"){
-           u.attributes.gender = "female";
+           gg = "female";
         }
         else{
-            u.attributes.gender = "male";
+            gg = "male";
         }
-
+        u.attributes.gender = gg;
+       
         ctx.setU(u);
         helpers.save('pa_u',JSON.stringify(u));
 

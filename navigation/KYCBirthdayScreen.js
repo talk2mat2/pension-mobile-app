@@ -45,6 +45,8 @@ function KYCBirthdayScreen({navigation}){
       let tempd = `${birthday.getFullYear()}-${birthday.getMonth()}-${birthday.getDate()}`;
       console.log(tempd);
       u.included[0].dateOfBirth = tempd;
+      u.included[0].gender = u.attributes.gender;
+
       ctx.setU(u);
    }
 

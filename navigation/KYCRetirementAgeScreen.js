@@ -32,7 +32,7 @@ function KYCRetirementAgeScreen({navigation}){
 
 
     const _next = () => {
-        if(retirementAge != "none"|| parseInt(retirementAge) < 1){
+        if(retirementAge == "none"|| parseInt(retirementAge) < 1){
            setRetirementAgeValidation(true);
         }
         else{
