@@ -55,10 +55,10 @@ function KYCNameScreen({navigation}){
         let gg = null;
 
         if(dt.title == "mrs" || dt.title == "miss"){
-           gg = "female";
+           gg = "Female";
         }
         else{
-            gg = "male";
+            gg = "Male";
         }
         u.attributes.gender = gg;
        

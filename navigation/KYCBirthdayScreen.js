@@ -42,12 +42,12 @@ function KYCBirthdayScreen({navigation}){
 
      const _updateUser = () => {
       //Update the frontend: context and async storage
-      let tempd = `${birthday.getFullYear()}-${birthday.getMonth()}-${birthday.getDate()}`;
-      console.log(tempd);
-      u.included[0].dateOfBirth = tempd;
+      let tempd = birthday.toISOString().split('T');
+      u.included[0].dateOfBirth = tempd[0];
       u.included[0].gender = u.attributes.gender;
 
       ctx.setU(u);
+      helpers.save('pa_u',JSON.stringify(u));
    }
 
 
@@ -57,7 +57,6 @@ function KYCBirthdayScreen({navigation}){
            setBirthdayValidation(true);
         }
         else{
-           // helpers.save("j_kyc_birthday",birthdayObject);
             _updateUser();
             navigation.navigate('KYCRetirementAge');
         }
@@ -72,8 +71,8 @@ function KYCBirthdayScreen({navigation}){
     return (
       <View style={{flex: 1, marginTop: 30, backgroundColor: "#fff"}}>
         <ImageBackground source={require('../assets/birthday.jpg')} resizeMode="cover" style={styles.imageBackground}>
-      <View style={{marginLeft: 5,marginTop: 5,alignContent:"flex-start"}}>
-      <View>
+      <View style={{alignContent:"flex-start"}}>
+      <View style={{marginLeft: 10,marginTop: 10}}>
         <Pressable
          onPress={_goBack}
         >
@@ -111,16 +110,17 @@ function KYCBirthdayScreen({navigation}){
                    <Picker
                      selectedValue={u.attributes.gender}
                      onValueChange={(itemValue, itemIndex) =>{
-                         setTitle(itemValue);
-                         setTitleValidation(false);
+                         setGender(itemValue);
+                         setGenderValidation(false);
                      }
                      
                      }
                      style={styles.textWhite}
                    >
                      <Picker.Item label="Select gender" value="none" />
-                     <Picker.Item label="Male" value="male" />
-                     <Picker.Item label="Female" value="female" />
+                     <Picker.Item label="Male" value="Male" />
+                     <Picker.Item label="Female" value="Female" />
+                     <Picker.Item label="Unknown" value="Unknown" />
                   </Picker>
                 </View> 
             </View>
@@ -154,8 +154,7 @@ function KYCBirthdayScreen({navigation}){
                   display="default"
                   onChange={(e,d) => {
                       if(typeof d != "undefined"){
-                         console.log("d: ",d);
-                      updateBirthday(d); 
+                         updateBirthday(d); 
                       }
                       
                   }}

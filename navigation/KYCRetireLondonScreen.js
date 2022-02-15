@@ -11,6 +11,8 @@ function KYCRetireLondonScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
+    let u = ctx.u;
+    console.log("u in retire london: ",u);
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireLondon,setRetireLondon] = useState("yes");
     const [isLoading, setIsLoading] = useState(false);

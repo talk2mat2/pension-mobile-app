@@ -13,8 +13,7 @@ function KYCRetirementAgeScreen({navigation}){
    
     const ctx = useContext(UserContext);
     let u = ctx.u;
-    console.log("u retire age: ",u);
-
+    
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retirementAge,setRetirementAge] = useState("65");
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
@@ -26,12 +25,15 @@ function KYCRetirementAgeScreen({navigation}){
   let ages = []; 
   for(let i = 18; i <= 100; i++) ages.push(i);
  
-     const updateBirthday = (d) => {
-        let tempd = new Date(d);
-        setBirthday(tempd);
-        setBirthdayDisplay(tempd.toDateString());
-      setBirthdayValidation(false);
-      setShowDatePicker(false);
+
+     const _updateUser = () => {
+      //Set the retirement date based on the retirement age and birthday
+      u.included[0].retirementAge = retirementAge;
+      let retirementDay =  new Date(), retirementDayArray = u.included[0].dateOfBirth.split("-");
+      retirementDay.setFullYear(parseInt(retirementDayArray[0]) + parseInt(retirementAge));
+      u.included[0].retirementDate = `${retirementDay.getFullYear()}-${retirementDay.getMonth()}-${retirementDay.getDate()}`;
+      ctx.setU(u);
+      helpers.save('pa_u',JSON.stringify(u));
      }
 
 
@@ -40,44 +42,45 @@ function KYCRetirementAgeScreen({navigation}){
            setRetirementAgeValidation(true);
         }
         else{
+          _updateUser();
+          
           setIsLoading(true);
           setNextButtonDisabled(true);
-
-            /*
+           
+            
             //Save data to backend
-            let url3 = `${helpers.API2}/users/me`;
-							 
-							console.log(ctx.atk);
 
+            //First save personal information
+            let url3 = `${helpers.API2}/users/me`;
+            let saveData = {
+              type: "user",
+              attributes: {
+                firstName: u.attributes.fname,
+               lastName: u.attributes.lname,
+               name: u.attributes.fname + " " + u.attributes.lname,
+               title: u.attributes.title,
+               gender: u.attributes.gender
+              }
+              
+            };
+            
 							 let userInfo = await axios({
 								method: "patch",
 								url: url3,
 								headers: {
 									Authorization: `Bearer ${ctx.atk}`,
 								  },
-                data: {
-                  type: "user",
-                  firstName: u.attributes.fname,
-                  lastName: u.attributes.lname,
-                  name: `${u.attributes.fname} ${u.attributes.lname}`,
-                  title: u.attributes.title,
-                  gender: u.attributes.gender
-                }
+                data: saveData
 							  });
                              
-							
-							 if(userInfo.status == "200"){
+                if(userInfo.status == "200"){
 								 let uidt = userInfo.data;
-								console.log("userInfo update: ",uidt);
+								
+                 //Done, navigate to the next screen
+                 setIsLoading(false);
+                 setNextButtonDisabled(false);
+                 navigation.navigate('KYCRetireWithSpouse');
                }
-               */
-            //Done, navigate to the next screen
-            setTimeout(() => {
-              setIsLoading(false);
-              setNextButtonDisabled(false);
-              navigation.navigate('KYCRetireWithSpouse');
-            },2000);
-            
         }
         
     }
@@ -246,7 +249,7 @@ function KYCRetirementAgeScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-     // flex: 1,
+      //flex: 1,
       //backgroundColor: '#fff',
       alignItems: 'center',
      // marginTop: 30,

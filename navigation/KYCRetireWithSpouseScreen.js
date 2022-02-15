@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground,ScrollView} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -11,14 +11,14 @@ function KYCRetireWithSpouseScreen({navigation}){
 
    
     const ctx = useContext(UserContext);
+    let u = ctx.u;
+
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireWithSpouse,setRetireWithSpouse] = useState("yes");
     const [spouseRetirementAgeValidation,setSpouseRetirementAgeValidation] = useState(false);
     const [spouseName,setSpouseName] = useState("");
     const [spouseRetirementAge, setSpouseRetirementAge] = useState("");
     const [birthday,setBirthday] = useState(new Date());
-    const [birthdayObject,setBirthdayObject] = useState("{}");
-    const [birthdayValidation,setBirthdayValidation] = useState(false);
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
     const [spouseNameValidation, setSpouseNameValidation] = useState(false);
@@ -29,11 +29,26 @@ function KYCRetireWithSpouseScreen({navigation}){
         let tempd = new Date(d);
         setBirthday(tempd);
         setBirthdayDisplay(tempd.toDateString());
-      setBirthdayValidation(false);
-      setBirthdayObject(JSON.stringify(tempd));
-      setShowDatePicker(false);
+     setShowDatePicker(false);
      }
 
+    const _updateUser = async () => {
+      u.included[0].spouseName = spouseName;
+      let bd = birthday.toISOString().split('T');
+      u.included[0].spouseDateOfBirth = bd[0];
+      u.included[0].spouseGender = u.attributes.gender == "Male" ? "Female" : "Male";
+      u.included[0].spouseRetirementAge = spouseRetirementAge;
+      let retirementDay =  new Date(), retirementDayArray = u.included[0].spouseDateOfBirth.split("-");
+      retirementDay.setFullYear(parseInt(retirementDayArray[0]) + parseInt(spouseRetirementAge));
+      u.included[0].spouseRetirementDate = `${retirementDay.getFullYear()}-${retirementDay.getMonth()}-${retirementDay.getDate()}`;
+
+      if(retireWithSpouse == "yes"){
+        u.included[0].maritalStatus = "married";
+        u.included[0].isSingle = false;
+      }
+      ctx.setU(u);
+      helpers.save('pa_u',JSON.stringify(u));
+    }
 
     const _next = () => {
        let go = false;
@@ -57,10 +72,7 @@ function KYCRetireWithSpouseScreen({navigation}){
       }
 
         if(go){
-          helpers.save("j_kyc_retire_with_spouse",retireWithSpouse);
-          helpers.save("j_kyc_spouse_name",spouseName);
-          helpers.save("j_kyc_spouse_birthday",birthdayObject);
-          helpers.save("j_kyc_spouse_retirement_age",spouseRetirementAge);
+          _updateUser();
             navigation.navigate('KYCRetireLondon');
         }
         
@@ -73,6 +85,7 @@ function KYCRetireWithSpouseScreen({navigation}){
     return (
       <View style={{flex: 1,  marginTop: 30,paddingTop: 10}}>
        <ImageBackground source={require('../assets/retire.jpg')} resizeMode="cover" style={styles.imageBackground}>
+         <ScrollView>
         <View style={{marginLeft: 5,marginTop: 5,alignContent:"flex-start"}}>
       <View>
         <Pressable
@@ -89,7 +102,7 @@ function KYCRetireWithSpouseScreen({navigation}){
              <View style={styles.centerView}>
                  <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
-            <View style={[styles.centerView,{marginTop: 70}]}>
+            <View style={[styles.centerView,{marginTop: 50}]}>
               <Text style={[styles.subHeader,styles.textWhite]}>Do you plan retiring with your spouse?</Text>           
             </View>
             <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
@@ -172,15 +185,14 @@ function KYCRetireWithSpouseScreen({navigation}){
                   display="default"
                   onChange={(e,d) => {
                       if(typeof d != "undefined"){
-                         console.log("d: ",d);
-                      updateBirthday(d); 
+                        updateBirthday(d); 
                       }
                       
                   }}
                 />
                  )}
                  </View>
-                 <View style={styles.inlineForm}>
+                 <View style={[styles.inlineForm,styles.hrView,{marginLeft: 5}]}>
                    <Text style={[styles.inlineFormText,styles.textWhite]}>Spouse's retirement age</Text>
                    <View style={styles.inlineFormGroup}>
                        <View style={styles.centerView,{paddingVertical: 5}}>
@@ -221,6 +233,7 @@ function KYCRetireWithSpouseScreen({navigation}){
 			</View>
             </View>
         </View>
+        </ScrollView>
         </ImageBackground>
       </View>
      );
@@ -289,7 +302,7 @@ const styles = StyleSheet.create({
       flexDirection: "row"
     },
     inlineFormText: {
-      marginTop: 10,
+      marginTop: 20,
       marginRight: 5,
       alignSelf: "center",
       
