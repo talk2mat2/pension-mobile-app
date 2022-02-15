@@ -22,9 +22,7 @@ function KYCRetireWithSpouseScreen({navigation}){
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
     const [spouseNameValidation, setSpouseNameValidation] = useState(false);
-    const [showSpouseFields, setShowSpouseFields] = useState(false);
-    const [screenTitle,setScreenTitle] = useState("Do you plan retiring with your spouse?");
-    const [showExtra, setShowExtra] = useState(true);
+    const [retireWithSpouseValidation, setRetireWithSpouseValidation] = useState(false);
 
 
      const updateBirthday = (d) => {
@@ -58,25 +56,19 @@ function KYCRetireWithSpouseScreen({navigation}){
     const _next = () => {
        let go = false;
 
-     
       if(retireWithSpouse == "yes"){
-        if(!showSpouseFields){
-           setShowSpouseFields(true);
+        if(spouseName == "" || (spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1)){
+        if(spouseName == ""){
+          setSpouseNameValidation(true);
         }
-        else{
-          if(spouseName == "" || (spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1)){
-            if(spouseName == ""){
-              setSpouseNameValidation(true);
-            }
 
-           if(spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1){
-             setSpouseRetirementAgeValidation(true);
-            }
-          }
-          else{
-            go = true;
-          }
-        }
+        if(spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1){
+          setSpouseRetirementAgeValidation(true);
+       }
+      }
+      else{
+        go = true;
+      }
       }
       else if(retireWithSpouse == "no"){
         go = true;
@@ -114,12 +106,9 @@ function KYCRetireWithSpouseScreen({navigation}){
                  <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 50}]}>
-              <Text style={[styles.subHeader,styles.textWhite]}>{screenTitle}</Text>           
+              <Text style={[styles.subHeader,styles.textWhite]}>Do you plan retiring with your spouse?</Text>           
             </View>
-            {
-             showExtra && (
-            <>
-            <View style={[styles.centerView,{marginTop: 20, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
             <MaterialCommunityIcons name="information" color="#fff" size={18} />
               <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
             </View>
@@ -136,15 +125,19 @@ function KYCRetireWithSpouseScreen({navigation}){
                 <RadioButton
                   value="no"
                   status={ retireWithSpouse === 'no' ? 'checked' : 'unchecked' }
-                  onPress={() => {setRetireWithSpouse('no'); setShowSpouseFields(false);}}
+                  onPress={() => setRetireWithSpouse('no')}
                 />
                 </View>
                 </View>
-                </>
-              )}
+            {
+             retireWithSpouseValidation && (
+            <View style={styles.formGroupError}>
+                    <Text style={styles.inputError}>This field is required</Text>
+            </View>
+             )}
 
              {
-               showSpouseFields && (
+               (retireWithSpouse == "yes") && (
                  <>
                  <View style={[styles.inlineForm,styles.hrView]}>
                    <Text style={[styles.inlineFormText,styles.textWhite,{marginLeft: 5}]}>Enter spouse's name</Text>
