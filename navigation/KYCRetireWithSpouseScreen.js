@@ -22,7 +22,8 @@ function KYCRetireWithSpouseScreen({navigation}){
     const [showDatePicker,setShowDatePicker] = useState(false);
     const [birthdayDisplay,setBirthdayDisplay] = useState((new Date()).toDateString());
     const [spouseNameValidation, setSpouseNameValidation] = useState(false);
-    const [showSpouseFields, setShowSpouseFields] = useState(false);
+    const [showSpouseNameField, setShowSpouseNameField] = useState(false);
+    const [showOtherSpouseFields, setShowOtherSpouseFields] = useState(false);
     const [screenTitle,setScreenTitle] = useState("Do you plan retiring with your spouse?");
     const [showExtra, setShowExtra] = useState(true);
 
@@ -60,22 +61,31 @@ function KYCRetireWithSpouseScreen({navigation}){
 
      
       if(retireWithSpouse == "yes"){
-        if(!showSpouseFields){
-           setShowSpouseFields(true);
+        if(!showSpouseNameField){
+           setShowSpouseNameField(true);
+           //setScreenTitle(``);
         }
         else{
-          if(spouseName == "" || (spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1)){
-            if(spouseName == ""){
-              setSpouseNameValidation(true);
-            }
-
-           if(spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1){
-             setSpouseRetirementAgeValidation(true);
-            }
+          if(!showOtherSpouseFields && showSpouseNameField && spouseName.length > 0){
+            //SpouseName has been set, show other fields
+            let spouseNameArr = spouseName.split(' '), spouseNameDisplay = spouseNameArr[0];
+            setScreenTitle(`Tell us about ${spouseNameDisplay}`);
+            setShowOtherSpouseFields(true);
           }
           else{
-            go = true;
-          }
+              if(spouseName == "" || (spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1)){
+                 if(spouseName == ""){
+                   setSpouseNameValidation(true);
+                 }
+  
+                if(spouseRetirementAge.length < 1 || parseInt(spouseRetirementAge) < 1){
+                  setSpouseRetirementAgeValidation(true);
+                }
+             }
+             else{
+              go = true;
+            }
+          }        
         }
       }
       else if(retireWithSpouse == "no"){
@@ -136,16 +146,21 @@ function KYCRetireWithSpouseScreen({navigation}){
                 <RadioButton
                   value="no"
                   status={ retireWithSpouse === 'no' ? 'checked' : 'unchecked' }
-                  onPress={() => {setRetireWithSpouse('no'); setShowSpouseFields(false);}}
+                  onPress={() => {
+                    setRetireWithSpouse('no'); 
+                    setScreenTitle("Do you plan retiring with your spouse?");
+                    setShowSpouseNameField(false);
+                    setShowOtherSpouseFields(false);
+                    setSpouseNameValidation(false);
+                  }}
                 />
                 </View>
                 </View>
                 </>
               )}
 
-             {
-               showSpouseFields && (
-                 <>
+                {
+                   showSpouseNameField && (
                  <View style={[styles.inlineForm,styles.hrView]}>
                    <Text style={[styles.inlineFormText,styles.textWhite,{marginLeft: 5}]}>Enter spouse's name</Text>
                    <View style={styles.inlineFormGroup}>
@@ -163,12 +178,17 @@ function KYCRetireWithSpouseScreen({navigation}){
                        </View>
                   </View>
                  </View>
+                 )}
                  {
                     spouseNameValidation && (
                      <View style={styles.formGroupError}>
                         <Text style={styles.inputError}>Please input your spouse's name</Text>
                      </View>
                   )}
+
+             {
+               showOtherSpouseFields && (
+                 <>
                  <View style={[styles.hrView,{alignContent: "space-between"}]}>
                  
                    <Text style={[styles.formText,styles.textWhite,{marginLeft: 5}]}>Enter spouse's date of birth</Text>
