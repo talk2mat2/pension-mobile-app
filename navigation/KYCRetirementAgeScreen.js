@@ -31,7 +31,10 @@ function KYCRetirementAgeScreen({navigation}){
       u.included[0].retirementAge = retirementAge;
       let retirementDay =  new Date(), retirementDayArray = u.included[0].dateOfBirth.split("-");
       retirementDay.setFullYear(parseInt(retirementDayArray[0]) + parseInt(retirementAge));
-      u.included[0].retirementDate = `${retirementDay.getFullYear()}-${retirementDay.getMonth()}-${retirementDay.getDate()}`;
+      retirementDay.setMonth(parseInt(retirementDayArray[1]) - 1);
+      retirementDay.setDate(retirementDayArray[2]);
+      let tempd = retirementDay.toISOString().split('T');
+      u.included[0].retirementDate = tempd[0];
       ctx.setU(u);
       helpers.save('pa_u',JSON.stringify(u));
      }
