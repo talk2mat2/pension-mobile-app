@@ -14,11 +14,13 @@ function KYCRetireLondonScreen({navigation}){
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireLondon,setRetireLondon] = useState("yes");
     const [isLoading, setIsLoading] = useState(false);
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
     const _next = () => {
        let go = false;
        console.log(retireLondon);
        setIsLoading(true);
+       setNextButtonDisabled(true);
       
         //helpers.save("j_kyc_retire_london",retireLondon);
         //navigation.navigate('KYCComplete');
@@ -82,6 +84,7 @@ function KYCRetireLondonScreen({navigation}){
                 bgcolor={buttonBackground}
                  play={_next}
                  btn="Next"
+                 disabled={nextButtonDisabled}
             />
 			</View>
             </View>

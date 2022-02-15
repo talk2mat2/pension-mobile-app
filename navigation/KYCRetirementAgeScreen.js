@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from 'react';
 import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
+const axios = require('axios');
 import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
+import JarvisLoading from '../components/JarvisLoading';
 import {Picker} from '@react-native-picker/picker';
 
 function KYCRetirementAgeScreen({navigation}){
@@ -16,6 +18,8 @@ function KYCRetirementAgeScreen({navigation}){
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retirementAge,setRetirementAge] = useState("65");
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
 
 	let navv = navigation;
 
@@ -31,13 +35,42 @@ function KYCRetirementAgeScreen({navigation}){
      }
 
 
-    const _next = () => {
+    const _next = async () => {
         if(retirementAge == "none"|| parseInt(retirementAge) < 1){
            setRetirementAgeValidation(true);
         }
         else{
-            //helpers.save("j_kyc_retirement_age",retirementAge);
-            navigation.navigate('KYCRetireWithSpouse');
+             setIsLoading(true);
+            setNextButtonDisabled(true);
+            
+            //Save data to backend
+            let url3 = `${helpers.API2}/users/me`;
+							 
+							console.log(ctx.atk);
+              
+							 let userInfo = await axios({
+								method: "patch",
+								url: url3,
+								headers: {
+									Authorization: `Bearer ${ctx.atk}`,
+								  },
+                data: {
+                  type: "user",
+                  firstName: u.attributes.fname,
+                  lastName: u.attributes.lname,
+                  name: `${u.attributes.fname} ${u.attributes.lname}`,
+                  title: u.attributes.title,
+                  gender: u.attributes.gender
+                }
+							  });
+                             
+							
+							 if(userInfo.status == "200"){
+								 let uidt = userInfo.data;
+								console.log("userInfo update: ",uidt);
+               }
+            //Done, navigate to the next screen
+            //navigation.navigate('KYCRetireWithSpouse');
         }
         
     }
@@ -185,12 +218,14 @@ function KYCRetirementAgeScreen({navigation}){
 
             
             <View style={{width: "100%",marginTop: 100}}>
+            { isLoading && (<JarvisLoading color="#fff" text="Please wait"/>)}
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
                 bgcolor={buttonBackground}
                  play={_next}
                  btn="Next"
+                 disabled={nextButtonDisabled}
             />
 			</View>
             </View>

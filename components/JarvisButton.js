@@ -7,6 +7,7 @@ const JarvisButton = props => {
     const pressedAnim =  useRef(new Animated.Value(1)).current;
     const [isPressed, setIsPressed] = useState(false);
     const w = props.w ? props.w : "80%";
+    const disabled = props.disabled || false;
 
     useEffect(() => {
         if(isPressed){
@@ -31,7 +32,7 @@ const JarvisButton = props => {
     style={{...props.style,width: w,opacity: pressedAnim}}
     >
      <Pressable
-              disabled={props.disabled}
+              disabled={disabled}
               onPress={() => {
           /** Do Something **/
           setIsPressed(true);
