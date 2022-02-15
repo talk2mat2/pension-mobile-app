@@ -40,14 +40,15 @@ function KYCRetirementAgeScreen({navigation}){
            setRetirementAgeValidation(true);
         }
         else{
-             setIsLoading(true);
-            setNextButtonDisabled(true);
-            
+          setIsLoading(true);
+          setNextButtonDisabled(true);
+
+            /*
             //Save data to backend
             let url3 = `${helpers.API2}/users/me`;
 							 
 							console.log(ctx.atk);
-              
+
 							 let userInfo = await axios({
 								method: "patch",
 								url: url3,
@@ -69,8 +70,14 @@ function KYCRetirementAgeScreen({navigation}){
 								 let uidt = userInfo.data;
 								console.log("userInfo update: ",uidt);
                }
+               */
             //Done, navigate to the next screen
-            //navigation.navigate('KYCRetireWithSpouse');
+            setTimeout(() => {
+              setIsLoading(false);
+              setNextButtonDisabled(false);
+              navigation.navigate('KYCRetireWithSpouse');
+            },2000);
+            
         }
         
     }

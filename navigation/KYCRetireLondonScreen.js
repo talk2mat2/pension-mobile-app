@@ -21,9 +21,42 @@ function KYCRetireLondonScreen({navigation}){
        console.log(retireLondon);
        setIsLoading(true);
        setNextButtonDisabled(true);
-      
-        //helpers.save("j_kyc_retire_london",retireLondon);
-        //navigation.navigate('KYCComplete');
+
+
+        /*
+            //Save data to backend
+            let url3 = `${helpers.API2}/users/me`;
+							 
+							console.log(ctx.atk);
+
+							 let userInfo = await axios({
+								method: "patch",
+								url: url3,
+								headers: {
+									Authorization: `Bearer ${ctx.atk}`,
+								  },
+                data: {
+                  type: "user",
+                  firstName: u.attributes.fname,
+                  lastName: u.attributes.lname,
+                  name: `${u.attributes.fname} ${u.attributes.lname}`,
+                  title: u.attributes.title,
+                  gender: u.attributes.gender
+                }
+							  });
+                             
+							
+							 if(userInfo.status == "200"){
+								 let uidt = userInfo.data;
+								console.log("userInfo update: ",uidt);
+               }
+               */
+            //Done, navigate to the next screen
+            setTimeout(() => {
+              setIsLoading(false);
+              setNextButtonDisabled(false);
+              navigation.navigate('KYCComplete');
+            },2000);
         
     }
 
