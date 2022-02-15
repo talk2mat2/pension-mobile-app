@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput, Pressable} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -24,7 +24,6 @@ function KYCRetireWithSpouseScreen({navigation}){
     const [spouseNameValidation, setSpouseNameValidation] = useState(false);
     const [retireWithSpouseValidation, setRetireWithSpouseValidation] = useState(false);
 
-	let navv = navigation;
 
      const updateBirthday = (d) => {
         let tempd = new Date(d);
@@ -67,42 +66,46 @@ function KYCRetireWithSpouseScreen({navigation}){
         
     }
 
+    const _goBack = () => {
+      navigation.goBack();
+    }
 
     return (
-      <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
-        <View style={{marginLeft: 5,alignContent:"flex-start"}}>
+      <View style={{flex: 1,  marginTop: 30,paddingTop: 10}}>
+       <ImageBackground source={require('../assets/retire.jpg')} resizeMode="cover" style={styles.imageBackground}>
+        <View style={{marginLeft: 5,marginTop: 5,alignContent:"flex-start"}}>
       <View>
         <Pressable
          onPress={_goBack}
         >
-        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#666" size={26} />
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={26} />
         </Pressable>
       </View>
        </View>
         <View style={styles.container}>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 70}]}>
-              <Text style={styles.subHeader}>Do you plan retiring with your spouse?</Text>           
+              <Text style={[styles.subHeader,styles.textWhite]}>Do you plan retiring with your spouse?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 20}]}>
-            <MaterialCommunityIcons name="information" color="#888" size={18} />
-              <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
+            <MaterialCommunityIcons name="information" color="#fff" size={18} />
+              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
             </View>
  
                <View style={styles.borderBox}>
                 <View style={styles.centerView}>
-                  <Text style={styles.radioText}>Yes</Text>
+                  <Text style={[styles.radioText,styles.textWhite]}>Yes</Text>
                 <RadioButton
                   value="yes"
                   status={ retireWithSpouse === 'yes' ? 'checked' : 'unchecked' }
                   onPress={() => setRetireWithSpouse('yes')}
                 />
-                <Text style={[styles.radioText,{marginLeft: 20}]}>No</Text>
+                <Text style={[styles.radioText,styles.textWhite,{marginLeft: 20}]}>No</Text>
                 <RadioButton
                   value="no"
                   status={ retireWithSpouse === 'no' ? 'checked' : 'unchecked' }
@@ -121,16 +124,17 @@ function KYCRetireWithSpouseScreen({navigation}){
                (retireWithSpouse == "yes") && (
                  <>
                  <View style={[styles.inlineForm,styles.hrView]}>
-                   <Text style={[styles.inlineFormText,{marginLeft: 5}]}>Enter spouse's name</Text>
+                   <Text style={[styles.inlineFormText,styles.textWhite,{marginLeft: 5}]}>Enter spouse's name</Text>
                    <View style={styles.inlineFormGroup}>
                        <View style={styles.centerView,{paddingVertical: 5}}>
                            <TextInput 
-                               style={[styles.formInput,{textAlign: "center"}]}
+                               style={[styles.formInput,styles.textWhite,{textAlign: "center"}]}
                                onChangeText={text => {
                                  setSpouseName(text);
                                  setSpouseNameValidation(false);
                                }}
                                placeholder="Spouse's name"
+                               placeholderTextColor="#fff"
                                value={spouseName}                    
                            />
                        </View>
@@ -144,10 +148,10 @@ function KYCRetireWithSpouseScreen({navigation}){
                   )}
                  <View style={[styles.hrView,{alignContent: "space-between"}]}>
                  
-                   <Text style={[styles.formText,{marginLeft: 5}]}>Enter spouse's date of birth</Text>
+                   <Text style={[styles.formText,styles.textWhite,{marginLeft: 5}]}>Enter spouse's date of birth</Text>
                    <View style={[styles.formGroup,{marginLeft: 5}]}>
                        <View style={{flexDirection: "row", paddingVertical: 5}}>
-                          <Text style={styles.formText}>{birthdayDisplay}</Text>
+                          <Text style={[styles.formText,styles.textWhite]}>{birthdayDisplay}</Text>
                           <JarvisButton
 		                      style={[styles.loginButton]}
                        bgcolor="#ff6c00"
@@ -177,17 +181,18 @@ function KYCRetireWithSpouseScreen({navigation}){
                  )}
                  </View>
                  <View style={styles.inlineForm}>
-                   <Text style={styles.inlineFormText}>Spouse's retirement age</Text>
+                   <Text style={[styles.inlineFormText,styles.textWhite]}>Spouse's retirement age</Text>
                    <View style={styles.inlineFormGroup}>
                        <View style={styles.centerView,{paddingVertical: 5}}>
                           <TextInput 
                            keyboardType="number-pad"
-                           style={[styles.formInput,{textAlign: "center"}]}
+                           style={[styles.formInput,styles.textWhite,{textAlign: "center"}]}
                            onChangeText={text => {
                              setSpouseRetirementAge(text);
                              if(parseInt(text) > 1) setSpouseRetirementAgeValidation(false);
                            }}
                        placeholder="Enter retirement age"
+                       placeholderTextColor="#fff"
                        value={spouseRetirementAge}
                     />
                        </View>
@@ -216,6 +221,7 @@ function KYCRetireWithSpouseScreen({navigation}){
 			</View>
             </View>
         </View>
+        </ImageBackground>
       </View>
      );
   
@@ -224,11 +230,7 @@ function KYCRetireWithSpouseScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      //flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
-      //marginTop: 30,
-      //justifyContent: 'center',
     },
     centerView: {
         flexDirection: "row", 
@@ -240,6 +242,9 @@ const styles = StyleSheet.create({
        marginLeft: 20
                
     },
+    imageBackground:{
+      flex: 1
+  },
     subHeader: {	
        fontSize: 20,
        alignSelf:"center"
@@ -277,13 +282,17 @@ const styles = StyleSheet.create({
       marginTop: 10,
       marginRight: 5
     },
+    textWhite: {
+      color: "#fff"
+    },
     inlineForm: {
       flexDirection: "row"
     },
     inlineFormText: {
       marginTop: 10,
       marginRight: 5,
-      alignSelf: "center"
+      alignSelf: "center",
+      
     },
     inputError: {
         color: "red",

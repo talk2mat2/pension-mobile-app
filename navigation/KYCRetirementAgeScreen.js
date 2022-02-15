@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput, Pressable} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -49,29 +49,30 @@ function KYCRetirementAgeScreen({navigation}){
 
     return (
       <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
-       <View style={{marginLeft: 5,alignContent:"flex-start"}}>
+       <ImageBackground source={require('../assets/retire.jpg')} resizeMode="cover" style={styles.imageBackground}>
+       <View style={{marginLeft: 5, marginTop: 5 ,alignContent:"flex-start"}}>
       <View>
         <Pressable
          onPress={_goBack}
         >
-        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#666" size={26} />
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={26} />
         </Pressable>
       </View>
        </View>
 
         <View style={styles.container}>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
-            <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>At what age would you like to retire?</Text>           
+            <View style={[styles.centerView,{marginTop: 60}]}>
+              <Text style={[styles.subHeader,styles.textWhite]}>At what age would you like to retire?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
-            <MaterialCommunityIcons name="information" color="#888" size={18} />
-              <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#666"}]}>
+            <MaterialCommunityIcons name="information" color="#fff" size={18} />
+              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
             </View>
  
           
@@ -85,6 +86,7 @@ function KYCRetirementAgeScreen({navigation}){
                            if(parseInt(itemValue) > 1) setRetirementAgeValidation(false);
                         }
                       }
+                      style={styles.textWhite}
                    >
                     <Picker.Item key="age-none" label="Select your age" value="none" />
                     <Picker.Item key="age-0" label="18" value="18" />
@@ -193,6 +195,7 @@ function KYCRetirementAgeScreen({navigation}){
 			</View>
             </View>
         </View>
+        </ImageBackground>
       </View>
      );
   
@@ -202,7 +205,7 @@ function KYCRetirementAgeScreen({navigation}){
 const styles = StyleSheet.create({
     container: {
      // flex: 1,
-      backgroundColor: '#fff',
+      //backgroundColor: '#fff',
       alignItems: 'center',
      // marginTop: 30,
       //justifyContent: 'center',
@@ -217,10 +220,19 @@ const styles = StyleSheet.create({
        marginLeft: 20
                
     },
+    imageBackground:{
+      flex: 1,
+      //justifyContent: "center",
+      //alignItems: "center",
+      //width: "100%"
+  },
     subHeader: {	
        fontSize: 20,
        alignSelf:"center"
     },
+    textWhite: {
+      color: "#fff"
+  },
     formGroup: {
       width: "90%",
       textAlign: "center",

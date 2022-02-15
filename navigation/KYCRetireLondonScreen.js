@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, ImageBackground, Pressable} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import JarvisButton from '../components/JarvisButton';
+import JarvisLoading from '../components/JarvisLoading';
 import { RadioButton } from 'react-native-paper';
 
 function KYCRetireLondonScreen({navigation}){
@@ -13,47 +13,58 @@ function KYCRetireLondonScreen({navigation}){
     const ctx = useContext(UserContext);
     const [buttonBackground,setButtonBackground] = useState("#77f");
     const [retireLondon,setRetireLondon] = useState("yes");
-
-	let navv = navigation;
-
-
+    const [isLoading, setIsLoading] = useState(false);
 
     const _next = () => {
        let go = false;
        console.log(retireLondon);
-
+       setIsLoading(true);
       
-        helpers.save("j_kyc_retire_london",retireLondon);
-        navigation.navigate('KYCComplete');
+        //helpers.save("j_kyc_retire_london",retireLondon);
+        //navigation.navigate('KYCComplete');
         
     }
 
+    const _goBack = () => {
+      navigation.goBack();
+    }
 
     return (
+      <View style={{flex: 1,  marginTop: 30,paddingTop: 10}}>
+       <ImageBackground source={require('../assets/london.jpg')} resizeMode="cover" style={styles.imageBackground}>
+        <View style={{marginLeft: 5,marginTop: 5,alignContent:"flex-start"}}>
+      <View>
+        <Pressable
+         onPress={_goBack}
+        >
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={26} />
+        </Pressable>
+      </View>
+       </View>
         <View style={styles.container}>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 70}]}>
-              <Text style={styles.subHeader}>Do you plan to retire in London?</Text>           
+              <Text style={[styles.subHeader,styles.textWhite]}>Do you plan to retire in London?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 20}]}>
-            <MaterialCommunityIcons name="information" color="#888" size={18} />
-              <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
+            <MaterialCommunityIcons name="information" color="#fff" size={18} />
+              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
             </View>
  
                <View style={styles.borderBox}>
                 <View style={styles.centerView}>
-                  <Text style={styles.radioText}>Yes</Text>
+                  <Text style={[styles.radioText,styles.textWhite]}>Yes</Text>
                 <RadioButton
                   value="yes"
                   status={ retireLondon === 'yes' ? 'checked' : 'unchecked' }
                   onPress={() => setRetireLondon('yes')}
                 />
-                <Text style={[styles.radioText,{marginLeft: 20}]}>No</Text>
+                <Text style={[styles.radioText,styles.textWhite,{marginLeft: 20}]}>No</Text>
                 <RadioButton
                   value="no"
                   status={ retireLondon === 'no' ? 'checked' : 'unchecked' }
@@ -64,6 +75,7 @@ function KYCRetireLondonScreen({navigation}){
         
             
             <View style={{width: "100%",marginTop: 100}}>
+            { isLoading && (<JarvisLoading color="#fff" text="Please wait"/>)}
            <View style={styles.centerView}>
 		   <JarvisButton
 		        style={[styles.loginButton,{marginTop: 10}]}
@@ -74,6 +86,8 @@ function KYCRetireLondonScreen({navigation}){
 			</View>
             </View>
      </View>
+     </ImageBackground>
+     </View>
      );
   
 }
@@ -81,11 +95,7 @@ function KYCRetireLondonScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
       alignItems: 'center',
-      marginTop: 30,
-      //justifyContent: 'center',
     },
     centerView: {
         flexDirection: "row", 
@@ -111,7 +121,11 @@ const styles = StyleSheet.create({
       width: "100%",
       borderBottomWidth: 1,
       borderTopWidth: 1,
-      paddingVertical: 5
+      paddingVertical: 5,
+      borderColor: "#fff"
+    },
+    imageBackground:{
+      flex: 1
     },
     formGroup: {
       width: "90%",
@@ -124,7 +138,7 @@ const styles = StyleSheet.create({
       textAlign: "center",
       marginTop: 20,
       borderWidth: 1,
-      borderColor: "#bbb",
+      borderColor: "#fff",
       borderRadius: 5
     },
     formInput: {
@@ -133,6 +147,9 @@ const styles = StyleSheet.create({
     formText: {
       marginTop: 10,
       marginRight: 5
+    },
+    textWhite: {
+      color: "#fff"
     },
     inlineForm: {
       flexDirection: "row"

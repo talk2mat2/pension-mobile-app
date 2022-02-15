@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Platform, Animated, StyleSheet, View, Text, TextInput, Dimensions } from 'react-native';
+import { Platform, Animated, StyleSheet, View, Text, TextInput, Dimensions, ImageBackground } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as AuthSession from 'expo-auth-session';
 const axios = require('axios');
@@ -17,39 +17,43 @@ function KYCCoverScreen({navigation}){
 
 	return (
 	   <View style={styles.container}>
+       <ImageBackground source={require('../assets/cover.jpg')} resizeMode="cover" style={styles.imageBackground}>
 		    <View style={styles.centerView}>
-				<Text style={[styles.loginText,{ fontSize: 40}]}>Jarvis</Text>
+				<Text style={[styles.loginText,styles.textWhite,{ fontSize: 40}]}>Jarvis</Text>
 			</View>
 		   <View style={[styles.centerView,{marginTop: 80}]}>
-		     <Text style={styles.subHeader}>Welcome to Jarvis</Text>
+		     <Text style={[styles.subHeader,styles.textWhite]}>Welcome to Jarvis</Text>
              
 		   </View>
 
 		   <View style={[styles.centerView,{marginTop: 10, width: "70%"}]}>
-		     <Text style={{textAlign: "center"}}>To build your retirement profile, we would need to capture some information from you.</Text>
+		     <Text style={[{textAlign: "center"},styles.textWhite]}>To build your retirement profile, we would need to capture some information from you.</Text>
 		   </View>
 
            <View style={styles.hrView}>
                <View style={styles.centerView, {paddingVertical: 5}}>
-                   <Text style={{fontWeight: "bold", alignSelf: "center"}}>It would take just three steps:</Text>
+                   <Text style={[{fontWeight: "bold", alignSelf: "center"}, styles.textWhite]}>It would take just three steps:</Text>
                </View> 
 		   </View>
 
            <View style={styles.hrView}>
-               <View style={styles.centerView,{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", marginLeft: 5}}>1. Personal Information</Text>
+               <View style={styles.centerView,{flexDirection: "row",marginLeft: 10,paddingVertical: 10}}>
+               <MaterialCommunityIcons name="information-outline" color="#fff" size={26} />
+                   <Text style={[{fontWeight: "bold", marginLeft: 5,marginTop: 3},styles.textWhite]}>Personal Information</Text>
                </View> 
 		   </View>
 
            <View style={styles.hrView}>
-               <View style={styles.centerView,{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", marginLeft: 5}}>2. Retirement Profile</Text>
+               <View style={styles.centerView,{flexDirection: "row",marginLeft: 10,paddingVertical: 10}}>
+               <MaterialCommunityIcons name="information-outline" color="#fff" size={26} />
+                   <Text style={[{fontWeight: "bold", marginLeft: 5,marginTop: 3},styles.textWhite]}>Retirement Profile</Text>
                </View> 
 		   </View>
 
            <View style={styles.hrView}>
-               <View style={{paddingVertical: 10}}>
-                   <Text style={{fontWeight: "bold", marginLeft: 5}}>3. Pensions & Savings</Text>
+               <View style={{flexDirection: "row",marginLeft: 10,paddingVertical: 10}}>
+               <MaterialCommunityIcons name="information-outline" color="#fff" size={26} />
+                   <Text style={[{fontWeight: "bold", marginLeft: 5,marginTop: 3},styles.textWhite]}>Pensions & Savings</Text>
                </View> 
 		   </View>
 		   
@@ -65,7 +69,7 @@ function KYCCoverScreen({navigation}){
 			</View>
             </View>
            </>
-	       
+	    </ImageBackground>
 	   </View>
 	);
 }
@@ -87,11 +91,20 @@ const styles = StyleSheet.create({
 	 marginLeft: 20
              
   },
+  imageBackground:{
+    flex: 1,
+    justifyContent: "center",
+    //alignItems: "center",
+    width: "100%"
+},
+textWhite: {
+  color: "#fff"
+},
   subHeader: {	
      fontSize: 30
   },
   hrView: {
-    width: "80%",
+    width: "100%",
     marginTop: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,

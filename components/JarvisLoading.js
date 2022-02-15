@@ -6,13 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 const mobile = Platform.OS == "ios" || Platform.OS == "android";
 
 const JarvisLoading = props => {
+  let propsText = props.text || "Processing", propsColor = props.color || "#00f";
    if(mobile){
        return (
           <View style={styles.container}>
-              <Text style={styles.loadingText}>Processing</Text>
+              <Text style={[styles.loadingText,{color:propsColor}]}>{propsText}</Text>
               <ActivityIndicator
                 size="large"
-                color="#0000ff"
+                color={propsColor}
               />
           </View>
        );
@@ -22,7 +23,7 @@ const JarvisLoading = props => {
  
       <ActivityIndicator
         size="large"
-        color="#0000ff"
+        color={propsColor}
       />
     </View>
    }
@@ -42,7 +43,6 @@ const styles = StyleSheet.create({
      loadingText: {
        fontSize: 20,
        textAlign: "center",
-       color: "#00f",
        paddingVertical: 10,
        marginRight: 10   
      }

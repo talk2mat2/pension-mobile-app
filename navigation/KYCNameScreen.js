@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Text, TextInput, ImageBackground} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -98,19 +98,20 @@ function KYCNameScreen({navigation}){
 
     return (
         <View style={styles.container}>
+         <ImageBackground source={require('../assets/intro.jpg')} resizeMode="cover" style={styles.imageBackground}>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
             <View style={[styles.centerView,{marginTop: 100}]}>
-              <Text style={styles.subHeader}>Let's get to know you a little bit better</Text>
+              <Text style={[styles.subHeader,styles.textWhite]}>Let's get to know you a little bit better</Text>
               
             </View>
  
             <View style={[styles.centerView,{marginVertical: 10}]}>
-              <Text>What's your name?</Text>
+              <Text style={styles.textWhite}>What's your name?</Text>
             </View>
  
             <View style={styles.formGroup}>
@@ -123,6 +124,7 @@ function KYCNameScreen({navigation}){
                      }
                      
                      }
+                     style={styles.textWhite}
                    >
                      <Picker.Item label="Select title" value="none" />
                      <Picker.Item label="Mr" value="mr" />
@@ -141,7 +143,7 @@ function KYCNameScreen({navigation}){
             <View style={styles.formGroup}>
                 <View style={styles.centerView,{paddingVertical: 5}}>
                     <TextInput 
-                       style={styles.formInput}
+                       style={[styles.formInput,styles.textWhite]}
                        onChangeText={text => {
                            setFname(text);
                            if(text.length > 1) setFnameValidation(false);
@@ -160,7 +162,7 @@ function KYCNameScreen({navigation}){
             <View style={styles.formGroup}>
             <View style={styles.centerView,{paddingVertical: 5}}>
                     <TextInput 
-                       style={styles.formInput}
+                       style={[styles.formInput,styles.textWhite]}
                        onChangeText={text => {
                            setLname(text);
                            if(text.length > 1) setLnameValidation(false);
@@ -187,6 +189,7 @@ function KYCNameScreen({navigation}){
             />
 			</View>
             </View>
+         </ImageBackground>
         </View>
      );
   
@@ -200,6 +203,12 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       marginTop: 30,
       //justifyContent: 'center',
+    },
+    imageBackground:{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100%"
     },
     centerView: {
         flexDirection: "row", 
@@ -233,6 +242,9 @@ const styles = StyleSheet.create({
     inputError: {
         color: "red",
         fontWeight: "bold"
+    },
+    textWhite: {
+        color: "#fff"
     }
   });
 

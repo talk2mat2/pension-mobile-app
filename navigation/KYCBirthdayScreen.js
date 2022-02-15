@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {StyleSheet, View, Text, TextInput, Pressable} from 'react-native';
+import {StyleSheet, View, Text, TextInput, Pressable, ImageBackground} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
@@ -70,42 +70,43 @@ function KYCBirthdayScreen({navigation}){
 
 
     return (
-      <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
-      <View style={{marginLeft: 5,alignContent:"flex-start"}}>
+      <View style={{flex: 1, marginTop: 30, backgroundColor: "#fff"}}>
+        <ImageBackground source={require('../assets/birthday.jpg')} resizeMode="cover" style={styles.imageBackground}>
+      <View style={{marginLeft: 5,marginTop: 5,alignContent:"flex-start"}}>
       <View>
         <Pressable
          onPress={_goBack}
         >
-        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#666" size={26} />
+        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={26} />
         </Pressable>
       </View>
        </View>
         <View style={styles.container}>    
               <View >
               <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 20}]}>Step 1 of 3</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
              </View>
              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,{ fontSize: 15}]}>Personal Information</Text>
+                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
              </View>
              </View>
              
-            <View style={[styles.centerView,{marginTop: 70}]}>
-              <Text style={styles.subHeader}>Thanks {u.attributes.fname}</Text>           
+            <View style={[styles.centerView,{marginTop: 50}]}>
+              <Text style={[styles.subHeader,styles.textWhite]}>Thanks {u.attributes.fname}</Text>           
             </View>
             <View style={[styles.centerView,{marginTop: 5, marginBottom: 20}]}>
-              <Text style={styles.subHeader}>What is your date of birth</Text>           
+              <Text style={[styles.subHeader,styles.textWhite]}>What is your date of birth?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
-            <MaterialCommunityIcons name="information" color="#888" size={18} />
-              <Text style={[styles.subHeader,{fontSize: 16, color: "#888"}]}>Why are we asking you this?</Text>           
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
+            <MaterialCommunityIcons name="information" color="#fff" size={18} />
+              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
             </View>
 
             <View style={[{alignSelf: "flex-start", marginLeft: 20}]}>
-              <Text>Gender</Text>
+              <Text style={styles.textWhite}>Gender</Text>
             </View>
 
-            <View style={styles.formGroup}>
+            <View style={[styles.formGroup,{marginLeft: 20}]}>
                 <View style={styles.centerView, {paddingVertical: 5}}>
                    <Picker
                      selectedValue={u.attributes.gender}
@@ -115,6 +116,7 @@ function KYCBirthdayScreen({navigation}){
                      }
                      
                      }
+                     style={styles.textWhite}
                    >
                      <Picker.Item label="Select gender" value="none" />
                      <Picker.Item label="Male" value="male" />
@@ -132,7 +134,7 @@ function KYCBirthdayScreen({navigation}){
             <View style={styles.formGroup}>
                 <View style={[styles.centerView, {paddingVertical: 5,marginTop: 10}]}>
                  <View style={{flexDirection: "row"}}>
-                      <Text style={styles.bdayText}>{birthdayDisplay}</Text>
+                      <Text style={[styles.bdayText,styles.textWhite]}>{birthdayDisplay}</Text>
                      <JarvisButton
 		               style={[styles.loginButton,{marginVertical: 10}]}
                        bgcolor="#ff6c00"
@@ -180,6 +182,7 @@ function KYCBirthdayScreen({navigation}){
 			</View>
             </View>
         </View>
+        </ImageBackground>
         </View>
      );
   
@@ -188,8 +191,8 @@ function KYCBirthdayScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-     backgroundColor: '#fff',
-      alignItems: 'center',
+     //backgroundColor: '#fff',
+     // alignItems: 'center',
      // marginTop: 5,
       //justifyContent: 'center',
     },
@@ -203,6 +206,16 @@ const styles = StyleSheet.create({
        marginLeft: 20
                
     },
+    textWhite: {
+      color: "#fff"
+  },
+    imageBackground:{
+      flex: 1,
+      //justifyContent: "center",
+      //alignItems: "center",
+      //width: "100%",
+      //height: "100%"
+  },
     subHeader: {	
        fontSize: 20,
        alignSelf:"center"
