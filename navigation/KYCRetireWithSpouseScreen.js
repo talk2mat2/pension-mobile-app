@@ -36,22 +36,24 @@ function KYCRetireWithSpouseScreen({navigation}){
      }
 
     const _updateUser = async () => {
-      u.included[0].spouseName = spouseName;
-      let bd = birthday.toISOString().split('T');
-      u.included[0].spouseDateOfBirth = bd[0];
-      u.included[0].spouseGender = u.attributes.gender == "Male" ? "Female" : "Male";
-      u.included[0].spouseRetirementAge = spouseRetirementAge;
-      let retirementDay =  new Date(), retirementDayArray = u.included[0].spouseDateOfBirth.split("-");
-      retirementDay.setFullYear(parseInt(retirementDayArray[0]) + parseInt(spouseRetirementAge));
-      retirementDay.setMonth(parseInt(retirementDayArray[1]) - 1);
-      retirementDay.setDate(retirementDayArray[2]);
-      let tempd = retirementDay.toISOString().split('T');
-      u.included[0].spouseRetirementDate = tempd[0];
+      u.included[0].maritalStatus = "married";
+        u.included[0].isSingle = false;
 
       if(retireWithSpouse == "yes"){
-        u.included[0].maritalStatus = "married";
-        u.included[0].isSingle = false;
+        //Spouse details
+        u.included[0].spouseName = spouseName;
+        let bd = birthday.toISOString().split('T');
+        u.included[0].spouseDateOfBirth = bd[0];
+        u.included[0].spouseGender = u.attributes.gender == "Male" ? "Female" : "Male";
+        u.included[0].spouseRetirementAge = spouseRetirementAge;
+        let retirementDay =  new Date(), retirementDayArray = u.included[0].spouseDateOfBirth.split("-");
+        retirementDay.setFullYear(parseInt(retirementDayArray[0]) + parseInt(spouseRetirementAge));
+        retirementDay.setMonth(parseInt(retirementDayArray[1]) - 1);
+        retirementDay.setDate(retirementDayArray[2]);
+        let tempd = retirementDay.toISOString().split('T');
+        u.included[0].spouseRetirementDate = tempd[0];
       }
+      
       ctx.setU(u);
       helpers.save('pa_u',JSON.stringify(u));
     }
