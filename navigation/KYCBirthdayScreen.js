@@ -71,24 +71,24 @@ function KYCBirthdayScreen({navigation}){
     return (
       <View style={{flex: 1, marginTop: 30, backgroundColor: "#fff"}}>
         <ImageBackground source={require('../assets/birthday.jpg')} resizeMode="cover" style={styles.imageBackground}>
-      <View style={{alignContent:"flex-start"}}>
-      <View style={{marginLeft: 10,marginTop: 10}}>
-        <Pressable
-         onPress={_goBack}
-        >
-        <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={26} />
-        </Pressable>
-      </View>
+      <View style={{alignContent:"flex-start", flexDirection: "row"}}>
+         <View style={{marginLeft: 10,marginTop: 10}}>
+           <Pressable
+            onPress={_goBack}
+           >
+             <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={40}/>
+           </Pressable>
+         </View>
+         <View style={{marginLeft: 60, marginTop: 20}}>
+            <View>
+              <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
+            </View>
+            <View>
+             <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
+            </View>
+          </View>
        </View>
-        <View style={styles.container}>    
-              <View >
-              <View style={styles.centerView}>
-                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
-             </View>
-             <View style={styles.centerView}>
-                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
-             </View>
-             </View>
+       <View style={styles.container}>    
              
             <View style={[styles.centerView,{marginTop: 50}]}>
               <Text style={[styles.subHeader,styles.textWhite]}>Thanks {u.attributes.fname}</Text>           
