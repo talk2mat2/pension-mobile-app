@@ -5,7 +5,7 @@ import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import JarvisButton from '../components/JarvisButton';
-import { RadioButton } from 'react-native-paper';
+import { RadioButton, ProgressBar } from 'react-native-paper';
 
 function KYCRetireWithSpouseScreen({navigation}){
 
@@ -256,14 +256,19 @@ function KYCRetireWithSpouseScreen({navigation}){
 
             
             <View style={{width: "100%",marginTop: 50}}>
-           <View style={styles.centerView}>
-		   <JarvisButton
-		        style={[styles.loginButton,{marginTop: 10}]}
-                bgcolor={buttonBackground}
-                 play={_next}
-                 btn="Next"
-            />
-			</View>
+            
+              <View style={[styles.centerView]}>
+		         <JarvisButton
+		           style={[styles.loginButton,{marginTop: 10}]}
+                   bgcolor={buttonBackground}
+                   play={_next}
+                   btn="Next"
+                />
+			       </View>
+              <View style={{marginTop: 80,width: "80%", alignSelf: "center"}}>
+                <ProgressBar progress={0.2} color="#fff"/>
+                <Text style={{textAlign: "center", color: "#fff", fontSize: 20}}>4/5</Text>
+              </View>
             </View>
         </View>
         </ScrollView>

@@ -7,6 +7,8 @@ import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
 import JarvisLoading from '../components/JarvisLoading';
 import {Picker} from '@react-native-picker/picker';
+import {ProgressBar} from 'react-native-paper';
+
 
 function KYCRetirementAgeScreen({navigation}){
 
@@ -233,17 +235,21 @@ function KYCRetirementAgeScreen({navigation}){
              )}
 
             
-            <View style={{width: "100%",marginTop: 100}}>
+            <View style={{width: "100%",marginTop: 80}}>
             { isLoading && (<JarvisLoading color="#fff" text="Please wait"/>)}
-           <View style={styles.centerView}>
-		   <JarvisButton
-		        style={[styles.loginButton,{marginTop: 10}]}
-                bgcolor={buttonBackground}
-                 play={_next}
-                 btn="Next"
-                 disabled={nextButtonDisabled}
-            />
-			</View>
+              <View style={[styles.centerView,{marginTop: 60}]}>
+		           <JarvisButton
+		           style={[styles.loginButton,{marginTop: 10}]}
+                   bgcolor={buttonBackground}
+                   play={_next}
+                   btn="Next"
+                   disabled={nextButtonDisabled}
+                />
+			        </View>
+              <View style={{marginTop: 80,width: "80%", alignSelf: "center"}}>
+                <ProgressBar progress={0.2} color="#fff"/>
+                <Text style={{textAlign: "center", color: "#fff", fontSize: 20}}>3/5</Text>
+              </View>
             </View>
         </View>
         </ImageBackground>

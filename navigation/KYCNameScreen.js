@@ -4,9 +4,9 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import {Picker} from '@react-native-picker/picker';
+import {ProgressBar} from 'react-native-paper';
 
 import JarvisButton from '../components/JarvisButton';
-import ProgressBar from '../components/ProgressBar';
 
 function KYCNameScreen({navigation}){
 
@@ -97,15 +97,22 @@ function KYCNameScreen({navigation}){
 
 
     return (
-        <View style={styles.container}>
+        <View style={{flex: 1, marginTop: 30, backgroundColor: "#fff"}}>
+       
          <ImageBackground source={require('../assets/intro.jpg')} resizeMode="cover" style={styles.imageBackground}>
-             <View style={styles.centerView}>
-                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
-             </View>
-             <View style={styles.centerView}>
-                 <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
-             </View>
-            <View style={[styles.centerView,{marginTop: 100}]}>
+         <View style={{alignContent:"flex-start", flexDirection: "row"}}>
+
+         <View style={{marginLeft: 100, marginTop: 20, alignItems: "center"}}>
+            <View>
+              <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
+            </View>
+            <View>
+             <Text style={[styles.loginText,styles.textWhite,{ fontSize: 15}]}>Personal Information</Text>
+            </View>
+          </View>
+       </View>
+       <View style={styles.container}>
+            <View style={[styles.centerView,{marginTop: 80}]}>
               <Text style={[styles.subHeader,styles.textWhite]}>Let's get to know you a little bit better</Text>
               
             </View>
@@ -114,7 +121,7 @@ function KYCNameScreen({navigation}){
               <Text style={styles.textWhite}>What's your name?</Text>
             </View>
  
-            <View style={styles.formGroup}>
+            <View style={[styles.formGroup,{marginLeft: 20}]}>
                 <View style={styles.centerView, {paddingVertical: 5}}>
                    <Picker
                      selectedValue={title}
@@ -140,7 +147,7 @@ function KYCNameScreen({navigation}){
                     <Text style={styles.inputError}>Please select a title</Text>
             </View>
              )}
-            <View style={styles.formGroup}>
+            <View style={[styles.formGroup,{marginLeft: 20}]}>
                 <View style={styles.centerView,{paddingVertical: 5}}>
                     <TextInput 
                        style={[styles.formInput,styles.textWhite]}
@@ -159,7 +166,7 @@ function KYCNameScreen({navigation}){
                     <Text style={styles.inputError}>Please input your first name</Text>
             </View>
             )}
-            <View style={styles.formGroup}>
+            <View style={[styles.formGroup,{marginLeft: 20}]}>
             <View style={styles.centerView,{paddingVertical: 5}}>
                     <TextInput 
                        style={[styles.formInput,styles.textWhite]}
@@ -180,17 +187,24 @@ function KYCNameScreen({navigation}){
              )}
             
             <View style={{width: "100%",marginTop: 10}}>
-           <View style={[styles.centerView,{marginTop: 60}]}>
-		   <JarvisButton
-		        style={[styles.loginButton,{marginTop: 10}]}
-                bgcolor={buttonBackground}
-                 play={_next}
-                 btn="Next"
-            />
-			</View>
+            
+              <View style={[styles.centerView,{marginTop: 60}]}>
+		         <JarvisButton
+		           style={[styles.loginButton,{marginTop: 10}]}
+                   bgcolor={buttonBackground}
+                   play={_next}
+                   btn="Next"
+                />
+			  </View>
+              <View style={{marginTop: 80,width: "80%", alignSelf: "center"}}>
+                <ProgressBar progress={0.2} color="#fff"/>
+                <Text style={{textAlign: "center", color: "#fff", fontSize: 20}}>1/5</Text>
+              </View>
             </View>
+        </View>
          </ImageBackground>
         </View>
+        
      );
   
 }
@@ -198,17 +212,9 @@ function KYCNameScreen({navigation}){
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      marginTop: 30,
-      //justifyContent: 'center',
     },
     imageBackground:{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        width: "100%"
+        flex: 1
     },
     centerView: {
         flexDirection: "row", 
