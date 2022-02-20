@@ -5,7 +5,7 @@ import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
 import JarvisLoading from '../components/JarvisLoading';
-import { RadioButton } from 'react-native-paper';
+import { RadioButton, ProgressBar } from 'react-native-paper';
 
 function KYCRetireLondonScreen({navigation}){
 
@@ -114,17 +114,22 @@ function KYCRetireLondonScreen({navigation}){
                </View>
         
             
+
             <View style={{width: "100%",marginTop: 100}}>
             { isLoading && (<JarvisLoading color="#fff" text="Please wait"/>)}
-           <View style={styles.centerView}>
-		   <JarvisButton
-		        style={[styles.loginButton,{marginTop: 10}]}
-                bgcolor={buttonBackground}
-                 play={_next}
-                 btn="Next"
-                 disabled={nextButtonDisabled}
-            />
-			</View>
+              <View style={[styles.centerView]}>
+		         <JarvisButton
+		           style={[styles.loginButton,{marginTop: 10}]}
+                   bgcolor={buttonBackground}
+                   play={_next}
+                   btn="Next"
+                   disabled={nextButtonDisabled}
+                />
+			       </View>
+              <View style={{marginTop: 80,width: "80%", alignSelf: "center"}}>
+                <ProgressBar progress={0.2} color="#fff"/>
+                <Text style={{textAlign: "center", color: "#fff", fontSize: 20}}>5/5</Text>
+              </View>
             </View>
      </View>
      </ImageBackground>

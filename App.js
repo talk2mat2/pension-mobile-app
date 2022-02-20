@@ -10,6 +10,7 @@ import { navigationRef } from './RootNavigation.js';
 import FlashMessage, { showMessage, hideMessage } from "react-native-flash-message";
 import * as WebBrowser from 'expo-web-browser';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { useFonts } from 'expo-font';
 
 import * as Notifications from 'expo-notifications';
 import * as helpers from './Helpers'; 
@@ -19,6 +20,7 @@ import * as AuthSession from 'expo-auth-session';
 import AuthStack from './navigation/AuthStack';
 import AppTab from './navigation/AppTab';
 import MoreStack from './navigation/MoreStack';
+import InitScreen from './navigation/InitScreen';
 
 import SetupStack from './navigation/SetupStack.js';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -47,6 +49,7 @@ export default function App() {
   const [atk, setAtk] = useState(null);
   const [rtk, setRtk] = useState(null);
   const [etk, setEtk] = useState('');
+  const [hasDoneSetup, setHasDoneSetup] = useState(false);
 	const [online, setOnline] = useState(false);
   const [notification, setNotification] = useState(false);
   const notificationListener = useRef();
@@ -125,13 +128,25 @@ export default function App() {
           u: u,
           setU: setU,
           online: online,
-          setOnline: setOnline
+          setOnline: setOnline,
+          hasDoneSetup: hasDoneSetup,
+          setHasDoneSetup: setHasDoneSetup
         };
+
+        const [loaded] = useFonts({
+          Organical: require('./assets/fonts/OrganicalPersonalUseBoldItalic-2O6xe.ttf'),
+        });
+        
+        /*if (!loaded) {
+          return null;
+        }*/
+      
 
     useEffect(() => {
       async function prepare() {
         try {
           //make any API calls you need to do here
+          
       let rtk = await helpers.getValueFor("pa_rtk"), firstView = await helpers.getValueFor("pa_first_view");
       let uu = null, credentials = null;
       
@@ -165,7 +180,6 @@ export default function App() {
            helpers.save('pa_rtk',dt.refresh_token);
            setAtk(dt.access_token);
            setU(JSON.parse(uu));
-           setLoggedIn(true);
       }
       }
       else
@@ -227,8 +241,8 @@ export default function App() {
     }, [online]);
 
   
-  let irn = loggedIn ? "AppStack" : "AuthStack";
-  //let irn = "SetupStack";
+  //let irn = loggedIn ? "AppStack" : "AuthStack";
+  let irn = "InitScreen";
 
   if(showApp){
     return (
@@ -241,6 +255,13 @@ export default function App() {
          barStyle={{ backgroundColor: '#694fad' }}
              
      >
+        <Stack.Screen
+         name="InitScreen"
+         component={InitScreen}
+         options={{
+           headerShown: false
+         }}
+       />
     {loggedIn ? (
      <>
      <Stack.Screen

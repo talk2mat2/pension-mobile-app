@@ -7,7 +7,7 @@ import UserContext from '../contexts/UserContext';
 import JarvisButton from '../components/JarvisButton';
 import JarvisLoading from '../components/JarvisLoading';
 import {Picker} from '@react-native-picker/picker';
-import {ProgressBar} from 'react-native-paper';
+import {ProgressBar, Chip} from 'react-native-paper';
 
 
 function KYCRetirementAgeScreen({navigation}){
@@ -21,6 +21,7 @@ function KYCRetirementAgeScreen({navigation}){
     const [retirementAgeValidation,setRetirementAgeValidation] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
+    const [showWhy,setShowWhy] = useState(false);
 
 	let navv = navigation;
 
@@ -94,6 +95,14 @@ function KYCRetirementAgeScreen({navigation}){
       navigation.goBack();
     }
 
+    const _showWhyPopup = () => {
+      console.log("Showing you why in a bit..");
+      setShowWhy(true);
+      setTimeout(() => {
+        setShowWhy(false);
+      },5000);
+    }
+
 
     return (
       <View style={{flex: 1, marginTop: 30,paddingTop: 10, backgroundColor: "#fff"}}>
@@ -121,10 +130,17 @@ function KYCRetirementAgeScreen({navigation}){
             <View style={[styles.centerView,{marginTop: 60}]}>
               <Text style={[styles.subHeader,styles.textWhite]}>At what age would you like to retire?</Text>           
             </View>
-            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30, padding: 10, borderRadius: 20, backgroundColor:"#666"}]}>
-            <MaterialCommunityIcons name="information" color="#fff" size={18} />
-              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
+            
+            {
+              showWhy && (
+            <View style={[styles.centerView,{marginTop: 20,marginBottom: 30, backgroundColor: "#bebebe", padding: 20, borderRadius: 50}]}>
+              <Text style={styles.textWhite}>This information will enable us to plan your retirement planning and goals more accurately.</Text>
             </View>
+              )}
+            <View style={[styles.centerView,{marginTop: 10,marginBottom: 30}]}>
+            <Chip icon="information" onPress={_showWhyPopup}>Why are we asking you this?</Chip>
+            </View>
+            
  
           
             <View style={styles.formGroup}>

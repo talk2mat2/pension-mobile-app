@@ -5,7 +5,7 @@ import * as helpers from '../Helpers';
 import UserContext from '../contexts/UserContext';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import JarvisButton from '../components/JarvisButton';
-import { RadioButton, ProgressBar } from 'react-native-paper';
+import { RadioButton, ProgressBar, Chip } from 'react-native-paper';
 
 function KYCRetireWithSpouseScreen({navigation}){
 
@@ -26,6 +26,7 @@ function KYCRetireWithSpouseScreen({navigation}){
     const [showOtherSpouseFields, setShowOtherSpouseFields] = useState(false);
     const [screenTitle,setScreenTitle] = useState("Do you plan retiring with your spouse?");
     const [showExtra, setShowExtra] = useState(true);
+    const [showWhy,setShowWhy] = useState(false);
 
 
      const updateBirthday = (d) => {
@@ -53,7 +54,7 @@ function KYCRetireWithSpouseScreen({navigation}){
         let tempd = retirementDay.toISOString().split('T');
         u.included[0].spouseRetirementDate = tempd[0];
       }
-      
+
       ctx.setU(u);
       helpers.save('pa_u',JSON.stringify(u));
     }
@@ -105,6 +106,16 @@ function KYCRetireWithSpouseScreen({navigation}){
       navigation.goBack();
     }
 
+    const _showWhyPopup = () => {
+      console.log("Showing you why in a bit..");
+      setShowWhy(true);
+      setTimeout(() => {
+        setShowWhy(false);
+      },5000);
+    }
+
+
+
     return (
       <View style={{flex: 1,  marginTop: 30,paddingTop: 10}}>
        <ImageBackground source={require('../assets/retire.jpg')} resizeMode="cover" style={styles.imageBackground}>
@@ -117,7 +128,7 @@ function KYCRetireWithSpouseScreen({navigation}){
              <MaterialCommunityIcons name="chevron-left-circle-outline" color="#fff" size={40}/>
            </Pressable>
          </View>
-         <View style={{marginLeft: 60, marginTop: 20}}>
+         <View style={{marginLeft: 60, marginTop: 20,  alignItems: "center"}}>
             <View>
               <Text style={[styles.loginText,styles.textWhite,{ fontSize: 20}]}>Step 1 of 3</Text>
             </View>
@@ -134,10 +145,12 @@ function KYCRetireWithSpouseScreen({navigation}){
             {
              showExtra && (
             <>
-            <View style={[styles.centerView,{marginTop: 20, padding: 10, borderRadius: 20, backgroundColor:"#555"}]}>
-            <MaterialCommunityIcons name="information" color="#fff" size={18} />
-              <Text style={[styles.subHeader,styles.textWhite,{fontSize: 16, color: "#fff"}]}>Why are we asking you this?</Text>           
+            {
+              showWhy && (
+            <View style={[styles.centerView,{marginTop: 20,marginBottom: 30, backgroundColor: "#bebebe", padding: 20, borderRadius: 50}]}>
+              <Text style={styles.textWhite}>This information will enable us to plan your retirement planning and goals more accurately.</Text>
             </View>
+              )}
  
                <View style={styles.borderBox}>
                 <View style={styles.centerView}>
