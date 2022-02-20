@@ -21,12 +21,12 @@ function InitScreen({navigation}){
                ctx.setLoggedIn(true);
                 if(hasDoneSetup && hasDoneSetup != null && hasDoneSetup == "yes"){
                     ctx.setHasDoneSetup(true);
-                   // navigation.navigate('AppTab');
+                    navigation.navigate('AppTab');
                 }
                 else{
                     //TODO: check the current level in the onboarding journey...
                     //... and navigate to the appropriat screen
-                   // navigation.navigate('SetupStack');
+                    navigation.navigate('SetupStack');
                 }
             }
             else{
