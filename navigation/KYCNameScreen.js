@@ -90,7 +90,7 @@ function KYCNameScreen({navigation}){
                 lname: lname,
                 title: title
             })
-            navigation.navigate('KYCBirthday');
+            navigation.navigate('KYCRetirementAge');
         }
         
     }

@@ -70,6 +70,7 @@ function KYCRetirementAgeScreen({navigation}){
               
             };
             
+            /*
 							 let userInfo = await axios({
 								method: "patch",
 								url: url3,
@@ -87,6 +88,13 @@ function KYCRetirementAgeScreen({navigation}){
                  setNextButtonDisabled(false);
                  navigation.navigate('KYCRetireWithSpouse');
                }
+               */
+              setTimeout(() => {
+                setIsLoading(false);
+                setNextButtonDisabled(false);
+                navigation.navigate('KYCRetireWithSpouse');
+              },3000);
+               
         }
         
     }
