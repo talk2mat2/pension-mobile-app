@@ -28,6 +28,7 @@
     "expo-auth-session": "~3.5.0",
     "expo-crypto": "^10.1.1",
     "expo-dev-client": "^0.8.3",
+    "expo-font": "~10.0.4",
     "expo-local-authentication": "^12.1.0",
     "expo-notifications": "^0.14.0",
     "expo-random": "~12.1.1",
@@ -36,8 +37,10 @@
     "expo-status-bar": "^1.2.0",
     "expo-web-browser": "~10.1.0",
     "graphql": "^16.2.0",
+    "i": "^0.3.7",
     "js-crypto-random": "^1.0.3",
     "jwt-decode": "^3.1.2",
+    "npm": "^8.5.2",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
@@ -50,10 +53,11 @@
     "react-native-really-awesome-button": "^1.6.0",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-slider": "^0.11.0",
+    "react-native-swiper": "^1.6.0",
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
-    "expo-font": "~10.0.4"
+    "swiper": "^8.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
