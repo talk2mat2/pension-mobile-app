@@ -79,6 +79,7 @@ function KYCNameScreen({navigation}){
      }
 
     const _next = () => {
+      return navigation.navigate('KYCBirthday');
         if(title == "" || fname == "" || lname == ""){
             if(title == "none") setTitleValidation(true);
             if(fname == "") setFnameValidation(true);
@@ -90,7 +91,7 @@ function KYCNameScreen({navigation}){
                 lname: lname,
                 title: title
             })
-            navigation.navigate('KYCRetirementAge');
+            navigation.navigate('KYCBirthday');
         }
         
     }
@@ -122,7 +123,7 @@ function KYCNameScreen({navigation}){
             </View>
  
             <View style={[styles.formGroup,{marginLeft: 20}]}>
-                <View style={styles.centerView, {paddingVertical: 5}}>
+                <View style={styles.centerView, {paddingVertical: 2}}>
                    <Picker
                      selectedValue={title}
                      onValueChange={(itemValue, itemIndex) =>{
