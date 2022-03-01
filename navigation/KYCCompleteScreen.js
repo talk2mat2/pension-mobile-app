@@ -11,7 +11,7 @@ function KYCCompleteScreen({navigation}){
     const [buttonBackground,setButtonBackground] = useState("#77f");
 
     const _next = () => {
-       // navigation.navigate('KYCName');
+       navigation.navigate('RTStack');
     }
 
 	return (

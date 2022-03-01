@@ -5,4 +5,5 @@ export const myColorsLight = {
   lightGreyDark: "#6a6a6a",
   white: "#fff",
   black: "#000",
+  greyPrimary:'#d9dadc'
 };

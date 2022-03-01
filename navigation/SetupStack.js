@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 
 function SetupStack() {
   return (
-    <Stack.Navigator initialRouteName="CPStack">
+    <Stack.Navigator initialRouteName="KYCStac">
       <Stack.Screen
         name="KYC"
         options={{ headerShown: false }}
