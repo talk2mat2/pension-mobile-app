@@ -4,13 +4,14 @@ import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import StatePensionModal from "./statePensionModal";
+import { myColorsLight } from "../constant/colors";
 const CPSwipper = () => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   return (
     <>
       <StatePensionModal {...{ visible, setVisible }} />
-      <View style={{ height: 160 }}>
+      <View style={{ height: 200 }}>
         <Swiper
           paginationStyle={{
             bottom: 0,
@@ -18,7 +19,7 @@ const CPSwipper = () => {
           activeDot={
             <View
               style={{
-                backgroundColor: "#000",
+                backgroundColor: myColorsLight.black,
                 width: 13,
                 height: 13,
                 borderRadius: 7,
@@ -46,7 +47,7 @@ const CPSwipper = () => {
                       style={{ textAlign: "center", fontWeight: "600" }}
                       name="pluscircle"
                       size={37}
-                      color="black"
+                      color={myColorsLight.lightGreyDim}
                     />
                   </TouchableOpacity>
                 </View>
@@ -96,11 +97,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   jarContainer: {
-    padding: 7,
+    padding: 10,
     margin: 4,
-    borderColor: "#fff",
+    borderColor: "#a9a9a9",
     borderWidth: 3,
-    borderRadius: 6,
+    borderRadius: 20,
   },
   slide2: {
     flex: 1,

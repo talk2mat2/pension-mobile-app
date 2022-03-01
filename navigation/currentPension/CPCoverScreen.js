@@ -27,12 +27,12 @@ function CpCoverScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../assets/cover.jpg")}
+        // source={require("../../assets/cov.png")}
         resizeMode="cover"
         style={styles.imageBackground}
       >
         <View style={{ marginTop: 10 }}>
-          <Text style={[styles.subHeader, styles.textWhite]}>
+          <Text style={[styles.subHeader]}>
             Planning your{"\n"}
             retirement now is{"\n"}
             the best thing you{"\n"}
@@ -41,7 +41,7 @@ function CpCoverScreen({ navigation }) {
           </Text>
         </View>
         <View style={{ marginTop: 30 }}>
-          <Text style={[styles.midsubHeader, styles.textWhite]}>
+          <Text style={[styles.midsubHeader, ]}>
             Now that we have your desired{"\n"}
             retirement lifestyle lets start{"\n"}
             building your retirement fund.{"\n"}

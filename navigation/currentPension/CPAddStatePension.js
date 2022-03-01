@@ -19,6 +19,8 @@ import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CPSwipper from "../../components/CPSwipper";
 import CPDatatable from "../../components/CPDatatable";
+import { myColorsLight } from "../../constant/colors";
+import { LinearGradient } from "expo-linear-gradient";
 
 function CPAddStatePension({ navigation }) {
   const ctx = useContext(UserContext);
@@ -32,110 +34,112 @@ function CPAddStatePension({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/cover.jpg")}
-        resizeMode="cover"
-        style={styles.imageBackground}
+      <LinearGradient
+        // Background Linear Gradient
+        colors={[myColorsLight.lighterGrey, "transparent"]}
+        style={styles.background}
+      />
+      <View
+        style={{
+          marginTop: 30,
+          alignContent: "flex-start",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
       >
-        <View
-          style={{
-            marginTop: 30,
-            alignContent: "flex-start",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute", left: 10 }}>
-            <Pressable onPress={_goBack}>
-              <MaterialCommunityIcons
-                name="chevron-left-circle-outline"
-                color="#fff"
-                size={40}
-              />
-            </Pressable>
-          </View>
+        <View style={{ position: "absolute", left: 10 }}>
+          <Pressable onPress={_goBack}>
+            <MaterialCommunityIcons
+              name="chevron-left-circle-outline"
+              color={myColorsLight.lightGreyDark}
+              size={40}
+            />
+          </Pressable>
+        </View>
 
+        <View>
           <View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  styles.textWhite,
-                  { fontSize: 20, textAlign: "center" },
-                ]}
-              >
-                Step 2 of 7
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  styles.textWhite,
-                  { fontSize: 15, textAlign: "center" },
-                ]}
-              >
-                Current Pensions & Savings
-              </Text>
-            </View>
+            <Text
+              style={[
+                styles.loginText,
+                ,
+                { fontSize: 20, textAlign: "center" },
+              ]}
+            >
+              Step 2 of 7
+            </Text>
+          </View>
+          <View>
+            <Text
+              style={[
+                styles.loginText,
+                ,
+                { fontSize: 15, textAlign: "center", fontWeight: "bold" },
+              ]}
+            >
+              Current Pensions & Savings
+            </Text>
           </View>
         </View>
+      </View>
 
-        <View
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 25,
+        }}
+      />
+      <View style={{ marginTop: 10 }}>
+        <Text
           style={{
-            ...styles.hrView,
-            width: "90%",
-            alignSelf: "center",
-            marginTop: 25,
-          }}
-        />
-        <View style={{ marginTop: 10 }}>
-          <Text
-            style={{
-              ...styles.subHeader,
-              ...styles.textWhite,
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
-          >
-            Add State Pensions
-          </Text>
-        </View>
-        <View
-          style={{
-            ...styles.hrView,
-            width: "90%",
-            alignSelf: "center",
-            marginTop: 10,
-          }}
-        />
-        <View style={{ marginTop: 30 }}>
-          <CPSwipper />
-        </View>
-        <View style={{ marginTop: 30, alignItems: "center" }}>
-          <TouchableOpacity>
-            <View style={styles.btnIdont}>
-              <Text>I don’t have a State Pension</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.footerContainer}>
-          <CPDatatable />
-        </View>
-        <View
-          style={{
-            marginTop: 30,
-            width: "70%",
-            alignSelf: "center",
-            marginBottom: 20,
+            ...styles.subHeader,
+            textAlign: "center",
+            fontWeight: "bold",
           }}
         >
-          <ProgressBar progress={1} color="#fff" />
-          <Text style={{ textAlign: "center", color: "#fff", fontSize: 20 }}>
-            2/2
-          </Text>
-        </View>
-      </ImageBackground>
+          Add State Pensions
+        </Text>
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 10,
+        }}
+      />
+      <View style={{ marginTop: 30 }}>
+        <CPSwipper />
+      </View>
+      <View style={{ marginTop: 7, alignItems: "center" }}>
+        <TouchableOpacity>
+          <View style={styles.btnIdont}>
+            <Text style={{ fontWeight: "900" }}>
+              I don’t have a State Pension
+            </Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.footerContainer}>
+        <CPDatatable />
+      </View>
+      <View
+        style={{
+          marginTop: 30,
+          width: "50%",
+          alignSelf: "center",
+          marginBottom: 20,
+        }}
+      >
+        <ProgressBar
+          progress={0.3}
+          color={myColorsLight.lightGreyDark}
+          style={{ height: 7 }}
+        />
+        <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
+      </View>
     </View>
   );
 }
@@ -147,7 +151,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     marginTop: 10,
   },
-
+  background: {
+    height: 100,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    right: 0,
+  },
   container: {
     flex: 1,
     backgroundColor: "#fff",
@@ -157,7 +168,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     height: "90%",
-    width:'80%',
+    width: "80%",
     padding: 20,
     paddingTop: 20,
     backgroundColor: "white",
@@ -171,14 +182,14 @@ const styles = StyleSheet.create({
     // backgroundColor: "#f1f3f2",
     height: 200,
     marginTop: "auto",
-    borderTopColor: "#bbb",
-    borderLeftColor: "#bbb",
-    borderRightColor: "#bbb",
+    borderTopColor: myColorsLight.lightGreyDark,
+    borderLeftColor: myColorsLight.lightGreyDark,
+    borderRightColor: myColorsLight.lightGreyDark,
     borderTopWidth: 2,
     borderRightWidth: 2,
     borderLeftWidth: 2,
     paddingTop: 20,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
   cardsContainer: {
     marginTop: 17,
@@ -193,13 +204,11 @@ const styles = StyleSheet.create({
   btnIdont: {
     padding: 3,
     borderRadius: 10,
-    backgroundColor: "#f1f3f2",
+    borderWidth: 2,
+    borderColor: myColorsLight.lightGreyDark,
+    backgroundColor: myColorsLight.lighterGrey,
     width: 200,
     alignItems: "center",
-    elevation: 3,
-    shadowColor: "#171717",
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.4,
     shadowRadius: 2,
   },
   centerView: {

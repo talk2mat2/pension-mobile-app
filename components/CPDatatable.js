@@ -1,7 +1,7 @@
 import React from "react";
 import Swiper from "react-native-swiper";
 import { View, Text, StyleSheet } from "react-native";
-import { DataTable } from "react-native-paper";
+import { myColorsLight } from "../constant/colors";
 const CPDatatable = () => {
   const tableData = [1, 2, 3, 4, 5];
   return (
@@ -9,6 +9,7 @@ const CPDatatable = () => {
       <Swiper
         paginationStyle={{
           bottom: 0,
+       
         }}
         activeDot={
           <View
@@ -28,24 +29,26 @@ const CPDatatable = () => {
         {tableData.map((data, index) => (
           <View key={index} style={styles.slide1}>
             <View style={styles.tableRow}>
-            <Text style={styles.textWhite}>Current Balance</Text>
-            <Text style={styles.textWhite}>£833,700</Text>
+              <Text style={styles.rowData}>Your Retirement Age</Text>
+              <Text style={styles.PriceDetail}>80</Text>
             </View>
             <View style={styles.tableRow}>
-            <Text style={styles.textWhite}>Current Balance</Text>
-            <Text style={styles.textWhite}>£833,700</Text>
+              <Text style={styles.rowData}>Spouses Retirement Age</Text>
+              <Text style={styles.PriceDetail}>85</Text>
             </View>
             <View style={styles.tableRow}>
-            <Text style={styles.textWhite}>Current Balance</Text>
-            <Text style={styles.textWhite}>£833,700</Text>
+              <Text style={styles.rowData}>
+                Desired Monthly Retirement Income{" "}
+              </Text>
+              <Text style={styles.PriceDetail}>£833,700</Text>
             </View>
             <View style={styles.tableRow}>
-            <Text style={styles.textWhite}>Current Balance</Text>
-            <Text style={styles.textWhite}>£833,700</Text>
+              <Text style={styles.rowData}>Required Pension Fund </Text>
+              <Text style={styles.PriceDetail}>£833,700</Text>
             </View>
             <View style={styles.tableRow}>
-            <Text style={styles.textWhite}>Current Balance</Text>
-            <Text style={styles.textWhite}>£833,700</Text>
+              <Text style={styles.rowData}>Current Balance </Text>
+              <Text style={styles.PriceDetail}>£000,000</Text>
             </View>
           </View>
         ))}
@@ -60,20 +63,25 @@ const styles = StyleSheet.create({
 
     width: "100%",
   },
- 
+  PriceDetail: {
+    fontWeight: "bold",
+  },
+  rowData: {
+    color: myColorsLight.lightGreyDark,
+    fontWeight: "900",
+  },
   tableRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
- 
-    borderBottomColor: "#808080",
+
+    borderBottomColor: myColorsLight.lightGrey,
     borderBottomWidth: 2,
-    paddingVertical:6,
-   
+    paddingVertical: 4,
   },
-  textWhite:{
-      color:'#fff'
-  }
+  textWhite: {
+    color: "#fff",
+  },
 });
 
 export default CPDatatable;
