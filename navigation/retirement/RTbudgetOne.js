@@ -182,7 +182,7 @@ function RTbudgetOne({ navigation }) {
           <View style={{ ...styles.hrView, marginTop: 1 }} />
         </ScrollView>
       </View>
-      <View style={{ marginTop: 50, width: "50%", alignSelf: "center" }}>
+      <View style={{ marginTop: 50, width: "50%", alignSelf: "center",paddingTop:35 }}>
         <ProgressBar
           progress={0.5}
           color={myColorsLight.lightGreyDark}

@@ -152,7 +152,7 @@ function KYCNameScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
+      <View style={{ marginTop: 100, paddingHorizontal: 20,marginbottom:80 }}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
           <Text style={[styles.subHeader, { textAlign: "center" }]}>
             Let’s get to know you {"\n"}a little bit better,{"\n"} what's your
@@ -168,13 +168,13 @@ function KYCNameScreen({ navigation }) {
               setTitle(itemValue);
               setTitleValidation(false);
             }}
-            style={{ height: 50, padding: 0 ,margin:0}}
+            style={{ height: 50, padding: 0, margin: 0 }}
           >
-            <Picker.Item  label="Select title" value="none" />
+            <Picker.Item label="Select title" value="none" />
             <Picker.Item label="Mr" value="mr" />
-              <Picker.Item label="Mrs" value="mrs" />
-              <Picker.Item label="Miss" value="miss" />
-              <Picker.Item label="Dr" value="dr" />
+            <Picker.Item label="Mrs" value="mrs" />
+            <Picker.Item label="Miss" value="miss" />
+            <Picker.Item label="Dr" value="dr" />
           </Picker>
         </View>
         {titleValidation && (
@@ -218,25 +218,33 @@ function KYCNameScreen({ navigation }) {
             <Text style={styles.inputError}>Please input your last name</Text>
           </View>
         )}
-
-        <View style={{ width: "100%", marginTop: 10 }}>
-          <View style={[{ marginTop: 60, alignItems: "center" }]}>
-            <JarvisButton
-              style={[styles.loginButton, { marginTop: 10 }]}
-              bgcolor={myColorsLight.black}
-              play={_next}
-              w="50%"
-              btn="Next"
-            />
-          </View>
-          <View style={{ marginTop: 40, width: "50%", alignSelf: "center" }}>
-            <ProgressBar
-              progress={0.2}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>1/5</Text>
-          </View>
+      </View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+          <JarvisButton
+            style={[styles.loginButton, { marginTop: 10 }]}
+            bgcolor={myColorsLight.black}
+            play={_next}
+            w="50%"
+            btn="Next"
+          />
+        </View>
+        <View style={{ marginTop: 40, width: "50%", alignSelf: "center" ,paddingBottom:20}}>
+          <ProgressBar
+            progress={0.2}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>1/5</Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -277,7 +285,7 @@ const styles = StyleSheet.create({
   formInput: {
     padding: 1,
     height: 38,
-    paddingHorizontal:8
+    paddingHorizontal: 8,
   },
   formGroupError: {
     marginTop: 5,

@@ -321,7 +321,7 @@ function KYCRetirementAgeScreen({ navigation }) {
           </View>
         )}
 
-        <View style={{ width: "100%", marginTop: 80 }}>
+        {/* <View style={{ width: "100%", marginTop: 80 }}>
      
           <View style={[styles.centerView, { marginTop: 60 }]}>
             <JarvisButton
@@ -342,6 +342,41 @@ function KYCRetirementAgeScreen({ navigation }) {
             <Text style={{ textAlign: "center", fontSize: 20 }}>3/5</Text>
           </View>
           {isLoading && <JarvisLoading color="#fff" text="Please wait" />}
+        </View> */}
+      </View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+          <JarvisButton
+            style={[styles.loginButton, { marginTop: 10 }]}
+            bgcolor={myColorsLight.black}
+            play={_next}
+            w="50%"
+            btn="Next"
+          />
+        </View>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 20,
+          }}
+        >
+          <ProgressBar
+            progress={0.6}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>3/5</Text>
         </View>
       </View>
     </MyGradientBackground>

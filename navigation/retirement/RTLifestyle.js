@@ -88,7 +88,7 @@ function RTLifestyle({ route, navigation }) {
           marginTop: 30,
         }}
       />
-      <ScrollView>
+      <ScrollView style={{marginBottom:120}}>
         <View style={{ marginTop: 25 }}>
           <Text
             style={{
@@ -217,24 +217,26 @@ function RTLifestyle({ route, navigation }) {
               marginTop: 10,
             }}
           />
-          <View style={{ alignItems: "center", marginTop: 20 }}>
-            <JarvisButton
-              bgcolor={myColorsLight.black}
-              play={_next}
-              btn="Continue"
-              w={200}
-            />
-          </View>
-          <View style={{ marginTop: 40, width: "50%", alignSelf: "center" }}>
-            <ProgressBar
-              progress={1}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
-          </View>
         </View>
       </ScrollView>
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <JarvisButton
+            bgcolor={myColorsLight.black}
+            play={_next}
+            btn="Continue"
+            w={200}
+          />
+        </View>
+        <View style={{ marginTop: 40, width: "50%", alignSelf: "center",paddingBottom:10 }}>
+          <ProgressBar
+            progress={1}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
+        </View>
+      </View>
     </MyGradientBackground>
   );
 }

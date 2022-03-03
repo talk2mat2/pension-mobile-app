@@ -170,7 +170,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   },
                 ]}
               >
-                Step 4 of 6
+                Step 4 of 5
               </Text>
             </View>
             <View>
@@ -339,7 +339,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
         </View>
       </ScrollView>
       <View style={{ width: "100%", marginTop: "auto", marginBottom: 20 }}>
-        <View style={[styles.centerView]}>
+        {/* <View style={[styles.centerView]}>
           <JarvisButton
             style={[styles.loginButton, { marginTop: 5 }]}
             bgcolor={myColorsLight.black}
@@ -347,14 +347,49 @@ function KYCRetireWithSpouseScreen({ navigation }) {
             w="50%"
             btn="Next"
           />
-        </View>
-        <View style={{ marginTop: 50, width: "50%", alignSelf: "center" }}>
+        </View> */}
+        {/* <View style={{ marginTop: 50, width: "50%", alignSelf: "center" }}>
           <ProgressBar
-            progress={0.6}
+            progress={0.8}
             color={myColorsLight.lightGreyDark}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>4/6</Text>
+          <Text style={{ textAlign: "center", fontSize: 20 }}>4/5</Text>
+        </View> */}
+      </View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+          <JarvisButton
+            style={[styles.loginButton, { marginTop: 10 }]}
+            bgcolor={myColorsLight.black}
+            play={_next}
+            w="50%"
+            btn="Next"
+          />
+        </View>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 20,
+          }}
+        >
+          <ProgressBar
+            progress={0.7}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>4/5</Text>
         </View>
       </View>
     </MyGradientBackground>

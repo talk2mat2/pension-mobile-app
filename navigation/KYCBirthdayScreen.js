@@ -105,7 +105,7 @@ function KYCBirthdayScreen({ navigation }) {
                 },
               ]}
             >
-              Step 3 of 5
+              Step 2 of 5
             </Text>
           </View>
           <View>
@@ -123,7 +123,12 @@ function KYCBirthdayScreen({ navigation }) {
       </View>
       <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text style={[styles.subHeader, { textAlign: "center",fontWeight:'bold' }]}>
+          <Text
+            style={[
+              styles.subHeader,
+              { textAlign: "center", fontWeight: "bold" },
+            ]}
+          >
             Thanks {u.attributes.fname} {"\n"}
             please tell us your {"\n"}
             date of birth? {"\n"}
@@ -215,7 +220,7 @@ function KYCBirthdayScreen({ navigation }) {
           )}
         </View>
 
-        <View style={{ width: "100%", marginTop: 30 }}>
+        {/* <View style={{ width: "100%", marginTop: 30 }}>
           <View style={[styles.centerView]}>
             <JarvisButton
               style={[styles.loginButton, { marginTop: 10 }]}
@@ -233,6 +238,41 @@ function KYCBirthdayScreen({ navigation }) {
             />
             <Text style={{ textAlign: "center", fontSize: 20 }}>2/5</Text>
           </View>
+        </View> */}
+      </View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+          <JarvisButton
+            style={[styles.loginButton, { marginTop: 10 }]}
+            bgcolor={myColorsLight.black}
+            play={_next}
+            w="50%"
+            btn="Next"
+          />
+        </View>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 20,
+          }}
+        >
+          <ProgressBar
+            progress={0.4}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>2/5</Text>
         </View>
       </View>
     </MyGradientBackground>
