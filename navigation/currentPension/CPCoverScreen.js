@@ -15,6 +15,8 @@ const axios = require("axios");
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
+import MyGradientBackground from "../../components/grdientBackGround";
+import { myColorsLight } from "../../constant/colors";
 
 function CpCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -25,44 +27,38 @@ function CpCoverScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        // source={require("../../assets/cov.png")}
-        resizeMode="cover"
-        style={styles.imageBackground}
-      >
-        <View style={{ marginTop: 10 }}>
-          <Text style={[styles.subHeader]}>
-            Planning your{"\n"}
-            retirement now is{"\n"}
-            the best thing you{"\n"}
-            can do for your{"\n"}
-            future self.
-          </Text>
-        </View>
-        <View style={{ marginTop: 30 }}>
-          <Text style={[styles.midsubHeader, ]}>
-            Now that we have your desired{"\n"}
-            retirement lifestyle lets start{"\n"}
-            building your retirement fund.{"\n"}
-          </Text>
-        </View>
+    <MyGradientBackground>
+      <View style={{ marginTop: '40%' }}>
+        <Text style={[styles.subHeader]}>
+          Planning your{"\n"}
+          retirement now is{"\n"}
+          the best thing you{"\n"}
+          can do for your{"\n"}
+          future self.
+        </Text>
+      </View>
+      <View style={{ marginTop: 30 }}>
+        <Text style={[styles.midsubHeader]}>
+          Now that we have your desired{"\n"}
+          retirement lifestyle lets start{"\n"}
+          building your retirement fund.{"\n"}
+        </Text>
+      </View>
 
-        <>
-          <View style={{ width: "100%", marginTop: 7 }}>
-            <View style={[styles.centerView, { marginTop: 30 }]}>
-              <JarvisButton
-                style={[styles.continueButton, { marginTop: 90 }]}
-                bgcolor={buttonBackground}
-                play={_next}
-                btn="Continue"
-                w="55%"
-              />
-            </View>
+      <>
+        <View style={{ width: "100%", marginTop: 7 }}>
+          <View style={[styles.centerView, { marginTop: 30 }]}>
+            <JarvisButton
+              style={[styles.continueButton, { marginTop: 90 }]}
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+              w="50%"
+            />
           </View>
-        </>
-      </ImageBackground>
-    </View>
+        </View>
+      </>
+    </MyGradientBackground>
   );
 }
 
@@ -77,8 +73,9 @@ const styles = StyleSheet.create({
   midsubHeader: {
     textAlign: "center",
     fontSize: 16,
-    fontWeight: "300",
+    fontWeight: "500",
     letterSpacing: 1.4,
+    color:myColorsLight.lightGreyDim
   },
   textCenter: {
     textAlign: "center",

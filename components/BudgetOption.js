@@ -10,26 +10,22 @@ import { Ionicons } from "@expo/vector-icons";
 import { DataTable } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
+import { myColorsLight } from "../constant/colors";
 
-const BudgetOption = ({ type, _next }) => {
+const BudgetOption = ({ type, _next, budetData }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const toggle = () => setItsOpen(!itsOpen);
+
   return (
     <View style={styles.container}>
       <View style={styles.hrView} />
       <TouchableOpacity onPress={toggle}>
         <View style={styles.optionsItem}>
           <View>
-            <Text style={[styles.subHeader, styles.textWhite]}>
-              BudgetLevel
-            </Text>
+            <Text style={[styles.subHeader]}>Budget Level</Text>
             <Text
-              style={[
-                styles.subHeader,
-                styles.textWhite,
-                { fontWeight: "bold", fontSize: 19 },
-              ]}
+              style={[styles.subHeader, { fontWeight: "bold", fontSize: 19 }]}
             >
               {type}
             </Text>
@@ -56,9 +52,24 @@ const BudgetOption = ({ type, _next }) => {
         <View style={styles.content}>
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.accordionBody}>
-              <Text style={{ ...styles.textWriteUp, fontWeight: "bold" }}>
-                OverView
-              </Text>
+              <View
+                style={{
+                  marginBottom: 10,
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ ...styles.textWriteUp, fontWeight: "bold" }}>
+                  OverView
+                </Text>
+                <JarvisButton
+                  bgcolor={myColorsLight.black}
+                  play={_next.bind(this, budetData)}
+                  btn="Set Budget"
+                  w={100}
+                />
+              </View>
               <Text style={styles.textWriteUp}>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
                 lobortis, diam vel finibus commodo, nibh nulla ullamcorper nisl,
@@ -67,7 +78,7 @@ const BudgetOption = ({ type, _next }) => {
                 arcu ac
               </Text>
 
-              <View style={{ height: 160 }}>
+              <View style={{ height: 300 }}>
                 <View style={{ paddingBottom: 60 }}>
                   <DataTable>
                     <DataTable.Header>
@@ -78,22 +89,30 @@ const BudgetOption = ({ type, _next }) => {
                         <Text style={{ ...styles.textMid }}>Monthly Cost</Text>
                       </DataTable.Title>
                     </DataTable.Header>
-                    <DataTable.Row>
-                      <DataTable.Cell style={styles.cell}>
-                        <AntDesign
-                          name="car"
-                          size={24}
-                          style={{ ...styles.textMid }}
-                        />
-                        <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
-                          {"  "} Transport
-                        </Text>
-                      </DataTable.Cell>
+                    {/* {budetData?.length > 0 &&
+                      budetData.map((item,index) => (
+                        <DataTable.Row key={index}>
+                          <DataTable.Cell style={styles.cell}>
+                            <AntDesign
+                              name="car"
+                              size={24}
+                              style={{ ...styles.textMid }}
+                            />
+                            <Text
+                              style={{ ...styles.textMid, fontWeight: "bold" }}
+                            >
+                              {"  "} {item.name}
+                            </Text>
+                          </DataTable.Cell>
 
-                      <DataTable.Cell numeric>
-                        <Text style={{ ...styles.textMid }}>£400</Text>
-                      </DataTable.Cell>
-                    </DataTable.Row>
+                          <DataTable.Cell numeric>
+                            <Text style={{ ...styles.textMid }}>
+                              £{item.value}
+                            </Text>
+                          </DataTable.Cell>
+                        </DataTable.Row>
+                      ))} */}
+
                     <DataTable.Row>
                       <DataTable.Cell style={styles.cell}>
                         <AntDesign
@@ -107,7 +126,9 @@ const BudgetOption = ({ type, _next }) => {
                       </DataTable.Cell>
 
                       <DataTable.Cell numeric>
-                        <Text style={{ ...styles.textMid }}>£400</Text>
+                        <Text style={{ ...styles.textMid }}>
+                          £{budetData["Food & drink"]}
+                        </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
                     <DataTable.Row>
@@ -118,12 +139,14 @@ const BudgetOption = ({ type, _next }) => {
                           style={{ ...styles.textMid }}
                         />
                         <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
-                          {"  "} Transport
+                          {"  "} House
                         </Text>
                       </DataTable.Cell>
 
                       <DataTable.Cell numeric>
-                        <Text style={{ ...styles.textMid }}>£400</Text>
+                        <Text style={{ ...styles.textMid }}>
+                          £{budetData["House"]}
+                        </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
                     <DataTable.Row>
@@ -134,12 +157,50 @@ const BudgetOption = ({ type, _next }) => {
                           style={{ ...styles.textMid }}
                         />
                         <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
-                          {"  "} Transport
+                          {"  "} Holiday & Leisure
                         </Text>
                       </DataTable.Cell>
 
                       <DataTable.Cell numeric>
-                        <Text style={{ ...styles.textMid }}>£400</Text>
+                        <Text style={{ ...styles.textMid }}>
+                          £{budetData["Holidays & Leisure"]}
+                        </Text>
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                    <DataTable.Row>
+                      <DataTable.Cell style={styles.cell}>
+                        <AntDesign
+                          name="car"
+                          size={24}
+                          style={{ ...styles.textMid }}
+                        />
+                        <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
+                          {"  "} Clothing & Personal
+                        </Text>
+                      </DataTable.Cell>
+
+                      <DataTable.Cell numeric>
+                        <Text style={{ ...styles.textMid }}>
+                          £{budetData["Clothing & Personal"]}
+                        </Text>
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                    <DataTable.Row>
+                      <DataTable.Cell style={styles.cell}>
+                        <AntDesign
+                          name="car"
+                          size={24}
+                          style={{ ...styles.textMid }}
+                        />
+                        <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
+                          {"  "} Helping Others
+                        </Text>
+                      </DataTable.Cell>
+
+                      <DataTable.Cell numeric>
+                        <Text style={{ ...styles.textMid }}>
+                          £{budetData["Helping Others"]}
+                        </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
                     {/* <DataTable.Row>
@@ -169,19 +230,11 @@ const BudgetOption = ({ type, _next }) => {
                     }}
                   >
                     <View>
-                      <Text style={{ fontWeight: "bold", ...styles.textWhite }}>
-                        Monthly Budget
-                      </Text>
-                      <Text style={{ fontWeight: "bold", ...styles.textWhite }}>
-                        £209
+                      <Text style={{ fontWeight: "bold" }}>Monthly Budget</Text>
+                      <Text style={{ fontWeight: "bold" }}>
+                        £{budetData["Total (Gross)"]}
                       </Text>
                     </View>
-                    <JarvisButton
-                      bgcolor={buttonBackground}
-                      play={_next}
-                      btn="Set Budget"
-                      w={100}
-                    />
                   </View>
                 </View>
               </View>
@@ -198,8 +251,16 @@ export default BudgetOption;
 const styles = StyleSheet.create({
   container: {},
 
-  accordionBody: { paddingHorizontal: 30, marginBottom: 150 },
-  content: { minHeight: 300, paddingBottom: 40 },
+  accordionBody: {
+    paddingHorizontal: 30,
+    marginBottom: 80,
+  },
+  content: {
+    minHeight: 300,
+    paddingBottom: 40,
+    paddingTop: 10,
+    backgroundColor: myColorsLight.lighterGrey,
+  },
 
   optionsItem: {
     flexDirection: "row",
@@ -222,11 +283,12 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   textMid: {
-    color: "#f2f2f2",
+    color: myColorsLight.black,
   },
   textWriteUp: {
-    color: "#dcdcdc",
+    color: myColorsLight.lightGreyDark,
     fontSize: 16,
+    fontWeight: "900",
   },
   hrView: {
     width: "100%",

@@ -50,6 +50,7 @@ export default function App() {
   const [name, setName] = useState(null);
   const [atk, setAtk] = useState(null);
   const [rtk, setRtk] = useState(null);
+  const [budgetData, setBudgetData] = React.useState([]);
   const [etk, setEtk] = useState("");
   const [hasDoneSetup, setHasDoneSetup] = useState(false);
   const [online, setOnline] = useState(false);
@@ -119,6 +120,8 @@ export default function App() {
   });
 
   let ctx = {
+    budgetData,
+    setBudgetData,
     loggedIn: loggedIn,
     setLoggedIn: setLoggedIn,
     etk: etk,
@@ -144,7 +147,7 @@ export default function App() {
         }*/
 
   useEffect(() => {
-    //helpers.remove("pa_u");
+    // helpers.remove("pa_u");
     async function prepare() {
       try {
         //make any API calls you need to do here

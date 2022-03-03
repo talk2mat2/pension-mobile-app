@@ -33,6 +33,7 @@ function KYCBirthdayScreen({ navigation }) {
   const [birthday, setBirthday] = useState(tempDate);
   const [birthdayObject, setBirthdayObject] = useState("{}");
   const [birthdayValidation, setBirthdayValidation] = useState(false);
+  const [gender, setGender] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [genderValidation, setGenderValidation] = useState(false);
   const [birthdayDisplay, setBirthdayDisplay] = useState(
@@ -104,7 +105,7 @@ function KYCBirthdayScreen({ navigation }) {
                 },
               ]}
             >
-              Step 2 of 7
+              Step 3 of 5
             </Text>
           </View>
           <View>
@@ -120,15 +121,15 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={styles.container}>
+      <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text style={[styles.subHeader, { textAlign: "center" }]}>
+          <Text style={[styles.subHeader, { textAlign: "center",fontWeight:'bold' }]}>
             Thanks {u.attributes.fname} {"\n"}
             please tell us your {"\n"}
             date of birth? {"\n"}
           </Text>
         </View>
-        <View
+        {/* <View
           style={[
             styles.centerView,
             {
@@ -144,75 +145,77 @@ function KYCBirthdayScreen({ navigation }) {
           <Text style={[styles.subHeader, { fontSize: 16, color: "#fff" }]}>
             Why are we asking you this?
           </Text>
-        </View>
+        </View> */}
 
-        <View style={[{ alignSelf: "flex-start", marginLeft: 20 }]}>
-          <Text>Gender</Text>
-        </View>
-
-        <View style={[styles.formGroup, { marginLeft: 20 }]}>
-          <View style={(styles.centerView, { paddingVertical: 5 })}>
-            <Picker
-              selectedValue={u.attributes.gender}
-              onValueChange={(itemValue, itemIndex) => {
-                setGender(itemValue);
-                setGenderValidation(false);
-              }}
-              style={{}}
-            >
-              <Picker.Item label="Select gender" value="none" />
-              <Picker.Item label="Male" value="Male" />
-              <Picker.Item label="Female" value="Female" />
-              <Picker.Item label="Unknown" value="Unknown" />
-            </Picker>
+        <View style={{ alignItems: "center" }}>
+          <View style={[{ alignSelf: "flex-start", marginLeft: 25 }]}>
+            <Text>Gender</Text>
           </View>
-        </View>
-        {genderValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={styles.inputError}>Please select a title</Text>
-          </View>
-        )}
-
-        <View style={styles.formGroup}>
-          <View
-            style={[styles.centerView, { paddingVertical: 5, marginTop: 10 }]}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
-              <JarvisButton
-                style={[styles.loginButton, { marginVertical: 10 }]}
-                bgcolor="#ff6c00"
-                play={() => {
-                  setShowDatePicker(true);
+          <View style={[styles.formGroup]}>
+            <View style={(styles.centerView, { paddingVertical: 5 })}>
+              <Picker
+                selectedValue={u.attributes.gender}
+                onValueChange={(itemValue, itemIndex) => {
+                  setGender(itemValue);
+                  setGenderValidation(false);
                 }}
-                btn="Select date"
-                w="50%"
-              />
+                itemStyle={{ minHeight: 50, padding: 0 }}
+                style={{ height: 50, padding: 0, margin: 0 }}
+              >
+                <Picker.Item label="Select gender" value="none" />
+                <Picker.Item label="Male" value="Male" />
+                <Picker.Item label="Female" value="Female" />
+                <Picker.Item label="Unknown" value="Unknown" />
+              </Picker>
             </View>
-
-            {showDatePicker && (
-              <DateTimePicker
-                testID="birthdayDateTimePicker"
-                value={birthday}
-                mode="date"
-                is24Hour={true}
-                display="default"
-                onChange={(e, d) => {
-                  if (typeof d != "undefined") {
-                    updateBirthday(d);
-                  }
-                }}
-              />
-            )}
           </View>
+          {genderValidation && (
+            <View style={styles.formGroupError}>
+              <Text style={styles.inputError}>Please select a title</Text>
+            </View>
+          )}
+
+          <View style={styles.formGroup}>
+            <View
+              style={[styles.centerView, { paddingVertical: 5, marginTop: 10 }]}
+            >
+              <View style={{ flexDirection: "row" }}>
+                <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
+                <JarvisButton
+                  style={[styles.loginButton, { marginVertical: 10 }]}
+                  bgcolor="#ff6c00"
+                  play={() => {
+                    setShowDatePicker(true);
+                  }}
+                  btn="Select date"
+                  w="50%"
+                />
+              </View>
+
+              {showDatePicker && (
+                <DateTimePicker
+                  testID="birthdayDateTimePicker"
+                  value={birthday}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={(e, d) => {
+                    if (typeof d != "undefined") {
+                      updateBirthday(d);
+                    }
+                  }}
+                />
+              )}
+            </View>
+          </View>
+          {birthdayValidation && (
+            <View style={styles.formGroupError}>
+              <Text style={styles.inputError}>This field is required</Text>
+            </View>
+          )}
         </View>
-        {birthdayValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={styles.inputError}>This field is required</Text>
-          </View>
-        )}
 
-        <View style={{ width: "100%", marginTop: 100 }}>
+        <View style={{ width: "100%", marginTop: 30 }}>
           <View style={[styles.centerView]}>
             <JarvisButton
               style={[styles.loginButton, { marginTop: 10 }]}
@@ -222,11 +225,13 @@ function KYCBirthdayScreen({ navigation }) {
               btn="Next"
             />
           </View>
-          <View style={{ marginTop: 80, width: "80%", alignSelf: "center" }}>
-            <ProgressBar progress={0.2} color="#fff" />
-            <Text style={{ textAlign: "center", color: "#fff", fontSize: 20 }}>
-              2/5
-            </Text>
+          <View style={{ marginTop: 50, width: "50%", alignSelf: "center" }}>
+            <ProgressBar
+              progress={0.3}
+              color={myColorsLight.lightGreyDark}
+              style={{ height: 7 }}
+            />
+            <Text style={{ textAlign: "center", fontSize: 20 }}>2/5</Text>
           </View>
         </View>
       </View>
@@ -253,6 +258,7 @@ const styles = StyleSheet.create({
   textWhite: {
     color: "#fff",
   },
+
   imageBackground: {
     flex: 1,
     //justifyContent: "center",
@@ -275,6 +281,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderColor: "#bbb",
     borderRadius: 5,
+    borderWidth: 1,
+    borderRadius: 15,
+    marginBottom: 20,
   },
 
   formGroupError: {

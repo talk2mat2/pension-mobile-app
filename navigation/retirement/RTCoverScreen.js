@@ -15,6 +15,8 @@ const axios = require("axios");
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
+import MyGradientBackground from "../../components/grdientBackGround";
+import { myColorsLight } from "../../constant/colors";
 
 function RTCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -25,35 +27,30 @@ function RTCoverScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/cover.jpg")}
-        resizeMode="cover"
-        style={styles.imageBackground}
-      >
-        <View style={{ marginTop: 10 }}>
-          <Text style={[styles.subHeader, styles.textWhite]}>
-            To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
-            {"\n"}
-            know what monthly {"\n"} income you will need {"\n"}for your pension
-          </Text>
-        </View>
+    <MyGradientBackground>
+      <View style={{ marginTop: '45%' }}>
+        <Text style={[styles.subHeader]}>
+          To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
+          {"\n"}
+          know what monthly {"\n"} income you will need {"\n"}for your pension
+        </Text>
+      </View>
 
-        <>
-          <View style={{ width: "100%", marginTop: 30 }}>
-            <View style={[styles.centerView, { marginTop: 60 }]}>
-              <JarvisButton
-                style={[styles.continueButton, { marginTop: 90 }]}
-                bgcolor={buttonBackground}
-                play={_next}
-                btn="Continue"
-                w="55%"
-              />
-            </View>
+      <>
+        <View style={{ width: "100%", marginTop: 30 }}>
+          <View style={[styles.centerView, { marginTop: 60 }]}>
+            <JarvisButton
+              style={[styles.continueButton, { marginTop: 90 }]}
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+
+              w="50%"
+            />
           </View>
-        </>
-      </ImageBackground>
-    </View>
+        </View>
+      </>
+    </MyGradientBackground>
   );
 }
 

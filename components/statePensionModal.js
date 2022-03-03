@@ -11,6 +11,7 @@ import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
+import { myColorsLight } from "../constant/colors";
 const StatePensionModal = ({ visible, setVisible, showModal }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
@@ -90,7 +91,7 @@ const StatePensionModal = ({ visible, setVisible, showModal }) => {
         <View style={{ ...styles.hrView, marginTop: "40%" }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton
-            bgcolor={buttonBackground}
+            bgcolor={myColorsLight.black}
             play={_next}
             btn="Continue"
             w={200}

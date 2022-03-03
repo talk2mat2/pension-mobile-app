@@ -39,7 +39,7 @@ const CPSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <TouchableOpacity>
+                  <TouchableOpacity onPress={showModal}>
                     <Text style={{ textAlign: "center", fontWeight: "600" }}>
                       My{"\n"} State{"\n"} Pension
                     </Text>

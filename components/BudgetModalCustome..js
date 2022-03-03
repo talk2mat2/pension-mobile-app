@@ -7,13 +7,19 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { DataTable, Title } from "react-native-paper";
+import { DataTable, TextInput, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { myColorsLight } from "../constant/colors";
 
-const BudgetModal = ({ type, _next, budgetData, updateLifeStyleData }) => {
+const BudgetModalCustom = ({
+  type,
+  _next,
+  budgetData,
+  updateLifeStyleData,
+}) => {
   const [itsOpen, setItsOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const toggle = () => setItsOpen(!itsOpen);
   // React.useEffect(() => {
@@ -58,11 +64,11 @@ const BudgetModal = ({ type, _next, budgetData, updateLifeStyleData }) => {
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.accordionBody}>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>OverView</Text>
-              <Text style={styles.textWriteUp}>{budgetData?.summary}</Text>
+              <Text style={styles.textWriteUp}>Edit Rate</Text>
               <Text style={{ fontSize: 18, fontWeight: "bold" }}>
                 Description
               </Text>
-              <Text style={styles.textWriteUp}>{budgetData?.description}</Text>
+              <Text style={styles.textWriteUp}>Set custom value</Text>
               <View style={{ marginTop: 20 }}>
                 <View style={styles.hrView} />
               </View>
@@ -78,12 +84,18 @@ const BudgetModal = ({ type, _next, budgetData, updateLifeStyleData }) => {
                 <View>
                   <Text style={{ fontWeight: "bold" }}>Monthly Budget</Text>
                   <Text style={{ fontWeight: "bold" }}>
-                    £{budgetData?.value}
+                    £
+                    <TextInput
+                      style={{ height: 40 }}
+                      value={value}
+                      onChangeText={(text) => setValue(text)}
+                      keyboardType="numeric"
+                    />
                   </Text>
                 </View>
                 <JarvisButton
                   bgcolor={myColorsLight.black}
-                  play={() => updateLifeStyleData(budgetData?.value)}
+                  play={() => updateLifeStyleData(value)}
                   btn="Set Budget"
                   w={100}
                 />
@@ -96,7 +108,7 @@ const BudgetModal = ({ type, _next, budgetData, updateLifeStyleData }) => {
   );
 };
 
-export default BudgetModal;
+export default BudgetModalCustom;
 
 const styles = StyleSheet.create({
   container: {},

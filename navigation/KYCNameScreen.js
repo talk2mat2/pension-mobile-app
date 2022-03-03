@@ -22,7 +22,7 @@ function KYCNameScreen({ navigation }) {
   let navv = navigation;
   let u = ctx.u;
   //console.log("u: ",u);
-  let fullName = u.attributes.name.split(" ");
+  let fullName = u?.attributes.name.split(" ");
   let fn = u.attributes.fname,
     ln = u.attributes.lname;
   let tt = u.attributes.title,
@@ -136,7 +136,7 @@ function KYCNameScreen({ navigation }) {
                 },
               ]}
             >
-              Step 2 of 7
+              Step 1 of 5
             </Text>
           </View>
           <View>
@@ -231,7 +231,7 @@ function KYCNameScreen({ navigation }) {
           </View>
           <View style={{ marginTop: 40, width: "50%", alignSelf: "center" }}>
             <ProgressBar
-              progress={0.3}
+              progress={0.2}
               color={myColorsLight.lightGreyDark}
               style={{ height: 7 }}
             />

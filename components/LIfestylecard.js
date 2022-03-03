@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Dimensions,
@@ -12,14 +12,41 @@ import { MaterialIcons } from "@expo/vector-icons";
 import BudgetModal from "./BudgetModal";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { myColorsLight } from "../constant/colors";
+import UserContext from "../contexts/UserContext";
+import BudgetModalCustom from "./BudgetModalCustome.";
 
-const LIfestylecard = ({ children, onPress, title, amount, Icon }) => {
+const LIfestylecard = ({
+  children,
+  onPress,
+  title,
+  amount,
+  Icon,
+  lifestyleData,
+  setLifeStyleData,
+}) => {
+  const ctx = useContext(UserContext);
   const [visible, setVisible] = React.useState(false);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const containerStyle = { backgroundColor: "white", padding: 20 };
+  const listSelectedName = (name) => {
+    if (ctx.budgetData) {
+      let value = null;
+      ctx.budgetData?.map((items) => {
+        if (items.attributes.name === name) {
+          value = items;
+        }
+      });
+      return value;
+    }
+  };
 
+  const updateLifeStyleData = (newvalue) => {
+    setLifeStyleData({ ...lifestyleData, [title]: newvalue });
+    hideModal();
+  };
   return (
     <>
       <Portal>
@@ -53,10 +80,29 @@ const LIfestylecard = ({ children, onPress, title, amount, Icon }) => {
           </Text>
           <ScrollView>
             <View style={{ marginTop: 50 }}>
-              <BudgetModal _next={() => {}} type="Mimimum" />
-              <BudgetModal _next={() => {}} type="Moderate" />
-              <BudgetModal _next={() => {}} type="Comfortable" />
-              <BudgetModal _next={() => {}} type="Custom Budget" />
+              <BudgetModal
+                updateLifeStyleData={updateLifeStyleData}
+                budgetData={listSelectedName(title)?.attributes.minimum}
+                _next={() => {}}
+                type="Mimimum"
+              />
+              <BudgetModal
+                updateLifeStyleData={updateLifeStyleData}
+                budgetData={listSelectedName(title)?.attributes.moderate}
+                _next={() => {}}
+                type="Moderate"
+              />
+              <BudgetModal
+                updateLifeStyleData={updateLifeStyleData}
+                budgetData={listSelectedName(title)?.attributes.comfortable}
+                _next={() => {}}
+                type="Comfortable"
+              />
+              <BudgetModalCustom
+                updateLifeStyleData={updateLifeStyleData}
+                _next={() => {}}
+                type="Custom Budget"
+              />
             </View>
           </ScrollView>
         </Modal>
@@ -68,20 +114,13 @@ const LIfestylecard = ({ children, onPress, title, amount, Icon }) => {
             <MaterialCommunityIcons
               name="circle-edit-outline"
               size={24}
-              style={styles.textWhite}
-              
+              color={myColorsLight.lightGreyDim}
             />
           </View>
           {children}
           <View style={{ marginTop: "auto" }}>
-            <Text style={{ ...styles.cardTitle, ...styles.textWhite }}>
-              {title}
-            </Text>
-            <Text
-              style={{ ...styles.cardTitle, ...styles.textWhite, fontSize: 17 }}
-            >
-              {amount}
-            </Text>
+            <Text style={{ ...styles.cardTitle }}>{title}</Text>
+            <Text style={{ ...styles.cardTitle, fontSize: 17 }}>{amount}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -103,7 +142,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     padding: 10,
     paddingTop: "30%",
-    position:'relative'
+    position: "relative",
   },
   containerStyle: {
     height: "90%",

@@ -25,8 +25,14 @@ import { List } from "react-native-paper";
 import BudgetOption from "../../components/BudgetOption";
 import LIfestylecard from "../../components/LIfestylecard";
 import { ProgressBar } from "react-native-paper";
+import MyGradientBackground from "../../components/grdientBackGround";
+import { myColorsLight } from "../../constant/colors";
 
-function RTLifestyle({ navigation }) {
+function RTLifestyle({ route, navigation }) {
+  const { selectedData } = route.params;
+  const [lifestyleData, setLifeStyleData] = React.useState({
+    ...(selectedData || ""),
+  });
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
@@ -36,55 +42,76 @@ function RTLifestyle({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../../assets/cover.jpg")}
-        resizeMode="cover"
-        style={styles.imageBackground}
-      >
-        <View
-          style={{
-            marginTop: 30,
-            alignContent: "flex-start",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute", left: 10 }}>
-            <Pressable onPress={_goBack}>
-              <MaterialCommunityIcons
-                name="chevron-left-circle-outline"
-                color="#fff"
-                size={40}
-              />
-            </Pressable>
-          </View>
 
+  return (
+    <MyGradientBackground>
+      <View
+        style={{
+          marginTop: 30,
+          alignContent: "flex-start",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <View style={{ position: "absolute", left: 10 }}>
+          <Pressable onPress={_goBack}>
+            <MaterialCommunityIcons
+              name="chevron-left-circle-outline"
+              color="#fff"
+              size={40}
+            />
+          </Pressable>
+        </View>
+
+        <View>
           <View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  styles.textWhite,
-                  { fontSize: 20, textAlign: "center" },
-                ]}
-              >
-                Step 2 of 7
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  styles.textWhite,
-                  { fontSize: 15, textAlign: "center" },
-                ]}
-              >
-                Your Retirement Lifestyle
-              </Text>
-            </View>
+            <Text
+              style={[styles.loginText, { fontSize: 20, textAlign: "center" }]}
+            >
+              Step 2 of 2
+            </Text>
           </View>
+          <View>
+            <Text
+              style={[styles.loginText, { fontSize: 15, textAlign: "center" }]}
+            >
+              Your Retirement Lifestyle
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 30,
+        }}
+      />
+      <ScrollView>
+        <View style={{ marginTop: 25 }}>
+          <Text
+            style={{
+              ...styles.subHeader,
+
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
+          >
+            Here’s your Retirement{"\n"} Lifestyle Profile.
+          </Text>
+          <Text
+            style={{
+              ...styles.subHeader,
+
+              textAlign: "center",
+              fontSize: 17,
+              marginTop: 5,
+            }}
+          >
+            Click on the categories to adjust {"\n"}
+            your monthly budget
+          </Text>
         </View>
         <View
           style={{
@@ -94,31 +121,79 @@ function RTLifestyle({ navigation }) {
             marginTop: 30,
           }}
         />
-        <ScrollView>
-          <View style={{ marginTop: 25 }}>
-            <Text
-              style={{
-                ...styles.subHeader,
-                ...styles.textWhite,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Here’s your Retirement{"\n"} Lifestyle Profile.
-            </Text>
-            <Text
-              style={{
-                ...styles.subHeader,
-                ...styles.textWhite,
-                textAlign: "center",
-                fontSize: 17,
-                marginTop: 5,
-              }}
-            >
-              Click on the categories to adjust {"\n"}
-              your monthly budget
-            </Text>
-          </View>
+
+        <View style={styles.cardsContainer}>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="House"
+            amount={`£${lifestyleData?.House}`}
+            Icon="home"
+          >
+            <AntDesign
+              name="home"
+              size={30}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="Food & drink"
+            Icon="home"
+            amount={`£${lifestyleData?.["Food & drink"]}`}
+          >
+            <MaterialCommunityIcons
+              name="food-fork-drink"
+              size={30}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="Transport"
+            amount={`£${lifestyleData?.Transport}`}
+          >
+            <AntDesign
+              name="car"
+              size={30}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="Holidays & Leisure"
+            amount={`£${lifestyleData?.["Holidays & Leisure"]}`}
+          >
+            <Fontisto
+              name="holiday-village"
+              size={30}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="Clothing & Personal"
+            amount={`£${lifestyleData?.["Clothing & Personal"]}`}
+          >
+            <Ionicons
+              name="md-shirt"
+              size={30}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+          <LIfestylecard
+            {...{ lifestyleData, setLifeStyleData }}
+            title="Helping Others"
+            amount={`£${lifestyleData?.["Helping Others"]}`}
+          >
+            <FontAwesome5
+              name="hands-helping"
+              step
+              size={24}
+              color={myColorsLight.lightGreyDim}
+            />
+          </LIfestylecard>
+        </View>
+        <View style={{ marginBottom: 50 }}>
           <View
             style={{
               ...styles.hrView,
@@ -127,96 +202,40 @@ function RTLifestyle({ navigation }) {
               marginTop: 30,
             }}
           />
-
-          <View style={styles.cardsContainer}>
-            <LIfestylecard title="House" amount="£440" Icon="home">
-              <AntDesign name="home" size={30} style={styles.textWhite} />
-            </LIfestylecard>
-            <LIfestylecard title="Food & Drink" Icon="home" amount="£440">
-              <MaterialCommunityIcons
-                name="food-fork-drink"
-                size={30}
-                style={styles.textCenter}
-                style={styles.textWhite}
-              />
-            </LIfestylecard>
-            <LIfestylecard title="Transport" amount="£440">
-              <AntDesign name="car" size={30} style={styles.textWhite} />
-            </LIfestylecard>
-            <LIfestylecard
-              title="Holiday
-& Leisure"
-              amount="£440"
-            >
-              <Fontisto
-                name="holiday-village"
-                size={30}
-                style={styles.textWhite}
-              />
-            </LIfestylecard>
-            <LIfestylecard
-              title="Clothing
-& Personal"
-              amount="£440"
-            >
-              <Ionicons name="md-shirt" size={30} style={styles.textWhite} />
-            </LIfestylecard>
-            <LIfestylecard
-              title="Helping
-Others"
-              amount="£440"
-            >
-              <FontAwesome5
-                name="hands-helping"
-                size={24}
-                style={styles.textWhite}
-              />
-            </LIfestylecard>
+          <View style={styles.sum}>
+            <Text style={{ fontSize: 17 }}>Total Monthly Budget</Text>
+            <Text
+              style={{ fontSize: 17 }}
+            >{`£${lifestyleData?.["Total (Gross)"]}`}</Text>
           </View>
-          <View style={{ marginBottom: 50 }}>
-            <View
-              style={{
-                ...styles.hrView,
-                width: "90%",
-                alignSelf: "center",
-                marginTop: 30,
-              }}
-            />
-            <View style={styles.sum}>
-              <Text style={{ ...styles.textWhite, fontSize: 17 }}>
-                Total Monthly Budget
-              </Text>
-              <Text style={{ ...styles.textWhite, fontSize: 17 }}>£2779</Text>
-            </View>
 
-            <View
-              style={{
-                ...styles.hrView,
-                width: "90%",
-                alignSelf: "center",
-                marginTop: 10,
-              }}
+          <View
+            style={{
+              ...styles.hrView,
+              width: "90%",
+              alignSelf: "center",
+              marginTop: 10,
+            }}
+          />
+          <View style={{ alignItems: "center", marginTop: 20 }}>
+            <JarvisButton
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+              w={200}
             />
-            <View style={{ alignItems: "center", marginTop: 20 }}>
-              <JarvisButton
-                bgcolor={buttonBackground}
-                play={_next}
-                btn="Continue"
-                w={200}
-              />
-            </View>
-            <View style={{ marginTop: 30, width: "70%", alignSelf: "center" }}>
-              <ProgressBar progress={1} color="#fff" />
-              <Text
-                style={{ textAlign: "center", color: "#fff", fontSize: 20 }}
-              >
-                2/2
-              </Text>
-            </View>
           </View>
-        </ScrollView>
-      </ImageBackground>
-    </View>
+          <View style={{ marginTop: 40, width: "50%", alignSelf: "center" }}>
+            <ProgressBar
+              progress={1}
+              color={myColorsLight.lightGreyDark}
+              style={{ height: 7 }}
+            />
+            <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
+          </View>
+        </View>
+      </ScrollView>
+    </MyGradientBackground>
   );
 }
 
