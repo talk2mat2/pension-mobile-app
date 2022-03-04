@@ -6,10 +6,15 @@ import {
   TextInput,
   Pressable,
   ImageBackground,
+  TouchableOpacity,
+  ScrollView,
 } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
+import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 const axios = require("axios");
+import { AntDesign } from "@expo/vector-icons";
 import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
@@ -29,7 +34,10 @@ function KYCRetirementAgeScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
   const [showWhy, setShowWhy] = useState(false);
+  const [visible, setVisible] = React.useState(false);
 
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
   let navv = navigation;
 
   let ages = [];
@@ -116,6 +124,54 @@ function KYCRetirementAgeScreen({ navigation }) {
   const options = [...Array(100).keys()].slice(18).map((xx) => String(xx));
   return (
     <MyGradientBackground>
+      <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.containerStyle}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 10,
+            }}
+          >
+            <View style={{width:'100%',alignItems:'flex-end'}}>
+              <View style={styles.close}>
+                <TouchableOpacity onPress={hideModal}>
+                  <MaterialIcons
+                    name="cancel"
+                    size={24}
+                    color={myColorsLight.black}
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+
+          <ScrollView>
+            <View
+              style={[
+                styles.centerView,
+                {
+                  marginTop: 2,
+
+                  backgroundColor: "#bebebe",
+                  padding: 2,
+                  paddingBottom:20
+                },
+              ]}
+            >
+              <Text style={{}}>
+                This information will enable us to plan your retirement planning
+                and goals more accurately.
+              </Text>
+            </View>
+          </ScrollView>
+        </Modal>
+      </Portal>
       <View
         style={{
           marginTop: 30,
@@ -175,7 +231,7 @@ function KYCRetirementAgeScreen({ navigation }) {
             you like to retire?
           </Text>
         </View>
-        {showWhy && (
+        {/* {showWhy && (
           <View
             style={[
               styles.centerView,
@@ -192,9 +248,9 @@ function KYCRetirementAgeScreen({ navigation }) {
               and goals more accurately.
             </Text>
           </View>
-        )}
+        )} */}
         <View style={[styles.centerView, { marginTop: 10, marginBottom: 30 }]}>
-          <Chip icon="information" onPress={_showWhyPopup}>
+          <Chip icon="information" onPress={showModal}>
             Why are we asking you this?
           </Chip>
         </View>
@@ -338,7 +394,17 @@ const styles = StyleSheet.create({
   formInput: {
     padding: 5,
   },
-
+  close: {
+  
+    
+    zIndex: 9,
+    elevation: 3,
+  },
+  containerStyle: {
+    backgroundColor: "#bebebe",
+    padding: 2,
+    marginHorizontal: 20,
+  },
   inputError: {
     color: "red",
     fontWeight: "bold",
