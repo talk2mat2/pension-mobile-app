@@ -6,7 +6,10 @@ import {
   TextInput,
   ImageBackground,
   Pressable,
+  Alert,
 } from "react-native";
+
+import ModalDropdown from "react-native-modal-dropdown";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
@@ -20,13 +23,13 @@ import JarvisButton from "../components/JarvisButton";
 function KYCNameScreen({ navigation }) {
   const ctx = useContext(UserContext);
   let navv = navigation;
-  let u = ctx.u;
+  let u = ctx?.u;
   //console.log("u: ",u);
   let fullName = u?.attributes.name.split(" ");
-  let fn = u.attributes.fname,
-    ln = u.attributes.lname;
-  let tt = u.attributes.title,
-    g = u.attributes.gender;
+  let fn = u?.attributes.fname,
+    ln = u?.attributes.lname;
+  let tt = u?.attributes.title,
+    g = u?.attributes.gender;
   let ttt = "";
 
   if (!fn) {
@@ -46,7 +49,7 @@ function KYCNameScreen({ navigation }) {
   }
 
   const [buttonBackground, setButtonBackground] = useState("#77f");
-  const [title, setTitle] = useState(ttt);
+  const [title, setTitle] = useState(ttt || tt);
   const [fname, setFname] = useState(fn);
   const [lname, setLname] = useState(ln);
   const [fnameValidation, setFnameValidation] = useState(false);
@@ -88,6 +91,7 @@ function KYCNameScreen({ navigation }) {
   const _next = () => {
     // return navigation.navigate('KYCBirthday');
     if (title == "" || fname == "" || lname == "") {
+      Alert.alert("All fields are required");
       if (title == "none") setTitleValidation(true);
       if (fname == "") setFnameValidation(true);
       if (lname == "") setLnameValidation(true);
@@ -103,6 +107,8 @@ function KYCNameScreen({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
+  const options = ["none", "mrs", "miss", "mr"];
+
   return (
     <MyGradientBackground>
       <View
@@ -152,7 +158,9 @@ function KYCNameScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 100, paddingHorizontal: 20,marginbottom:80 }}>
+      <View
+        style={{ marginTop: 100, paddingHorizontal: 20, marginBottom: 120 }}
+      >
         <View style={{ alignItems: "center", marginBottom: 40 }}>
           <Text style={[styles.subHeader, { textAlign: "center" }]}>
             Let’s get to know you {"\n"}a little bit better,{"\n"} what's your
@@ -161,21 +169,40 @@ function KYCNameScreen({ navigation }) {
         </View>
 
         <View style={[styles.formGroup]}>
-          <Picker
+          <ModalDropdown
+            defaultValue={title || "Select"}
+            textStyle={{ fontSize: 15 }}
+            dropdownStyle={{ width: "100%" }}
+            dropdownTextStyle={{
+              fontSize: 16,
+              paddingLeft: 10,
+              fontWeight: "900",
+            }}
+            onSelect={(itemIndex, itemValue) => {
+              setTitle(itemValue);
+
+              setTitleValidation(false);
+            }}
+            style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+            defaultIndex={title ? options.indexOf(title) : 0}
+            options={options}
+          />
+
+          {/* <Picker
             itemStyle={{ minHeight: 50, padding: 0 }}
             selectedValue={title}
             onValueChange={(itemValue, itemIndex) => {
               setTitle(itemValue);
               setTitleValidation(false);
             }}
-            style={{ height: 50, padding: 0, margin: 0 }}
+            style={{ height: 50, padding: 0 ,margin:0}}
           >
-            <Picker.Item label="Select title" value="none" />
+            <Picker.Item  label="Select title" value="none" />
             <Picker.Item label="Mr" value="mr" />
-            <Picker.Item label="Mrs" value="mrs" />
-            <Picker.Item label="Miss" value="miss" />
-            <Picker.Item label="Dr" value="dr" />
-          </Picker>
+              <Picker.Item label="Mrs" value="mrs" />
+              <Picker.Item label="Miss" value="miss" />
+              <Picker.Item label="Dr" value="dr" />
+          </Picker> */}
         </View>
         {titleValidation && (
           <View style={styles.formGroupError}>
@@ -219,26 +246,23 @@ function KYCNameScreen({ navigation }) {
           </View>
         )}
       </View>
-      <View
-        style={{
-          width: "100%",
-          marginTop: 10,
-          position: "absolute",
-          left: 0,
-          riht: 0,
-          bottom: 0,
-        }}
-      >
-        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton
-            style={[styles.loginButton, { marginTop: 10 }]}
             bgcolor={myColorsLight.black}
             play={_next}
-            w="50%"
-            btn="Next"
+            btn="Continue"
+            w={200}
           />
         </View>
-        <View style={{ marginTop: 40, width: "50%", alignSelf: "center" ,paddingBottom:20}}>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 10,
+          }}
+        >
           <ProgressBar
             progress={0.2}
             color={myColorsLight.lightGreyDark}

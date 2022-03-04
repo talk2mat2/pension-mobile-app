@@ -34,10 +34,10 @@ function InitScreen({ navigation }) {
         } else {
           //TODO: check the current level in the onboarding journey...
           //... and navigate to the appropriat screen
-          navigation.navigate("SetupStack");
+          navigation.replace("SetupStack");
         }
       } else {
-        console.log("Navigating to AuthStack");
+      // console.log("Navigating to AuthStack");
         navigation.navigate("AuthStack");
       }
     } catch (e) {
@@ -53,7 +53,7 @@ function InitScreen({ navigation }) {
 
   return (
     <View style={[styles.container]}>
-      <Text style={{ textAlign: "center",fontSize:40 ,fontWeight:'bold'}}>Javis</Text>
+      <Text style={{ textAlign: "center",fontSize:40 ,fontWeight:'bold'}}>Jarvis</Text>
       {/* <View style={styles.centerView}>
 		  	 <Text style={[styles.initText,styles.textWhite,{ fontSize: 40}]}>Helping people</Text>
 			</View>

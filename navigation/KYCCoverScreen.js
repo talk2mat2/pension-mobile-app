@@ -49,7 +49,7 @@ function KYCCoverScreen({ navigation }) {
         </Text>
       </View>
 
-      <View style={{ paddingHorizontal: 40, marginTop: 10 }}>
+      <View style={{ paddingHorizontal: 40, marginTop: 10 ,marginBottom:100}}>
         <View style={styles.hrView}></View>
 
         <View style={styles.hrView}>
@@ -77,7 +77,7 @@ function KYCCoverScreen({ navigation }) {
       </View>
 
       <>
-        <View style={{ width: "100%", marginTop: 10 }}>
+        <View style={{ width: "100%", marginTop: 10 ,position:'absolute',left:0,right:0,bottom:3,marginBottom:15}}>
           <View style={[styles.centerView, { marginTop: 60 }]}>
             <JarvisButton
               style={[styles.loginButton, { marginTop: 10 }]}

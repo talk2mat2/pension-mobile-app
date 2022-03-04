@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
+import ModalDropdown from "react-native-modal-dropdown";
 import UserContext from "../contexts/UserContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "../components/JarvisButton";
@@ -20,13 +21,18 @@ import { myColorsLight } from "../constant/colors";
 function KYCRetireWithSpouseScreen({ navigation }) {
   const ctx = useContext(UserContext);
   let u = ctx.u;
-
+  // let tempDate=new Date()
+  // if (!u.included[0]?.dateOfBirth) {
+  //   tempDate = u.included[0].dateOfBirth;
+  // }
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [retireWithSpouse, setRetireWithSpouse] = useState("yes");
   const [spouseRetirementAgeValidation, setSpouseRetirementAgeValidation] =
     useState(false);
+  const [spouseGenderValidation, setSpouseGenderValidation] = useState(false);
   const [spouseName, setSpouseName] = useState("");
   const [spouseRetirementAge, setSpouseRetirementAge] = useState("");
+  const [spouseGender, setSpouseGender] = useState("");
   const [birthday, setBirthday] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [birthdayDisplay, setBirthdayDisplay] = useState(
@@ -43,6 +49,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
   const updateBirthday = (d) => {
     let tempd = new Date(d);
+    console.log(tempd);
     setBirthday(tempd);
     setBirthdayDisplay(tempd.toDateString());
     setShowDatePicker(false);
@@ -56,31 +63,46 @@ function KYCRetireWithSpouseScreen({ navigation }) {
       //Spouse details
       u.included[0].spouseName = spouseName;
       let bd = birthday.toISOString().split("T");
+      u.included[0].spouseGender = spouseGender;
       u.included[0].spouseDateOfBirth = bd[0];
-      u.included[0].spouseGender =
-        u.attributes.gender == "Male" ? "Female" : "Male";
-      u.included[0].spouseRetirementAge = spouseRetirementAge;
-      let retirementDay = new Date(),
-        retirementDayArray = u.included[0].spouseDateOfBirth.split("-");
-      retirementDay.setFullYear(
-        parseInt(retirementDayArray[0]) + parseInt(spouseRetirementAge)
-      );
-      retirementDay.setMonth(parseInt(retirementDayArray[1]) - 1);
-      retirementDay.setDate(retirementDayArray[2]);
-      let tempd = retirementDay.toISOString().split("T");
-      u.included[0].spouseRetirementDate = tempd[0];
+      // u.included[0].spouseGender =
+      //  u.attributes.gender == "Male" ? "Female" : "Male";
+      // u.included[0].spouseRetirementAge = spouseRetirementAge;
+      // let retirementDay = new Date(),
+      //   retirementDayArray = u.included[0].spouseDateOfBirth.split("-");
+      // retirementDay.setFullYear(
+      //   parseInt(retirementDayArray[0]) + parseInt(spouseRetirementAge)
+      // );
+      // retirementDay.setMonth(parseInt(retirementDayArray[1]) - 1);
+      // retirementDay.setDate(retirementDayArray[2]);
+      // let tempd = retirementDay.toISOString().split("T");
+      // u.included[0].spouseRetirementDate = tempd[0];
     }
 
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
+    console.log(u);
   };
+  React.useEffect(() => {
+    setBirthday(new Date("2004-01-12T23:00:00.000Z"));
+    const date = new Date(u?.included[0]?.dateOfBirth);
 
+    if (u?.included[0]?.dateOfBirth) {
+      setBirthday(new Date(u?.included[0]?.dateOfBirth));
+      setBirthdayDisplay(
+        new Date(
+          `${new Date(u?.included[0]?.dateOfBirth).getFullYear()}-01-01`
+        ).toDateString()
+      );
+    }
+  }, []);
   const _next = () => {
     let go = false;
 
     if (retireWithSpouse == "yes") {
-      if (!showSpouseNameField) {
+      if (!showSpouseNameField && !showOtherSpouseFields) {
         setShowSpouseNameField(true);
+        setScreenTitle("Spouse Name");
         //setScreenTitle(``);
       } else {
         if (
@@ -91,23 +113,26 @@ function KYCRetireWithSpouseScreen({ navigation }) {
           //SpouseName has been set, show other fields
           let spouseNameArr = spouseName.split(" "),
             spouseNameDisplay = spouseNameArr[0];
+          setShowSpouseNameField(false);
           setScreenTitle(`Tell us about ${spouseNameDisplay}`);
           setShowOtherSpouseFields(true);
         } else {
           if (
-            spouseName == "" ||
-            spouseRetirementAge.length < 1 ||
-            parseInt(spouseRetirementAge) < 1
+            spouseName == ""
+            // ||
+            // spouseRetirementAge.length < 1 ||
+            // parseInt(spouseRetirementAge) < 1
           ) {
             if (spouseName == "") {
               setSpouseNameValidation(true);
             }
 
             if (
-              spouseRetirementAge.length < 1 ||
-              parseInt(spouseRetirementAge) < 1
+              spouseGender.length < 1
+              // ||
+              // parseInt(spouseRetirementAge) < 1
             ) {
-              setSpouseRetirementAgeValidation(true);
+              setSpouseGenderValidation(true);
             }
           } else {
             go = true;
@@ -117,7 +142,6 @@ function KYCRetireWithSpouseScreen({ navigation }) {
     } else if (retireWithSpouse == "no") {
       go = true;
     }
-
     if (go) {
       _updateUser();
       navigation.navigate("KYCRetireLondon");
@@ -212,30 +236,38 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 </View>
               )}
 
-              <View style={styles.borderBox}>
-                <View style={styles.centerView}>
-                  <Text style={[styles.radioText]}>Yes</Text>
-                  <RadioButton
-                    value="yes"
-                    status={
-                      retireWithSpouse === "yes" ? "checked" : "unchecked"
-                    }
-                    onPress={() => setRetireWithSpouse("yes")}
-                  />
-                  <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-                  <RadioButton
-                    value="no"
-                    status={retireWithSpouse === "no" ? "checked" : "unchecked"}
-                    onPress={() => {
-                      setRetireWithSpouse("no");
-                      setScreenTitle("Do you plan retiring with your spouse?");
-                      setShowSpouseNameField(false);
-                      setShowOtherSpouseFields(false);
-                      setSpouseNameValidation(false);
-                    }}
-                  />
+              {!showSpouseNameField && !showOtherSpouseFields && (
+                <View style={styles.borderBox}>
+                  <View style={styles.centerView}>
+                    <Text style={[styles.radioText]}>Yes</Text>
+                    <RadioButton
+                      value="yes"
+                      status={
+                        retireWithSpouse === "yes" ? "checked" : "unchecked"
+                      }
+                      onPress={() => setRetireWithSpouse("yes")}
+                    />
+                    <Text style={[styles.radioText, { marginLeft: 20 }]}>
+                      No
+                    </Text>
+                    <RadioButton
+                      value="no"
+                      status={
+                        retireWithSpouse === "no" ? "checked" : "unchecked"
+                      }
+                      onPress={() => {
+                        setRetireWithSpouse("no");
+                        setScreenTitle(
+                          "Do you plan retiring with your spouse?"
+                        );
+                        setShowSpouseNameField(false);
+                        setShowOtherSpouseFields(false);
+                        setSpouseNameValidation(false);
+                      }}
+                    />
+                  </View>
                 </View>
-              </View>
+              )}
             </>
           )}
 
@@ -292,11 +324,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 {showDatePicker && (
                   <DateTimePicker
                     testID="birthdayDateTimePicker"
+                    minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
                     value={birthday}
                     mode="date"
                     is24Hour={true}
                     display="default"
                     onChange={(e, d) => {
+                      setShowDatePicker(false);
                       if (typeof d != "undefined") {
                         updateBirthday(d);
                       }
@@ -307,12 +341,10 @@ function KYCRetireWithSpouseScreen({ navigation }) {
               <View
                 style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
               >
-                <Text style={[styles.inlineFormText]}>
-                  Spouse's retirement age
-                </Text>
+                <Text style={[styles.inlineFormText]}>Spouse gender</Text>
                 <View style={styles.inlineFormGroup}>
                   <View style={(styles.centerView, { paddingVertical: 1 })}>
-                    <TextInput
+                    {/* <TextInput
                       keyboardType="number-pad"
                       style={[styles.formInput, { textAlign: "center" }]}
                       onChangeText={(text) => {
@@ -323,14 +355,34 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                       placeholder="Enter retirement age"
                       placeholderTextColor="#fff"
                       value={spouseRetirementAge}
+                    /> */}
+                    <ModalDropdown
+                      defaultValue={"select.."}
+                      textStyle={{ fontSize: 15 }}
+                      dropdownStyle={{ width: "100%", paddingLeft: 6 }}
+                      dropdownTextStyle={{
+                        fontSize: 16,
+                        paddingLeft: 10,
+                        fontWeight: "900",
+                      }}
+                      onSelect={(itemIndex, itemValue) => {
+                        setSpouseGender(itemValue);
+                        setSpouseGenderValidation(false);
+                      }}
+                      style={{
+                        ...styles.formInput,
+                        textAlign: "center",
+                        paddingHorizontal: 10,
+                      }}
+                      options={["Male", "Female", "Unknown"]}
                     />
                   </View>
                 </View>
               </View>
-              {spouseRetirementAgeValidation && (
+              {spouseGenderValidation && (
                 <View style={styles.formGroupError}>
                   <Text style={{ ...styles.inputError, marginTop: 4 }}>
-                    Please input your spouse's retirement age
+                    Please select your spouse's gender
                   </Text>
                 </View>
               )}
@@ -366,6 +418,16 @@ function KYCRetireWithSpouseScreen({ navigation }) {
           riht: 0,
           bottom: 0,
         }}
+      ></View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
       >
         <View style={[{ marginTop: 60, alignItems: "center" }]}>
           <JarvisButton
@@ -385,7 +447,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
           }}
         >
           <ProgressBar
-            progress={0.7}
+            progress={0.8}
             color={myColorsLight.lightGreyDark}
             style={{ height: 7 }}
           />

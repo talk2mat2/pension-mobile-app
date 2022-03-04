@@ -145,7 +145,16 @@ function KYCRetireLondonScreen({ navigation }) {
             color={myColorsLight.black}
             size={18}
           />
-          <Text style={[styles.subHeader, { fontSize: 16,color:myColorsLight.lightGreyDim,paddingLeft:3 }]}>
+          <Text
+            style={[
+              styles.subHeader,
+              {
+                fontSize: 16,
+                color: myColorsLight.lightGreyDim,
+                paddingLeft: 3,
+              },
+            ]}
+          >
             Why are we asking you this?
           </Text>
         </View>
@@ -166,29 +175,49 @@ function KYCRetireLondonScreen({ navigation }) {
             />
           </View>
         </View>
-    
+
         <View style={{ width: "100%", marginTop: 100 }}>
-          
-          <View style={[styles.centerView]}>
-            
-            <JarvisButton
-              style={[styles.loginButton, { marginTop: 10 }]}
-              bgcolor={myColorsLight.black}
-              play={_next}
-              btn="Next"
-              w="50%"
-              disabled={nextButtonDisabled}
-            />
-          </View>
-          <View style={{ marginTop: 70, width: "50%", alignSelf: "center" }}>
-            <ProgressBar
-              progress={1}
+          {isLoading && (
+            <JarvisLoading
               color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
+              text="Please wait"
             />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>5/5</Text>
-          </View>
-          {isLoading && <JarvisLoading color={myColorsLight.lightGreyDark} text="Please wait" />}
+          )}
+        </View>
+      </View>
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+          <JarvisButton
+            style={[styles.loginButton, { marginTop: 10 }]}
+            bgcolor={myColorsLight.black}
+            play={_next}
+            w="50%"
+            btn="Next"
+          />
+        </View>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 20,
+          }}
+        >
+          <ProgressBar
+            progress={1}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>5/5</Text>
         </View>
       </View>
     </MyGradientBackground>

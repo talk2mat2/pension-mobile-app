@@ -1,7 +1,14 @@
 //import 'react-native-gesture-handler';
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { Platform, StyleSheet, View, Text, SafeAreaView } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  View,
+  Text,
+  SafeAreaView,
+  // StatusBar,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -246,68 +253,70 @@ export default function App() {
 
   if (showApp) {
     return (
-      <UserProvider value={ctx}>
-        <Provider>
-          <NavigationContainer ref={navigationRef}>
-            <Stack.Navigator
-              initialRouteName={irn}
-              activeColor="#f0edf6"
-              inactiveColor="#3e2465"
-              barStyle={{ backgroundColor: "#694fad" }}
-            >
-              <Stack.Screen
-                name="InitScreen"
-                component={InitScreen}
-                options={{
-                  headerShown: false,
-                }}
-              />
-              {loggedIn ? (
-                <>
+      <View style={{flex:1}}>
+        <UserProvider value={ctx}>
+          <Provider>
+            <NavigationContainer ref={navigationRef}>
+              <Stack.Navigator
+                initialRouteName={irn}
+                activeColor="#f0edf6"
+                inactiveColor="#3e2465"
+                barStyle={{ backgroundColor: "#694fad" }}
+              >
+                <Stack.Screen
+                  name="InitScreen"
+                  component={InitScreen}
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+                {loggedIn ? (
+                  <>
+                    <Stack.Screen
+                      name="SetupStack"
+                      component={SetupStack}
+                      options={{
+                        headerShown: false,
+                      }}
+                    />
+                    <Stack.Screen
+                      name="AppTab"
+                      component={AppTab}
+                      options={{
+                        tabBarLabel: "Jarvis",
+                        tabBarIcon: ({ color }) => (
+                          <MaterialCommunityIcons
+                            name="view-dashboard"
+                            color={color}
+                            size={26}
+                          />
+                        ),
+                      }}
+                    />
+                  </>
+                ) : (
                   <Stack.Screen
-                    name="SetupStack"
-                    component={SetupStack}
+                    name="AuthStack"
+                    component={AuthStack}
                     options={{
-                      headerShown: false,
-                    }}
-                  />
-                  <Stack.Screen
-                    name="AppTab"
-                    component={AppTab}
-                    options={{
-                      tabBarLabel: "Jarvis",
+                      tabBarLabel: "Login",
                       tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons
-                          name="view-dashboard"
+                          name="account"
                           color={color}
                           size={26}
                         />
                       ),
                     }}
                   />
-                </>
-              ) : (
-                <Stack.Screen
-                  name="AuthStack"
-                  component={AuthStack}
-                  options={{
-                    tabBarLabel: "Login",
-                    tabBarIcon: ({ color }) => (
-                      <MaterialCommunityIcons
-                        name="account"
-                        color={color}
-                        size={26}
-                      />
-                    ),
-                  }}
-                />
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
-          <StatusBar style="auto" />
-          <FlashMessage position="bottom" />
-        </Provider>
-      </UserProvider>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+            <StatusBar style="auto" />
+            <FlashMessage position="bottom" />
+          </Provider>
+        </UserProvider>
+      </View>
     );
   } else {
     return (

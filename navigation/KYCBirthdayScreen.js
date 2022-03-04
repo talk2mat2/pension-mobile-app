@@ -6,6 +6,7 @@ import {
   TextInput,
   Pressable,
   ImageBackground,
+  Platform,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
@@ -13,6 +14,7 @@ import UserContext from "../contexts/UserContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar } from "react-native-paper";
+import ModalDropdown from "react-native-modal-dropdown";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
 
@@ -21,7 +23,7 @@ import JarvisButton from "../components/JarvisButton";
 function KYCBirthdayScreen({ navigation }) {
   const ctx = useContext(UserContext);
   let u = ctx.u;
-  console.log("u bday: ", u);
+  // console.log("u bday: ", u);
   let tempDate = new Date();
   tempDate.setFullYear(tempDate.getFullYear() - 40);
 
@@ -33,8 +35,8 @@ function KYCBirthdayScreen({ navigation }) {
   const [birthday, setBirthday] = useState(tempDate);
   const [birthdayObject, setBirthdayObject] = useState("{}");
   const [birthdayValidation, setBirthdayValidation] = useState(false);
-  const [gender, setGender] = useState("");
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [gender, setGender] = useState(u?.attributes?.gender || "");
+  const [showDatePicker, setShowDatePicker] = useState(true);
   const [genderValidation, setGenderValidation] = useState(false);
   const [birthdayDisplay, setBirthdayDisplay] = useState(
     tempDate.toDateString()
@@ -71,7 +73,12 @@ function KYCBirthdayScreen({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
-
+  const options = ["none", "Male", "Female", "Unknown"];
+  React.useEffect(() => {
+    if (!u?.attributes?.gender) {
+      setGender("Male");
+    }
+  }, []);
   return (
     <MyGradientBackground>
       <View
@@ -151,14 +158,29 @@ function KYCBirthdayScreen({ navigation }) {
             Why are we asking you this?
           </Text>
         </View> */}
-
+        <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
+          <Text style={{ fontSize: 15 }}>Gender</Text>
+        </View>
         <View style={{ alignItems: "center" }}>
-          <View style={[{ alignSelf: "flex-start", marginLeft: 25 }]}>
-            <Text>Gender</Text>
-          </View>
           <View style={[styles.formGroup]}>
             <View style={(styles.centerView, { paddingVertical: 5 })}>
-              <Picker
+              <ModalDropdown
+                defaultValue={gender || "select.."}
+                textStyle={{ fontSize: 15 }}
+                dropdownStyle={{ width: "100%" }}
+                dropdownTextStyle={{
+                  fontSize: 16,
+                  paddingLeft: 10,
+                  fontWeight: "900",
+                }}
+                onSelect={(itemIndex, itemValue) => {
+                  setGender(itemValue);
+                  setGenderValidation(false);
+                }}
+                style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+                options={options}
+              />
+              {/* <Picker
                 selectedValue={u.attributes.gender}
                 onValueChange={(itemValue, itemIndex) => {
                   setGender(itemValue);
@@ -171,7 +193,7 @@ function KYCBirthdayScreen({ navigation }) {
                 <Picker.Item label="Male" value="Male" />
                 <Picker.Item label="Female" value="Female" />
                 <Picker.Item label="Unknown" value="Unknown" />
-              </Picker>
+              </Picker> */}
             </View>
           </View>
           {genderValidation && (
@@ -197,22 +219,31 @@ function KYCBirthdayScreen({ navigation }) {
                 />
               </View>
 
-              {showDatePicker && (
+             
+            </View>
+            <View style={{width:300,marginLeft:30}}>
+          {showDatePicker && (
                 <DateTimePicker
                   testID="birthdayDateTimePicker"
                   value={birthday}
+                  // minimum 18 years
+                  minimumDate={new Date(new Date().getFullYear()-18, 0, 1)}
+                  // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
                   mode="date"
                   is24Hour={true}
                   display="default"
                   onChange={(e, d) => {
+                    setShowDatePicker(false);
                     if (typeof d != "undefined") {
                       updateBirthday(d);
+                    
                     }
                   }}
                 />
               )}
-            </View>
           </View>
+          </View>
+       
           {birthdayValidation && (
             <View style={styles.formGroupError}>
               <Text style={styles.inputError}>This field is required</Text>
@@ -249,14 +280,14 @@ function KYCBirthdayScreen({ navigation }) {
           riht: 0,
           bottom: 0,
         }}
-      >
-        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+      ></View>
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton
-            style={[styles.loginButton, { marginTop: 10 }]}
             bgcolor={myColorsLight.black}
             play={_next}
-            w="50%"
-            btn="Next"
+            btn="Continue"
+            w={200}
           />
         </View>
         <View
@@ -264,7 +295,7 @@ function KYCBirthdayScreen({ navigation }) {
             marginTop: 40,
             width: "50%",
             alignSelf: "center",
-            paddingBottom: 20,
+            paddingBottom: 10,
           }}
         >
           <ProgressBar

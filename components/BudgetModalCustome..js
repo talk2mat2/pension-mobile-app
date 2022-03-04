@@ -86,7 +86,7 @@ const BudgetModalCustom = ({
                   <Text style={{ fontWeight: "bold" }}>
                     £
                     <TextInput
-                      style={{ height: 40 }}
+                      style={{ height: 40,width:100 }}
                       value={value}
                       onChangeText={(text) => setValue(text)}
                       keyboardType="numeric"
