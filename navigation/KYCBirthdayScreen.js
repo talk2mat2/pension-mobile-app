@@ -36,7 +36,7 @@ function KYCBirthdayScreen({ navigation }) {
   const [birthdayObject, setBirthdayObject] = useState("{}");
   const [birthdayValidation, setBirthdayValidation] = useState(false);
   const [gender, setGender] = useState(u?.attributes?.gender || "");
-  const [showDatePicker, setShowDatePicker] = useState(true);
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const [genderValidation, setGenderValidation] = useState(false);
   const [birthdayDisplay, setBirthdayDisplay] = useState(
     tempDate.toDateString()
