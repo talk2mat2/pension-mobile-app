@@ -158,7 +158,7 @@ function KYCRetirementAgeScreen({ navigation }) {
                 {
                   marginTop: 2,
 
-                  backgroundColor: "#bebebe",
+                  backgroundColor: myColorsLight.white,
                   padding: 2,
                   paddingBottom:20
                 },
@@ -401,8 +401,9 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   containerStyle: {
-    backgroundColor: "#bebebe",
+    backgroundColor: myColorsLight.white,
     padding: 2,
+    borderRadius:10,
     marginHorizontal: 20,
   },
   inputError: {

@@ -10,6 +10,7 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
+  Alert,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
@@ -21,7 +22,9 @@ import { Fontisto } from "@expo/vector-icons";
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
+import JarvisLoader from "../../components/JarvisLoader";
 import { List } from "react-native-paper";
+import Api from "../../api";
 import BudgetOption from "../../components/BudgetOption";
 import LIfestylecard from "../../components/LIfestylecard";
 import { ProgressBar } from "react-native-paper";
@@ -33,11 +36,108 @@ function RTLifestyle({ route, navigation }) {
   const [lifestyleData, setLifeStyleData] = React.useState({
     ...(selectedData || ""),
   });
+  const [isLoading, setIsloading] = React.useState(false);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
+  const _updateUser = async () => {
+    let u = ctx?.u;
+    const expenses = [
+      {
+        plsaCostCategoryId: 2,
+        plsaCostCategoryName: "House",
+        amount: lifestyleData?.House,
+      },
+      {
+        plsaCostCategoryId: 3,
+        plsaCostCategoryName: "Food & drink",
+        amount: lifestyleData?.["Food & drink"],
+      },
+      {
+        plsaCostCategoryId: 4,
+        plsaCostCategoryName: "Transport",
+        amount: lifestyleData?.Transport,
+      },
+      {
+        plsaCostCategoryId: 5,
+        plsaCostCategoryName: "Holidays & Leisure",
+        amount: lifestyleData?.["Holidays & Leisure"],
+      },
+      {
+        plsaCostCategoryId: 6,
+        plsaCostCategoryName: "Clothing and Personal",
+        amount: lifestyleData?.["Clothing & Personal"],
+      },
+      {
+        plsaCostCategoryId: 7,
+        plsaCostCategoryName: "Helping Others",
+        amount: lifestyleData?.["Helping Others"],
+      },
+    ];
+    u.included[0].expenses = expenses;
+    ctx.setU(u);
+    helpers.save("pa_u", JSON.stringify(u));
+
+    // const newData = {
+    //   type: "retirementProfile",
+    //   attributes: {
+    //     ...ctx?.u?.included,
+    //     expenses: [
+    //       {
+    //         plsaCostCategoryId: 2,
+    //         plsaCostCategoryName: "House",
+    //         amount: lifestyleData?.House,
+    //       },
+    //       {
+    //         plsaCostCategoryId: 3,
+    //         plsaCostCategoryName: "Food & drink",
+    //         amount: lifestyleData?.["Food & drink"],
+    //       },
+    //       {
+    //         plsaCostCategoryId: 4,
+    //         plsaCostCategoryName: "Transport",
+    //         amount: lifestyleData?.Transport,
+    //       },
+    //       {
+    //         plsaCostCategoryId: 5,
+    //         plsaCostCategoryName: "Holidays & Leisure",
+    //         amount: lifestyleData?.["Holidays & Leisure"],
+    //       },
+    //       {
+    //         plsaCostCategoryId: 6,
+    //         plsaCostCategoryName: "Clothing and Personal",
+    //         amount: lifestyleData?.["Clothing & Personal"],
+    //       },
+    //       {
+    //         plsaCostCategoryId: 7,
+    //         plsaCostCategoryName: "Helping Others",
+    //         amount: lifestyleData?.["Helping Others"],
+    //       },
+    //     ],
+    //   },
+    // };
+    u.type = "user";
+    const newData = {
+      ...u,
+    };
+
+    // setIsloading(true);
+    await Api.update_user_profile(newData, ctx?.atk)
+      .then((res) => {
+        setIsloading(false);
+        console.log(res);
+        navigation.navigate("RTExcellent", {
+          result: lifestyleData?.["Total (Gross)"],
+        });
+      })
+      .catch((err) => {
+        setIsloading(false);
+        console.log(err);
+        Alert.alert("An error occured in the requested operation, try again");
+      });
+  };
   const _next = () => {
-    navigation.navigate("RTExcellent");
+    _updateUser();
   };
   const _goBack = () => {
     navigation.goBack();
@@ -45,6 +145,7 @@ function RTLifestyle({ route, navigation }) {
 
   return (
     <MyGradientBackground>
+      {isLoading && <JarvisLoader />}
       <View
         style={{
           marginTop: 30,
@@ -88,7 +189,7 @@ function RTLifestyle({ route, navigation }) {
           marginTop: 30,
         }}
       />
-      <ScrollView style={{marginBottom:120}}>
+      <ScrollView style={{ marginBottom: 120 }}>
         <View style={{ marginTop: 25 }}>
           <Text
             style={{
@@ -226,9 +327,17 @@ function RTLifestyle({ route, navigation }) {
             play={_next}
             btn="Continue"
             w={200}
+            disabled={isLoading}
           />
         </View>
-        <View style={{ marginTop: 40, width: "50%", alignSelf: "center",paddingBottom:10 }}>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 10,
+          }}
+        >
           <ProgressBar
             progress={1}
             color={myColorsLight.lightGreyDark}

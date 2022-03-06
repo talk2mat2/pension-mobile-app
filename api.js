@@ -20,9 +20,9 @@ export default new (class Api {
       });
   };
 
-  Update_retirement_profile = async (id, token) => {
+  Update_retirement_profile = async (id, token, data) => {
     return await axios
-      .put(baseUrl + `/retirement-profiles/${id}`, {
+      .put(baseUrl + `/retirement-profiles/${id}`, data, {
         headers: {
           // "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,
@@ -34,9 +34,22 @@ export default new (class Api {
       });
   };
 
-  Calculate_logged_in_user_retirement = async () => {
+  Calculate_logged_in_user_retirement = async (token) => {
     return await axios
-      .put(baseUrl + `/retirement-expenses/calculate`, {
+      .get(baseUrl + `/retirement-expenses/calculate`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+  };
+  update_user_profile = async (data, token) => {
+    return await axios
+      .patch(baseUrl + `/users/me`, data, {
         headers: {
           // "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,

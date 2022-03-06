@@ -62,7 +62,7 @@ const StatePensionModal = ({
               textAlign: "center",
             }}
           >
-            Add Your State {"\n"}Pension
+           Personal Pensions
           </Text>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />

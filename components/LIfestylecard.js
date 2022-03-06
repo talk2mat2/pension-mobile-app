@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Text,
+  Platform,
 } from "react-native";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
@@ -47,6 +48,7 @@ const LIfestylecard = ({
     setLifeStyleData({ ...lifestyleData, [title]: newvalue });
     hideModal();
   };
+
   return (
     <>
       <Portal>
@@ -138,7 +140,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.4,
     shadowRadius: 2,
-    borderWidth:0.3,
+    borderWidth: Platform.OS === "ios" ? 0.3 : 0,
     borderRadius: 7,
     alignItems: "center",
     padding: 10,

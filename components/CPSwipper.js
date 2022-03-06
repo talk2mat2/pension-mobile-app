@@ -5,12 +5,23 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import StatePensionModal from "./statePensionModal";
 import { myColorsLight } from "../constant/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+
 const CPSwipper = () => {
   const [visible, setVisible] = React.useState(false);
+  const [statePension, setStatePension] = React.useState("");
+
+
   const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+
+  const changeStatePension = (newValue) => {
+    setStatePension(newValue);
+    hideModal();
+  };
   return (
     <>
-      <StatePensionModal {...{ visible, setVisible }} />
+      <StatePensionModal {...{ visible, setVisible, changeStatePension }} />
       <View style={{ height: 200 }}>
         <Swiper
           paginationStyle={{
@@ -39,19 +50,40 @@ const CPSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <TouchableOpacity onPress={showModal}>
-                    <Text style={{ textAlign: "center", fontWeight: "600" }}>
-                      My{"\n"} State{"\n"} Pension
+                  <Text style={{ textAlign: "center", fontWeight: "600" }}>
+                    My{"\n"} State{"\n"} Pension
+                  </Text>
+
+                  {!statePension ? (
+                    <TouchableOpacity onPress={showModal}>
+                      <AntDesign
+                        style={{ textAlign: "center", fontWeight: "600" }}
+                        name="pluscircle"
+                        size={37}
+                        color={myColorsLight.lightGreyDim}
+                      />
+                    </TouchableOpacity>
+                  ) : (
+                    <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                      £{statePension}
                     </Text>
-                    <AntDesign
-                      style={{ textAlign: "center", fontWeight: "600" }}
-                      name="pluscircle"
-                      size={37}
-                      color={myColorsLight.lightGreyDim}
-                    />
-                  </TouchableOpacity>
+                  )}
                 </View>
               </ImageBackground>
+              {statePension.length > 0 && (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity onPress={showModal}>
+                    <View style={styles.edit}>
+                      <AntDesign name="edit" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setStatePension("")}>
+                    <View style={styles.edit}>
+                      <MaterialIcons name="cancel" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
           <View style={styles.slide1}>
@@ -102,6 +134,10 @@ const styles = StyleSheet.create({
     borderColor: "#a9a9a9",
     borderWidth: 3,
     borderRadius: 20,
+  },
+  edit: {
+    width: 70,
+    alignItems: "center",
   },
   slide2: {
     flex: 1,

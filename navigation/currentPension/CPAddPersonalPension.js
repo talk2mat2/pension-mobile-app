@@ -23,13 +23,13 @@ import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
 
-function CPAddStatePension({ navigation }) {
+function CPAddPersonalPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
   const _next = () => {
-    navigation.navigate("CPAddPersonalPension");
+    // navigation.navigate('');
   };
   const _goBack = () => {
     navigation.goBack();
@@ -97,7 +97,7 @@ function CPAddStatePension({ navigation }) {
               fontWeight: "bold",
             }}
           >
-            Add State Pensions
+            Personal Pensions
           </Text>
         </View>
         <View
@@ -123,7 +123,7 @@ function CPAddStatePension({ navigation }) {
             <TouchableOpacity onPress={() => setIdontHaveState(false)}>
               <View style={styles.btnIdont}>
                 <Text style={{ fontWeight: "900" }}>
-                  I don’t have a State Pension
+                  I don’t have any Personal Pensions
                 </Text>
               </View>
             </TouchableOpacity>
@@ -251,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CPAddStatePension;
+export default CPAddPersonalPension;

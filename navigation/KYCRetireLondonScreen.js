@@ -16,9 +16,7 @@ import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
 
 function KYCRetireLondonScreen({ navigation }) {
-  const ctx = useContext(UserContext);
-  let u = ctx.u;
-  console.log("u in retire london: ", u);
+
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [retireLondon, setRetireLondon] = useState("yes");
   const [isLoading, setIsLoading] = useState(false);
@@ -63,7 +61,7 @@ function KYCRetireLondonScreen({ navigation }) {
       setIsLoading(false);
       setNextButtonDisabled(false);
       navigation.navigate("KYCComplete");
-    }, 2000);
+    }, 3000);
   };
 
   const _goBack = () => {

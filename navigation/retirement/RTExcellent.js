@@ -11,11 +11,13 @@ import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List } from "react-native-paper";
+import Api from "../../api";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 
-function RTExcellent({ navigation }) {
+function RTExcellent({ navigation, route }) {
+  const [scores, setScores] = React.useState(route.params?.result || 0);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const IntroPopper = new Animated.ValueXY({
@@ -24,17 +26,18 @@ function RTExcellent({ navigation }) {
   });
   const popperAnimated = () => {
     Animated.spring(IntroPopper, {
-      toValue:0,
-      duration:1000,
-      friction:3,
-      tension:20,
-      useNativeDriver:true
+      toValue: 0,
+      duration: 1000,
+      friction: 3,
+      tension: 20,
+      useNativeDriver: true,
     }).start();
   };
 
   const _next = () => {
-    navigation.navigate('CPStack');
+    navigation.navigate("CPStack");
   };
+
   const _goBack = () => {
     navigation.goBack();
   };
@@ -43,6 +46,12 @@ function RTExcellent({ navigation }) {
       popperAnimated();
     }, 1000);
   }, []);
+
+  //   "data": {
+  //     "netTarget": 24187,
+  //     "grossTarget": 27483.75
+  //   }
+  // }
 
   return (
     <MyGradientBackground>
@@ -55,7 +64,12 @@ function RTExcellent({ navigation }) {
         }}
       ></View>
 
-      <Animated.View style={{ alignItems: "center" , transform: [{translateX: IntroPopper.x}]}}>
+      <Animated.View
+        style={{
+          alignItems: "center",
+          transform: [{ translateX: IntroPopper.x }],
+        }}
+      >
         <MaterialCommunityIcons
           name="party-popper"
           size={60}
@@ -101,9 +115,11 @@ function RTExcellent({ navigation }) {
             fontWeight: "bold",
           }}
         >
-          £2779
+          £{scores}
         </Text>
-        <Text style={{ textAlign: "center" }}>(£33,348 Per Annum)</Text>
+        <Text style={{ textAlign: "center" }}>
+          (£{scores ? scores * 12 : 0} Per Annum)
+        </Text>
       </View>
       <View
         style={{
@@ -182,7 +198,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   footerSection: {
-    ...{ alignItems: "center", marginTop: "auto", height: 80 },
+    ...{ alignItems: "center", marginTop: "auto", height: 100 },
     borderTopColor: "#bbb",
     borderTopWidth: 2,
     paddingTop: 10,
@@ -200,8 +216,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: myColorsLight.lighterGrey,
-    height: 300,
-    marginTop: 20,
+    height: 330,
+    marginTop: "auto",
     borderTopColor: "#bbb",
     borderLeftColor: "#bbb",
     borderRightColor: "#bbb",

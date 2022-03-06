@@ -33,10 +33,10 @@ function KYCNameScreen({ navigation }) {
   let ttt = "";
 
   if (!fn) {
-    fn = fullName[0] ? fullName[0] : "";
+    fn = fullName?.[0] ? fullName[0] : "";
   }
   if (!ln) {
-    ln = fullName[1] ? fullName[1] : "";
+    ln = fullName?.[1] ? fullName[1] : "";
   }
 
   if (!tt) {
@@ -108,6 +108,7 @@ function KYCNameScreen({ navigation }) {
     navigation.goBack();
   };
   const options = ["none", "mrs", "miss", "mr"];
+
 
   return (
     <MyGradientBackground>
