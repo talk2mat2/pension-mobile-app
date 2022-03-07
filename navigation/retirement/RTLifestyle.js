@@ -335,7 +335,7 @@ function RTLifestyle({ route, navigation }) {
             marginTop: 40,
             width: "50%",
             alignSelf: "center",
-            paddingBottom: 10,
+            paddingBottom: 16,
           }}
         >
           <ProgressBar

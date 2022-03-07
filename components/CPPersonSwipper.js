@@ -5,38 +5,42 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import StatePensionModal from "./statePensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
+import PersoanalStatePensionModal from "./PersonalPensionModal";
 import { myColorsLight } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const CPSwipper = () => {
+const CPPersonSwipper = () => {
   const [visible, setVisible] = React.useState(false);
-  const [spouseVisible, setSpouseVisible] = React.useState(false);
-  const [statePension, setStatePension] = React.useState("");
-  const [spouseStatePension, setSpouseStatePension] = React.useState("");
+  const [person2Visible, setPerson2Visible] = React.useState(false);
+  const [personPension1, setPersonPension1] = React.useState("");
+  const [personPension2, setPersonPension2] = React.useState("");
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const showSpouseModal = () => setSpouseVisible(true);
-  const hideSpouseModal = () => setSpouseVisible(false);
+  const showPerson2Modal = () => setPerson2Visible(true);
+  const hidePerson2Modal = () => setPerson2Visible(false);
 
-  const changeStatePension = (newValue) => {
-    setStatePension(newValue);
+  const changePerson1Pension = (newValue) => {
+    setPersonPension1(newValue);
     hideModal();
   };
-  const changeSpouseStatePension = (newValue) => {
-    setSpouseStatePension(newValue);
-    hideSpouseModal();
+  const hangePerson2Pension = (newValue) => {
+    setPersonPension2(newValue);
+    hidePerson2Modal();
   };
   return (
     <>
-      <StatePensionModal {...{ visible, setVisible, changeStatePension }} />
-      <SpouseStatePensionModal
+      <PersoanalStatePensionModal
+        {...{ visible, setVisible, changePerson1Pension }}
+      />
+      <PersoanalStatePensionModal
         {...{
-          visible: spouseVisible,
-          setVisible: setSpouseVisible,
-          changeSpouseStatePension,
+          visible: person2Visible,
+          setVisible: setPerson2Visible,
+          changePerson1Pension: changePerson1Pension,
         }}
       />
+  
       <View style={{ height: 200 }}>
         <Swiper
           paginationStyle={{
@@ -65,11 +69,17 @@ const CPSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text style={{ textAlign: "center", fontWeight: "600" }}>
-                    My{"\n"} State{"\n"} Pension
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "600",
+                      paddingBottom: 10,
+                    }}
+                  >
+                    My name
                   </Text>
 
-                  {!statePension ? (
+                  {!personPension1 ? (
                     <TouchableOpacity onPress={showModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
@@ -80,19 +90,19 @@ const CPSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{statePension}
+                      £{personPension1}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
-              {statePension.length > 0 && (
+              {personPension1.length > 0 && (
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color="black" />
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setStatePension("")}>
+                  <TouchableOpacity onPress={() => setPersonPension1("")}>
                     <View style={styles.edit}>
                       <MaterialIcons name="cancel" size={20} color="black" />
                     </View>
@@ -109,29 +119,49 @@ const CPSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text style={{ textAlign: "center", fontWeight: "800" }}>
-                    My Spouse’s{"\n"}
-                    State{"\n"}
-                    Pension
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "600",
+                      paddingBottom: 10,
+                    }}
+                  >
+                    My name
                   </Text>
-                  {!spouseStatePension ? (
-                    <TouchableOpacity onPress={showSpouseModal}>
+
+                  {!personPension2.length ? (
+                    <TouchableOpacity onPress={showModal}>
                       <AntDesign
-                        style={{ textAlign: "center", fontWeight: "800" }}
+                        style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
                         size={37}
-                        color="black"
+                        color={myColorsLight.lightGreyDim}
                       />
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{spouseStatePension}
+                      £{personPension2}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
+              {personPension1.length > 0 && (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity onPress={showModal}>
+                    <View style={styles.edit}>
+                      <AntDesign name="edit" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setPersonPension2("")}>
+                    <View style={styles.edit}>
+                      <MaterialIcons name="cancel" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
+        
         </Swiper>
       </View>
     </>
@@ -167,4 +197,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#97CAE5",
   },
 });
-export default CPSwipper;
+export default CPPersonSwipper;

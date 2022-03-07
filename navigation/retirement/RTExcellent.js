@@ -13,10 +13,12 @@ import JarvisButton from "../../components/JarvisButton";
 import { List } from "react-native-paper";
 import Api from "../../api";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import OutcomeCard from "../../components/Outcome_Card";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 
 function RTExcellent({ navigation, route }) {
+  const [showCard, setShowCard] = React.useState(true);
   const [scores, setScores] = React.useState(route.params?.result || 0);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
@@ -33,7 +35,7 @@ function RTExcellent({ navigation, route }) {
       useNativeDriver: true,
     }).start();
   };
-
+  const hideCard = () => setShowCard(false);
   const _next = () => {
     navigation.navigate("CPStack");
   };
@@ -186,6 +188,7 @@ function RTExcellent({ navigation, route }) {
           />
         </View>
       </View>
+      {showCard && <OutcomeCard hideCards={hideCard} />}
     </MyGradientBackground>
   );
 }

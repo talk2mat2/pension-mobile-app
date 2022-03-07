@@ -182,13 +182,34 @@ function RTbudgetOne({ navigation }) {
           <View style={{ ...styles.hrView, marginTop: 1 }} />
         </ScrollView>
       </View>
-      <View style={{ marginTop: 50, width: "50%", alignSelf: "center",paddingTop:35 }}>
-        <ProgressBar
-          progress={0.5}
-          color={myColorsLight.lightGreyDark}
-          style={{ height: 7 }}
-        />
-        <Text style={{ textAlign: "center", fontSize: 20 }}>1/2</Text>
+      {/* <View style={{ marginTop: 50, width: "50%", alignSelf: "center",paddingTop:35 }}>
+     
+      </View> */}
+      <View
+        style={{
+          width: "100%",
+          marginTop: 10,
+          position: "absolute",
+          left: 0,
+          riht: 0,
+          bottom: 0,
+        }}
+      >
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 20,
+          }}
+        >
+          <ProgressBar
+            progress={0.5}
+            color={myColorsLight.lightGreyDark}
+            style={{ height: 7 }}
+          />
+          <Text style={{ textAlign: "center", fontSize: 20 }}>1/2</Text>
+        </View>
       </View>
     </MyGradientBackground>
   );

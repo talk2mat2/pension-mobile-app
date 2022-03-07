@@ -17,7 +17,7 @@ import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import CPSwipper from "../../components/CPSwipper";
+import CPPersonSwipper from "../../components/CPPersonSwipper";
 import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
@@ -109,8 +109,9 @@ function CPAddPersonalPension({ navigation }) {
           }}
         />
         <View style={{ marginTop: 30 }}>
-          <CPSwipper />
+          <CPPersonSwipper />
         </View>
+        <Text style={{textAlign:'center',marginVertical:7}}>Swipe to add more pensions</Text>
         <View style={{ marginTop: 7, alignItems: "center" }}>
           {iDontHhaveState === false ? (
             <JarvisButton

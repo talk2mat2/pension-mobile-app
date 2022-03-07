@@ -13,7 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
-const StatePensionModal = ({
+const PersoanalStatePensionModal = ({
   visible,
   setVisible,
   showModal,
@@ -24,7 +24,7 @@ const StatePensionModal = ({
   const [spouseGender, setSpouseGender] = React.useState("Male");
   const [stateAmountValidation, setStateAmountValidation] =
     React.useState(false);
-  const [stateAmount, setStateAmount] = React.useState('8325');
+  const [stateAmount, setStateAmount] = React.useState("8325");
   const _next = () => {
     if (!stateAmount) {
       setStateAmountValidation(true);
@@ -46,6 +46,7 @@ const StatePensionModal = ({
             alignItems: "center",
             justifyContent: "center",
             marginBottom: 10,
+            marginTop: 20,
           }}
         >
           <View style={styles.close}>
@@ -62,10 +63,10 @@ const StatePensionModal = ({
               textAlign: "center",
             }}
           >
-           Personal Pensions
+            Personal Pensions
           </Text>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
+        <View style={{ ...styles.hrView, marginTop: 35 }} />
         <View
           style={{
             flexDirection: "row",
@@ -75,19 +76,16 @@ const StatePensionModal = ({
           }}
         >
           <Text style={{ fontSize: 16 }}>
-            Enter your State{"\n"} Pension amount
+            Search for your {"\n"} Pension Provider
           </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>£</Text>
-            <TextInput
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                setStateAmount(text), setStateAmountValidation(false);
-              }}
-              style={styles.input}
-              value={stateAmount}
-            />
-          </View>
+
+          <TextInput
+            onChangeText={(text) => {
+              setStateAmount(text), setStateAmountValidation(false);
+            }}
+            style={styles.input}
+            value={stateAmount}
+          />
         </View>
         {stateAmountValidation && (
           <View style={styles.formGroupError}>
@@ -104,17 +102,46 @@ const StatePensionModal = ({
             justifyContent: "space-between",
             marginVertical: 10,
             marginTop: 20,
+            alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Gender</Text>
+          <Text style={{ fontSize: 16 }}>Current Value</Text>
+
+          <TextInput
+            onChangeText={(text) => {
+              setStateAmount(text), setStateAmountValidation(false);
+            }}
+            style={{...styles.input,width:100}}
+            value={stateAmount}
+          />
+        </View>
+        {stateAmountValidation && (
+          <View style={styles.formGroupError}>
+            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
+              Please enter your state pension amount
+            </Text>
+          </View>
+        )}
+
+        <View style={{ ...styles.hrView, marginTop: 20 }} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginVertical: 10,
+            marginTop: 20,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>Regular{"\n"}Contributions</Text>
           <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Male</Text>
+            <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
               value="Male"
               status={spouseGender === "Male" ? "checked" : "unchecked"}
               onPress={() => setSpouseGender("Male")}
             />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>Female</Text>
+            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
               value="Female"
               status={spouseGender === "Female" ? "checked" : "unchecked"}
@@ -123,18 +150,87 @@ const StatePensionModal = ({
           </View>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontWeight: "bold" }}>
-            <AntDesign name="exclamationcircle" size={17} color="black" /> Why
-            are we asking you this{" "}
-          </Text>
-          <Text style={{ fontWeight: "200", marginTop: 10 }}>
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat. Ut wisi enim ad minim
-          </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginVertical: 10,
+            marginTop: 20,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>Contribution Tax Basis</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={[styles.radioText]}>Yes</Text>
+            <RadioButton
+              value="Male"
+              status={spouseGender === "Male" ? "checked" : "unchecked"}
+              onPress={() => setSpouseGender("Male")}
+            />
+            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+            <RadioButton
+              value="Female"
+              status={spouseGender === "Female" ? "checked" : "unchecked"}
+              onPress={() => setSpouseGender("Female")}
+            />
+          </View>
         </View>
-        <View style={{ ...styles.hrView, marginTop: "40%" }} />
+        <View style={{ ...styles.hrView, marginTop: 20 }} />
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginVertical: 10,
+            marginTop: 20,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
+
+          <TextInput
+            onChangeText={(text) => {
+              setStateAmount(text), setStateAmountValidation(false);
+            }}
+            style={{ ...styles.input, width: 100 }}
+            value={stateAmount}
+          />
+        </View>
+        {stateAmountValidation && (
+          <View style={styles.formGroupError}>
+            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
+              Please enter your state pension amount
+            </Text>
+          </View>
+        )}
+
+        <View style={{ ...styles.hrView }} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginVertical: 10,
+            marginTop: 20,
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: 16 }}>Spouse Pensio ?</Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={[styles.radioText]}>Yes</Text>
+            <RadioButton
+              value="Male"
+              status={spouseGender === "Male" ? "checked" : "unchecked"}
+              onPress={() => setSpouseGender("Male")}
+            />
+            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+            <RadioButton
+              value="Female"
+              status={spouseGender === "Female" ? "checked" : "unchecked"}
+              onPress={() => setSpouseGender("Female")}
+            />
+          </View>
+        </View>
+        <View style={{ ...styles.hrView, marginTop: 25 }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}
@@ -179,7 +275,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0.3,
     padding: 8,
-    width: 80,
+    width: 180,
   },
   hrView: {
     width: "100%",
@@ -188,4 +284,4 @@ const styles = StyleSheet.create({
     backgroundColor: "#bbb",
   },
 });
-export default StatePensionModal;
+export default PersoanalStatePensionModal;
