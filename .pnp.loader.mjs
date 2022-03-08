@@ -72,7 +72,7 @@ function readPackageScope(checkPath) {
   do {
     separatorIndex = checkPath.lastIndexOf(npath.sep);
     checkPath = checkPath.slice(0, separatorIndex);
-    if (checkPath.endsWith(`${npath.sep}node_modules`))
+    if (checkPath.endsWith(`${npath.sep}node_modules`))$
       return false;
     const pjson = readPackage(checkPath + npath.sep);
     if (pjson) {

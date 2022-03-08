@@ -17,19 +17,19 @@ import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import CPPersonSwipper from "../../components/CPPersonSwipper";
+import OtherSwipper from "../../components/OthehrSwipper";
 import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
 
-function CPAddPersonalPension({ navigation }) {
+function OtherPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
   const _next = () => {
-    navigation.navigate('DefinedBenefit');
+    navigation.navigate("DefinedBenefit");
   };
   const _goBack = () => {
     navigation.goBack();
@@ -97,7 +97,7 @@ function CPAddPersonalPension({ navigation }) {
               fontWeight: "bold",
             }}
           >
-            Personal Pensions
+            Other Retirement {"\n"}Savings / Income
           </Text>
         </View>
         <View
@@ -109,9 +109,8 @@ function CPAddPersonalPension({ navigation }) {
           }}
         />
         <View style={{ marginTop: 30 }}>
-          <CPPersonSwipper />
+          <OtherSwipper />
         </View>
-        <Text style={{textAlign:'center',marginVertical:7}}>Swipe to add more pensions</Text>
         <View style={{ marginTop: 7, alignItems: "center" }}>
           {iDontHhaveState === false ? (
             <JarvisButton
@@ -124,7 +123,7 @@ function CPAddPersonalPension({ navigation }) {
             <TouchableOpacity onPress={() => setIdontHaveState(false)}>
               <View style={styles.btnIdont}>
                 <Text style={{ fontWeight: "900" }}>
-                  I don’t have any Personal Pensions
+                  I don’t have aSnkyiopther savings
                 </Text>
               </View>
             </TouchableOpacity>
@@ -252,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CPAddPersonalPension;
+export default OtherPension;
