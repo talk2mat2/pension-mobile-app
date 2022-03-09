@@ -38,7 +38,7 @@ function CPCongrat({ navigation, route }) {
   };
   const hideCard = () => setShowCard(false);
   const _next = () => {
-    // navigation.navigate("CPStack");
+    navigation.navigate("DashboardStack");
   };
 
   const _goBack = () => {
