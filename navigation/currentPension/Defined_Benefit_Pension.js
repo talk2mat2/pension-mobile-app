@@ -154,7 +154,7 @@ function DefinedStateBenefit({ navigation }) {
             }}
           >
             <ProgressBar
-              progress={0.3}
+              progress={0.7}
               color={myColorsLight.lightGreyDark}
               style={{ height: 7 }}
             />

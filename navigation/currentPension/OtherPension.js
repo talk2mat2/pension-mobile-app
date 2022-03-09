@@ -155,7 +155,7 @@ function OtherPension({ navigation }) {
             }}
           >
             <ProgressBar
-              progress={0.3}
+              progress={1}
               color={myColorsLight.lightGreyDark}
               style={{ height: 7 }}
             />

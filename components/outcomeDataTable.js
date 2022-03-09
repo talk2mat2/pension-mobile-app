@@ -3,7 +3,6 @@ import Swiper from "react-native-swiper";
 import { View, Text, StyleSheet } from "react-native";
 import { myColorsLight } from "../constant/colors";
 const OutcomeDatatable = () => {
-  const tableData = [1];
   return (
     <View style={{ height: 150 }}>
       <View style={styles.slide1}>

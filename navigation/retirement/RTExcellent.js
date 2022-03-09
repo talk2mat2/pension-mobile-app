@@ -196,7 +196,7 @@ function RTExcellent({ navigation, route }) {
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
-              <OutcomeDatatabletable />
+              <OutcomeDatatable  />
               <Text style={{ ...styles.textHead, textAlign: "left" }}>
                 Current Retirement Fund
               </Text>

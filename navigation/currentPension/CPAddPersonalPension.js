@@ -167,7 +167,7 @@ function CPAddPersonalPension({ navigation }) {
             }}
           >
             <ProgressBar
-              progress={0.3}
+              progress={0.5}
               color={myColorsLight.lightGreyDark}
               style={{ height: 7 }}
             />
