@@ -18,7 +18,7 @@ import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import OutcomeDatatable from "../../components/outcomeDataTable";
 
-function RTExcellent({ navigation, route }) {
+function CPCongrat({ navigation, route }) {
   const [showCard, setShowCard] = React.useState(true);
   const [scores, setScores] = React.useState(route.params?.result || 0);
   const ctx = useContext(UserContext);
@@ -38,7 +38,7 @@ function RTExcellent({ navigation, route }) {
   };
   const hideCard = () => setShowCard(false);
   const _next = () => {
-    navigation.navigate("CPStack");
+    // navigation.navigate("CPStack");
   };
 
   const _goBack = () => {
@@ -60,7 +60,7 @@ function RTExcellent({ navigation, route }) {
     <MyGradientBackground>
       <View
         style={{
-          marginTop: 10,
+          marginTop: 40,
           alignContent: "flex-start",
           flexDirection: "row",
           justifyContent: "center",
@@ -81,12 +81,12 @@ function RTExcellent({ navigation, route }) {
         <Text
           style={{
             ...styles.subHeader,
-
+            marginTop: 20,
             textAlign: "center",
             fontWeight: "bold",
           }}
         >
-          Excellent
+          Congratulations
         </Text>
         <Text
           style={{
@@ -94,36 +94,14 @@ function RTExcellent({ navigation, route }) {
             color: myColorsLight.lightGreyDark,
             textAlign: "center",
             fontSize: 17,
-            marginTop: 5,
+            marginTop: 20,
           }}
         >
-          You have completed step 2. To achieve your{"\n"} desired retirement
-          lifestyle in will need a {"\n"}monthly retirement income of
+          our retirement profile is now compete
         </Text>
       </Animated.View>
-      <View
-        style={{
-          ...styles.hrView,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 30,
-        }}
-      />
-      <View style={{ marginTop: 30 }}>
-        <Text
-          style={{
-            ...styles.subHeader,
 
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          £{scores}
-        </Text>
-        <Text style={{ textAlign: "center" }}>
-          (£{scores ? scores * 12 : 0} Per Annum)
-        </Text>
-      </View>
+      <View style={{ marginTop: 30 }}></View>
       <View
         style={{
           ...styles.hrView,
@@ -132,22 +110,9 @@ function RTExcellent({ navigation, route }) {
           marginTop: 10,
         }}
       />
-      <View style={{ marginTop: 20 }}>
-        <Text
-          style={{
-            ...styles.subHeader,
-            color: myColorsLight.lightGreyDim,
-            textAlign: "center",
-            fontSize: 17,
-            marginTop: 5,
-          }}
-        >
-          You have also earned your second Javis Insights{"\n"}card on Saving &
-          Investing
-        </Text>
-      </View>
+
       <View style={styles.footerContainer}>
-        <View style={{ marginTop: 20 }}>
+        <View>
           <Text style={{ textAlign: "center" }}>
             Facts & Stats On Saving/Investing
           </Text>
@@ -171,20 +136,11 @@ function RTExcellent({ navigation, route }) {
             investing for the future
           </Text>
         </View>
-        <View style={styles.footerSection}>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 14,
-              marginBottom: 8,
-            }}
-          >
-            You’re just one steps away from completion. Next step{" "}
-          </Text>
+        <View style={{ ...styles.footerSection, paddingTop: 30 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}
             play={_next}
-            btn="Pensions & Savings"
+            btn="Go to My Dasboard"
             w={200}
           />
         </View>
@@ -192,14 +148,12 @@ function RTExcellent({ navigation, route }) {
       {showCard && (
         <OutcomeCard hideCards={hideCard}>
           <>
-            <Text style={styles.textHead}>Yours Retirement Profile</Text>
+            <Text style={styles.textHead}>Your Current Pensions & Savings Data</Text>
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
-              <OutcomeDatatabletable />
-              <Text style={{ ...styles.textHead, textAlign: "left" }}>
-                Current Retirement Fund
-              </Text>
+              <OutcomeDatatable />
+              <Text style={{...styles.textHead,textAlign:'left'}}>Current Retirement Fund</Text>
             </View>
             <View style={{ ...styles.hrView, marginVertical: 9 }} />
           </>
@@ -210,16 +164,16 @@ function RTExcellent({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  textHead: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight:'800'
+  },
   sum: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 25,
     marginTop: 10,
-  },
-  textHead: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "800",
   },
   footerSection: {
     ...{ alignItems: "center", marginTop: "auto", height: 100 },
@@ -240,7 +194,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     backgroundColor: myColorsLight.lighterGrey,
-    height: 330,
+    height: "40%",
     marginTop: "auto",
     borderTopColor: "#bbb",
     borderLeftColor: "#bbb",
@@ -269,8 +223,6 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     flex: 1,
-    // justifyContent: "center",
-    //alignItems: "center",
     width: "100%",
   },
   textWhite: {
@@ -282,13 +234,9 @@ const styles = StyleSheet.create({
   },
   hrView: {
     width: "100%",
-    // marginTop: 10,
-    // paddingBottom: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: "#bbb",
     height: 2,
     backgroundColor: "#bbb",
   },
 });
 
-export default RTExcellent;
+export default CPCongrat;

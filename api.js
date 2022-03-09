@@ -60,4 +60,18 @@ export default new (class Api {
         throw err.response.data;
       });
   };
+
+  create_Jar = async (token, jarData) => {
+    return await axios
+      .post(baseUrl + `/jars`, jarData, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+  };
 })();

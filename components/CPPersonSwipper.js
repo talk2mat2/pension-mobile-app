@@ -1,5 +1,5 @@
-import React from "react";
-import Swiper from "react-native-swiper";
+import React, { useContext } from "react";
+import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -8,6 +8,7 @@ import SpouseStatePensionModal from "./spouseStatePensionModal";
 import PersoanalStatePensionModal from "./PersonalPensionModal";
 import { myColorsLight } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import PersonalPenContext from "../contexts/personalContext";
 
 const CPPersonSwipper = () => {
   const [visible, setVisible] = React.useState(false);
@@ -19,7 +20,8 @@ const CPPersonSwipper = () => {
   const hideModal = () => setVisible(false);
   const showPerson2Modal = () => setPerson2Visible(true);
   const hidePerson2Modal = () => setPerson2Visible(false);
-
+  const { person1, setPerson1, person2, setPerson2 } =
+    useContext(PersonalPenContext);
   const changePerson1Pension = (newValue) => {
     setPersonPension1(newValue);
     hideModal();
@@ -31,16 +33,24 @@ const CPPersonSwipper = () => {
   return (
     <>
       <PersoanalStatePensionModal
-        {...{ visible, setVisible, changePerson1Pension }}
+        {...{
+          visible,
+          setVisible,
+          changePerson1Pension,
+          personData: person1,
+          setPersoData: setPerson1,
+        }}
       />
       <PersoanalStatePensionModal
         {...{
+          personData: person2,
+          setPersoData: setPerson2,
           visible: person2Visible,
           setVisible: setPerson2Visible,
           changePerson1Pension: changePerson1Pension,
         }}
       />
-  
+
       <View style={{ height: 200 }}>
         <Swiper
           paginationStyle={{
@@ -76,10 +86,10 @@ const CPPersonSwipper = () => {
                       paddingBottom: 10,
                     }}
                   >
-                    My name
+                    Provider 2
                   </Text>
 
-                  {!personPension1 ? (
+                  {!person1?.currentValue ? (
                     <TouchableOpacity onPress={showModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
@@ -90,19 +100,21 @@ const CPPersonSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{personPension1}
+                      £{person1?.currentValue}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
-              {personPension1.length > 0 && (
+              {person1?.currentValue?.length > 0 && (
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color="black" />
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setPersonPension1("")}>
+                  <TouchableOpacity
+                    onPress={() => setPerson1({ ...person1, currentValue: "" })}
+                  >
                     <View style={styles.edit}>
                       <MaterialIcons name="cancel" size={20} color="black" />
                     </View>
@@ -126,10 +138,10 @@ const CPPersonSwipper = () => {
                       paddingBottom: 10,
                     }}
                   >
-                    My name
+                    Provider
                   </Text>
 
-                  {!personPension2.length ? (
+                  {!person2?.currentValue?.length ? (
                     <TouchableOpacity onPress={showModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
@@ -140,19 +152,21 @@ const CPPersonSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{personPension2}
+                      £{person2?.currentValue}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
-              {personPension1.length > 0 && (
+              {person2?.currentValue?.length > 0 && (
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color="black" />
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setPersonPension2("")}>
+                  <TouchableOpacity
+                    onPress={() => setPerson2({ ...person2, currentValue: "" })}
+                  >
                     <View style={styles.edit}>
                       <MaterialIcons name="cancel" size={20} color="black" />
                     </View>
@@ -161,7 +175,6 @@ const CPPersonSwipper = () => {
               )}
             </View>
           </View>
-        
         </Swiper>
       </View>
     </>

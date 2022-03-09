@@ -16,8 +16,10 @@ import { myColorsLight } from "../constant/colors";
 const PersoanalStatePensionModal = ({
   visible,
   setVisible,
+  personData,
   showModal,
   changeStatePension,
+  setPersoData,
 }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
@@ -108,20 +110,20 @@ const PersoanalStatePensionModal = ({
           <Text style={{ fontSize: 16 }}>Current Value</Text>
 
           <TextInput
+            style={{ ...styles.input, width: 100 }}
+            value={personData.currentValue}
             onChangeText={(text) => {
-              setStateAmount(text), setStateAmountValidation(false);
+              setPersoData({ ...personData, currentValue: text });
             }}
-            style={{...styles.input,width:100}}
-            value={stateAmount}
           />
         </View>
-        {stateAmountValidation && (
+        {/* {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
             </Text>
           </View>
-        )}
+        )} */}
 
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
@@ -138,14 +140,26 @@ const PersoanalStatePensionModal = ({
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
               value="Male"
-              status={spouseGender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Male")}
+              status={
+                personData.regularContribution === "yes"
+                  ? "checked"
+                  : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, regularContribution: "yes" });
+              }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
               value="Female"
-              status={spouseGender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Female")}
+              status={
+                personData.regularContribution === "no"
+                  ? "checked"
+                  : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, regularContribution: "no" });
+              }}
             />
           </View>
         </View>
@@ -163,15 +177,23 @@ const PersoanalStatePensionModal = ({
           <View style={{ flexDirection: "row" }}>
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
-              value="Male"
-              status={spouseGender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Male")}
+              value="yes"
+              status={
+                personData.contributeBasics === "yes" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, contributeBasics: "yes" });
+              }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
               value="Female"
-              status={spouseGender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Female")}
+              status={
+                personData.contributeBasics === "no" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, contributeBasics: "no" });
+              }}
             />
           </View>
         </View>
@@ -189,11 +211,11 @@ const PersoanalStatePensionModal = ({
           <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
 
           <TextInput
+            value={personData.monthlyContribution}
             onChangeText={(text) => {
-              setStateAmount(text), setStateAmountValidation(false);
+              setPersoData({ ...personData, monthlyContribution: text });
             }}
             style={{ ...styles.input, width: 100 }}
-            value={stateAmount}
           />
         </View>
         {stateAmountValidation && (
@@ -218,15 +240,23 @@ const PersoanalStatePensionModal = ({
           <View style={{ flexDirection: "row" }}>
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
-              value="Male"
-              status={spouseGender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Male")}
+              value="yews"
+              status={
+                personData.pousePension === "yes" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, pousePension: "yes" });
+              }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
-              value="Female"
-              status={spouseGender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Female")}
+              value="no"
+              status={
+                personData.pousePension === "no" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersoData({ ...personData, pousePension: "no" });
+              }}
             />
           </View>
         </View>

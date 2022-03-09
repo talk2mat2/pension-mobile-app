@@ -1,5 +1,5 @@
 import React from "react";
-import Swiper from "react-native-swiper";
+import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet } from "react-native";
 import { myColorsLight } from "../constant/colors";
 const CPDatatable = () => {

@@ -1,12 +1,13 @@
-import React from "react";
-import Swiper from "react-native-swiper";
+import React, { useContext } from "react";
+import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import OtherensionModal  from "./OthehrPensionModal";
+import OtherensionModal from "./OthehrPensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
 import { myColorsLight } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import OtherPenContext from "../contexts/otherPenContext";
 
 const OtherSwipper = () => {
   const [visible, setVisible] = React.useState(false);
@@ -18,23 +19,34 @@ const OtherSwipper = () => {
   const hideModal = () => setVisible(false);
   const showSpouseModal = () => setSpouseVisible(true);
   const hideSpouseModal = () => setSpouseVisible(false);
-
-  const changeStatePension = (newValue) => {
-    setStatePension(newValue);
+  const { person1, setPerson1, setPerson2, person2 } =
+    useContext(OtherPenContext);
+  const changeStatePension = () => {
+    // setStatePension(newValue);
     hideModal();
   };
-  const changeSpouseStatePension = (newValue) => {
-    setSpouseStatePension(newValue);
+  const changeSpouseStatePension = () => {
+    // setSpouseStatePension(newValue);
     hideSpouseModal();
   };
   return (
     <>
-      <OtherensionModal  {...{ visible, setVisible, changeStatePension }} />
-      <OtherensionModal 
+      <OtherensionModal
+        {...{
+          personData: person1,
+          setPersonData: setPerson1,
+          visible,
+          setVisible,
+          changeStatePension,
+        }}
+      />
+      <OtherensionModal
         {...{
           visible: spouseVisible,
           setVisible: setSpouseVisible,
-          changeSpouseStatePension,
+          changeStatePension: changeSpouseStatePension,
+          personData: person2,
+          setPersonData: setPerson2,
         }}
       />
       <View style={{ height: 200 }}>
@@ -69,7 +81,7 @@ const OtherSwipper = () => {
                     Other {"\n"}Retirement {"\n"}Savings
                   </Text>
 
-                  {!statePension ? (
+                  {!person1.expectedAnualIncome ? (
                     <TouchableOpacity onPress={showModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
@@ -80,19 +92,23 @@ const OtherSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{statePension}
+                      £{person1.expectedAnualIncome}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
-              {statePension.length > 0 && (
+              {person1?.expectedAnualIncome?.length > 0 && (
                 <View style={{ flexDirection: "row" }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color="black" />
                     </View>
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={() => setStatePension("")}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      setPerson1({ ...person1, expectedAnualIncome: "" })
+                    }
+                  >
                     <View style={styles.edit}>
                       <MaterialIcons name="cancel" size={20} color="black" />
                     </View>
@@ -110,11 +126,9 @@ const OtherSwipper = () => {
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
                   <Text style={{ textAlign: "center", fontWeight: "800" }}>
-                    My Spouse’s{"\n"}
-                    State{"\n"}
-                    Pension
+                    Other {"\n"}Retirement {"\n"}Savings
                   </Text>
-                  {!spouseStatePension ? (
+                  {!person2?.expectedAnualIncome ? (
                     <TouchableOpacity onPress={showSpouseModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "800" }}
@@ -125,11 +139,29 @@ const OtherSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{spouseStatePension}
+                      £{person1?.expectedAnualIncome}
                     </Text>
                   )}
                 </View>
               </ImageBackground>
+              {person2?.expectedAnualIncome?.length > 0 && (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity onPress={showSpouseModal}>
+                    <View style={styles.edit}>
+                      <AntDesign name="edit" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() =>
+                      setPerson2({ ...person2, expectedAnualIncome: "" })
+                    }
+                  >
+                    <View style={styles.edit}>
+                      <MaterialIcons name="cancel" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
         </Swiper>

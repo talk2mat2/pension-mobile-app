@@ -5,6 +5,7 @@ import CPAddStatePension from "./CPAddStatePension";
 import CPAddPersonalPension from "./CPAddPersonalPension";
 import DefinedStateBenefit from "./Defined_Benefit_Pension";
 import OtherPension from "./OtherPension";
+import CPCongrat from "./CPCongrat";
 
 import HeaderBar from "../../components/HeaderBar.js";
 
@@ -27,6 +28,7 @@ function CPStack() {
         />
         <Stack.Screen name="DefinedBenefit" component={DefinedStateBenefit} />
         <Stack.Screen name="OtherPension" component={OtherPension} />
+        <Stack.Screen name="CPCongrat" component={CPCongrat} />
       </>
     </Stack.Navigator>
   );

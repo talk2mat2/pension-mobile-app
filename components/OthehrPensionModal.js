@@ -10,29 +10,45 @@ import {
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
+
 const OtherensionModal = ({
   visible,
   setVisible,
   showModal,
   changeStatePension,
+  personData,
+  setPersonData,
 }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const [spouseGender, setSpouseGender] = React.useState("Male");
+  const [date, setDate] = React.useState(new Date());
+  const [showDatePicker, setShowDatePicker] = React.useState(false);
+  const [startdatDisplay, setStartdatDisplay] = React.useState(
+    new Date().toDateString()
+  );
   const [stateAmountValidation, setStateAmountValidation] =
     React.useState(false);
   const [stateAmount, setStateAmount] = React.useState("8325");
   const _next = () => {
-    if (!stateAmount) {
-      setStateAmountValidation(true);
-    } else {
-      changeStatePension(stateAmount);
-    }
+    // if (!stateAmount) {
+    //   setStateAmountValidation(true);
+    // } else {
+    //   changeStatePension(stateAmount);
+    // }
+    changeStatePension();
   };
   const hideModal = () => setVisible(false);
+  const updateDate = (d) => {
+    let tempd = new Date(d);
+    setDate(tempd);
+    setShowDatePicker(false);
+    setPersonData({ ...personData, expectedIncomeDate: tempd });
+  };
   return (
     <Portal>
       <Modal
@@ -90,21 +106,21 @@ const OtherensionModal = ({
             <Text>£</Text>
             <TextInput
               keyboardType="numeric"
-              onChangeText={(text) => {
-                setStateAmount(text), setStateAmountValidation(false);
-              }}
               style={styles.input}
-              value={stateAmount}
+              value={personData.expectedAnualIncome}
+              onChangeText={(text) => {
+                setPersonData({ ...personData, expectedAnualIncome: text });
+              }}
             />
           </View>
         </View>
-        {stateAmountValidation && (
+        {/* {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
             </Text>
           </View>
-        )}
+        )} */}
 
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
@@ -120,22 +136,63 @@ const OtherensionModal = ({
             <Text style={[styles.radioText]}>Male</Text>
             <RadioButton
               value="Male"
-              status={spouseGender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Male")}
+              status={personData.gender === "Male" ? "checked" : "unchecked"}
+              onPress={() => setPersonData({ ...personData, gender: "Male" })}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>Female</Text>
             <RadioButton
               value="Female"
-              status={spouseGender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Female")}
+              status={personData.gender === "Female" ? "checked" : "unchecked"}
+              onPress={() => setPersonData({ ...personData, gender: "Female" })}
             />
           </View>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View style={{ marginTop: 20 }}>
-          <Yext>Expected Income Start Date</Yext>
+        <View>
+          <Text style={{ fontSize: 16, marginTop: 10, marginBottom: 20 }}>
+            Expected Income Start Date
+          </Text>
+          <View style={{ height: 80 }}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Text style={{ marginRight: 20 }}>{date.toDateString()}</Text>
+              <JarvisButton
+                style={[styles.loginButton]}
+                bgcolor={myColorsLight.black}
+                play={() => {
+                  setShowDatePicker(true);
+                }}
+                btn="Select date"
+                w="40%"
+              />
+            </View>
+
+            <View style={[{ alignContent: "space-between" }]}>
+              {showDatePicker && (
+                <DateTimePicker
+                  testID="birthdayDateTimePicker"
+                  minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                  value={date}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={(e, d) => {
+                    setShowDatePicker(false);
+                    if (typeof d != "undefined") {
+                      updateDate(d);
+                    }
+                  }}
+                />
+              )}
+            </View>
+          </View>
         </View>
-        <View style={{ ...styles.hrView, marginTop: "40%" }} />
+
+        <View style={{ ...styles.hrView, marginTop: "20%" }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}
@@ -173,6 +230,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 16,
   },
+  formGroup: {
+    width: "90%",
+    textAlign: "center",
+    marginTop: 20,
+    borderRadius: 5,
+  },
   inputError: {
     color: "red",
     fontWeight: "bold",
@@ -187,6 +250,12 @@ const styles = StyleSheet.create({
 
     height: 2,
     backgroundColor: "#bbb",
+  },
+  formText: {
+    marginTop: 10,
+    marginRight: 5,
+
+    fontWeight: "bold",
   },
 });
 export default OtherensionModal;

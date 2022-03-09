@@ -24,7 +24,6 @@ function KYCRetireLondonScreen({ navigation }) {
 
   const _next = () => {
     let go = false;
-    console.log(retireLondon);
     setIsLoading(true);
     setNextButtonDisabled(true);
 
@@ -61,7 +60,7 @@ function KYCRetireLondonScreen({ navigation }) {
       setIsLoading(false);
       setNextButtonDisabled(false);
       navigation.navigate("KYCComplete");
-    }, 3000);
+    }, 1000);
   };
 
   const _goBack = () => {

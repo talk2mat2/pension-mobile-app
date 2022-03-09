@@ -29,7 +29,7 @@ const SpouseStatePensionModal = ({
     if (!stateAmount) {
       setStateAmountValidation(true);
     } else {
-      changeSpouseStatePension(stateAmount);
+      changeSpouseStatePension(stateAmount,spouseGender);
     }
   };
   const hideModal = () => setVisible(false);

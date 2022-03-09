@@ -1,5 +1,5 @@
-import React from "react";
-import Swiper from "react-native-swiper";
+import React, { useContext } from "react";
+import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -7,26 +7,40 @@ import StatePensionModal from "./statePensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
 import { myColorsLight } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import StatePenContext from "../contexts/satePenContext";
 
 const CPSwipper = () => {
   const [visible, setVisible] = React.useState(false);
   const [spouseVisible, setSpouseVisible] = React.useState(false);
-  const [statePension, setStatePension] = React.useState("");
-  const [spouseStatePension, setSpouseStatePension] = React.useState("");
+  //const [statePension, setStatePension] = React.useState("");
+
+  // const [spouseStatePension, setSpouseStatePension] = React.useState("");
+  const {
+    statePension,
+    setStatePension,
+    spouseStatePension,
+    setSpouseStatePension,
+    spouseGender,
+    setSpouseGender,
+    setGender,
+  } = useContext(StatePenContext);
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const showSpouseModal = () => setSpouseVisible(true);
   const hideSpouseModal = () => setSpouseVisible(false);
 
-  const changeStatePension = (newValue) => {
+  const changeStatePension = (newValue, gender) => {
     setStatePension(newValue);
     hideModal();
+    setGender(gender);
   };
-  const changeSpouseStatePension = (newValue) => {
+  const changeSpouseStatePension = (newValue, gender) => {
     setSpouseStatePension(newValue);
     hideSpouseModal();
+    setSpouseGender(gender);
   };
+
   return (
     <>
       <StatePensionModal {...{ visible, setVisible, changeStatePension }} />
@@ -130,6 +144,20 @@ const CPSwipper = () => {
                   )}
                 </View>
               </ImageBackground>
+              {spouseStatePension.length > 0 && (
+                <View style={{ flexDirection: "row" }}>
+                  <TouchableOpacity onPress={showSpouseModal}>
+                    <View style={styles.edit}>
+                      <AntDesign name="edit" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={() => setSpouseStatePension("")}>
+                    <View style={styles.edit}>
+                      <MaterialIcons name="cancel" size={20} color="black" />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
           </View>
         </Swiper>

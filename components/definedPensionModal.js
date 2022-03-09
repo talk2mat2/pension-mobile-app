@@ -18,6 +18,8 @@ const DefinedBenefitModal = ({
   setVisible,
   showModal,
   changeStatePension,
+  personData,
+  setPersonData,
 }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
@@ -26,11 +28,12 @@ const DefinedBenefitModal = ({
     React.useState(false);
   const [stateAmount, setStateAmount] = React.useState("");
   const _next = () => {
-    if (!stateAmount) {
-      setStateAmountValidation(true);
-    } else {
-      changeStatePension(stateAmount);
-    }
+    // if (!stateAmount) {
+    //   setStateAmountValidation(true);
+    // } else {
+    //   changeStatePension();
+    // }
+    changeStatePension();
   };
   const hideModal = () => setVisible(false);
   return (
@@ -78,21 +81,21 @@ const DefinedBenefitModal = ({
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <TextInput
               placeholder="Pension Name"
-              onChangeText={(text) => {
-                setStateAmount(text), setStateAmountValidation(false);
-              }}
               style={{ ...styles.input, width: "100%" }}
-              value={stateAmount}
+              value={personData.pensionName}
+              onChangeText={(text) => {
+                setPersonData({ ...personData, pensionName: text });
+              }}
             />
           </View>
         </View>
-        {stateAmountValidation && (
+        {/* {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
             </Text>
           </View>
-        )}
+        )} */}
 
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
@@ -103,18 +106,16 @@ const DefinedBenefitModal = ({
             marginTop: 20,
           }}
         >
-          <Text style={{ fontSize: 16 }}>
-          Annual Income Amount
-          </Text>
+          <Text style={{ fontSize: 16 }}>Annual Income Amount</Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text>£</Text>
             <TextInput
               keyboardType="numeric"
+              value={personData.annualIncome}
               onChangeText={(text) => {
-                setStateAmount(text), setStateAmountValidation(false);
+                setPersonData({ ...personData, annualIncome: text });
               }}
               style={styles.input}
-              value={stateAmount}
             />
           </View>
         </View>
@@ -134,19 +135,27 @@ const DefinedBenefitModal = ({
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
               value="Male"
-              status={spouseGender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Male")}
+              status={
+                personData.spousePension === "yes" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersonData({ ...personData, spousePension: "yes" });
+              }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
-              value="Female"
-              status={spouseGender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setSpouseGender("Female")}
+              value="no"
+              status={
+                personData.spousePension === "no" ? "checked" : "unchecked"
+              }
+              onPress={() => {
+                setPersonData({ ...personData, spousePension: "no" });
+              }}
             />
           </View>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-       
+
         <View style={{ ...styles.hrView, marginTop: "60%" }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton

@@ -22,133 +22,148 @@ import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
+import OtherpenContext from "../../contexts/otherPenContext";
 
 function OtherPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
+  const [person1, setPerson1] = React.useState({
+    expectedAnualIncome: "",
+    gender: "",
+    expectedIncomeDate: "",
+  });
+  const [person2, setPerson2] = React.useState({
+    expectedAnualIncome: "",
+    gender: "",
+    expectedIncomeDate: "",
+  });
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
   const _next = () => {
-    navigation.navigate("DefinedBenefit");
+    navigation.navigate("CPCongrat");
   };
   const _goBack = () => {
     navigation.goBack();
   };
   return (
-    <MyGradientBackground>
-      <>
-        <View
-          style={{
-            marginTop: 30,
-            alignContent: "flex-start",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute", left: 10 }}>
-            <Pressable onPress={_goBack}>
-              <MaterialCommunityIcons
-                name="chevron-left-circle-outline"
-                color={myColorsLight.lightGreyDark}
-                size={40}
-              />
-            </Pressable>
-          </View>
-
-          <View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  ,
-                  { fontSize: 20, textAlign: "center" },
-                ]}
-              >
-                Step 2 of 7
-              </Text>
-            </View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  ,
-                  { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                ]}
-              >
-                Current Pensions & Savings
-              </Text>
-            </View>
-          </View>
-        </View>
-
-        <View
-          style={{
-            ...styles.hrView,
-            width: "90%",
-            alignSelf: "center",
-            marginTop: 25,
-          }}
-        />
-        <View style={{ marginTop: 10 }}>
-          <Text
+    <OtherpenContext.Provider
+      value={{ person1, setPerson1, setPerson2, person2 }}
+    >
+      <MyGradientBackground>
+        <>
+          <View
             style={{
-              ...styles.subHeader,
-              textAlign: "center",
-              fontWeight: "bold",
+              marginTop: 30,
+              alignContent: "flex-start",
+              flexDirection: "row",
+              justifyContent: "center",
             }}
           >
-            Other Retirement {"\n"}Savings / Income
-          </Text>
-        </View>
-        <View
-          style={{
-            ...styles.hrView,
-            width: "90%",
-            alignSelf: "center",
-            marginTop: 10,
-          }}
-        />
-        <View style={{ marginTop: 30 }}>
-          <OtherSwipper />
-        </View>
-        <View style={{ marginTop: 7, alignItems: "center" }}>
-          {iDontHhaveState === false ? (
-            <JarvisButton
-              bgcolor={myColorsLight.black}
-              play={_next}
-              btn="Next"
-              w={200}
-            />
-          ) : (
-            <TouchableOpacity onPress={() => setIdontHaveState(false)}>
-              <View style={styles.btnIdont}>
-                <Text style={{ fontWeight: "900" }}>
-                  I don’t have aSnkyiopther savings
+            <View style={{ position: "absolute", left: 10 }}>
+              <Pressable onPress={_goBack}>
+                <MaterialCommunityIcons
+                  name="chevron-left-circle-outline"
+                  color={myColorsLight.lightGreyDark}
+                  size={40}
+                />
+              </Pressable>
+            </View>
+
+            <View>
+              <View>
+                <Text
+                  style={[
+                    styles.loginText,
+                    ,
+                    { fontSize: 20, textAlign: "center" },
+                  ]}
+                >
+                  Step 4 of 4
                 </Text>
               </View>
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={styles.footerContainer}>
-          <CPDatatable />
-        </View>
-        <View
-          style={{
-            marginTop: 30,
-            width: "50%",
-            alignSelf: "center",
-            marginBottom: 20,
-          }}
-        >
-          <ProgressBar
-            progress={0.3}
-            color={myColorsLight.lightGreyDark}
-            style={{ height: 7 }}
+              <View>
+                <Text
+                  style={[
+                    styles.loginText,
+                    ,
+                    { fontSize: 15, textAlign: "center", fontWeight: "bold" },
+                  ]}
+                >
+                  Current Pensions & Savings
+                </Text>
+              </View>
+            </View>
+          </View>
+
+          <View
+            style={{
+              ...styles.hrView,
+              width: "90%",
+              alignSelf: "center",
+              marginTop: 25,
+            }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
-        </View>
-      </>
-    </MyGradientBackground>
+          <View style={{ marginTop: 10 }}>
+            <Text
+              style={{
+                ...styles.subHeader,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Other Retirement {"\n"}Savings / Income
+            </Text>
+          </View>
+          <View
+            style={{
+              ...styles.hrView,
+              width: "90%",
+              alignSelf: "center",
+              marginTop: 10,
+            }}
+          />
+          <View style={{ marginTop: 30 }}>
+            <OtherSwipper />
+          </View>
+          <View style={{ marginTop: 7, alignItems: "center" }}>
+            {iDontHhaveState === false || person1.expectedAnualIncome ? (
+              <JarvisButton
+                bgcolor={myColorsLight.black}
+                play={_next}
+                btn="Next"
+                w={200}
+              />
+            ) : (
+              <TouchableOpacity onPress={() => setIdontHaveState(false)}>
+                <View style={styles.btnIdont}>
+                  <Text style={{ fontWeight: "900" }}>
+                    I don’t have any other savings
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            )}
+          </View>
+          <View style={styles.footerContainer}>
+            <CPDatatable />
+          </View>
+          <View
+            style={{
+              marginTop: 30,
+              width: "50%",
+              alignSelf: "center",
+              marginBottom: 20,
+            }}
+          >
+            <ProgressBar
+              progress={0.3}
+              color={myColorsLight.lightGreyDark}
+              style={{ height: 7 }}
+            />
+            <Text style={{ textAlign: "center", fontSize: 20 }}>4/4</Text>
+          </View>
+        </>
+      </MyGradientBackground>
+    </OtherpenContext.Provider>
   );
 }
 

@@ -13,7 +13,7 @@ import { myColorsLight } from "../constant/colors";
 import OutcomeDatatable from "./outcomeDataTable";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const OutcomeCard = ({ hideCards }) => {
+const OutcomeCard = ({ hideCards ,children}) => {
   const outcomePopper = new Animated.ValueXY({
     x: 0,
     y: -Dimensions.get("window").height,
@@ -68,12 +68,7 @@ const OutcomeCard = ({ hideCards }) => {
         ],
       }}
     >
-      
-      <Text style={styles.textHead}>Your Retirement Profile</Text>
-      <View style={{ ...styles.hrView, marginVertical: 10 }} />
-      <View>
-        <OutcomeDatatable />
-      </View>
+   {children}
       {/* <View style={styles.close}>
         <TouchableOpacity style={{flex:1}} onPress={hideCards}>
           <MaterialIcons name="cancel" size={30} color="black" />
@@ -84,10 +79,7 @@ const OutcomeCard = ({ hideCards }) => {
 };
 
 const styles = StyleSheet.create({
-  textHead: {
-    textAlign: "center",
-    fontSize: 16,
-  },
+
   container: {
     position: "absolute",
     bottom: 120,
