@@ -12,7 +12,7 @@ import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { myColorsLight } from "../constant/colors";
 
-const BudgetOption = ({ type, _next, budetData }) => {
+const BudgetOption = ({ type, _next, budetData, desccription }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const toggle = () => setItsOpen(!itsOpen);
@@ -71,11 +71,7 @@ const BudgetOption = ({ type, _next, budetData }) => {
                 />
               </View>
               <Text style={styles.textWriteUp}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean
-                lobortis, diam vel finibus commodo, nibh nulla ullamcorper nisl,
-                dictum semper quam nisi id felis. In eget tincidunt enim, eget
-                vulputate nisi. Pellentesque pretium tellus et neque venenatis,
-                arcu ac
+                {desccription && desccription["Total (Gross)"]}
               </Text>
 
               <View style={{ height: 300 }}>

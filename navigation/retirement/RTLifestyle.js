@@ -78,63 +78,77 @@ function RTLifestyle({ route, navigation }) {
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
 
-    // const newData = {
-    //   type: "retirementProfile",
-    //   attributes: {
-    //     ...ctx?.u?.included,
-    //     expenses: [
-    //       {
-    //         plsaCostCategoryId: 2,
-    //         plsaCostCategoryName: "House",
-    //         amount: lifestyleData?.House,
-    //       },
-    //       {
-    //         plsaCostCategoryId: 3,
-    //         plsaCostCategoryName: "Food & drink",
-    //         amount: lifestyleData?.["Food & drink"],
-    //       },
-    //       {
-    //         plsaCostCategoryId: 4,
-    //         plsaCostCategoryName: "Transport",
-    //         amount: lifestyleData?.Transport,
-    //       },
-    //       {
-    //         plsaCostCategoryId: 5,
-    //         plsaCostCategoryName: "Holidays & Leisure",
-    //         amount: lifestyleData?.["Holidays & Leisure"],
-    //       },
-    //       {
-    //         plsaCostCategoryId: 6,
-    //         plsaCostCategoryName: "Clothing and Personal",
-    //         amount: lifestyleData?.["Clothing & Personal"],
-    //       },
-    //       {
-    //         plsaCostCategoryId: 7,
-    //         plsaCostCategoryName: "Helping Others",
-    //         amount: lifestyleData?.["Helping Others"],
-    //       },
-    //     ],
-    //   },
-    // };
-    u.type = "user";
     const newData = {
-      ...u,
+      type: "retirementProfile",
+      attributes: {
+        ...ctx?.u?.included,
+        expenses: [
+          {
+            plsaCostCategoryId: 2,
+            plsaCostCategoryName: "House",
+            amount: lifestyleData?.House,
+          },
+          {
+            plsaCostCategoryId: 3,
+            plsaCostCategoryName: "Food & drink",
+            amount: lifestyleData?.["Food & drink"],
+          },
+          {
+            plsaCostCategoryId: 4,
+            plsaCostCategoryName: "Transport",
+            amount: lifestyleData?.Transport,
+          },
+          {
+            plsaCostCategoryId: 5,
+            plsaCostCategoryName: "Holidays & Leisure",
+            amount: lifestyleData?.["Holidays & Leisure"],
+          },
+          {
+            plsaCostCategoryId: 6,
+            plsaCostCategoryName: "Clothing and Personal",
+            amount: lifestyleData?.["Clothing & Personal"],
+          },
+          {
+            plsaCostCategoryId: 7,
+            plsaCostCategoryName: "Helping Others",
+            amount: lifestyleData?.["Helping Others"],
+          },
+        ],
+      },
     };
+    // u.type = "user";
+    // const newData = {
+    //   ...u,
+    // };
 
     // setIsloading(true);
-    await Api.update_user_profile(newData, ctx?.atk)
-      .then((res) => {
-        setIsloading(false);
-        console.log(res);
-        navigation.navigate("RTExcellent", {
-          result: lifestyleData?.["Total (Gross)"],
-        });
-      })
-      .catch((err) => {
-        setIsloading(false);
-        console.log(err);
-        Alert.alert("An error occured in the requested operation, try again");
-      });
+    // await Api.update_user_profile(newData, ctx?.atk)
+    //   .then((res) => {
+    //     setIsloading(false);
+    //     console.log(res);
+    //     navigation.navigate("RTExcellent", {
+    //       result: lifestyleData?.["Total (Gross)"],
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     setIsloading(false);
+    //     console.log(err);
+    //     Alert.alert("An error occured in the requested operation, try again");
+    //   });
+    navigation.navigate("RTExcellent", {
+      result: lifestyleData?.["Total (Gross)"],
+    });
+    // await Api.Update_retirement_profile(
+    //   ctx?.u?.included[0]?.userId,
+    //   ctx?.atk,
+    //   newData
+    // )
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
   const _next = () => {
     _updateUser();
@@ -305,9 +319,11 @@ function RTLifestyle({ route, navigation }) {
           />
           <View style={styles.sum}>
             <Text style={{ fontSize: 17 }}>Total Monthly Budget</Text>
-            <Text
-              style={{ fontSize: 17 }}
-            >{`£${lifestyleData?.["Total (Gross)"]}`}</Text>
+            <Text style={{ fontSize: 17 }}>{`£${
+              lifestyleData?.["Total (Gross)"]
+                ? Math.ceil(lifestyleData?.["Total (Gross)"] / 12)
+                : null
+            }`}</Text>
           </View>
 
           <View

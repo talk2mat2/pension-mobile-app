@@ -8,7 +8,12 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from "react-native";
+let ModalDropdown;
+if (Platform.OS !== "web") {
+  ModalDropdown = require("react-native-modal-dropdown");
+}
 import { MaterialIcons } from "@expo/vector-icons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
@@ -18,7 +23,7 @@ import { AntDesign } from "@expo/vector-icons";
 import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
-import ModalDropdown from "react-native-modal-dropdown";
+
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar, Chip } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
@@ -138,7 +143,7 @@ function KYCRetirementAgeScreen({ navigation }) {
               marginBottom: 10,
             }}
           >
-            <View style={{width:'100%',alignItems:'flex-end'}}>
+            <View style={{ width: "100%", alignItems: "flex-end" }}>
               <View style={styles.close}>
                 <TouchableOpacity onPress={hideModal}>
                   <MaterialIcons
@@ -160,7 +165,7 @@ function KYCRetirementAgeScreen({ navigation }) {
 
                   backgroundColor: myColorsLight.white,
                   padding: 2,
-                  paddingBottom:20
+                  paddingBottom: 20,
                 },
               ]}
             >
@@ -191,21 +196,6 @@ function KYCRetirementAgeScreen({ navigation }) {
         </View>
 
         <View>
-          <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                {
-                  fontSize: 20,
-                  textAlign: "center",
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
-            >
-              Step 3 of 5
-            </Text>
-          </View>
           <View>
             <Text
               style={[
@@ -257,25 +247,45 @@ function KYCRetirementAgeScreen({ navigation }) {
 
         <View style={{ alignItems: "center" }}>
           <View style={styles.formGroup}>
+       
             <View style={(styles.centerView, { paddingVertical: 2 })}>
-              <ModalDropdown
-                defaultValue={retirementAge.toString() || "select."}
-                textStyle={{ fontSize: 15 }}
-                dropdownStyle={{ width: "100%" }}
-                dropdownTextStyle={{
-                  fontSize: 16,
-                  paddingLeft: 10,
-                  fontWeight: "900",
-                }}
-                onSelect={(itemIndex, itemValue) => {
-                  setRetirementAge(itemIndex, itemValue);
-                  console.log(itemValue);
-                  if (parseInt(itemValue) > 1)
-                    setRetirementAgeValidation(false);
-                }}
-                style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-                options={options}
-              />
+              {Platform.OS !== "web" && (
+                <ModalDropdown
+                  defaultIndex={47}
+                  defaultValue={retirementAge || "select."}
+                  textStyle={{ fontSize: 15 }}
+                  dropdownStyle={{ width: "100%" }}
+                  dropdownTextStyle={{
+                    fontSize: 16,
+                    paddingLeft: 10,
+                    fontWeight: "900",
+                  }}
+                  onSelect={(itemIndex, itemValue) => {
+                    setRetirementAge(itemValue);
+                    // console.log(itemValue);
+                    if (parseInt(itemValue) > 1)
+                      setRetirementAgeValidation(false);
+                  }}
+                  style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+                  options={options.reverse()}
+                />
+              )}
+              {Platform.OS === "web" && (
+                <Picker
+                  selectedValue={retirementAge.toString() || "select."}
+                  style={{ height: 40, paddingHorizontal: 10, border: "none" }}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setRetirementAge(itemValue);
+                    console.log(itemValue);
+                    if (parseInt(itemValue) > 1)
+                      setRetirementAgeValidation(false);
+                  }}
+                >
+                  {options.reverse().map((item) => (
+                    <Picker.Item label={item} value={item} />
+                  ))}
+                </Picker>
+              )}
             </View>
           </View>
         </View>
@@ -322,10 +332,10 @@ function KYCRetirementAgeScreen({ navigation }) {
       >
         <View style={[{ marginTop: 60, alignItems: "center" }]}>
           <JarvisButton
-            style={[styles.loginButton, { marginTop: 10 }]}
+            // style={{...styles.loginButton,  marginTop: 10 }}
             bgcolor={myColorsLight.black}
             play={_next}
-            w="50%"
+            w={150}
             btn="Next"
           />
         </View>
@@ -395,15 +405,13 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   close: {
-  
-    
     zIndex: 9,
     elevation: 3,
   },
   containerStyle: {
     backgroundColor: myColorsLight.white,
     padding: 2,
-    borderRadius:10,
+    borderRadius: 10,
     marginHorizontal: 20,
   },
   inputError: {

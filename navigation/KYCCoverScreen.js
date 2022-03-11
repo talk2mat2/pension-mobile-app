@@ -35,8 +35,10 @@ function KYCCoverScreen({ navigation }) {
         <Text style={styles.subHeader}>Welcome to Jarvis</Text>
       </View>
 
-      <View style={{ marginTop: 10, alignItems: "center",marginBottom:15 }}>
-        <Text style={{ textAlign: "center",color:myColorsLight.lightGreyDim }}>
+      <View style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}>
+        <Text
+          style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
+        >
           To build your retirement profile{"\n"}, we would need to capture some
           {"\n"}
           information from you.
@@ -44,17 +46,29 @@ function KYCCoverScreen({ navigation }) {
       </View>
 
       <View style={{ marginTop: 10 }}>
-        <Text style={[{ fontWeight: "bold", alignSelf: "center" ,letterSpacing:0.6}]}>
+        <Text
+          style={[
+            { fontWeight: "bold", alignSelf: "center", letterSpacing: 0.6 },
+          ]}
+        >
           It would take just three steps:
         </Text>
       </View>
 
-      <View style={{ paddingHorizontal: 40, marginTop: 10 ,marginBottom:100}}>
+      <View style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}>
         <View style={styles.hrView}></View>
 
         <View style={styles.hrView}>
           <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-            <Text style={[{  marginLeft: 5, marginTop: 3,color:myColorsLight.lightGreyDark }]}>
+            <Text
+              style={[
+                {
+                  marginLeft: 5,
+                  marginTop: 3,
+                  color: myColorsLight.lightGreyDark,
+                },
+              ]}
+            >
               <Text>1</Text> Personal Information
             </Text>
           </View>
@@ -62,14 +76,30 @@ function KYCCoverScreen({ navigation }) {
 
         <View style={styles.hrView}>
           <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-          <Text style={[{  marginLeft: 5, marginTop: 3,color:myColorsLight.lightGreyDark }]}>
+            <Text
+              style={[
+                {
+                  marginLeft: 5,
+                  marginTop: 3,
+                  color: myColorsLight.lightGreyDark,
+                },
+              ]}
+            >
               <Text>2</Text> Your Retirement Lifestyle
             </Text>
           </View>
         </View>
         <View style={styles.hrView}>
           <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-          <Text style={[{  marginLeft: 5, marginTop: 3,color:myColorsLight.lightGreyDark }]}>
+            <Text
+              style={[
+                {
+                  marginLeft: 5,
+                  marginTop: 3,
+                  color: myColorsLight.lightGreyDark,
+                },
+              ]}
+            >
               <Text>3</Text> Pensions & Savings
             </Text>
           </View>
@@ -77,14 +107,24 @@ function KYCCoverScreen({ navigation }) {
       </View>
 
       <>
-        <View style={{ width: "100%", marginTop: 10 ,position:'absolute',left:0,right:0,bottom:3,marginBottom:15}}>
+        <View
+          style={{
+            width: "100%",
+            marginTop: 10,
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 3,
+            marginBottom: 15,
+          }}
+        >
           <View style={[styles.centerView, { marginTop: 60 }]}>
             <JarvisButton
-              style={[styles.loginButton, { marginTop: 10 }]}
+              style={{ ...styles.loginButton, marginTop: 10 }}
               bgcolor={myColorsLight.black}
               play={_next}
               btn="Let's begin"
-              w='50%'
+              w="50%"
             />
           </View>
         </View>

@@ -16,7 +16,6 @@ import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
 
 function KYCRetireLondonScreen({ navigation }) {
-
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [retireLondon, setRetireLondon] = useState("yes");
   const [isLoading, setIsLoading] = useState(false);
@@ -88,28 +87,15 @@ function KYCRetireLondonScreen({ navigation }) {
         </View>
 
         <View>
+         
           <View>
             <Text
-              style={[
-                styles.loginText,
-                ,
-                {
-                  fontSize: 20,
-                  textAlign: "center",
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
-            >
-              Step 5 of 5
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-              ]}
+              style={{
+                ...styles.loginText,
+                fontSize: 15,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
             >
               Personal Information
             </Text>
@@ -119,52 +105,46 @@ function KYCRetireLondonScreen({ navigation }) {
       <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
           <Text
-            style={[
-              styles.subHeader,
-              { textAlign: "center", fontWeight: "bold" },
-            ]}
+            style={{
+              ...styles.subHeader,
+              textAlign: "center",
+              fontWeight: "bold",
+            }}
           >
             Do you plan to{"\n"}
             retire in London?
           </Text>
         </View>
-        <View
-          style={[
-            styles.centerView,
-            {
-              marginTop: 10,
-              marginBottom: 30,
-            },
-          ]}
-        >
-          <MaterialCommunityIcons
-            name="information"
-            color={myColorsLight.black}
-            size={18}
-          />
-          <Text
-            style={[
-              styles.subHeader,
-              {
+        <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
+          <View style={{flexDirection:'row'}}>
+            <MaterialCommunityIcons
+              name="information"
+              color={myColorsLight.black}
+              size={18}
+            />
+            <Text
+              style={{
+                ...styles.subHeader,
                 fontSize: 16,
                 color: myColorsLight.lightGreyDim,
                 paddingLeft: 3,
-              },
-            ]}
-          >
-            Why are we asking you this?
-          </Text>
+                textAlign: "center",
+              }}
+            >
+              Why are we asking you this?
+            </Text>
+          </View>
         </View>
 
         <View style={styles.borderBox}>
           <View style={styles.centerView}>
-            <Text style={[styles.radioText]}>Yes</Text>
+            <Text style={styles.radioText}>Yes</Text>
             <RadioButton
               value="yes"
               status={retireLondon === "yes" ? "checked" : "unchecked"}
               onPress={() => setRetireLondon("yes")}
             />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+            <Text style={styles.radioText}>No</Text>
             <RadioButton
               value="no"
               status={retireLondon === "no" ? "checked" : "unchecked"}
@@ -192,12 +172,12 @@ function KYCRetireLondonScreen({ navigation }) {
           bottom: 0,
         }}
       >
-        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+        <View style={{ marginTop: 60, alignItems: "center" }}>
           <JarvisButton
-            style={[styles.loginButton, { marginTop: 10 }]}
+            style={{ ...styles.loginButton, marginTop: 10 }}
             bgcolor={myColorsLight.black}
             play={_next}
-            w="50%"
+            w={150}
             btn="Next"
           />
         </View>

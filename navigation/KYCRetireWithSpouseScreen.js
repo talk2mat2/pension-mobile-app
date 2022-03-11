@@ -7,10 +7,15 @@ import {
   Pressable,
   ImageBackground,
   ScrollView,
+  Platform,
+  Picker,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
-import ModalDropdown from "react-native-modal-dropdown";
+let ModalDropdown;
+if (Platform.OS !== "web") {
+  ModalDropdown = require("react-native-modal-dropdown");
+}
 import UserContext from "../contexts/UserContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "../components/JarvisButton";
@@ -49,7 +54,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
   const updateBirthday = (d) => {
     let tempd = new Date(d);
-    console.log(tempd);
+    // console.log(tempd);
     setBirthday(tempd);
     setBirthdayDisplay(tempd.toDateString());
     setShowDatePicker(false);
@@ -81,7 +86,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
-    console.log(u);
+    // console.log(u);
   };
   React.useEffect(() => {
     setBirthday(new Date("2004-01-12T23:00:00.000Z"));
@@ -153,7 +158,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
   };
 
   const _showWhyPopup = () => {
-    console.log("Showing you why in a bit..");
+    // console.log("Showing you why in a bit..");
     setShowWhy(true);
     setTimeout(() => {
       setShowWhy(false);
@@ -182,21 +187,6 @@ function KYCRetireWithSpouseScreen({ navigation }) {
           </View>
 
           <View>
-            <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  ,
-                  {
-                    fontSize: 20,
-                    textAlign: "center",
-                    color: myColorsLight.lightGreyDark,
-                  },
-                ]}
-              >
-                Step 4 of 5
-              </Text>
-            </View>
             <View>
               <Text
                 style={[
@@ -302,15 +292,80 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
           {showOtherSpouseFields && (
             <>
-              <View style={[styles.hrView, { alignContent: "space-between" }]}>
-                <Text style={[styles.formText, { marginLeft: 5 }]}>
+             <View style={{ ...styles.hrView, alignContent: "space-between" }}>
+            <View
+                style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
+              >
+                <Text style={[styles.inlineFormText]}>Spouse gender</Text>
+                <View style={styles.inlineFormGroup}>
+                  <View style={(styles.centerView, { paddingVertical: 1 })}>
+                    {/* <TextInput
+                      keyboardType="number-pad"
+                      style={[styles.formInput, { textAlign: "center" }]}
+                      onChangeText={(text) => {
+                        setSpouseRetirementAge(text);
+                        if (parseInt(text) > 1)
+                          setSpouseRetirementAgeValidation(false);
+                      }}
+                      placeholder="Enter retirement age"
+                      placeholderTextColor="#fff"
+                      value={spouseRetirementAge}
+                    /> */}
+                    {Platform.OS !== "web" && (
+                      <ModalDropdown
+                        defaultValue={"select.."}
+                        textStyle={{ fontSize: 15 }}
+                        dropdownStyle={{ width: "100%", paddingLeft: 6 }}
+                        dropdownTextStyle={{
+                          fontSize: 16,
+                          paddingLeft: 10,
+                          fontWeight: "900",
+                        }}
+                        onSelect={(itemIndex, itemValue) => {
+                          setSpouseGender(itemValue);
+                          setSpouseGenderValidation(false);
+                        }}
+                        style={{
+                          ...styles.formInput,
+                          textAlign: "center",
+                          paddingHorizontal: 10,
+                        }}
+                        options={["Male", "Female"]}
+                      />
+                    )}
+                    {Platform.OS === "web" && (
+                      <Picker
+                        selectedValue={"Select.."}
+                        style={{ height: 40, paddingHorizontal: 10,border:'none' }}
+                        onValueChange={(itemValue, itemIndex) => {
+                          setSpouseGender(itemValue);
+                          setSpouseGenderValidation(false);
+                        }}
+                      >
+                        {["Male", "Female"].map((item) => (
+                          <Picker.Item label={item} value={item} />
+                        ))}
+                      </Picker>
+                    )}
+                  </View>
+                </View>
+              </View>
+              {spouseGenderValidation && (
+                <View style={styles.formGroupError}>
+                  <Text style={{ ...styles.inputError, marginTop: 4 }}>
+                    Please select your spouse's gender
+                  </Text>
+                </View>
+              )}
+             
+                <Text style={{ ...styles.formText, marginLeft: 5 }}>
                   Enter spouse's date of birth
                 </Text>
-                <View style={[styles.formGroup, { marginLeft: 5 }]}>
+                <View style={{ ...styles.formGroup, marginLeft: 5 }}>
                   <View style={{ flexDirection: "row", paddingVertical: 5 }}>
-                    <Text style={[styles.formText]}>{birthdayDisplay}</Text>
+                    <Text style={styles.formText}>{birthdayDisplay}</Text>
                     <JarvisButton
-                      style={[styles.loginButton]}
+                      style={styles.loginButton}
                       bgcolor={myColorsLight.black}
                       play={() => {
                         setShowDatePicker(true);
@@ -338,54 +393,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   />
                 )}
               </View>
-              <View
-                style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
-              >
-                <Text style={[styles.inlineFormText]}>Spouse gender</Text>
-                <View style={styles.inlineFormGroup}>
-                  <View style={(styles.centerView, { paddingVertical: 1 })}>
-                    {/* <TextInput
-                      keyboardType="number-pad"
-                      style={[styles.formInput, { textAlign: "center" }]}
-                      onChangeText={(text) => {
-                        setSpouseRetirementAge(text);
-                        if (parseInt(text) > 1)
-                          setSpouseRetirementAgeValidation(false);
-                      }}
-                      placeholder="Enter retirement age"
-                      placeholderTextColor="#fff"
-                      value={spouseRetirementAge}
-                    /> */}
-                    <ModalDropdown
-                      defaultValue={"select.."}
-                      textStyle={{ fontSize: 15 }}
-                      dropdownStyle={{ width: "100%", paddingLeft: 6 }}
-                      dropdownTextStyle={{
-                        fontSize: 16,
-                        paddingLeft: 10,
-                        fontWeight: "900",
-                      }}
-                      onSelect={(itemIndex, itemValue) => {
-                        setSpouseGender(itemValue);
-                        setSpouseGenderValidation(false);
-                      }}
-                      style={{
-                        ...styles.formInput,
-                        textAlign: "center",
-                        paddingHorizontal: 10,
-                      }}
-                      options={["Male", "Female", "Unknown"]}
-                    />
-                  </View>
-                </View>
-              </View>
-              {spouseGenderValidation && (
-                <View style={styles.formGroupError}>
-                  <Text style={{ ...styles.inputError, marginTop: 4 }}>
-                    Please select your spouse's gender
-                  </Text>
-                </View>
-              )}
+              
             </>
           )}
         </View>
@@ -429,12 +437,12 @@ function KYCRetireWithSpouseScreen({ navigation }) {
           bottom: 0,
         }}
       >
-        <View style={[{ marginTop: 60, alignItems: "center" }]}>
+        <View style={{ marginTop: 60, alignItems: "center" }}>
           <JarvisButton
-            style={[styles.loginButton, { marginTop: 10 }]}
+            // style={{ ...styles.loginButton, marginTop: 10 }}
             bgcolor={myColorsLight.black}
             play={_next}
-            w="50%"
+            w={150}
             btn="Next"
           />
         </View>

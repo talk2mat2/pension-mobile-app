@@ -6,9 +6,9 @@ import {
   Pressable,
   View,
   Text,
+  TouchableOpacity,
+  Platform,
 } from "react-native";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import * as RootNavigation from "../RootNavigation.js";
 
 const JarvisButton = (props) => {
   const pressedAnim = useRef(new Animated.Value(1)).current;
@@ -35,7 +35,7 @@ const JarvisButton = (props) => {
   }, [isPressed]);
 
   return (
-    <Animated.View style={{ ...props.style, width: w, opacity: pressedAnim }}>
+    <Animated.View style={{ ...props?.style, width: w, opacity: pressedAnim }}>
       <Pressable
         disabled={disabled}
         onPress={() => {
@@ -47,7 +47,10 @@ const JarvisButton = (props) => {
         <View
           style={[
             styles.button,
-            { backgroundColor: disabled ? "#f2f2f2" : props.bgcolor },
+            {
+              backgroundColor: disabled ? "#f2f2f2" : props.bgcolor,
+              width: Platform.OS === "web" ? 200 : null,
+            },
           ]}
         >
           <Text style={styles.buttonText}>{props.btn}</Text>

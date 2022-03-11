@@ -8,13 +8,17 @@ import {
   ImageBackground,
   Platform,
 } from "react-native";
+let ModalDropdown;
+if (Platform.OS !== "web") {
+  ModalDropdown = require("react-native-modal-dropdown");
+}
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar } from "react-native-paper";
-import ModalDropdown from "react-native-modal-dropdown";
+// import ModalDropdown from "react-native-modal-dropdown";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
 
@@ -22,7 +26,7 @@ import JarvisButton from "../components/JarvisButton";
 
 function KYCBirthdayScreen({ navigation }) {
   const ctx = useContext(UserContext);
-  let u = ctx.u;
+  let u = ctx?.u;
   // console.log("u bday: ", u);
   let tempDate = new Date();
   tempDate.setFullYear(tempDate.getFullYear() - 40);
@@ -73,7 +77,7 @@ function KYCBirthdayScreen({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
-  const options = ["none", "Male", "Female", "Unknown"];
+  const options = ["Male", "Female"];
   React.useEffect(() => {
     if (!u?.attributes?.gender) {
       setGender("Male");
@@ -105,21 +109,6 @@ function KYCBirthdayScreen({ navigation }) {
               style={[
                 styles.loginText,
                 ,
-                {
-                  fontSize: 20,
-                  textAlign: "center",
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
-            >
-              Step 2 of 5
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
                 { fontSize: 15, textAlign: "center", fontWeight: "bold" },
               ]}
             >
@@ -137,49 +126,68 @@ function KYCBirthdayScreen({ navigation }) {
             ]}
           >
             Thanks {u.attributes.fname} {"\n"}
-            please tell us your {"\n"}
-            date of birth? {"\n"}
+            please tell us your {"\n"}gender and date of birth? {"\n"}
           </Text>
         </View>
-        {/* <View
-          style={[
-            styles.centerView,
-            {
-              marginTop: 10,
-              marginBottom: 30,
-              padding: 10,
-              borderRadius: 20,
-              backgroundColor: "#555",
-            },
-          ]}
-        >
-          <MaterialCommunityIcons name="information" color="#fff" size={18} />
-          <Text style={[styles.subHeader, { fontSize: 16, color: "#fff" }]}>
-            Why are we asking you this?
-          </Text>
-        </View> */}
+        <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
+          <View style={{ flexDirection: "row" }}>
+            <MaterialCommunityIcons
+              name="information"
+              color={myColorsLight.black}
+              size={18}
+            />
+            <Text
+              style={{
+                ...styles.subHeader,
+                fontSize: 16,
+                color: myColorsLight.lightGreyDim,
+                paddingLeft: 3,
+                textAlign: "center",
+              }}
+            >
+              Why are we asking you this?
+            </Text>
+          </View>
+        </View>
         <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
           <Text style={{ fontSize: 15 }}>Gender</Text>
         </View>
         <View style={{ alignItems: "center" }}>
           <View style={[styles.formGroup]}>
             <View style={(styles.centerView, { paddingVertical: 5 })}>
-              <ModalDropdown
-                defaultValue={gender || "select.."}
-                textStyle={{ fontSize: 15 }}
-                dropdownStyle={{ width: "100%" }}
-                dropdownTextStyle={{
-                  fontSize: 16,
-                  paddingLeft: 10,
-                  fontWeight: "900",
-                }}
-                onSelect={(itemIndex, itemValue) => {
-                  setGender(itemValue);
-                  setGenderValidation(false);
-                }}
-                style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-                options={options}
-              />
+              {Platform.OS !== "web" && (
+                <ModalDropdown
+                  defaultValue={gender || "select.."}
+                  textStyle={{ fontSize: 15 }}
+                  dropdownStyle={{ width: "100%" }}
+                  dropdownTextStyle={{
+                    fontSize: 16,
+                    paddingLeft: 10,
+                    fontWeight: "900",
+                  }}
+                  onSelect={(itemIndex, itemValue) => {
+                    setGender(itemValue);
+                    setGenderValidation(false);
+                  }}
+                  style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+                  options={options}
+                />
+              )}
+              {Platform.OS === "web" && (
+                <Picker
+                  selectedValue={gender || ""}
+                  style={{ height: 40, paddingHorizontal: 10, border: "none" }}
+                  onValueChange={(itemValue, itemIndex) => {
+                    setGender(itemValue);
+                    setGenderValidation(false);
+                  }}
+                >
+                  {options.map((item) => (
+                    <Picker.Item label={item} value={item} />
+                  ))}
+                </Picker>
+              )}
+
               {/* <Picker
                 selectedValue={u.attributes.gender}
                 onValueChange={(itemValue, itemIndex) => {
@@ -209,7 +217,7 @@ function KYCBirthdayScreen({ navigation }) {
               <View style={{ flexDirection: "row" }}>
                 <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
                 <JarvisButton
-                  style={[styles.loginButton, { marginVertical: 10 }]}
+                  style={{ ...styles.loginButton, marginVertical: 10 }}
                   bgcolor="#ff6c00"
                   play={() => {
                     setShowDatePicker(true);
@@ -218,16 +226,16 @@ function KYCBirthdayScreen({ navigation }) {
                   w="50%"
                 />
               </View>
-
-             
             </View>
-            <View style={{width:300,marginLeft:30}}>
-          {showDatePicker && (
+            <View style={{ width: 300, marginLeft: 30 }}>
+              {/* {  console.log(new Date(birthday))} */}
+              {showDatePicker && (
                 <DateTimePicker
                   testID="birthdayDateTimePicker"
-                  value={birthday}
+                  value={new Date()}
                   // minimum 18 years
-                  minimumDate={new Date(new Date().getFullYear()-18, 0, 1)}
+
+                  minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
                   // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
                   mode="date"
                   is24Hour={true}
@@ -236,14 +244,13 @@ function KYCBirthdayScreen({ navigation }) {
                     setShowDatePicker(false);
                     if (typeof d != "undefined") {
                       updateBirthday(d);
-                    
                     }
                   }}
                 />
               )}
+            </View>
           </View>
-          </View>
-       
+
           {birthdayValidation && (
             <View style={styles.formGroupError}>
               <Text style={styles.inputError}>This field is required</Text>

@@ -118,11 +118,9 @@ function RTExcellent({ navigation, route }) {
             fontWeight: "bold",
           }}
         >
-          £{scores}
+          £{scores ? Math.ceil(scores / 12) : 0}
         </Text>
-        <Text style={{ textAlign: "center" }}>
-          (£{scores ? scores * 12 : 0} Per Annum)
-        </Text>
+        <Text style={{ textAlign: "center" }}>(£{scores} Per Annum)</Text>
       </View>
       <View
         style={{
@@ -196,7 +194,7 @@ function RTExcellent({ navigation, route }) {
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
-              <OutcomeDatatable  />
+              <OutcomeDatatable />
               <Text style={{ ...styles.textHead, textAlign: "left" }}>
                 Current Retirement Fund
               </Text>

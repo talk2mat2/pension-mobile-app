@@ -86,6 +86,35 @@ function RTbudgetOne({ navigation }) {
       return response;
     }
   };
+
+  const minimumOverview = (arr) => {
+    if (arr.length > 0) {
+      let response = {};
+      arr.map((item) => {
+        response["Total (Gross)"] = item?.attributes?.minimum?.description;
+      });
+      return response;
+    }
+  };
+
+  const moderateOverview = (arr) => {
+    if (arr.length > 0) {
+      let response = {};
+      arr.map((item) => {
+        response["Total (Gross)"] = item?.attributes?.moderate?.description;
+      });
+      return response;
+    }
+  };
+  const comfortableOverview = (arr) => {
+    if (arr.length > 0) {
+      let response = {};
+      arr.map((item) => {
+        response["Total (Gross)"] = item?.attributes?.comfortable?.description;
+      });
+      return response;
+    }
+  };
   return (
     <MyGradientBackground>
       <View
@@ -166,16 +195,19 @@ function RTbudgetOne({ navigation }) {
                 budetData={minimumData(pageData)}
                 _next={_next}
                 type="Mimimum"
+                desccription={minimumOverview(pageData)}
               />
               <BudgetOption
                 budetData={moderateData(pageData)}
                 _next={_next}
                 type="Moderate"
+                desccription={moderateOverview(pageData)}
               />
               <BudgetOption
                 budetData={comfortableData(pageData)}
                 _next={_next}
                 type="Comfortable"
+                desccription={comfortableOverview(pageData)}
               />
             </>
           )}

@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderWidth: 1,
     zIndex: 3,
-    elevation: 3,
+    elevation: 7,
     height: Dimensions.get("screen").width / 1.1,
     width: "100%",
   },

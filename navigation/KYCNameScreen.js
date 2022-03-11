@@ -6,10 +6,13 @@ import {
   TextInput,
   ImageBackground,
   Pressable,
+  Platform,
   Alert,
 } from "react-native";
-
-import ModalDropdown from "react-native-modal-dropdown";
+let ModalDropdown;
+if (Platform.OS !== "web") {
+  ModalDropdown = require("react-native-modal-dropdown");
+}
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
@@ -109,7 +112,6 @@ function KYCNameScreen({ navigation }) {
   };
   const options = ["none", "mrs", "miss", "mr"];
 
-
   return (
     <MyGradientBackground>
       <View
@@ -131,21 +133,7 @@ function KYCNameScreen({ navigation }) {
         </View>
 
         <View>
-          <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                {
-                  fontSize: 20,
-                  textAlign: "center",
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
-            >
-              Step 1 of 5
-            </Text>
-          </View>
+        
           <View>
             <Text
               style={[
@@ -170,24 +158,41 @@ function KYCNameScreen({ navigation }) {
         </View>
 
         <View style={[styles.formGroup]}>
-          <ModalDropdown
-            defaultValue={title || "Select"}
-            textStyle={{ fontSize: 15 }}
-            dropdownStyle={{ width: "100%" }}
-            dropdownTextStyle={{
-              fontSize: 16,
-              paddingLeft: 10,
-              fontWeight: "900",
-            }}
-            onSelect={(itemIndex, itemValue) => {
-              setTitle(itemValue);
+          {Platform.OS !== "web" && (
+            <ModalDropdown
+              defaultValue={title || "Select"}
+              textStyle={{ fontSize: 15 }}
+              dropdownStyle={{ width: "100%" }}
+              dropdownTextStyle={{
+                fontSize: 16,
+                paddingLeft: 10,
+                fontWeight: "900",
+              }}
+              onSelect={(itemIndex, itemValue) => {
+                setTitle(itemValue);
 
-              setTitleValidation(false);
-            }}
-            style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-            defaultIndex={title ? options.indexOf(title) : 0}
-            options={options}
-          />
+                setTitleValidation(false);
+              }}
+              style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+              defaultIndex={title ? options.indexOf(title) : 0}
+              options={options}
+            />
+          )}
+          {Platform.OS === "web" && (
+            <Picker
+              selectedValue={title || ""}
+              style={{ height: 40, paddingHorizontal: 10,border:'none' }}
+              onValueChange={(itemValue, itemIndex) => {
+                setTitle(itemValue);
+
+                setTitleValidation(false);
+              }}
+            >
+              {options.map((item) => (
+                <Picker.Item label={item} value={item} />
+              ))}
+            </Picker>
+          )}
 
           {/* <Picker
             itemStyle={{ minHeight: 50, padding: 0 }}

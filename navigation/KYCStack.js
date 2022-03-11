@@ -1,5 +1,6 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
+import {Text} from 'react-native'
 import KYCCoverScreen from "./KYCCoverScreen.js";
 import KYCNameScreen from "./KYCNameScreen.js";
 import KYCBirthdayScreen from "./KYCBirthdayScreen.js";
@@ -7,7 +8,7 @@ import KYCRetirementAgeScreen from "./KYCRetirementAgeScreen.js";
 import KYCRetireWithSpouseScreen from "./KYCRetireWithSpouseScreen.js";
 import KYCRetireLondonScreen from "./KYCRetireLondonScreen.js";
 
-import HeaderBar from "../components/HeaderBar.js";
+// import HeaderBar from "../components/HeaderBar.js";
 import KYCCompleteScreen from "./KYCCompleteScreen.js";
 
 const Stack = createStackNavigator();

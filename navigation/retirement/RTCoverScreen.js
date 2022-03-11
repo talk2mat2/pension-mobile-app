@@ -28,8 +28,8 @@ function RTCoverScreen({ navigation }) {
 
   return (
     <MyGradientBackground>
-      <View style={{ marginTop: '45%' }}>
-        <Text style={[styles.subHeader]}>
+      <View style={{ marginTop: 150 ,alignItems:'center'}}>
+        <Text style={styles.subHeader}>
           To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
           {"\n"}
           know what monthly {"\n"} income you will need {"\n"}for your pension
@@ -37,15 +37,14 @@ function RTCoverScreen({ navigation }) {
       </View>
 
       <>
-        <View style={{ width: "100%", marginTop: 30 }}>
-          <View style={[styles.centerView, { marginTop: 60 }]}>
+        <View style={{ width: "100%", marginTop: 30, alignItems: "center" }}>
+          <View style={{ marginTop: 60 }}>
             <JarvisButton
-              style={[styles.continueButton, { marginTop: 90 }]}
+              style={{ marginTop: 90 }}
               bgcolor={myColorsLight.black}
               play={_next}
               btn="Continue"
-
-              w="50%"
+              w={150}
             />
           </View>
         </View>

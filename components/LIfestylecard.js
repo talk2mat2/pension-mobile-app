@@ -35,6 +35,7 @@ const LIfestylecard = ({
   const listSelectedName = (name) => {
     if (ctx.budgetData) {
       let value = null;
+      // console.log(ctx.budgetData);
       ctx.budgetData?.map((items) => {
         if (items.attributes.name === name) {
           value = items;
@@ -90,7 +91,7 @@ const LIfestylecard = ({
               />
               <BudgetModal
                 updateLifeStyleData={updateLifeStyleData}
-                budgetData={listSelectedName(title)?.attributes.moderate}
+                budgetData={listSelectedName(title)?.attributes?.moderate}
                 _next={() => {}}
                 type="Moderate"
               />

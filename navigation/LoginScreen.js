@@ -282,7 +282,7 @@ function LoginScreen() {
 
       <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <JarvisButton
-          style={[styles.loginButton]}
+          style={styles.loginButton}
           disabled={loginButtonDisabled}
           bgcolor={buttonBackground}
           play={_initLogin}

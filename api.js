@@ -22,7 +22,7 @@ export default new (class Api {
 
   Update_retirement_profile = async (id, token, data) => {
     return await axios
-      .put(baseUrl + `/retirement-profiles/${id}`, data, {
+      .patch(baseUrl + `/retirement-profiles/${id}`, data, {
         headers: {
           // "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,

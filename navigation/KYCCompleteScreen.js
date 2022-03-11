@@ -18,6 +18,7 @@ import { List } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
+import OutcomeCard from "../components/Outcome_Card";
 
 function RTExcellent({ navigation }) {
   const ctx = useContext(UserContext);
@@ -72,9 +73,7 @@ function RTExcellent({ navigation }) {
           access it from your dashboard at anytime{"\n"}
         </Text>
       </View>
-    
-     
-     
+
       <View style={styles.footerContainer}>
         <View style={{ marginTop: 20 }}>
           <Text style={{ textAlign: "center" }}>
@@ -104,7 +103,7 @@ function RTExcellent({ navigation }) {
               textAlign: "center",
               fontSize: 14,
               marginBottom: 8,
-              color:myColorsLight.lightGreyDark
+              color: myColorsLight.lightGreyDark,
             }}
           >
             You’re just one steps away from completion. Next step{" "}
@@ -117,6 +116,19 @@ function RTExcellent({ navigation }) {
           />
         </View>
       </View>
+      <OutcomeCard>
+        <>
+          <Text style={styles.textHead}> Personal Information</Text>
+          <View style={{ ...styles.hrView, marginVertical: 10 }} />
+
+          <View>
+            <Text style={{ ...styles.textHead, textAlign: "left" }}>
+              Personal Information
+            </Text>
+          </View>
+          <View style={{ ...styles.hrView, marginVertical: 9 }} />
+        </>
+      </OutcomeCard>
     </MyGradientBackground>
   );
 }
@@ -134,7 +146,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor:myColorsLight.white
+    backgroundColor: myColorsLight.white,
   },
   container: {
     flex: 1,
@@ -182,6 +194,11 @@ const styles = StyleSheet.create({
   },
   textWhite: {
     color: "#fff",
+  },
+  textHead: {
+    textAlign: "center",
+    fontSize: 16,
+    fontWeight: "800",
   },
   subHeader: {
     fontSize: 22,
