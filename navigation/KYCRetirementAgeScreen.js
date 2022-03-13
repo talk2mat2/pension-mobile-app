@@ -77,16 +77,16 @@ function KYCRetirementAgeScreen({ navigation }) {
 
       //First save personal information
       let url3 = `${helpers.API2}/users/me`;
-      let saveData = {
-        type: "user",
-        attributes: {
-          firstName: u.attributes.fname,
-          lastName: u.attributes.lname,
-          name: u.attributes.fname + " " + u.attributes.lname,
-          title: u.attributes.title,
-          gender: u.attributes.gender,
-        },
-      };
+      // let saveData = {
+      //   type: "user",
+      //   attributes: {
+      //     firstName: u.attributes.fname,
+      //     lastName: u.attributes.lname,
+      //     name: u.attributes.fname + " " + u.attributes.lname,
+      //     title: u.attributes.title,
+      //     gender: u.attributes.gender,
+      //   },
+      // };
 
       /*
 							 let userInfo = await axios({

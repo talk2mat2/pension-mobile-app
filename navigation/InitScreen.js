@@ -46,10 +46,11 @@ function InitScreen({ navigation }) {
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const navigate = setTimeout(() => {
       _next();
     }, 3000);
-  });
+    return () => clearTimeout(navigate);
+  }, []);
 
   return (
     <View style={[styles.container]}>
