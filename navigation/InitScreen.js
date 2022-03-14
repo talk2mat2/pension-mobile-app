@@ -37,7 +37,7 @@ function InitScreen({ navigation }) {
           navigation.replace("SetupStack");
         }
       } else {
-      // console.log("Navigating to AuthStack");
+        // console.log("Navigating to AuthStack");
         navigation.navigate("AuthStack");
       }
     } catch (e) {
@@ -46,15 +46,16 @@ function InitScreen({ navigation }) {
   };
 
   useEffect(() => {
-    const navigate = setTimeout(() => {
+    setTimeout(() => {
       _next();
     }, 3000);
-    return () => clearTimeout(navigate);
   }, []);
 
   return (
     <View style={[styles.container]}>
-      <Text style={{ textAlign: "center",fontSize:40 ,fontWeight:'bold'}}>Jarvis</Text>
+      <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
+        Jarvis
+      </Text>
       {/* <View style={styles.centerView}>
 		  	 <Text style={[styles.initText,styles.textWhite,{ fontSize: 40}]}>Helping people</Text>
 			</View>

@@ -15,7 +15,7 @@ if (Platform.OS !== "web") {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
-import DateTimePicker from "@react-native-community/datetimepicker";
+// import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar } from "react-native-paper";
 // import ModalDropdown from "react-native-modal-dropdown";
@@ -26,38 +26,39 @@ import JarvisButton from "../components/JarvisButton";
 
 function KYCBirthdayScreen({ navigation }) {
   const ctx = useContext(UserContext);
-  let u = ctx?.u;
-  // console.log("u bday: ", u);
-  let tempDate = new Date();
-  tempDate.setFullYear(tempDate.getFullYear() - 40);
-
-  if (!u.included[0]?.dateOfBirth) {
-    tempDate = u.included[0].dateOfBirth;
-  }
-
   const [buttonBackground, setButtonBackground] = useState("#77f");
-  const [birthday, setBirthday] = useState(tempDate);
+  const [birthday, setBirthday] = useState("");
   const [birthdayObject, setBirthdayObject] = useState("{}");
   const [birthdayValidation, setBirthdayValidation] = useState(false);
-  const [gender, setGender] = useState(u?.attributes?.gender || "");
+  const [gender, setGender] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [genderValidation, setGenderValidation] = useState(false);
-  const [birthdayDisplay, setBirthdayDisplay] = useState(
-    tempDate.toDateString()
-  );
+  const [birthdayDisplay, setBirthdayDisplay] = useState("");
+  let u = ctx?.u;
 
-  const updateBirthday = (d) => {
-    let tempd = new Date(d);
-    setBirthday(tempd);
-    setBirthdayDisplay(tempd.toDateString());
-    setBirthdayValidation(false);
-    setBirthdayObject(JSON.stringify(tempd));
-    setShowDatePicker(false);
-  };
-
+  // const updateBirthday = (d) => {
+  //   let tempd = new Date(d);
+  //   setBirthday(tempd);
+  //   setBirthdayDisplay(tempd.toDateString());
+  //   setBirthdayValidation(false);
+  //   setBirthdayObject(JSON.stringify(tempd));
+  //   setShowDatePicker(false);
+  // };
+  React.useEffect(() => {
+    if (u?.included[0]?.dateOfBirth) {
+      const tempDate = u.included[0].dateOfBirth;
+      setBirthday(tempDate);
+      tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
+    } else {
+      let tempDate = new Date();
+      tempDate.setFullYear(tempDate.getFullYear() - 40);
+      setBirthday(tempDate);
+      setBirthdayDisplay(tempDate.toTimeString());
+    }
+  }, []);
   const _updateUser = () => {
     //Update the frontend: context and async storage
-    let tempd = birthday.toISOString().split("T");
+    let tempd = birthday?.toISOString().split("T");
     u.included[0].dateOfBirth = tempd[0];
     u.included[0].gender = u.attributes.gender;
 
@@ -81,8 +82,10 @@ function KYCBirthdayScreen({ navigation }) {
   React.useEffect(() => {
     if (!u?.attributes?.gender) {
       setGender("Male");
+    } else {
+      setGender(u?.attributes?.gender);
     }
-  }, []);
+  }, [u]);
   return (
     <MyGradientBackground>
       <View
@@ -125,7 +128,7 @@ function KYCBirthdayScreen({ navigation }) {
               { textAlign: "center", fontWeight: "bold" },
             ]}
           >
-            Thanks {u.attributes.fname} {"\n"}
+            Thanks {u?.attributes?.fname} {"\n"}
             please tell us your {"\n"}gender and date of birth? {"\n"}
           </Text>
         </View>

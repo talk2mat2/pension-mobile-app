@@ -276,7 +276,7 @@ function KYCRetirementAgeScreen({ navigation }) {
                   style={{ height: 40, paddingHorizontal: 10, border: "none" }}
                   onValueChange={(itemValue, itemIndex) => {
                     setRetirementAge(itemValue);
-                    console.log(itemValue);
+                    // console.log(itemValue);
                     if (parseInt(itemValue) > 1)
                       setRetirementAgeValidation(false);
                   }}

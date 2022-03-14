@@ -131,7 +131,7 @@ function LoginScreen() {
         });
         return;
       }
-      if (params.code) {
+      if (params?.code) {
         //Exchange the authorization code for access and id tokens
 
         //Send POST request
