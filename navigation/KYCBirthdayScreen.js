@@ -15,7 +15,7 @@ if (Platform.OS !== "web") {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
-// import DateTimePicker from "@react-native-community/datetimepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar } from "react-native-paper";
 // import ModalDropdown from "react-native-modal-dropdown";
@@ -36,29 +36,32 @@ function KYCBirthdayScreen({ navigation }) {
   const [birthdayDisplay, setBirthdayDisplay] = useState("");
   let u = ctx?.u;
 
-  // const updateBirthday = (d) => {
-  //   let tempd = new Date(d);
-  //   setBirthday(tempd);
-  //   setBirthdayDisplay(tempd.toDateString());
-  //   setBirthdayValidation(false);
-  //   setBirthdayObject(JSON.stringify(tempd));
-  //   setShowDatePicker(false);
-  // };
+  const updateBirthday = (d) => {
+    let tempd = new Date(d);
+    setBirthday(tempd);
+    setBirthdayDisplay(tempd.toDateString());
+    setBirthdayValidation(false);
+    setBirthdayObject(JSON.stringify(tempd));
+    setShowDatePicker(false);
+  };
   React.useEffect(() => {
     if (u?.included[0]?.dateOfBirth) {
       const tempDate = u.included[0].dateOfBirth;
       setBirthday(tempDate);
-      tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
+      setBirthdayDisplay(new Date(tempDate).toDateString());
+   
+      //tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
     } else {
-      let tempDate = new Date();
-      tempDate.setFullYear(tempDate.getFullYear() - 40);
-      setBirthday(tempDate);
-      setBirthdayDisplay(tempDate.toTimeString());
+      let tempDates = new Date();
+      const newDate = tempDates.setFullYear(tempDates.getFullYear() - 40);
+      setBirthdayDisplay(new Date(newDate).toDateString());
+      //setBirthdayDisplay(new Date(newDate).getFullYear.toTimeString());
     }
   }, []);
   const _updateUser = () => {
     //Update the frontend: context and async storage
-    let tempd = birthday?.toISOString().split("T");
+    const userBirthDay= new Date(birthday)
+    let tempd = userBirthDay?.toISOString().split("T");
     u.included[0].dateOfBirth = tempd[0];
     u.included[0].gender = u.attributes.gender;
 
@@ -120,7 +123,7 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
+      <View style={{ marginTop: 100, paddingHorizontal: 20 ,marginBottom:80}}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
           <Text
             style={[
@@ -281,16 +284,7 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View> */}
       </View>
-      <View
-        style={{
-          width: "100%",
-          marginTop: 10,
-          position: "absolute",
-          left: 0,
-          riht: 0,
-          bottom: 0,
-        }}
-      ></View>
+    
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton

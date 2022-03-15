@@ -49,7 +49,7 @@ function InitScreen({ navigation }) {
     setTimeout(() => {
       _next();
     }, 3000);
-  }, []);
+  }, [ctx?.u]);
 
   return (
     <View style={[styles.container]}>

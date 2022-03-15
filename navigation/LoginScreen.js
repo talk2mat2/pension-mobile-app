@@ -15,7 +15,7 @@ import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
 
-function LoginScreen() {
+function LoginScreen({ navigation }) {
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [buttonTextColor, setButtonTextColor] = useState("#fff");
@@ -185,7 +185,7 @@ function LoginScreen() {
                 });
                 let dt3 = dt3response.data;
 
-                console.log("dt3: ", dt3);
+                // console.log("dt3: ", dt3);
 
                 //Get the user info
 
@@ -230,6 +230,7 @@ function LoginScreen() {
                     atk: dt3.access_token,
                     rtk: dt.refresh_token,
                   });
+                  //navigation.navigate("InitScreen");
                 } else {
                   console.log("error fetching user profile");
 
@@ -280,13 +281,14 @@ function LoginScreen() {
         {loginLoading && <JarvisLoading />}
       </View>
 
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+      <View style={{ alignItems: "center" }}>
         <JarvisButton
           style={styles.loginButton}
           disabled={loginButtonDisabled}
           bgcolor={buttonBackground}
           play={_initLogin}
           btn="Continue"
+          w={150}
         />
       </View>
     </View>
@@ -307,7 +309,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     textAlign: "center",
-	fontWeight:'100'
+    fontWeight: "100",
   },
   validation: {
     fontSize: 16,
@@ -325,9 +327,7 @@ const styles = StyleSheet.create({
     // padding: 10
   },
   loginButton: {
-    alignItems: "center",
     marginTop: 50,
-    marginLeft: 20,
   },
   form: {},
 });
