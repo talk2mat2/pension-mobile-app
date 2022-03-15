@@ -6,11 +6,12 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
+
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
-import JarvisLoading from "../components/JarvisLoading";
+import JarvisLoader from "../components/JarvisLoader";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
@@ -20,9 +21,17 @@ function KYCRetireLondonScreen({ navigation }) {
   const [retireLondon, setRetireLondon] = useState("yes");
   const [isLoading, setIsLoading] = useState(false);
   const [nextButtonDisabled, setNextButtonDisabled] = useState(false);
-
+  const ctx = useContext(UserContext);
+  let u = ctx?.u;
   const _next = () => {
-    let go = false;
+    if (retireLondon === "yes") {
+      //Spouse details
+      u.included[0].insideLondon = true;
+    } else {
+      u.included[0].insideLondon = true;
+    }
+    ctx.setU(u);
+    helpers.save("pa_u", JSON.stringify(u));
     setIsLoading(true);
     setNextButtonDisabled(true);
 
@@ -87,7 +96,6 @@ function KYCRetireLondonScreen({ navigation }) {
         </View>
 
         <View>
-         
           <View>
             <Text
               style={{
@@ -116,7 +124,7 @@ function KYCRetireLondonScreen({ navigation }) {
           </Text>
         </View>
         <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
-          <View style={{flexDirection:'row'}}>
+          <View style={{ flexDirection: "row" }}>
             <MaterialCommunityIcons
               name="information"
               color={myColorsLight.black}
@@ -153,14 +161,14 @@ function KYCRetireLondonScreen({ navigation }) {
           </View>
         </View>
 
-        <View style={{ width: "100%", marginTop: 100 }}>
+    
           {isLoading && (
-            <JarvisLoading
+            <JarvisLoader
               color={myColorsLight.lightGreyDark}
               text="Please wait"
             />
           )}
-        </View>
+       
       </View>
       <View
         style={{

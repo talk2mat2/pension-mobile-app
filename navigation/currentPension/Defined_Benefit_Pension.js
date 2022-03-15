@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     // backgroundColor: "#f1f3f2",
-    height: 200,
+    height: '25%',
     marginTop: "auto",
     borderTopColor: myColorsLight.lightGreyDark,
     borderLeftColor: myColorsLight.lightGreyDark,

@@ -7,6 +7,7 @@ import {
   Pressable,
   ImageBackground,
   Platform,
+  ScrollView,
 } from "react-native";
 let ModalDropdown;
 if (Platform.OS !== "web") {
@@ -49,7 +50,7 @@ function KYCBirthdayScreen({ navigation }) {
       const tempDate = u.included[0].dateOfBirth;
       setBirthday(tempDate);
       setBirthdayDisplay(new Date(tempDate).toDateString());
-   
+
       //tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
     } else {
       let tempDates = new Date();
@@ -60,11 +61,10 @@ function KYCBirthdayScreen({ navigation }) {
   }, []);
   const _updateUser = () => {
     //Update the frontend: context and async storage
-    const userBirthDay= new Date(birthday)
+    const userBirthDay = new Date(birthday);
     let tempd = userBirthDay?.toISOString().split("T");
     u.included[0].dateOfBirth = tempd[0];
     u.included[0].gender = u.attributes.gender;
-
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
   };
@@ -123,78 +123,89 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 100, paddingHorizontal: 20 ,marginBottom:80}}>
-        <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text
-            style={[
-              styles.subHeader,
-              { textAlign: "center", fontWeight: "bold" },
-            ]}
-          >
-            Thanks {u?.attributes?.fname} {"\n"}
-            please tell us your {"\n"}gender and date of birth? {"\n"}
-          </Text>
-        </View>
-        <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
-          <View style={{ flexDirection: "row" }}>
-            <MaterialCommunityIcons
-              name="information"
-              color={myColorsLight.black}
-              size={18}
-            />
+      <View style={{ marginTop: 100, paddingHorizontal: 20, marginBottom: 150,paddingBottom:90 }}>
+        <ScrollView>
+          <View style={{ alignItems: "center", marginBottom: 40 }}>
             <Text
-              style={{
-                ...styles.subHeader,
-                fontSize: 16,
-                color: myColorsLight.lightGreyDim,
-                paddingLeft: 3,
-                textAlign: "center",
-              }}
+              style={[
+                styles.subHeader,
+                { textAlign: "center", fontWeight: "bold" },
+              ]}
             >
-              Why are we asking you this?
+              Thanks {u?.attributes?.fname} {"\n"}
+              please tell us your {"\n"}gender and date of birth? {"\n"}
             </Text>
           </View>
-        </View>
-        <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
-          <Text style={{ fontSize: 15 }}>Gender</Text>
-        </View>
-        <View style={{ alignItems: "center" }}>
-          <View style={[styles.formGroup]}>
-            <View style={(styles.centerView, { paddingVertical: 5 })}>
-              {Platform.OS !== "web" && (
-                <ModalDropdown
-                  defaultValue={gender || "select.."}
-                  textStyle={{ fontSize: 15 }}
-                  dropdownStyle={{ width: "100%" }}
-                  dropdownTextStyle={{
-                    fontSize: 16,
-                    paddingLeft: 10,
-                    fontWeight: "900",
-                  }}
-                  onSelect={(itemIndex, itemValue) => {
-                    setGender(itemValue);
-                    setGenderValidation(false);
-                  }}
-                  style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-                  options={options}
-                />
-              )}
-              {Platform.OS === "web" && (
-                <Picker
-                  selectedValue={gender || ""}
-                  style={{ height: 40, paddingHorizontal: 10, border: "none" }}
-                  onValueChange={(itemValue, itemIndex) => {
-                    setGender(itemValue);
-                    setGenderValidation(false);
-                  }}
-                >
-                  {options.map((item) => (
-                    <Picker.Item label={item} value={item} />
-                  ))}
-                </Picker>
-              )}
+          <View
+            style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}
+          >
+            <View style={{ flexDirection: "row" }}>
+              <MaterialCommunityIcons
+                name="information"
+                color={myColorsLight.black}
+                size={18}
+              />
+              <Text
+                style={{
+                  ...styles.subHeader,
+                  fontSize: 16,
+                  color: myColorsLight.lightGreyDim,
+                  paddingLeft: 3,
+                  textAlign: "center",
+                }}
+              >
+                Why are we asking you this?
+              </Text>
+            </View>
+          </View>
+          <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
+            <Text style={{ fontSize: 15 }}>Gender</Text>
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <View style={[styles.formGroup]}>
+              <View style={(styles.centerView, { paddingVertical: 5 })}>
+                {Platform.OS !== "web" && (
+                  <ModalDropdown
+                    defaultValue={gender || "select.."}
+                    textStyle={{ fontSize: 15 }}
+                    dropdownStyle={{ width: "100%" }}
+                    dropdownTextStyle={{
+                      fontSize: 16,
+                      paddingLeft: 10,
+                      fontWeight: "900",
+                    }}
+                    onSelect={(itemIndex, itemValue) => {
+                      setGender(itemValue);
+                      setGenderValidation(false);
+                    }}
+                    style={{
+                      height: 40,
+                      paddingTop: 10,
+                      paddingHorizontal: 10,
+                    }}
+                    options={options}
+                  />
+                )}
+                {Platform.OS === "web" && (
+                  <Picker
+                    selectedValue={gender || ""}
+                    style={{
+                      height: 40,
+                      paddingHorizontal: 10,
+                      border: "none",
+                    }}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setGender(itemValue);
+                      setGenderValidation(false);
+                    }}
+                  >
+                    {options.map((item) => (
+                      <Picker.Item label={item} value={item} />
+                    ))}
+                  </Picker>
+                )}
 
-              {/* <Picker
+                {/* <Picker
                 selectedValue={u.attributes.gender}
                 onValueChange={(itemValue, itemIndex) => {
                   setGender(itemValue);
@@ -208,61 +219,66 @@ function KYCBirthdayScreen({ navigation }) {
                 <Picker.Item label="Female" value="Female" />
                 <Picker.Item label="Unknown" value="Unknown" />
               </Picker> */}
-            </View>
-          </View>
-          {genderValidation && (
-            <View style={styles.formGroupError}>
-              <Text style={styles.inputError}>Please select a title</Text>
-            </View>
-          )}
-
-          <View style={styles.formGroup}>
-            <View
-              style={[styles.centerView, { paddingVertical: 5, marginTop: 10 }]}
-            >
-              <View style={{ flexDirection: "row" }}>
-                <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
-                <JarvisButton
-                  style={{ ...styles.loginButton, marginVertical: 10 }}
-                  bgcolor="#ff6c00"
-                  play={() => {
-                    setShowDatePicker(true);
-                  }}
-                  btn="Select date"
-                  w="50%"
-                />
               </View>
             </View>
-            <View style={{ width: 300, marginLeft: 30 }}>
-              {/* {  console.log(new Date(birthday))} */}
-              {showDatePicker && (
-                <DateTimePicker
-                  testID="birthdayDateTimePicker"
-                  value={new Date()}
-                  // minimum 18 years
+            {genderValidation && (
+              <View style={styles.formGroupError}>
+                <Text style={styles.inputError}>Please select a title</Text>
+              </View>
+            )}
 
-                  minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                  // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                  mode="date"
-                  is24Hour={true}
-                  display="default"
-                  onChange={(e, d) => {
-                    setShowDatePicker(false);
-                    if (typeof d != "undefined") {
-                      updateBirthday(d);
-                    }
-                  }}
-                />
-              )}
+            <View style={styles.formGroup}>
+              <View
+                style={[
+                  styles.centerView,
+                  { paddingVertical: 5, marginTop: 10 },
+                ]}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
+                  <JarvisButton
+                    style={{ ...styles.loginButton, marginVertical: 10 }}
+                    bgcolor="#ff6c00"
+                    play={() => {
+                      setShowDatePicker(true);
+                    }}
+                    btn="Select date"
+                    w="50%"
+                  />
+                </View>
+              </View>
+              <View style={{ width: 300, marginLeft: 30 }}>
+                {/* {  console.log(new Date(birthday))} */}
+                {showDatePicker && (
+                  <DateTimePicker
+                    testID="birthdayDateTimePicker"
+                    value={new Date()}
+                    // minimum 18 years
+
+                    maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onc
+                    onChange={(e, d) => {
+                      setShowDatePicker(false);
+                      if (typeof d != "undefined") {
+                        updateBirthday(d);
+                      }
+                    }}
+                  />
+                )}
+              </View>
             </View>
+
+            {birthdayValidation && (
+              <View style={styles.formGroupError}>
+                <Text style={styles.inputError}>This field is required</Text>
+              </View>
+            )}
           </View>
-
-          {birthdayValidation && (
-            <View style={styles.formGroupError}>
-              <Text style={styles.inputError}>This field is required</Text>
-            </View>
-          )}
-        </View>
+        </ScrollView>
 
         {/* <View style={{ width: "100%", marginTop: 30 }}>
           <View style={[styles.centerView]}>
@@ -284,7 +300,7 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View> */}
       </View>
-    
+
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton

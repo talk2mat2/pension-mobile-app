@@ -252,7 +252,7 @@ function KYCRetirementAgeScreen({ navigation }) {
               {Platform.OS !== "web" && (
                 <ModalDropdown
                   defaultIndex={47}
-                  defaultValue={retirementAge || "select."}
+                  defaultValue={String(retirementAge) || "select."}
                   textStyle={{ fontSize: 15 }}
                   dropdownStyle={{ width: "100%" }}
                   dropdownTextStyle={{
@@ -261,9 +261,10 @@ function KYCRetirementAgeScreen({ navigation }) {
                     fontWeight: "900",
                   }}
                   onSelect={(itemIndex, itemValue) => {
-                    setRetirementAge(itemValue);
+                  
                     // console.log(itemValue);
                     if (parseInt(itemValue) > 1)
+                    setRetirementAge(parseInt(itemValue));
                       setRetirementAgeValidation(false);
                   }}
                   style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}

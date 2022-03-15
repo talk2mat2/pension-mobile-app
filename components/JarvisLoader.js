@@ -6,8 +6,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const mobile = Platform.OS == "ios" || Platform.OS == "android";
 
 const JarvisLoader = (props) => {
-  let propsText = props.text || "Processing",
-    propsColor = props.color || "#00f";
+  const propsColor = props.color || "#00f";
   if (mobile) {
     return (
       <View style={styles.container}>

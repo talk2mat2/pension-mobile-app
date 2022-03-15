@@ -91,13 +91,15 @@ function RTExcellent({ navigation }) {
           }}
         />
         <View style={{ marginTop: 30 }}>
-          <Text style={{ textAlign: "center", fontSize: 18 }}>
+          {/* <Text style={{ textAlign: "center", fontSize: 18 }}>
             Place holder for useful{"\n"}
             actionable stats and facts{"\n"}
             on retirement lifestyle {"\n"} and planning
-          </Text>
+          </Text> */}
         </View>
-        <View style={styles.footerSection}>
+      
+      </View>
+      <View style={styles.footerSection}>
           <Text
             style={{
               textAlign: "center",
@@ -115,7 +117,6 @@ function RTExcellent({ navigation }) {
             w={200}
           />
         </View>
-      </View>
       <OutcomeCard>
         <>
           <Text style={styles.textHead}> Personal Information</Text>
@@ -147,6 +148,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: myColorsLight.white,
+    position: "absolute",
+    bottom: 2,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    elevation: 10,
   },
   container: {
     flex: 1,
@@ -158,7 +165,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: myColorsLight.white,
     height: 350,
     marginTop: "auto",
     borderTopColor: "#bbb",

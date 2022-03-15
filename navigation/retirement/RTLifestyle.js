@@ -81,7 +81,7 @@ function RTLifestyle({ route, navigation }) {
     const newData = {
       type: "retirementProfile",
       attributes: {
-        ...ctx?.u?.included,
+        ...ctx?.u?.included[0],
         expenses: [
           {
             plsaCostCategoryId: 2,
@@ -135,20 +135,22 @@ function RTLifestyle({ route, navigation }) {
     //     console.log(err);
     //     Alert.alert("An error occured in the requested operation, try again");
     //   });
-    navigation.navigate("RTExcellent", {
-      result: lifestyleData?.["Total (Gross)"],
-    });
-    // await Api.Update_retirement_profile(
-    //   ctx?.u?.included[0]?.userId,
-    //   ctx?.atk,
-    //   newData
-    // )
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // console.log('newData',newData)
+    // return
+    setIsloading(true);
+    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
+      .then((res) => {
+        setIsloading(false);
+        navigation.navigate("RTExcellent", {
+          result: lifestyleData?.["Total (Gross)"],
+          profile: res?.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsloading(false);
+        Alert.alert("An error orcured");
+      });
   };
   const _next = () => {
     _updateUser();
@@ -181,17 +183,17 @@ function RTLifestyle({ route, navigation }) {
         <View>
           <View>
             <Text
-              style={[styles.loginText, { fontSize: 20, textAlign: "center" }]}
+              style={{...styles.loginText, fontSize: 20, textAlign: "center" }}
             >
-              Step 2 of 2
+           Your Retirement Lifestyle
             </Text>
           </View>
           <View>
-            <Text
+            {/* <Text
               style={[styles.loginText, { fontSize: 15, textAlign: "center" }]}
             >
-              Your Retirement Lifestyle
-            </Text>
+             
+            </Text> */}
           </View>
         </View>
       </View>

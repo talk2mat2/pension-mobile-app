@@ -207,6 +207,7 @@ function LoginScreen({ navigation }) {
                   //console.log("userinfo dt: ",uidt.data);
                   let attributes = uidt.data.attributes,
                     included = uidt.data.included[0];
+                    console.log('userInfoIs',uidt)
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,

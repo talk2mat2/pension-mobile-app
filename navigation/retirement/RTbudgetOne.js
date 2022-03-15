@@ -42,7 +42,11 @@ function RTbudgetOne({ navigation }) {
 
   const Get_retirement_expe_categories = async () => {
     setLoading(true);
-    Api.Get_retirement_expe_catego(ctx.atk)
+    Api.Get_retirement_expe_catego(
+      ctx?.atk,
+      ctx?.u?.included[0]?.retireWithSpouse,
+      ctx?.u?.included[0]?.insideLondon
+    )
       .then((data) => {
         setLoading(false);
         setPageData(data?.data);
@@ -125,7 +129,7 @@ function RTbudgetOne({ navigation }) {
           justifyContent: "center",
         }}
       >
-        <View style={{ position: "absolute", left: 10 }}>
+        <View style={{ position: "absolute", left: 10 ,}}>
           <Pressable onPress={_goBack}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
@@ -136,24 +140,10 @@ function RTbudgetOne({ navigation }) {
         </View>
 
         <View>
+        
           <View>
             <Text
-              style={[
-                styles.loginText,
-                ,
-                { fontSize: 20, textAlign: "center" },
-              ]}
-            >
-              Step 1 of 2
-            </Text>
-          </View>
-          <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                { fontSize: 15, textAlign: "center" },
-              ]}
+             style={{...styles.loginText, fontSize: 20, textAlign: "center" }}
             >
               Your Retirement Lifestyle
             </Text>

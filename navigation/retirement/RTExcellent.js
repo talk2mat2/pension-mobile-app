@@ -17,10 +17,12 @@ import OutcomeCard from "../../components/Outcome_Card";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import OutcomeDatatable from "../../components/outcomeDataTable";
+import RtOutcomeDatatable  from "../../components/RtOutcomeDataTable";
 
 function RTExcellent({ navigation, route }) {
   const [showCard, setShowCard] = React.useState(true);
   const [scores, setScores] = React.useState(route.params?.result || 0);
+  const [profile] = React.useState(route?.params?.profile || {});
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const IntroPopper = new Animated.ValueXY({
@@ -145,11 +147,11 @@ function RTExcellent({ navigation, route }) {
         </Text>
       </View>
       <View style={styles.footerContainer}>
-        <View style={{ marginTop: 20 }}>
+        {/* <View style={{ marginTop: 20 }}>
           <Text style={{ textAlign: "center" }}>
             Facts & Stats On Saving/Investing
           </Text>
-        </View>
+        </View> */}
         <View
           style={{
             ...styles.hrView,
@@ -157,35 +159,35 @@ function RTExcellent({ navigation, route }) {
             alignSelf: "center",
             marginTop: 10,
             height: 2,
-            backgroundColor: "grey",
+          
           }}
         />
         <View style={{ marginTop: 30 }}>
-          <Text
+          {/* <Text
             style={{ textAlign: "center", fontSize: 18, fontWeight: "bold" }}
           >
             Place holder for useful{"\n"}
             actionable stats and{"\n"} facts on saving and {"\n"}
             investing for the future
-          </Text>
+          </Text> */}
         </View>
-        <View style={styles.footerSection}>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 14,
-              marginBottom: 8,
-            }}
-          >
-            You’re just one steps away from completion. Next step{" "}
-          </Text>
-          <JarvisButton
-            bgcolor={myColorsLight.black}
-            play={_next}
-            btn="Pensions & Savings"
-            w={200}
-          />
-        </View>
+      </View>
+      <View style={styles.footerSection}>
+        <Text
+          style={{
+            textAlign: "center",
+            fontSize: 14,
+            marginBottom: 8,
+          }}
+        >
+          You’re just one steps away from completion. Next step{" "}
+        </Text>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={_next}
+          btn="Pensions & Savings"
+          w={200}
+        />
       </View>
       {showCard && (
         <OutcomeCard hideCards={hideCard}>
@@ -194,7 +196,7 @@ function RTExcellent({ navigation, route }) {
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
-              <OutcomeDatatable />
+              <RtOutcomeDatatable {...{profile}} />
               <Text style={{ ...styles.textHead, textAlign: "left" }}>
                 Current Retirement Fund
               </Text>
@@ -226,6 +228,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: myColorsLight.white,
+    position: "absolute",
+    bottom: 2,
+    left: 0,
+    right: 0,
+    zIndex: 10,
+    elevation: 10,
   },
   container: {
     flex: 1,
@@ -237,7 +245,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: myColorsLight.white,
     height: 330,
     marginTop: "auto",
     borderTopColor: "#bbb",

@@ -2,11 +2,15 @@ import axios from "axios";
 const baseUrl = "https://api.getjarvis.dev/v1";
 
 export default new (class Api {
-  Get_retirement_expe_catego = async (token) => {
+  Get_retirement_expe_catego = async (
+    token,
+    retireWithSpouse,
+    insideLondon
+  ) => {
     return await axios
       .get(
         baseUrl +
-          "/retirement-expenses/categories?retiringWithSpouse=false&retiringInLondon=true",
+          `/retirement-expenses/categories?retiringWithSpouse=${retireWithSpouse}&retiringInLondon=${insideLondon}`,
         {
           headers: {
             // "Content-Type": "application/x-www-form-urlencoded",

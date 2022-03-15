@@ -25,7 +25,7 @@ import { myColorsLight } from "../constant/colors";
 
 function KYCRetireWithSpouseScreen({ navigation }) {
   const ctx = useContext(UserContext);
-  let u = ctx.u;
+  let u = ctx?.u;
   // let tempDate=new Date()
   // if (!u.included[0]?.dateOfBirth) {
   //   tempDate = u.included[0].dateOfBirth;
@@ -70,6 +70,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
       let bd = birthday.toISOString().split("T");
       u.included[0].spouseGender = spouseGender;
       u.included[0].spouseDateOfBirth = bd[0];
+      u.included[0].retireWithSpouse = true;
       // u.included[0].spouseGender =
       //  u.attributes.gender == "Male" ? "Female" : "Male";
       // u.included[0].spouseRetirementAge = spouseRetirementAge;
@@ -82,8 +83,9 @@ function KYCRetireWithSpouseScreen({ navigation }) {
       // retirementDay.setDate(retirementDayArray[2]);
       // let tempd = retirementDay.toISOString().split("T");
       // u.included[0].spouseRetirementDate = tempd[0];
+    } else {
+      u.included[0].retireWithSpouse = false;
     }
-
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
     // console.log(u);
@@ -292,14 +294,14 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
           {showOtherSpouseFields && (
             <>
-             <View style={{ ...styles.hrView, alignContent: "space-between" }}>
-            <View
-                style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
-              >
-                <Text style={[styles.inlineFormText]}>Spouse gender</Text>
-                <View style={styles.inlineFormGroup}>
-                  <View style={(styles.centerView, { paddingVertical: 1 })}>
-                    {/* <TextInput
+              <View style={{ ...styles.hrView, alignContent: "space-between" }}>
+                <View
+                  style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
+                >
+                  <Text style={[styles.inlineFormText]}>Spouse gender</Text>
+                  <View style={styles.inlineFormGroup}>
+                    <View style={(styles.centerView, { paddingVertical: 1 })}>
+                      {/* <TextInput
                       keyboardType="number-pad"
                       style={[styles.formInput, { textAlign: "center" }]}
                       onChangeText={(text) => {
@@ -311,53 +313,57 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                       placeholderTextColor="#fff"
                       value={spouseRetirementAge}
                     /> */}
-                    {Platform.OS !== "web" && (
-                      <ModalDropdown
-                        defaultValue={"select.."}
-                        textStyle={{ fontSize: 15 }}
-                        dropdownStyle={{ width: "100%", paddingLeft: 6 }}
-                        dropdownTextStyle={{
-                          fontSize: 16,
-                          paddingLeft: 10,
-                          fontWeight: "900",
-                        }}
-                        onSelect={(itemIndex, itemValue) => {
-                          setSpouseGender(itemValue);
-                          setSpouseGenderValidation(false);
-                        }}
-                        style={{
-                          ...styles.formInput,
-                          textAlign: "center",
-                          paddingHorizontal: 10,
-                        }}
-                        options={["Male", "Female"]}
-                      />
-                    )}
-                    {Platform.OS === "web" && (
-                      <Picker
-                        selectedValue={"Select.."}
-                        style={{ height: 40, paddingHorizontal: 10,border:'none' }}
-                        onValueChange={(itemValue, itemIndex) => {
-                          setSpouseGender(itemValue);
-                          setSpouseGenderValidation(false);
-                        }}
-                      >
-                        {["Male", "Female"].map((item) => (
-                          <Picker.Item label={item} value={item} />
-                        ))}
-                      </Picker>
-                    )}
+                      {Platform.OS !== "web" && (
+                        <ModalDropdown
+                          defaultValue={"select.."}
+                          textStyle={{ fontSize: 15 }}
+                          dropdownStyle={{ width: "100%", paddingLeft: 6 }}
+                          dropdownTextStyle={{
+                            fontSize: 16,
+                            paddingLeft: 10,
+                            fontWeight: "900",
+                          }}
+                          onSelect={(itemIndex, itemValue) => {
+                            setSpouseGender(itemValue);
+                            setSpouseGenderValidation(false);
+                          }}
+                          style={{
+                            ...styles.formInput,
+                            textAlign: "center",
+                            paddingHorizontal: 10,
+                          }}
+                          options={["Male", "Female"]}
+                        />
+                      )}
+                      {Platform.OS === "web" && (
+                        <Picker
+                          selectedValue={"Select.."}
+                          style={{
+                            height: 40,
+                            paddingHorizontal: 10,
+                            border: "none",
+                          }}
+                          onValueChange={(itemValue, itemIndex) => {
+                            setSpouseGender(itemValue);
+                            setSpouseGenderValidation(false);
+                          }}
+                        >
+                          {["Male", "Female"].map((item) => (
+                            <Picker.Item label={item} value={item} />
+                          ))}
+                        </Picker>
+                      )}
+                    </View>
                   </View>
                 </View>
-              </View>
-              {spouseGenderValidation && (
-                <View style={styles.formGroupError}>
-                  <Text style={{ ...styles.inputError, marginTop: 4 }}>
-                    Please select your spouse's gender
-                  </Text>
-                </View>
-              )}
-             
+                {spouseGenderValidation && (
+                  <View style={styles.formGroupError}>
+                    <Text style={{ ...styles.inputError, marginTop: 4 }}>
+                      Please select your spouse's gender
+                    </Text>
+                  </View>
+                )}
+
                 <Text style={{ ...styles.formText, marginLeft: 5 }}>
                   Enter spouse's date of birth
                 </Text>
@@ -393,7 +399,6 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   />
                 )}
               </View>
-              
             </>
           )}
         </View>
