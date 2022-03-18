@@ -23,16 +23,41 @@ import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import PersonalPenContext from "../../contexts/personalContext";
 import MyGradientBackground from "../../components/grdientBackGround";
+import PanableCard from "../../components/pannableCard";
 
 function CPAddPersonalPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
+  const [providerJars, setProviderJars] = React.useState([
+    {
+      id: 18934,
+      provider: "",
+      currentValue: "",
+      regularContribution: "",
+      contributeBasics: "",
+      monthlyContribution: "",
+      spousePension: "no",
+    },
+  ]);
+
+  const AddJars = () => {
+    const newJar = {
+      id: Math.floor(Math.random() * 100),
+      provider: "",
+      currentValue: "",
+      regularContribution: "",
+      contributeBasics: "",
+      monthlyContribution: "",
+      spousePension: "no",
+    };
+    setProviderJars([...providerJars, AddJars]);
+  };
   const [person1, setPerson1] = React.useState({
     provider: "",
     currentValue: "",
     regularContribution: "",
     contributeBasics: "",
     monthlyContribution: "",
-    spousePension: "",
+    spousePension: "no",
   });
   const [person2, setPerson2] = React.useState({
     provider: "",
@@ -40,7 +65,7 @@ function CPAddPersonalPension({ navigation }) {
     regularContribution: "",
     contributeBasics: "",
     monthlyContribution: "",
-    spousePension: "",
+    spousePension: "no",
   });
 
   const ctx = useContext(UserContext);
@@ -54,7 +79,15 @@ function CPAddPersonalPension({ navigation }) {
   };
   return (
     <PersonalPenContext.Provider
-      value={{ person2, setPerson2, person1, setPerson1 }}
+      value={{
+        person2,
+        setPerson2,
+        person1,
+        setPerson1,
+        providerJars,
+        setProviderJars,
+        AddJars
+      }}
     >
       <MyGradientBackground>
         <>
@@ -155,23 +188,34 @@ function CPAddPersonalPension({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <View style={styles.footerContainer}>
+          <PanableCard styles={{ height: "29%" }}>
             <CPDatatable />
-          </View>
+          </PanableCard>
           <View
             style={{
-              marginTop: 30,
-              width: "50%",
-              alignSelf: "center",
-              marginBottom: 20,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 8,
+              elevation: 8,
             }}
           >
-            <ProgressBar
-              progress={0.5}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>2/4</Text>
+            <View
+              style={{
+                marginTop: 30,
+                width: "50%",
+                alignSelf: "center",
+                marginBottom: 20,
+              }}
+            >
+              <ProgressBar
+                progress={0.5}
+                color={myColorsLight.lightGreyDark}
+                style={{ height: 7 }}
+              />
+              <Text style={{ textAlign: "center", fontSize: 20 }}>2/4</Text>
+            </View>
           </View>
         </>
       </MyGradientBackground>
@@ -215,7 +259,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     // backgroundColor: "#f1f3f2",
-    height: '24%',
+    height: "24%",
     marginTop: "auto",
     borderTopColor: myColorsLight.lightGreyDark,
     borderLeftColor: myColorsLight.lightGreyDark,

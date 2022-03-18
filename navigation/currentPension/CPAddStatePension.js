@@ -11,12 +11,16 @@ import {
   TouchableOpacity,
   ImageBackground,
   Pressable,
+  Alert,
 } from "react-native";
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import OutcomeCard from "../../components/Outcome_Card";
+import PanableCard from "../../components/pannableCard";
+
 import CPSwipper from "../../components/CPSwipper";
 import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
@@ -29,13 +33,75 @@ import StatePenContext from "../../contexts/satePenContext";
 function CPAddStatePension({ navigation }) {
   const [statePension, setStatePension] = React.useState("");
   const [spouseGender, setSpouseGender] = React.useState("");
+  const [spouseName, setSpouseName] = React.useState("");
   const [gender, setGender] = React.useState("");
+  const [retireProfile, setRetireProfile] = React.useState({});
   const [spouseStatePension, setSpouseStatePension] = React.useState("");
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
 
+  const createStatePensionJar = async () => {
+    const jarData = {
+      type: "jar",
+      attributes: {
+        name: "Jar 1",
+        jarType: "income",
+        jarSubType: "state_pension",
+        isSpouse: false,
+        incomeAmount: statePension,
+        currentValue: 2.0,
+        regContributionAmount: 1.0,
+        incomeAmountStartDate: "",
+        secclExternalProviderId: "",
+        externalProviderRef: "",
+        secclTransferLinkId: "",
+        regContributionTaxBasis: "gross",
+        regContributionFrequency: "monthly",
+        transferAddress: {},
+      },
+    };
+    const spouseData = {
+      type: "jar",
+      attributes: {
+        name: "Jar 1",
+        jarType: "income",
+        jarSubType: "state_pension",
+        isSpouse: true,
+        incomeAmount: spouseStatePension,
+        currentValue: 2.0,
+        regContributionAmount: 1.0,
+        incomeAmountStartDate: "",
+        secclExternalProviderId: "",
+        externalProviderRef: "",
+        secclTransferLinkId: "",
+        regContributionTaxBasis: "gross",
+        regContributionFrequency: "monthly",
+        transferAddress: {},
+      },
+    };
+    statePension &&
+      (await api
+        .create_Jar(ctx?.atk, jarData)
+        .then((res) => {
+          console.log("success1".res.data);
+        })
+        .then(async () => {
+          spouseStatePension &&
+            (await api
+              .create_Jar(ctx?.atk, spouseData)
+              .then((res) => console.log("success2", res.data)));
+        }));
+  };
+
   const _next = () => {
-    navigation.navigate("CPAddPersonalPension");
+    Promise.resolve(createStatePensionJar())
+      .then(() => {
+        navigation.navigate("CPAddPersonalPension");
+      })
+      .catch((err) => {
+        // console.log(err)
+        navigation.navigate("CPAddPersonalPension");
+      });
   };
   const _goBack = () => {
     navigation.goBack();
@@ -46,7 +112,38 @@ function CPAddStatePension({ navigation }) {
       .then((res) => {})
       .catch((err) => {});
   };
+  const Get_retirement_profile_user = async () => {
+    await api
+      .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        setRetireProfile(res?.data);
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert(
+          "Network error, unable to retrieve your retirement profile"
+        );
+        return err;
+      });
+  };
 
+  React.useEffect(() => {
+    Get_retirement_profile_user();
+  }, []);
+
+  const handleTextbtn = () => {
+    if (!statePension && !spouseStatePension) {
+      return "Continue without state pensions";
+    }
+    if (!spouseStatePension) {
+      return "Continue with just my state pension";
+    }
+    if (!statePension && spouseStatePension) {
+      return "Continue with only partner's state pension";
+    } else {
+      return "Continue";
+    }
+  };
   return (
     <StatePenContext.Provider
       value={{
@@ -56,7 +153,8 @@ function CPAddStatePension({ navigation }) {
         setSpouseGender,
         spouseStatePension,
         setSpouseStatePension,
-        setGender
+        setGender,
+        retireProfile,
       }}
     >
       <MyGradientBackground>
@@ -136,11 +234,11 @@ function CPAddStatePension({ navigation }) {
             <CPSwipper />
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {iDontHhaveState === false || statePension.length > 0 ? (
+            {iDontHhaveState === false || statePension.length > 0 || spouseStatePension.length > 0 ?  (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}
-                btn="Next"
+                btn={handleTextbtn()}
                 w={200}
               />
             ) : (
@@ -153,23 +251,37 @@ function CPAddStatePension({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <View style={styles.footerContainer}>
+          {/* <View style={styles.footerContainer}>
             <CPDatatable />
-          </View>
+          </View> */}
+          <PanableCard styles={{ height: "29%" }}>
+            <CPDatatable />
+          </PanableCard>
           <View
             style={{
-              marginTop: 30,
-              width: "50%",
-              alignSelf: "center",
-              marginBottom: 20,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 8,
+              elevation: 8,
             }}
           >
-            <ProgressBar
-              progress={0.3}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>1/4</Text>
+            <View
+              style={{
+                marginTop: 30,
+                width: "50%",
+                alignSelf: "center",
+                marginBottom: 20,
+              }}
+            >
+              <ProgressBar
+                progress={0.3}
+                color={myColorsLight.lightGreyDark}
+                style={{ height: 7 }}
+              />
+              <Text style={{ textAlign: "center", fontSize: 20 }}>1/4</Text>
+            </View>
           </View>
         </>
       </MyGradientBackground>
@@ -213,7 +325,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     // backgroundColor: "#f1f3f2",
-    height: '27%',
+    height: "29%",
     marginTop: "auto",
     borderTopColor: myColorsLight.lightGreyDark,
     borderLeftColor: myColorsLight.lightGreyDark,
@@ -223,6 +335,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     paddingTop: 20,
     paddingHorizontal: 20,
+    marginBottom: 100,
   },
   cardsContainer: {
     marginTop: 17,

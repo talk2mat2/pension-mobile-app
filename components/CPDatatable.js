@@ -3,7 +3,7 @@ import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet } from "react-native";
 import { myColorsLight } from "../constant/colors";
 const CPDatatable = () => {
-  const tableData = [1, 2, 3, 4, 5];
+  const tableData = [1];
   return (
     <View style={{ height: "100%" }}>
       <Swiper

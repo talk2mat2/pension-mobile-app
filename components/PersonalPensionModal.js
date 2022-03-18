@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,22 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
+import {
+  Modal,
+  Portal,
+  Button,
+  Provider,
+  Title,
+  overlay,
+} from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import api from "../api";
+import UserContext from "../contexts/UserContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
+import JarvisLoader from "./JarvisLoader";
 const PersoanalStatePensionModal = ({
   visible,
   setVisible,
@@ -24,9 +34,15 @@ const PersoanalStatePensionModal = ({
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const [spouseGender, setSpouseGender] = React.useState("Male");
+  const ctx = useContext(UserContext);
+  const [loading, setIsloading] = React.useState(false);
+  const [providers, setProviders] = React.useState([]);
+  const [choosenProvider, setChoosenProvider] = React.useState({});
+  const [search, setSearch] = React.useState([]);
+  let u = ctx.u;
   const [stateAmountValidation, setStateAmountValidation] =
     React.useState(false);
-  const [stateAmount, setStateAmount] = React.useState("8325");
+  const [stateAmount, setStateAmount] = React.useState("");
   const _next = () => {
     if (!stateAmount) {
       setStateAmountValidation(true);
@@ -35,6 +51,54 @@ const PersoanalStatePensionModal = ({
     }
   };
   const hideModal = () => setVisible(false);
+  const get_all_Pension_Providers = async () => {
+    setIsloading(true);
+    await api
+      .get_all_Pension_Providers(ctx?.atk)
+      .then((res) => {
+        setProviders(res?.data);
+        setIsloading(false);
+      })
+      .catch((err) => {
+        setIsloading(false);
+      });
+  };
+  const handleSearch = (value) => {
+    setStateAmount(value);
+    setStateAmountValidation(false);
+    const results =
+      providers.length > 0 &&
+      providers.filter((item) =>
+        String(item?.attributes.name).match(
+          new RegExp("(\\w*" + value + "\\w*)", "gi")
+        )
+      );
+
+    results && setSearch(results);
+  };
+  React.useEffect(() => {
+    get_all_Pension_Providers();
+  }, []);
+
+  const mapResults = () => {
+    return (
+      search?.length > 0 &&
+      search?.map((item, index) => (
+        <View style={{ marginVertical: 3 }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearch([]);
+              setChoosenProvider(item);
+            }}
+          >
+            <Text style={{ fontWeight: "700" }} key={index}>
+              {item?.attributes?.name}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      ))
+    );
+  };
   return (
     <Portal>
       <Modal
@@ -75,19 +139,49 @@ const PersoanalStatePensionModal = ({
             justifyContent: "space-between",
             marginVertical: 10,
             marginTop: 20,
+            position: "relative",
           }}
         >
           <Text style={{ fontSize: 16 }}>
             Search for your {"\n"} Pension Provider
           </Text>
 
-          <TextInput
-            onChangeText={(text) => {
-              setStateAmount(text), setStateAmountValidation(false);
-            }}
-            style={styles.input}
-            value={stateAmount}
-          />
+          {choosenProvider?.attributes ? (
+            <TouchableOpacity onPress={() => setChoosenProvider({})}>
+              <Text style={{ fontWeight: "700" }}>
+                {choosenProvider?.attributes?.name}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <>
+              <TextInput
+                onChangeText={(text) => {
+                  handleSearch(text);
+                }}
+                style={styles.input}
+                value={stateAmount}
+              />
+              {(search?.length > 0 || stateAmount.length > 0) && (
+                <View style={styles.searchDrop}>
+                  <ScrollView>
+                    {mapResults()}
+                    <TouchableOpacity
+                      onPress={() => {
+                        setSearch([]);
+                        setChoosenProvider({
+                          attributes: { name: stateAmount },
+                        });
+                      }}
+                    >
+                      <Text style={{ fontWeight: "700" }}>
+                        {stateAmount}
+                      </Text>
+                    </TouchableOpacity>
+                  </ScrollView>
+                </View>
+              )}
+            </>
+          )}
         </View>
         {stateAmountValidation && (
           <View style={styles.formGroupError}>
@@ -96,7 +190,20 @@ const PersoanalStatePensionModal = ({
             </Text>
           </View>
         )}
-
+        {loading && (
+          <View
+            style={{
+              position: "absolute",
+              right: 0,
+              left: 0,
+              marginTop: "50%",
+              zIndex: 7,
+              elevation: 7,
+            }}
+          >
+            <JarvisLoader />
+          </View>
+        )}
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
           style={{
@@ -164,7 +271,7 @@ const PersoanalStatePensionModal = ({
           </View>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
+        {personData?.regularContribution!=='no'&&<><View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -173,26 +280,26 @@ const PersoanalStatePensionModal = ({
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Contribution Tax Basis</Text>
+          <Text style={{ fontSize: 16 }}>Contribution Tax{'\n'} Basis</Text>
           <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
+            <Text style={[styles.radioText]}>Net</Text>
             <RadioButton
-              value="yes"
+              value="net"
               status={
-                personData.contributeBasics === "yes" ? "checked" : "unchecked"
+                personData.contributeBasics === "net" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, contributeBasics: "yes" });
+                setPersoData({ ...personData, contributeBasics: "net" });
               }}
             />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+            <Text style={[styles.radioText, { marginLeft: 20 }]}>Gross</Text>
             <RadioButton
               value="Female"
               status={
-                personData.contributeBasics === "no" ? "checked" : "unchecked"
+                personData.contributeBasics === "gross" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, contributeBasics: "no" });
+                setPersoData({ ...personData, contributeBasics: "gross" });
               }}
             />
           </View>
@@ -217,7 +324,7 @@ const PersoanalStatePensionModal = ({
             }}
             style={{ ...styles.input, width: 100 }}
           />
-        </View>
+        </View></>}
         {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
@@ -240,22 +347,22 @@ const PersoanalStatePensionModal = ({
           <View style={{ flexDirection: "row" }}>
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
-              value="yews"
+              value="yes"
               status={
-                personData.pousePension === "yes" ? "checked" : "unchecked"
+                personData.spousePension === "yes" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, pousePension: "yes" });
+                setPersoData({ ...personData, spousePension: "yes" });
               }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
             <RadioButton
               value="no"
               status={
-                personData.pousePension === "no" ? "checked" : "unchecked"
+                personData.spousePension === "no" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, pousePension: "no" });
+                setPersoData({ ...personData, spousePension: "no" });
               }}
             />
           </View>
@@ -312,6 +419,18 @@ const styles = StyleSheet.create({
 
     height: 2,
     backgroundColor: "#bbb",
+  },
+  searchDrop: {
+    maxHeight: 300,
+    position: "absolute",
+    right: 0,
+    width: 180,
+    backgroundColor: myColorsLight.white,
+    zIndex: 5,
+    elevation: 5,
+    top: 50,
+    overflow: "scroll",
+    padding: 10,
   },
 });
 export default PersoanalStatePensionModal;

@@ -13,25 +13,21 @@ import { myColorsLight } from "../constant/colors";
 import OutcomeDatatable from "./outcomeDataTable";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const OutcomeCard = ({ hideCards ,children,styles:otherStyles}) => {
+const PanableCard = ({ hideCards ,children,styles:otherStyles}) => {
   const outcomePopper = new Animated.ValueXY({
     x: 0,
-    y: -Dimensions.get("window").height,
+    y: 0,
   });
-  const outcomeAnimated = () => {
-    Animated.spring(outcomePopper, {
-      toValue: 0,
-      duration: 2000,
-      friction: 3,
-      tension: 20,
-      useNativeDriver: true,
-    }).start();
-  };
-  React.useEffect(() => {
-    setTimeout(() => {
-      outcomeAnimated();
-    }, 2000);
-  }, []);
+  // const outcomeAnimated = () => {
+  //   Animated.spring(outcomePopper, {
+  //     toValue: 0,
+  //     duration: 2000,
+  //     friction: 3,
+  //     tension: 20,
+  //     useNativeDriver: true,
+  //   }).start();
+  // };
+
 
   const pan = PanResponder.create({
     //this set the position to the supplied x/y position
@@ -89,10 +85,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     borderWidth: 1,
-    zIndex: 3,
+    zIndex: 7,
     elevation: 7,
     height: Dimensions.get("screen").width / 1.1,
     width: "100%",
+ 
   },
   hrView: {
     width: "100%",
@@ -110,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default OutcomeCard;
+export default PanableCard;

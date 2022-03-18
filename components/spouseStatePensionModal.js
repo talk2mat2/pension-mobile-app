@@ -97,7 +97,7 @@ const SpouseStatePensionModal = ({
           </View>
         )}
 
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
+        {/* <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
           style={{
             flexDirection: "row",
@@ -121,8 +121,8 @@ const SpouseStatePensionModal = ({
               onPress={() => setSpouseGender("Female")}
             />
           </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
+        </View> */}
+        <View style={{ ...styles.hrView, marginTop: 60 }} />
         <View style={{ marginTop: 20 }}>
           <Text style={{ fontWeight: "bold" }}>
             <AntDesign name="exclamationcircle" size={17} color="black" /> Why
