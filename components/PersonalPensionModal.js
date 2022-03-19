@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import {
   Modal,
@@ -32,22 +33,27 @@ const PersoanalStatePensionModal = ({
   setPersoData,
 }) => {
   // const [visible, setVisible] = React.useState(false);
-  const [buttonBackground, setButtonBackground] = React.useState("#77f");
+
   const [spouseGender, setSpouseGender] = React.useState("Male");
+
   const ctx = useContext(UserContext);
   const [loading, setIsloading] = React.useState(false);
   const [providers, setProviders] = React.useState([]);
-  const [choosenProvider, setChoosenProvider] = React.useState({});
+
   const [search, setSearch] = React.useState([]);
   let u = ctx.u;
-  const [stateAmountValidation, setStateAmountValidation] =
+  const [providerNameValidation, setproviderNameValidation] =
     React.useState(false);
-  const [stateAmount, setStateAmount] = React.useState("");
+  const [providerName, setproviderName] = React.useState("");
   const _next = () => {
-    if (!stateAmount) {
-      setStateAmountValidation(true);
-    } else {
-      changeStatePension(stateAmount);
+    if (!providerName) {
+      setproviderNameValidation(true);
+    } 
+    else if(!personData.currentValue){
+return Alert.alert('Please provide current value')
+    }
+    else {
+      changeStatePension(providerName);
     }
   };
   const hideModal = () => setVisible(false);
@@ -64,8 +70,8 @@ const PersoanalStatePensionModal = ({
       });
   };
   const handleSearch = (value) => {
-    setStateAmount(value);
-    setStateAmountValidation(false);
+    setproviderName(value);
+    setproviderNameValidation(false);
     const results =
       providers.length > 0 &&
       providers.filter((item) =>
@@ -84,11 +90,12 @@ const PersoanalStatePensionModal = ({
     return (
       search?.length > 0 &&
       search?.map((item, index) => (
-        <View style={{ marginVertical: 3 }}>
+        <View key={item?.id} style={{ marginVertical: 3 }}>
           <TouchableOpacity
             onPress={() => {
               setSearch([]);
-              setChoosenProvider(item);
+              // setChoosenProvider(item);
+              setPersoData({ ...personData, provider: item?.attributes?.name });
             }}
           >
             <Text style={{ fontWeight: "700" }} key={index}>
@@ -146,10 +153,12 @@ const PersoanalStatePensionModal = ({
             Search for your {"\n"} Pension Provider
           </Text>
 
-          {choosenProvider?.attributes ? (
-            <TouchableOpacity onPress={() => setChoosenProvider({})}>
+          {personData?.provider? (
+            <TouchableOpacity
+              onPress={() => setPersoData({ ...personData, provider: "" })}
+            >
               <Text style={{ fontWeight: "700" }}>
-                {choosenProvider?.attributes?.name}
+                {personData.provider}
               </Text>
             </TouchableOpacity>
           ) : (
@@ -159,34 +168,33 @@ const PersoanalStatePensionModal = ({
                   handleSearch(text);
                 }}
                 style={styles.input}
-                value={stateAmount}
+                value={providerName}
               />
-              {(search?.length > 0 || stateAmount.length > 0) && (
+              {(search?.length > 0 || providerName.length > 0) && (
                 <View style={styles.searchDrop}>
                   <ScrollView>
-                    {mapResults()}
                     <TouchableOpacity
                       onPress={() => {
                         setSearch([]);
-                        setChoosenProvider({
-                          attributes: { name: stateAmount },
-                        });
+                        setPersoData({ ...personData, provider: providerName });
+                        // setChoosenProvider({
+                        //   attributes: { name: providerName },
+                        // });
                       }}
                     >
-                      <Text style={{ fontWeight: "700" }}>
-                        {stateAmount}
-                      </Text>
+                      <Text style={{ fontWeight: "700" }}>{providerName}</Text>
                     </TouchableOpacity>
+                    {mapResults()}
                   </ScrollView>
                 </View>
               )}
             </>
           )}
         </View>
-        {stateAmountValidation && (
+        {providerNameValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
-              Please enter your state pension amount
+              Please enter your provider name
             </Text>
           </View>
         )}
@@ -217,6 +225,7 @@ const PersoanalStatePensionModal = ({
           <Text style={{ fontSize: 16 }}>Current Value</Text>
 
           <TextInput
+            keyboardType="numeric"
             style={{ ...styles.input, width: 100 }}
             value={personData.currentValue}
             onChangeText={(text) => {
@@ -224,7 +233,7 @@ const PersoanalStatePensionModal = ({
             }}
           />
         </View>
-        {/* {stateAmountValidation && (
+        {/* {providerNameValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
@@ -271,67 +280,72 @@ const PersoanalStatePensionModal = ({
           </View>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-        {personData?.regularContribution!=='no'&&<><View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Contribution Tax{'\n'} Basis</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Net</Text>
-            <RadioButton
-              value="net"
-              status={
-                personData.contributeBasics === "net" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({ ...personData, contributeBasics: "net" });
+        {personData?.regularContribution !== "no" && (
+          <>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginVertical: 10,
+                marginTop: 20,
+                alignItems: "center",
               }}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>Gross</Text>
-            <RadioButton
-              value="Female"
-              status={
-                personData.contributeBasics === "gross" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({ ...personData, contributeBasics: "gross" });
+            >
+              <Text style={{ fontSize: 16 }}>Contribution Tax{"\n"} Basis</Text>
+              <View style={{ flexDirection: "row" }}>
+                <Text style={[styles.radioText]}>Net</Text>
+                <RadioButton
+                  value="net"
+                  status={
+                    personData.contributeBasics === "net"
+                      ? "checked"
+                      : "unchecked"
+                  }
+                  onPress={() => {
+                    setPersoData({ ...personData, contributeBasics: "net" });
+                  }}
+                />
+                <Text style={[styles.radioText, { marginLeft: 20 }]}>
+                  Gross
+                </Text>
+                <RadioButton
+                  value="Female"
+                  status={
+                    personData.contributeBasics === "gross"
+                      ? "checked"
+                      : "unchecked"
+                  }
+                  onPress={() => {
+                    setPersoData({ ...personData, contributeBasics: "gross" });
+                  }}
+                />
+              </View>
+            </View>
+            <View style={{ ...styles.hrView, marginTop: 20 }} />
+
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginVertical: 10,
+                marginTop: 20,
+                alignItems: "center",
               }}
-            />
-          </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
+            >
+              <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
-
-          <TextInput
-            value={personData.monthlyContribution}
-            onChangeText={(text) => {
-              setPersoData({ ...personData, monthlyContribution: text });
-            }}
-            style={{ ...styles.input, width: 100 }}
-          />
-        </View></>}
-        {stateAmountValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
-              Please enter your state pension amount
-            </Text>
-          </View>
+              <TextInput
+                keyboardType="numeric"
+                value={personData.monthlyContribution}
+                onChangeText={(text) => {
+                  setPersoData({ ...personData, monthlyContribution: text });
+                }}
+                style={{ ...styles.input, width: 100 }}
+              />
+            </View>
+          </>
         )}
+      
 
         <View style={{ ...styles.hrView }} />
         <View
@@ -412,7 +426,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0.3,
     padding: 8,
-    width: 180,
+    width:140,
   },
   hrView: {
     width: "100%",

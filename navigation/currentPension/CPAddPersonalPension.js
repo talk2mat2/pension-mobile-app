@@ -38,7 +38,24 @@ function CPAddPersonalPension({ navigation }) {
       spousePension: "no",
     },
   ]);
+  const isValidJars = () => {
+    let isvalid = false;
 
+    const isExist = providerJars.find(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
+    // providerJars.map((item) => {
+    //   if (item.currentValue !== "" && item.currentValue !== "") {
+    //     return isvalid = true;
+    //   } else {
+    //     isvalid = false;
+    //   }
+    // });
+    if (isExist) {
+      isvalid = true;
+    }
+    return isvalid;
+  };
   const AddJars = () => {
     const newJar = {
       id: Math.floor(Math.random() * 100),
@@ -49,7 +66,27 @@ function CPAddPersonalPension({ navigation }) {
       monthlyContribution: "",
       spousePension: "no",
     };
-    setProviderJars([...providerJars, AddJars]);
+    setProviderJars([...providerJars, newJar]);
+  };
+
+  const updateJars = (index, newJarData) => {
+    const newProviderJars = providerJars.slice();
+    newProviderJars[index] = newJarData;
+    setProviderJars(newProviderJars);
+  };
+  const cleanJars = (index, newJarData) => {
+    const newJar = {
+      id: Math.floor(Math.random() * 100),
+      provider: "",
+      currentValue: "",
+      regularContribution: "",
+      contributeBasics: "",
+      monthlyContribution: "",
+      spousePension: "no",
+    };
+    const newProviderJars = providerJars.slice();
+    newProviderJars[index] = newJar;
+    setProviderJars(newProviderJars);
   };
   const [person1, setPerson1] = React.useState({
     provider: "",
@@ -69,13 +106,38 @@ function CPAddPersonalPension({ navigation }) {
   });
 
   const ctx = useContext(UserContext);
-  const [buttonBackground, setButtonBackground] = useState("#77f");
+
+  const submitFilledJars = () => {
+    const jarsTosbumit = [];
+    for (let i = 0; i < providerJars.length; i++) {
+      if (
+        providerJars[i].provider !== "" &&
+        providerJars[i].currentValue !== ""
+      ) {
+        jarsTosbumit.push(providerJars[i]);
+        console.log("not empty");
+      }
+    }
+    console.log(jarsTosbumit);
+  };
 
   const _next = () => {
+    return submitFilledJars();
     navigation.navigate("DefinedBenefit");
   };
   const _goBack = () => {
     navigation.goBack();
+  };
+
+  const checkPersonPensions = () => {
+    if (providerJars.length > 0) {
+      const isExist = providerJars.filter(
+        (item) => item.currentValue !== "" && item.currentValue !== ""
+      );
+      return `Continue with ${isExist.length} DC pensions`;
+    } else {
+      return `Continue`;
+    }
   };
   return (
     <PersonalPenContext.Provider
@@ -86,7 +148,9 @@ function CPAddPersonalPension({ navigation }) {
         setPerson1,
         providerJars,
         setProviderJars,
-        AddJars
+        AddJars,
+        cleanJars,
+        updateJars,
       }}
     >
       <MyGradientBackground>
@@ -169,17 +233,15 @@ function CPAddPersonalPension({ navigation }) {
             Swipe to add more pensions
           </Text>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {iDontHhaveState === false ||
-            person1.currentValue ||
-            person2.currentValue ? (
+            {iDontHhaveState === true || isValidJars() === true ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}
-                btn="Next"
-                w={200}
+                btn={checkPersonPensions()}
+                w={210}
               />
             ) : (
-              <TouchableOpacity onPress={() => setIdontHaveState(false)}>
+              <TouchableOpacity onPress={() => setIdontHaveState(true)}>
                 <View style={styles.btnIdont}>
                   <Text style={{ fontWeight: "900" }}>
                     I don’t have any Personal Pensions

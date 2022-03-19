@@ -11,7 +11,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import StatePensionModal from "./statePensionModal";
-
+import PersonJars from "./personJars";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
 import PersoanalStatePensionModal from "./PersonalPensionModal";
 import { myColorsLight } from "../constant/colors";
@@ -29,7 +29,7 @@ const CPPersonSwipper = () => {
   const hideModal = () => setVisible(false);
   const showPerson2Modal = () => setPerson2Visible(true);
   const hidePerson2Modal = () => setPerson2Visible(false);
-  const { person1, setPerson1, person2, setPerson2, AddJars, providerJars } =
+  const { person1, setPerson1, person2, setPerson2, AddJars, providerJars,updateJars } =
     useContext(PersonalPenContext);
   const changePerson1Pension = (newValue) => {
     setPersonPension1(newValue);
@@ -41,25 +41,6 @@ const CPPersonSwipper = () => {
   };
   return (
     <>
-      <PersoanalStatePensionModal
-        {...{
-          visible,
-          setVisible,
-          changePerson1Pension,
-          personData: person1,
-          setPersoData: setPerson1,
-        }}
-      />
-      <PersoanalStatePensionModal
-        {...{
-          personData: person2,
-          setPersoData: setPerson2,
-          visible: person2Visible,
-          setVisible: setPerson2Visible,
-          changePerson1Pension: changePerson2Pension,
-        }}
-      />
-
       <View style={{ height: 200 }}>
         <ScrollView
           ref={scrollRef}
@@ -88,65 +69,69 @@ const CPPersonSwipper = () => {
           style={styles.wrapper}
           // showsButtons={false}
         >
-          {providerJars?.map((item) => (
-            <View ley={item.id} style={styles.slide1}>
-              <View style={styles.jarContainer}>
-                <ImageBackground
-                  source={require("../assets/jarIcon.png")}
-                  resizeMode="contain"
-                  style={styles.Jaricon}
-                >
-                  <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                    <Text
-                      style={{
-                        textAlign: "center",
-                        fontWeight: "600",
-                        paddingBottom: 10,
-                      }}
-                    >
-                      Provider 2
-                    </Text>
+          {providerJars?.map((item, index) => (
+            <PersonJars {...{ item, index}} />
+            // <>
 
-                    {!person1?.currentValue ? (
-                      <TouchableOpacity onPress={showModal}>
-                        <AntDesign
-                          style={{ textAlign: "center", fontWeight: "600" }}
-                          name="pluscircle"
-                          size={37}
-                          color={myColorsLight.lightGreyDim}
-                        />
-                      </TouchableOpacity>
-                    ) : (
-                      <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                        £{person1?.currentValue}
-                      </Text>
-                    )}
-                  </View>
-                </ImageBackground>
-                {person1?.currentValue?.length > 0 && (
-                  <View style={{ flexDirection: "row" }}>
-                    <TouchableOpacity onPress={showModal}>
-                      <View style={styles.edit}>
-                        <AntDesign name="edit" size={20} color="black" />
-                      </View>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() =>
-                        setPerson1({ ...person1, currentValue: "" })
-                      }
-                    >
-                      <View style={styles.edit}>
-                        <MaterialIcons name="cancel" size={20} color="black" />
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                )}
-              </View>
-            </View>
+            // <View key={item.id} style={styles.slide1}>
+            //   <View style={styles.jarContainer}>
+            //     <ImageBackground
+            //       source={require("../assets/jarIcon.png")}
+            //       resizeMode="contain"
+            //       style={styles.Jaricon}
+            //     >
+            //       <View style={{ marginTop: "auto", marginBottom: 20 }}>
+            //         <Text
+            //           style={{
+            //             textAlign: "center",
+            //             fontWeight: "600",
+            //             paddingBottom: 10,
+            //           }}
+            //         >
+            //           Provider 2
+            //         </Text>
+
+            //         {!item?.currentValue ? (
+            //           <TouchableOpacity onPress={showModal}>
+            //             <AntDesign
+            //               style={{ textAlign: "center", fontWeight: "600" }}
+            //               name="pluscircle"
+            //               size={37}
+            //               color={myColorsLight.lightGreyDim}
+            //             />
+            //           </TouchableOpacity>
+            //         ) : (
+            //           <Text style={{ textAlign: "center", fontWeight: "900" }}>
+            //             £{item?.currentValue}
+            //           </Text>
+            //         )}
+            //       </View>
+            //     </ImageBackground>
+            //     {item?.currentValue?.length > 0 && (
+            //       <View style={{ flexDirection: "row" }}>
+            //         <TouchableOpacity onPress={showModal}>
+            //           <View style={styles.edit}>
+            //             <AntDesign name="edit" size={20} color="black" />
+            //           </View>
+            //         </TouchableOpacity>
+            //         <TouchableOpacity
+            //           onPress={() =>
+            //             setPerson1({ ...person1, currentValue: "" })
+            //           }
+            //         >
+            //           <View style={styles.edit}>
+            //             <MaterialIcons name="cancel" size={20} color="black" />
+            //           </View>
+            //         </TouchableOpacity>
+            //       </View>
+            //     )}
+            //   </View>
+            // </View>
+            // </>
           ))}
-          <TouchableOpacity onPress={()=>AddJars()}>
+          <TouchableOpacity onPress={() => AddJars()}>
             <AntDesign
-              style={{ margin:40, textAlign: "center", fontWeight: "600" }}
+              style={{ margin: 40, textAlign: "center", fontWeight: "600" }}
               name="pluscircle"
               size={37}
               color={myColorsLight.lightGrey}
