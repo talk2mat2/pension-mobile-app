@@ -9,14 +9,13 @@ import {
 } from "react-native";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
-import UserContext from "../contexts/UserContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
 
-const OtherensionModal = ({
+const OtherensionModalSaving = ({
   visible,
   setVisible,
   showModal,
@@ -29,10 +28,12 @@ const OtherensionModal = ({
   const [spouseGender, setSpouseGender] = React.useState("Male");
   const [date, setDate] = React.useState(new Date());
   const [showDatePicker, setShowDatePicker] = React.useState(false);
+  const [startdatDisplay, setStartdatDisplay] = React.useState(
+    new Date().toDateString()
+  );
   const [stateAmountValidation, setStateAmountValidation] =
     React.useState(false);
   const [stateAmount, setStateAmount] = React.useState("8325");
-  const ctx = React.useContext(UserContext);
   const _next = () => {
     // if (!stateAmount) {
     //   setStateAmountValidation(true);
@@ -48,14 +49,6 @@ const OtherensionModal = ({
     setShowDatePicker(false);
     setPersonData({ ...personData, expectedIncomeDate: tempd });
   };
-
-  React.useEffect(() => {
-    if (ctx?.u?.included[0]?.retirementDate) {
-      const tempd = new Date(ctx?.u?.included[0]?.retirementDate);
-      setDate(tempd);
-      setPersonData({ ...personData, expectedIncomeDate: tempd });
-    }
-  }, []);
   return (
     <Portal>
       <Modal
@@ -86,14 +79,14 @@ const OtherensionModal = ({
               marginTop: 16,
             }}
           >
-            Other Retirement {"\n"}Income
+            Other Retirement {"\n"}Savings
           </Text>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
+        <View style={{ ...styles.hrView, marginTop: 40 }} />
         <View style={{ paddingVertical: 20 }}>
           <Text style={{ textAlign: "center" }}>
-            Enter the total value of any other income you {"\n"} may have
-            available to add to your pension {"\n"} when you retire
+            Enter the total value of savings, investments {"\n"}or properties
+            you may have available to add{"\n"} to your pension when you retire
           </Text>
         </View>
         <View style={{ ...styles.hrView, marginTop: 10 }} />
@@ -103,10 +96,12 @@ const OtherensionModal = ({
             justifyContent: "space-between",
             marginVertical: 10,
             marginTop: 20,
-            alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Expected Annual Income</Text>
+          <Text style={{ fontSize: 16 }}>
+            Total Expected{"\n"}
+            value at retirement
+          </Text>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text>£</Text>
             <TextInput
@@ -131,31 +126,6 @@ const OtherensionModal = ({
           </View>
         )} */}
 
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Gender</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Male</Text>
-            <RadioButton
-              value="Male"
-              status={personData.gender === "Male" ? "checked" : "unchecked"}
-              onPress={() => setPersonData({ ...personData, gender: "Male" })}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>Female</Text>
-            <RadioButton
-              value="Female"
-              status={personData.gender === "Female" ? "checked" : "unchecked"}
-              onPress={() => setPersonData({ ...personData, gender: "Female" })}
-            />
-          </View>
-        </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
           style={{
@@ -198,53 +168,9 @@ const OtherensionModal = ({
             />
           </View>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View>
-          <Text style={{ fontSize: 16, marginTop: 10, marginBottom: 20 }}>
-            Expected Income Start Date
-          </Text>
-          <View style={{ height: 80 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ marginRight: 20 }}>{date.toDateString()}</Text>
-              <JarvisButton
-                style={[styles.loginButton]}
-                bgcolor={myColorsLight.black}
-                play={() => {
-                  setShowDatePicker(true);
-                }}
-                btn="Select date"
-                w="40%"
-              />
-            </View>
 
-            <View style={[{ alignContent: "space-between" }]}>
-              {showDatePicker && (
-                <DateTimePicker
-                  testID="birthdayDateTimePicker"
-                  minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                  value={date}
-                  mode="date"
-                  is24Hour={true}
-                  display="default"
-                  onChange={(e, d) => {
-                    setShowDatePicker(false);
-                    if (typeof d != "undefined") {
-                      updateDate(d);
-                    }
-                  }}
-                />
-              )}
-            </View>
-          </View>
-        </View>
-
-        <View style={{ ...styles.hrView, marginTop: "16%" }} />
-        <View style={{ alignItems: "center", marginTop: 19 }}>
+        <View style={{ ...styles.hrView, marginTop: "30%" }} />
+        <View style={{ alignItems: "center", marginTop: 80 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}
             play={_next}
@@ -252,14 +178,13 @@ const OtherensionModal = ({
             w={200}
           />
         </View>
-        <ScrollView></ScrollView>
       </Modal>
     </Portal>
   );
 };
 const styles = StyleSheet.create({
   containerStyle: {
-    height: "90%",
+    height: "80%",
     padding: 20,
     paddingTop: 20,
     backgroundColor: "white",
@@ -309,4 +234,4 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-export default OtherensionModal;
+export default OtherensionModalSaving;

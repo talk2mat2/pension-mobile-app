@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
+import api from "../../api";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -31,21 +32,86 @@ function OtherPension({ navigation }) {
     expectedAnualIncome: "",
     gender: "",
     expectedIncomeDate: "",
+    spousePension: "no",
+    isSpouse: false,
+    name: "Retirement Savings",
+    jarType: "asset",
+    jarSubType: "other",
+    currentValue: "",
   });
   const [person2, setPerson2] = React.useState({
     expectedAnualIncome: "",
+    name: "Retirement Income",
     gender: "",
     expectedIncomeDate: "",
+    spousePension: "no",
+    isSpouse: false,
+    jarType: "income",
+    jarSubType: "other",
+    currentValue: "",
+    incomeAmount: "",
+    incomeAmountStartDate: "",
   });
   const ctx = useContext(UserContext);
-  const [buttonBackground, setButtonBackground] = useState("#77f");
 
+  // const _next = () => {
+  //   navigation.navigate("CPCongrat");
+  // };
+  const createStatePensionJar = async () => {
+    if (person1.currentValue) {
+      await api
+        .create_Jar(ctx?.atk, {
+          type: "jar",
+          attributes: { ...person1 },
+        })
+        .then((res) => {
+          console.log("success1".res.data);
+        })
+        .catch((err) => console.log(err));
+    }
+    if (person2.currentValue) {
+      await api
+        .create_Jar(ctx?.atk, {
+          type: "jar",
+          attributes: { ...person1 },
+        })
+        .then((res) => {
+          console.log("success1".res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
   const _next = () => {
-    navigation.navigate("CPCongrat");
+    Promise.resolve(createStatePensionJar())
+      .then(() => {
+        navigation.navigate("CPCongrat");
+      })
+      .catch((err) => {
+        navigation.navigate("CPCongrat");
+      });
   };
   const _goBack = () => {
     navigation.goBack();
   };
+  const handleTextbtn = () => {
+    if (!person1.currentValue && !person2.currentValue) {
+      return "Continue without other savings/income";
+    }
+    if (person1.currentValue && !person2.currentValue) {
+      return "Continue with only savings";
+    }
+    if (!person1.currentValue && person2.currentValue) {
+      return "Continue with only income";
+    }
+    if (person1.currentValue && person2.currentValue) {
+      return "Continue";
+    } else {
+      return "Continue";
+    }
+  };
+
   return (
     <OtherpenContext.Provider
       value={{ person1, setPerson1, setPerson2, person2 }}
@@ -127,11 +193,13 @@ function OtherPension({ navigation }) {
             <OtherSwipper />
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {iDontHhaveState === false || person1.expectedAnualIncome ? (
+            {iDontHhaveState === false ||
+            person1.expectedAnualIncome ||
+            person2.expectedAnualIncome ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}
-                btn="Next"
+                btn={handleTextbtn()}
                 w={200}
               />
             ) : (

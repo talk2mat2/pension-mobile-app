@@ -1,8 +1,17 @@
 import React, { useContext } from "react";
 import Swiper from "react-native-swiper/src";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
+const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 import { TouchableOpacity } from "react-native-gesture-handler";
+import OtherensionModalSaving from "./OtherPensionModalSaving";
 import OtherensionModal from "./OthehrPensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
 import { myColorsLight } from "../constant/colors";
@@ -14,24 +23,86 @@ const OtherSwipper = () => {
   const [spouseVisible, setSpouseVisible] = React.useState(false);
   const [statePension, setStatePension] = React.useState("");
   const [spouseStatePension, setSpouseStatePension] = React.useState("");
-
+  const scrollRef = React.useRef();
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const showSpouseModal = () => setSpouseVisible(true);
   const hideSpouseModal = () => setSpouseVisible(false);
   const { person1, setPerson1, setPerson2, person2 } =
     useContext(OtherPenContext);
+
+  const ScrolltoIncome = () => {
+    scrollRef.current?.scrollTo({
+      x: deviceWidth / 2,
+      animated: true,
+    });
+  };
+  const Scrolltosavings = () => {
+    scrollRef.current?.scrollTo({
+      x: 0,
+      animated: true,
+    });
+  };
   const changeStatePension = () => {
     // setStatePension(newValue);
+    ScrolltoIncome();
     hideModal();
   };
   const changeSpouseStatePension = () => {
     // setSpouseStatePension(newValue);
     hideSpouseModal();
+    Scrolltosavings()
   };
+
   return (
     <>
-      <OtherensionModal
+      <View style={{ height: 200 }}>
+        <ScrollView
+          ref={scrollRef}
+          horizontal
+          snapToAlignment={"center"}
+          showsHorizontalScrollIndicator={false}
+          // pagingEnabled
+          // onScroll={(xx)=>console.log(xx)}
+          // scrollto
+          contentContainerStyle={styles.scrollViewContainerStyle}
+          // paginationStyle={{
+          //   bottom: 0,
+          // }}
+          // activeDot={
+          //   <View
+          //     style={{
+          //       backgroundColor: myColorsLight.black,
+          //       width: 13,
+          //       height: 13,
+          //       borderRadius: 7,
+          //       marginLeft: 7,
+          //       marginRight: 7,
+          //     }}
+          //   />
+          // }
+          style={styles.wrapper}
+          // showsButtons={false}
+        >
+          <OtherensionModalSaving
+            {...{
+              personData: person1,
+              setPersonData: setPerson1,
+              visible,
+              setVisible,
+              changeStatePension,
+            }}
+          />
+          <OtherensionModal
+            {...{
+              visible: spouseVisible,
+              setVisible: setSpouseVisible,
+              changeStatePension: changeSpouseStatePension,
+              personData: person2,
+              setPersonData: setPerson2,
+            }}
+          />
+          {/* <OtherensionModal
         {...{
           personData: person1,
           setPersonData: setPerson1,
@@ -68,7 +139,7 @@ const OtherSwipper = () => {
           }
           style={styles.wrapper}
           showsButtons={false}
-        >
+        > */}
           <View style={styles.slide1}>
             <View style={styles.jarContainer}>
               <ImageBackground
@@ -106,7 +177,11 @@ const OtherSwipper = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
-                      setPerson1({ ...person1, expectedAnualIncome: "" })
+                      setPerson1({
+                        ...person1,
+                        expectedAnualIncome: "",
+                        currentValue: "",
+                      })
                     }
                   >
                     <View style={styles.edit}>
@@ -126,7 +201,7 @@ const OtherSwipper = () => {
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
                   <Text style={{ textAlign: "center", fontWeight: "800" }}>
-                    Other {"\n"}Retirement {"\n"}Savings
+                    Other {"\n"}Retirement {"\n"}Income
                   </Text>
                   {!person2?.expectedAnualIncome ? (
                     <TouchableOpacity onPress={showSpouseModal}>
@@ -139,7 +214,7 @@ const OtherSwipper = () => {
                     </TouchableOpacity>
                   ) : (
                     <Text style={{ textAlign: "center", fontWeight: "900" }}>
-                      £{person1?.expectedAnualIncome}
+                      £{person2?.expectedAnualIncome}
                     </Text>
                   )}
                 </View>
@@ -153,7 +228,11 @@ const OtherSwipper = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() =>
-                      setPerson2({ ...person2, expectedAnualIncome: "" })
+                      setPerson2({
+                        ...person2,
+                        expectedAnualIncome: "",
+                        currentValue: "",
+                      })
                     }
                   >
                     <View style={styles.edit}>
@@ -164,7 +243,8 @@ const OtherSwipper = () => {
               )}
             </View>
           </View>
-        </Swiper>
+          {/* </Swiper> */}
+        </ScrollView>
       </View>
     </>
   );
@@ -197,6 +277,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#97CAE5",
+  },
+  scrollViewContainerStyle: {
+    alignContent: "center",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: "30%",
+    justifyContent: "center",
+    paddingRight: deviceWidth * 0.5,
   },
 });
 export default OtherSwipper;
