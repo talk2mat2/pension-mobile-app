@@ -79,18 +79,24 @@ function CPAddStatePension({ navigation }) {
         transferAddress: {},
       },
     };
-    statePension &&
-      (await api
+    if (statePension) {
+      await api
         .create_Jar(ctx?.atk, jarData)
         .then((res) => {
           console.log("success1".res.data);
         })
-        .then(async () => {
-          spouseStatePension &&
-            (await api
-              .create_Jar(ctx?.atk, spouseData)
-              .then((res) => console.log("success2", res.data)));
-        }));
+        .catch((err) => console.log(err));
+    }
+    if (spouseStatePension) {
+      await api
+        .create_Jar(ctx?.atk, spouseData)
+        .then((res) => {
+          console.log("success1".res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const _next = () => {
@@ -234,7 +240,9 @@ function CPAddStatePension({ navigation }) {
             <CPSwipper />
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {iDontHhaveState === false || statePension.length > 0 || spouseStatePension.length > 0 ?  (
+            {iDontHhaveState === false ||
+            statePension.length > 0 ||
+            spouseStatePension.length > 0 ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}
