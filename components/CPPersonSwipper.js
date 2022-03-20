@@ -70,7 +70,7 @@ const CPPersonSwipper = () => {
           // showsButtons={false}
         >
           {providerJars?.map((item, index) => (
-            <PersonJars {...{ item, index}} />
+            <PersonJars key={index} {...{ item, index}} />
             // <>
 
             // <View key={item.id} style={styles.slide1}>

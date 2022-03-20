@@ -23,11 +23,109 @@ import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
+import api from "../../api";
+import PanableCard from "../../components/pannableCard";
 
 function DefinedStateBenefit({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
+  const [benefitJars, setBenefitJars] = React.useState([
+    {
+      id: 18934,
+      pensionName: "",
+      annualIncome: "",
+      provider: "",
+      name: "",
+      spousePension: "no",
+      jarType: "income",
+      jarSubType: "external",
+      incomeAmount: "",
+      isSpouse: false,
+    },
+  ]);
+  const AddJars = () => {
+    const newJar = {
+      id: Math.floor(Math.random() * 100),
+      pensionName: "",
+      annualIncome: "",
+      provider: "",
+      name: "",
+      spousePension: "no",
+      jarType: "income",
+      jarSubType: "external",
+      incomeAmount: "",
+      isSpouse: false,
+    };
+    setBenefitJars([...benefitJars, newJar]);
+  };
+  const cleanJars = (index) => {
+    const newJar = {
+      id: Math.floor(Math.random() * 100),
+      pensionName: "",
+      annualIncome: "",
+      provider: "",
+      name: "",
+      spousePension: "no",
+      jarType: "income",
+      jarSubType: "external",
+      incomeAmount: "",
+      isSpouse: false,
+    };
+    const newBenefitJars = benefitJars.slice();
+    newBenefitJars[index] = newJar;
+    setBenefitJars(newBenefitJars);
+  };
+  const updateJars = (index, newJarData) => {
+    const newBenefitJars = benefitJars.slice();
+    newBenefitJars[index] = newJarData;
+
+    setBenefitJars(newBenefitJars);
+  };
+
+  const submitFilledJars = async () => {
+    //iterate and make api call per jar
+    const isExist = benefitJars.filter(
+      (item) => item.name !== "" && item.incomeAmoun !== ""
+    );
+
+    for (let i = 0; i < isExist.length; i++) {
+      const jarData = {
+        type: "jar",
+        attributes: { ...isExist[i] },
+      };
+      await api
+        .create_Jar(ctx?.atk, jarData)
+        .then((res) => {
+          console.log("jar created");
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  const _next = () => {
+    const isExist = benefitJars.filter(
+      (item) => item.name !== "" && item.incomeAmoun !== ""
+    );
+    if (isExist.length > 0) {
+      return Promise.resolve(submitFilledJars()).then(() => {
+        navigation.navigate("OtherPension");
+      });
+    } else {
+      return navigation.navigate("OtherPension");
+    }
+  };
+  const checkBenefitPensions = () => {
+    const isExist = benefitJars.filter(
+      (item) => item.name !== "" && item.incomeAmoun !== ""
+    );
+    if (isExist.length > 0) {
+      return `Continue with ${isExist.length} DB pensions`;
+    } else {
+      return `Continue without DB pensions`;
+    }
+  };
+
   const [person1, setPerson1] = React.useState({
     pensionName: "",
     annualIncome: "",
@@ -38,15 +136,23 @@ function DefinedStateBenefit({ navigation }) {
     annualIncome: "",
     spousePension: "",
   });
-  const _next = () => {
-    navigation.navigate("OtherPension");
-  };
+
   const _goBack = () => {
     navigation.goBack();
   };
   return (
     <DefinedPenContext.Provider
-      value={{ person1, setPerson1, person2, setPerson2 }}
+      value={{
+        person1,
+        setPerson1,
+        person2,
+        setPerson2,
+        benefitJars,
+        setBenefitJars,
+        updateJars,
+        cleanJars,
+        AddJars,
+      }}
     >
       <MyGradientBackground>
         <>
@@ -125,11 +231,11 @@ function DefinedStateBenefit({ navigation }) {
             <DefinedSwipper />
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {(iDontHhaveState === false || person1.annualIncome) ? (
+            {iDontHhaveState === false || person1.annualIncome ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}
-                btn="Next"
+                btn={checkBenefitPensions()}
                 w={200}
               />
             ) : (
@@ -142,23 +248,34 @@ function DefinedStateBenefit({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <View style={styles.footerContainer}>
+          <PanableCard styles={{ height: "29%" }}>
             <CPDatatable />
-          </View>
+          </PanableCard>
           <View
             style={{
-              marginTop: 30,
-              width: "50%",
-              alignSelf: "center",
-              marginBottom: 20,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 8,
+              elevation: 8,
             }}
           >
-            <ProgressBar
-              progress={0.7}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>3/4</Text>
+            <View
+              style={{
+                marginTop: 30,
+                width: "50%",
+                alignSelf: "center",
+                marginBottom: 20,
+              }}
+            >
+              <ProgressBar
+                progress={0.7}
+                color={myColorsLight.lightGreyDark}
+                style={{ height: 7 }}
+              />
+              <Text style={{ textAlign: "center", fontSize: 20 }}>3/4</Text>
+            </View>
           </View>
         </>
       </MyGradientBackground>
@@ -202,7 +319,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     // backgroundColor: "#f1f3f2",
-    height: '25%',
+    height: "25%",
     marginTop: "auto",
     borderTopColor: myColorsLight.lightGreyDark,
     borderLeftColor: myColorsLight.lightGreyDark,

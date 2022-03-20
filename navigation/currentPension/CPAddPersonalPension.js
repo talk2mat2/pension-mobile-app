@@ -24,18 +24,45 @@ import { LinearGradient } from "expo-linear-gradient";
 import PersonalPenContext from "../../contexts/personalContext";
 import MyGradientBackground from "../../components/grdientBackGround";
 import PanableCard from "../../components/pannableCard";
+import api from "../../api";
 
 function CPAddPersonalPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
+  const [person1, setPerson1] = React.useState({});
+  const [person2, setPerson2] = React.useState({});
+  const ctx = useContext(UserContext);
   const [providerJars, setProviderJars] = React.useState([
     {
       id: 18934,
       provider: "",
+      name: "",
       currentValue: "",
       regularContribution: "",
       contributeBasics: "",
       monthlyContribution: "",
+      regContributionAmount: "",
       spousePension: "no",
+      secclExternalProviderId: "",
+      jarType: "asset",
+      jarSubType: "external",
+      regContributionFrequency: "monthly",
+      isSpouse: false,
+    },
+    {
+      id: 18935,
+      provider: "",
+      name: "",
+      currentValue: "",
+      regularContribution: "",
+      contributeBasics: "",
+      monthlyContribution: "",
+      regContributionAmount: "",
+      spousePension: "no",
+      secclExternalProviderId: "",
+      jarType: "asset",
+      jarSubType: "external",
+      regContributionFrequency: "monthly",
+      isSpouse: false,
     },
   ]);
   const isValidJars = () => {
@@ -60,11 +87,18 @@ function CPAddPersonalPension({ navigation }) {
     const newJar = {
       id: Math.floor(Math.random() * 100),
       provider: "",
+      name: "",
       currentValue: "",
       regularContribution: "",
       contributeBasics: "",
       monthlyContribution: "",
+      regContributionAmount: "",
       spousePension: "no",
+      secclExternalProviderId: "",
+      jarType: "asset",
+      jarSubType: "external",
+      regContributionFrequency: "monthly",
+      isSpouse: false,
     };
     setProviderJars([...providerJars, newJar]);
   };
@@ -78,65 +112,68 @@ function CPAddPersonalPension({ navigation }) {
     const newJar = {
       id: Math.floor(Math.random() * 100),
       provider: "",
+      name: "",
       currentValue: "",
       regularContribution: "",
       contributeBasics: "",
       monthlyContribution: "",
+      regContributionAmount: "",
       spousePension: "no",
+      secclExternalProviderId: "",
+      jarType: "asset",
+      jarSubType: "external",
+      regContributionFrequency: "monthly",
+      isSpouse: false,
     };
     const newProviderJars = providerJars.slice();
     newProviderJars[index] = newJar;
     setProviderJars(newProviderJars);
   };
-  const [person1, setPerson1] = React.useState({
-    provider: "",
-    currentValue: "",
-    regularContribution: "",
-    contributeBasics: "",
-    monthlyContribution: "",
-    spousePension: "no",
-  });
-  const [person2, setPerson2] = React.useState({
-    provider: "",
-    currentValue: "",
-    regularContribution: "",
-    contributeBasics: "",
-    monthlyContribution: "",
-    spousePension: "no",
-  });
 
-  const ctx = useContext(UserContext);
+  const submitFilledJars = async () => {
+    //iterate and make api call per jar
+    const isExist = providerJars.filter(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
 
-  const submitFilledJars = () => {
-    const jarsTosbumit = [];
-    for (let i = 0; i < providerJars.length; i++) {
-      if (
-        providerJars[i].provider !== "" &&
-        providerJars[i].currentValue !== ""
-      ) {
-        jarsTosbumit.push(providerJars[i]);
-        console.log("not empty");
-      }
+    for (let i = 0; i < isExist.length; i++) {
+      const jarData = {
+        type: "jar",
+        attributes: { ...isExist[i] },
+      };
+      await api
+        .create_Jar(ctx?.atk, jarData)
+        .then((res) => {
+          console.log("jar created");
+        })
+        .catch((err) => console.log('error occured',err));
     }
-    console.log(jarsTosbumit);
   };
 
   const _next = () => {
-    return submitFilledJars();
-    navigation.navigate("DefinedBenefit");
+    const isExist = providerJars.filter(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
+    if (isExist.length > 0) {
+      return Promise.resolve(submitFilledJars()).then(() => {
+        navigation.navigate("DefinedBenefit");
+      });
+    } else {
+      return navigation.navigate("DefinedBenefit");
+    }
   };
   const _goBack = () => {
     navigation.goBack();
   };
 
   const checkPersonPensions = () => {
-    if (providerJars.length > 0) {
-      const isExist = providerJars.filter(
-        (item) => item.currentValue !== "" && item.currentValue !== ""
-      );
+    const isExist = providerJars.filter(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
+    if (isExist.length > 0) {
       return `Continue with ${isExist.length} DC pensions`;
     } else {
-      return `Continue`;
+      return `Continue without Dc pensions`;
     }
   };
   return (

@@ -48,11 +48,9 @@ const PersoanalStatePensionModal = ({
   const _next = () => {
     if (!providerName) {
       setproviderNameValidation(true);
-    } 
-    else if(!personData.currentValue){
-return Alert.alert('Please provide current value')
-    }
-    else {
+    } else if (!personData.currentValue) {
+      return Alert.alert("Please provide current value");
+    } else {
       changeStatePension(providerName);
     }
   };
@@ -94,11 +92,18 @@ return Alert.alert('Please provide current value')
           <TouchableOpacity
             onPress={() => {
               setSearch([]);
+              // console.log(item?.attributes?.externalIds[0]?.value)
               // setChoosenProvider(item);
-              setPersoData({ ...personData, provider: item?.attributes?.name });
+              setPersoData({
+                ...personData,
+                provider: item?.attributes?.name,
+                name: item?.attributes?.name,
+                secclExternalProviderId:
+                  item?.attributes?.externalIds[0]?.value,
+              });
             }}
           >
-            <Text style={{ fontWeight: "700" }} key={index}>
+            <Text style={{ fontWeight: "700", paddingVertical: 3 }} key={index}>
               {item?.attributes?.name}
             </Text>
           </TouchableOpacity>
@@ -153,13 +158,11 @@ return Alert.alert('Please provide current value')
             Search for your {"\n"} Pension Provider
           </Text>
 
-          {personData?.provider? (
+          {personData?.provider ? (
             <TouchableOpacity
               onPress={() => setPersoData({ ...personData, provider: "" })}
             >
-              <Text style={{ fontWeight: "700" }}>
-                {personData.provider}
-              </Text>
+              <Text style={{ fontWeight: "700" }}>{personData.provider}</Text>
             </TouchableOpacity>
           ) : (
             <>
@@ -176,13 +179,19 @@ return Alert.alert('Please provide current value')
                     <TouchableOpacity
                       onPress={() => {
                         setSearch([]);
-                        setPersoData({ ...personData, provider: providerName });
+                        setPersoData({
+                          ...personData,
+                          provider: providerName,
+                          name: providerName,
+                        });
                         // setChoosenProvider({
                         //   attributes: { name: providerName },
                         // });
                       }}
                     >
-                      <Text style={{ fontWeight: "700" }}>{providerName}</Text>
+                      <Text style={{ fontWeight: "700", paddingVertical: 4 }}>
+                        {providerName}
+                      </Text>
                     </TouchableOpacity>
                     {mapResults()}
                   </ScrollView>
@@ -338,14 +347,17 @@ return Alert.alert('Please provide current value')
                 keyboardType="numeric"
                 value={personData.monthlyContribution}
                 onChangeText={(text) => {
-                  setPersoData({ ...personData, monthlyContribution: text });
+                  setPersoData({
+                    ...personData,
+                    monthlyContribution: text,
+                    regContributionAmount: text,
+                  });
                 }}
                 style={{ ...styles.input, width: 100 }}
               />
             </View>
           </>
         )}
-      
 
         <View style={{ ...styles.hrView }} />
         <View
@@ -366,7 +378,11 @@ return Alert.alert('Please provide current value')
                 personData.spousePension === "yes" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, spousePension: "yes" });
+                setPersoData({
+                  ...personData,
+                  spousePension: "yes",
+                  isSpouse: true,
+                });
               }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
@@ -376,7 +392,11 @@ return Alert.alert('Please provide current value')
                 personData.spousePension === "no" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersoData({ ...personData, spousePension: "no" });
+                setPersoData({
+                  ...personData,
+                  spousePension: "no",
+                  isSpouse: false,
+                });
               }}
             />
           </View>
@@ -390,7 +410,7 @@ return Alert.alert('Please provide current value')
             w={200}
           />
         </View>
-        <ScrollView></ScrollView>
+        {/* <ScrollView></ScrollView> */}
       </Modal>
     </Portal>
   );
@@ -426,7 +446,7 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 0.3,
     padding: 8,
-    width:140,
+    width: 140,
   },
   hrView: {
     width: "100%",

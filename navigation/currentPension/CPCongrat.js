@@ -111,13 +111,13 @@ function CPCongrat({ navigation, route }) {
         }}
       />
 
-      <View style={styles.footerContainer}>
-        <View>
+      {/* <View style={styles.footerContainer}> */}
+      {/* <View>
           <Text style={{ textAlign: "center" }}>
             Facts & Stats On Saving/Investing
           </Text>
-        </View>
-        <View
+        </View> */}
+      {/* <View
           style={{
             ...styles.hrView,
             width: "100%",
@@ -126,8 +126,8 @@ function CPCongrat({ navigation, route }) {
             height: 2,
             backgroundColor: "grey",
           }}
-        />
-        <View style={{ marginTop: 30 }}>
+        /> */}
+      {/* <View style={{ marginTop: 30 }}>
           <Text
             style={{ textAlign: "center", fontSize: 18, fontWeight: "bold" }}
           >
@@ -135,25 +135,30 @@ function CPCongrat({ navigation, route }) {
             actionable stats and{"\n"} facts on saving and {"\n"}
             investing for the future
           </Text>
-        </View>
-        <View style={{ ...styles.footerSection, paddingTop: 30 }}>
-          <JarvisButton
-            bgcolor={myColorsLight.black}
-            play={_next}
-            btn="Go to My Dasboard"
-            w={200}
-          />
-        </View>
+        </View> */}
+
+      {/* </View> */}
+      <View style={{ ...styles.footerSection, paddingTop: 30 }}>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={_next}
+          btn="Go to My Dasboard"
+          w={200}
+        />
       </View>
       {showCard && (
         <OutcomeCard hideCards={hideCard}>
           <>
-            <Text style={styles.textHead}>Your Current Pensions & Savings Data</Text>
+            <Text style={styles.textHead}>
+              Your Current Pensions & Savings Data
+            </Text>
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
               <OutcomeDatatable />
-              <Text style={{...styles.textHead,textAlign:'left'}}>Current Retirement Fund</Text>
+              <Text style={{ ...styles.textHead, textAlign: "left" }}>
+                Current Retirement Fund
+              </Text>
             </View>
             <View style={{ ...styles.hrView, marginVertical: 9 }} />
           </>
@@ -167,7 +172,7 @@ const styles = StyleSheet.create({
   textHead: {
     textAlign: "center",
     fontSize: 16,
-    fontWeight:'800'
+    fontWeight: "800",
   },
   sum: {
     flexDirection: "row",
@@ -182,6 +187,12 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     backgroundColor: myColorsLight.white,
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    zIndex: 8,
+    elevation: 8,
   },
   container: {
     flex: 1,
@@ -191,17 +202,23 @@ const styles = StyleSheet.create({
     //justifyContent: 'center',
   },
   footerContainer: {
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-    backgroundColor: myColorsLight.lighterGrey,
+    // borderTopRightRadius: 20,
+    // borderTopLeftRadius: 20,
+
     height: "40%",
     marginTop: "auto",
-    borderTopColor: "#bbb",
-    borderLeftColor: "#bbb",
-    borderRightColor: "#bbb",
-    borderTopWidth: 2,
-    borderRightWidth: 2,
-    borderLeftWidth: 2,
+    // borderTopColor: "#bbb",
+    // borderLeftColor: "#bbb",
+    // borderRightColor: "#bbb",
+    // borderTopWidth: 2,
+    // borderRightWidth: 2,
+    // borderLeftWidth: 2,
+    position: "absolute",
+    bottom: 10,
+    left: 0,
+    right: 0,
+    zIndex: 8,
+    elevation: 8,
   },
   cardsContainer: {
     marginTop: 17,

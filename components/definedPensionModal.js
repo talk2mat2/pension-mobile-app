@@ -84,7 +84,7 @@ const DefinedBenefitModal = ({
               style={{ ...styles.input, width: "100%" }}
               value={personData.pensionName}
               onChangeText={(text) => {
-                setPersonData({ ...personData, pensionName: text });
+                setPersonData({ ...personData, pensionName: text, name: text });
               }}
             />
           </View>
@@ -113,7 +113,11 @@ const DefinedBenefitModal = ({
               keyboardType="numeric"
               value={personData.annualIncome}
               onChangeText={(text) => {
-                setPersonData({ ...personData, annualIncome: text });
+                setPersonData({
+                  ...personData,
+                  annualIncome: text,
+                  incomeAmount: text,
+                });
               }}
               style={styles.input}
             />
@@ -139,7 +143,11 @@ const DefinedBenefitModal = ({
                 personData.spousePension === "yes" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersonData({ ...personData, spousePension: "yes" });
+                setPersonData({
+                  ...personData,
+                  spousePension: "yes",
+                  isSpouse: true,
+                });
               }}
             />
             <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
@@ -149,7 +157,11 @@ const DefinedBenefitModal = ({
                 personData.spousePension === "no" ? "checked" : "unchecked"
               }
               onPress={() => {
-                setPersonData({ ...personData, spousePension: "no" });
+                setPersonData({
+                  ...personData,
+                  spousePension: "no",
+                  isSpouse: true,
+                });
               }}
             />
           </View>

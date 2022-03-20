@@ -23,6 +23,7 @@ import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
 import OtherpenContext from "../../contexts/otherPenContext";
+import PanableCard from "../../components/pannableCard";
 
 function OtherPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
@@ -143,23 +144,34 @@ function OtherPension({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <View style={styles.footerContainer}>
+          <PanableCard styles={{ height: "29%" }}>
             <CPDatatable />
-          </View>
+          </PanableCard>
           <View
             style={{
-              marginTop: 30,
-              width: "50%",
-              alignSelf: "center",
-              marginBottom: 20,
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              zIndex: 8,
+              elevation: 8,
             }}
           >
-            <ProgressBar
-              progress={1}
-              color={myColorsLight.lightGreyDark}
-              style={{ height: 7 }}
-            />
-            <Text style={{ textAlign: "center", fontSize: 20 }}>4/4</Text>
+            <View
+              style={{
+                marginTop: 30,
+                width: "50%",
+                alignSelf: "center",
+                marginBottom: 20,
+              }}
+            >
+              <ProgressBar
+                progress={1}
+                color={myColorsLight.lightGreyDark}
+                style={{ height: 7 }}
+              />
+              <Text style={{ textAlign: "center", fontSize: 20 }}>4/4</Text>
+            </View>
           </View>
         </>
       </MyGradientBackground>
