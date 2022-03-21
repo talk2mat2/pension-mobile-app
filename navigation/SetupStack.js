@@ -6,12 +6,13 @@ import RTCStack from "../navigation/retirement/RTStack";
 
 // import HeaderBar from "../components/HeaderBar.js";
  import CPStack from "./currentPension/CPStack.js";
+ import JSDasboard from './jsdashboard/jsdashboardstack'
 
 const Stack = createStackNavigator();
 
 function SetupStack() {
   return (
-    <Stack.Navigator initialRouteName="KYC">
+    <Stack.Navigator initialRouteName="DashboardStack">
       <Stack.Screen
         name="KYC"
         options={{ headerShown: false }}
@@ -27,10 +28,15 @@ function SetupStack() {
         options={{ headerShown: false }}
         component={CPStack}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="DashboardStack"
         options={{ headerShown: false }}
         component={DashboardStack}
+      /> */}
+      <Stack.Screen
+        name="DashboardStack"
+        options={{ headerShown: false }}
+        component={JSDasboard}
       />
     </Stack.Navigator>
   );
