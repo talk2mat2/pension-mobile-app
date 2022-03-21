@@ -65,7 +65,7 @@ function OtherPension({ navigation }) {
           attributes: { ...person1 },
         })
         .then((res) => {
-          console.log("success1".res.data);
+          console.log("jar created");
         })
         .catch((err) => console.log(err));
     }
@@ -76,7 +76,7 @@ function OtherPension({ navigation }) {
           attributes: { ...person1 },
         })
         .then((res) => {
-          console.log("success1".res.data);
+          console.log("jar created");
         })
         .catch((err) => {
           console.log(err);
@@ -95,7 +95,9 @@ function OtherPension({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
+ 
   const handleTextbtn = () => {
+   
     if (!person1.currentValue && !person2.currentValue) {
       return "Continue without other savings/income";
     }
@@ -194,8 +196,8 @@ function OtherPension({ navigation }) {
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
             {iDontHhaveState === false ||
-            person1.expectedAnualIncome ||
-            person2.expectedAnualIncome ? (
+            person1.currentValue ||
+            person2.currentValue ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}

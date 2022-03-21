@@ -46,7 +46,7 @@ function CPAddStatePension({ navigation }) {
       attributes: {
         name: "Jar 1",
         jarType: "income",
-        jarSubType: "state_pension",
+        jarSubType :'state_pension',
         isSpouse: false,
         incomeAmount: statePension,
         currentValue: 2.0,
@@ -83,7 +83,7 @@ function CPAddStatePension({ navigation }) {
       await api
         .create_Jar(ctx?.atk, jarData)
         .then((res) => {
-          console.log("success1".res.data);
+          console.log('jar created');
         })
         .catch((err) => console.log(err));
     }
@@ -91,7 +91,7 @@ function CPAddStatePension({ navigation }) {
       await api
         .create_Jar(ctx?.atk, spouseData)
         .then((res) => {
-          console.log("success1".res.data);
+          console.log('jar created');
         })
         .catch((err) => {
           console.log(err);
