@@ -2,13 +2,15 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import JSDashboardnav from "../../components/JSDashboardnav";
 import JSDashboardMain from "./JSDashboardmain";
+import JSDashPension from "./JSDashPension";
 
 const JSDasboard = () => {
   const [mounted, setMounted] = React.useState(1);
   return (
     <View style={styles.container}>
       {mounted === 1 && <JSDashboardMain />}
-      <JSDashboardnav {...{setMounted}} />
+      {mounted === 2 && <JSDashPension />}
+      <JSDashboardnav {...{ mounted, setMounted }} />
     </View>
   );
 };

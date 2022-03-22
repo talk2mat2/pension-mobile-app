@@ -5,7 +5,7 @@ import { myColorsLight } from "../../constant/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const JSDashboardMain = () => {
+const JSDashPension = () => {
   return (
     <MyGradientBackground>
       <View
@@ -47,13 +47,13 @@ const JSDashboardMain = () => {
                 { fontSize: 30, textAlign: "center", fontWeight: "bold" },
               ]}
             >
-              Life Plan
+           Jarvis Pension
             </Text>
           </View>
         </View>
       </View>
 
-      <View style={{ marginTop: 40 }}>
+      {/* <View style={{ marginTop: 40 }}>
         <Text
           style={{
             ...styles.subHeader,
@@ -65,38 +65,8 @@ const JSDashboardMain = () => {
           adipiscing elit. Curabitur arcu erat,{"\n"}
           imperdiet et, porttitor at sem. Curabitur arcu
         </Text>
-      </View>
-      <View
-        style={{
-          ...styles.hrView,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 25,
-        }}
-      />
-
-      <View
-        style={{
-          justifyContent: "space-between",
-          flexDirection: "row",
-          marginVertical: 20,
-          paddingHorizontal: 20,
-        }}
-      >
-        <Text style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}>
-          Your Desired Retirement{"\n"}
-          lifestyle monthly cost is :
-        </Text>
-        <Text style={styles.boldtxt}>£2,779</Text>
-      </View>
-      <View
-        style={{
-          ...styles.hrView,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 25,
-        }}
-      />
+      </View> */}
+    
       <View
         style={{
           justifyContent: "space-between",
@@ -111,14 +81,6 @@ const JSDashboardMain = () => {
         </Text>
         <Text style={styles.boldtxt}>£718,925</Text>
       </View>
-      <View
-        style={{
-          ...styles.hrView,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 25,
-        }}
-      />
     </MyGradientBackground>
   );
 };
@@ -141,12 +103,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  cardsContainer: {
-    marginTop: 17,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-  },
 });
-export default JSDashboardMain;
+export default JSDashPension;
