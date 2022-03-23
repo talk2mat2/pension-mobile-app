@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     backgroundColor: "orange",
   },
   container: {
-    height: 80,
+    height: 79,
     backgroundColor: myColorsLight.lightGrey,
     marginTop: "auto",
     flexDirection: "row",
