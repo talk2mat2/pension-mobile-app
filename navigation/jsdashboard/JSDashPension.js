@@ -6,6 +6,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 const JSDashPension = () => {
+  const [isfullScreen, setIsfullScreen] = React.useState(false);
+  const togglrFullScreen = ()=>setIsfullScreen(!isfullScreen);
   return (
     <MyGradientBackground>
       <View

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
@@ -6,9 +6,11 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import DashHomeCards from "../../components/dashHomeCards";
 import { AntDesign } from "@expo/vector-icons";
+
 import JSCardsAnimated from "./JScardsAnimated";
 
 const JSDashboardMain = () => {
+
   return (
     <MyGradientBackground>
       <View
@@ -56,7 +58,7 @@ const JSDashboardMain = () => {
         </View>
       </View>
 
-      <View style={{ height: '90%' ,paddingBottom:100}}>
+      <View style={{ height: "90%", paddingBottom: 100 }}>
         <ScrollView>
           <View style={{ marginTop: 40 }}>
             <Text
@@ -88,7 +90,7 @@ const JSDashboardMain = () => {
             }}
           >
             <Text
-              style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}
+              style={{ fontWeight: "400", color: myColorsLight.lightGreyDim }}
             >
               Your Desired Retirement{"\n"}
               lifestyle monthly cost is :
@@ -112,7 +114,7 @@ const JSDashboardMain = () => {
             }}
           >
             <Text
-              style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}
+              style={{ fontWeight: "400", color: myColorsLight.lightGreyDim }}
             >
               Your Desired Retirement{"\n"}
               lifestyle monthly cost is :
@@ -132,7 +134,7 @@ const JSDashboardMain = () => {
               <Text
                 style={{
                   textAlign: "center",
-                  fontWeight: "100",
+                  fontWeight: "400",
                   color: myColorsLight.lightGreyDark,
                 }}
               >
@@ -154,7 +156,7 @@ const JSDashboardMain = () => {
               <Text
                 style={{
                   textAlign: "center",
-                  fontWeight: "100",
+                  fontWeight: "400",
                   color: myColorsLight.lightGreyDark,
                 }}
               >
@@ -172,7 +174,7 @@ const JSDashboardMain = () => {
               <Text
                 style={{
                   textAlign: "center",
-                  fontWeight: "100",
+                  fontWeight: "400",
                   color: myColorsLight.lightGreyDark,
                 }}
               >
@@ -218,7 +220,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom:90
+    marginBottom: 90,
   },
 });
 export default JSDashboardMain;

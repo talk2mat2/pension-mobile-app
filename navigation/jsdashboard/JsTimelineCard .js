@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Animated,
   Dimensions,
   StyleSheet,
   Text,
+  BackHandler,
   TouchableOpacity,
 } from "react-native";
 import { myColorsLight } from "../../constant/colors";
+import { MaterialIcons } from "@expo/vector-icons";
+import FullScreenContext from "../../contexts/fullScreenContext";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JsTimelineCard = ({ handleshowCards }) => {
-  const position = new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 120 });
+  const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
+  const position = React.useRef(
+    new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
+  ).current;
 
   React.useEffect(() => {
     Animated.timing(position, {
@@ -23,29 +29,76 @@ const JsTimelineCard = ({ handleshowCards }) => {
 
   const closeCard = () => {
     Animated.timing(position, {
-      toValue: { x: 0, y: deviceHeight / 2 - 65 },
+      toValue: { x: 0, y: deviceHeight / 2 - 120 },
       duration: 500,
       delay: 300,
       useNativeDriver: true,
-    }).start(() => handleshowCards());
+    }).start(() => {
+      handleshowCards();
+      if (isfullScreen) {
+        togglrFullScreen();
+      }
+    });
   };
+
+  const handleToggleFullScreen = () => {
+    // togglrFullScreen();
+    Animated.timing(position, {
+      toValue: { x: 0, y: 0 },
+      duration: 500,
+      delay: 300,
+      useNativeDriver: true,
+    }).start(() => togglrFullScreen());
+  };
+  const handleBackButton = () => {
+    if (isfullScreen) {
+      togglrFullScreen();
+    } else {
+      closeCard();
+    }
+  };
+  React.useEffect(() => {
+    const banckhandle = BackHandler.addEventListener(
+      "hardwareBackPress",
+      handleBackButton
+    );
+    return () => {
+      banckhandle.remove();
+    };
+  }, []);
   return (
     <Animated.View
       style={{
+        height: isfullScreen ? deviceHeight - 20 : 400,
         ...styles.container,
         ...styles.card,
         transform: [{ translateY: position.y }],
+        paddingTop: isfullScreen ? 40 : 20,
       }}
     >
-      <TouchableOpacity onPress={closeCard}>
-        <Text style={styles.cardName}>Timeline</Text>
-      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity onPress={closeCard}>
+          <Text style={styles.cardName}>Timeline</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleToggleFullScreen}>
+          <MaterialIcons
+            name="fullscreen"
+            size={40}
+            color={myColorsLight.black}
+          />
+        </TouchableOpacity>
+      </View>
     </Animated.View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    height: 400,
     backgroundColor: myColorsLight.grey6,
     position: "absolute",
     bottom: 0,
