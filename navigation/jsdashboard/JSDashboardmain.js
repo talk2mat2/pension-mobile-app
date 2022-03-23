@@ -4,16 +4,8 @@ import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import VerticalBarGraph from '@chartiful/react-native-vertical-bar-graph';
 import BudjetBenchmarkBackGround from "../../components/budgetBenchmarkBachground";
 
-const config = {
-  hasXAxisBackgroundLines: false,
-  xAxisLabelStyle: {
-    position: 'right',
-    prefix: '$'
-  }
-};
 
 // const data = {
 //   labels: ["Home", "Food", "Car", "vacation", "Cloth", "Donations"],

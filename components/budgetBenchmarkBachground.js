@@ -4,7 +4,6 @@ import MyGradientBackground from "./grdientBackGround";
 import { myColorsLight } from "../constant/colors";
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import VerticalBarGraph from '@chartiful/react-native-vertical-bar-graph';
 
 
 const config = {
