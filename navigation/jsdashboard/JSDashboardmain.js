@@ -5,20 +5,35 @@ import { myColorsLight } from "../../constant/colors";
 import { AntDesign } from '@expo/vector-icons';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import BudjetBenchmarkBackGround from "../../components/budgetBenchmarkBachground";
+import { VictoryBar, VictoryChart, VictoryGroup, VictoryAxis, VictoryTheme} from "victory-native";
 
-
-// const data = {
-//   labels: ["Home", "Food", "Car", "vacation", "Cloth", "Donations"],
-//   datasets: [
-//     {
-//       data: [20, 45, 28, 80, 99, 43]
-//     }
-//   ]
-// };
+const data = {
+  budgetItem : [{x: 'home', y: 70},{x: 'food', y: 30}, {x: 'car', y: 60},{x: 'vacation', y: 40}, {x: 'clothes', y: 50}, {x: 'donation', y: 50}],
+}
 const JSDashboardMain = () => {
   return (
     <>
+    <>
     <BudjetBenchmarkBackGround/>
+    
+    </>
+    <View  style={styles.chart}>
+      <VictoryChart domainPadding={10}>
+      <VictoryGroup>
+        <VictoryBar 
+        data={data.budgetItem} 
+        
+        style={{
+          data: {
+            width: 30
+          }
+        }}
+        />
+        
+      </VictoryGroup>
+     
+      </VictoryChart>
+      </View>
     </>
   )
 
@@ -50,11 +65,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   chart: {
-    marginBottom: 30,
+    marginBottom: 140,
     padding: 10,
     paddingTop: 20,
     borderRadius: 20,
-    width: 375
+    width: 200,
+    
   }
 });
 export default JSDashboardMain;
