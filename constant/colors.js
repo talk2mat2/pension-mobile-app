@@ -14,4 +14,5 @@ export const myColorsLight = {
   grey6:'#a9a9a9',
   grey7:'#bebebe',
   grey8:'#d3d3d3',
+  grey9:'#fbfbfb',
 };

@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 function RTCStack() {
   return (
     <Stack.Navigator
-      initialRouteName="KYCCover"
+      initialRouteName="RTCover"
       screenOptions={{
         headerShown: false,
       }}

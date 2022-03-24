@@ -54,7 +54,17 @@ const JSDashboardMain = () => {
             >
               Life Plan
             </Text>
+            
           </View>
+          <View style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}>
+        <Text
+          style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
+        >
+          To build your retirement profile{"\n"}, we would need to capture some
+          {"\n"}
+          information from you.
+        </Text>
+      </View>
         </View>
       </View>
 

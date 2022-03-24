@@ -7,7 +7,7 @@ import KYCBirthdayScreen from "./KYCBirthdayScreen.js";
 import KYCRetirementAgeScreen from "./KYCRetirementAgeScreen.js";
 import KYCRetireWithSpouseScreen from "./KYCRetireWithSpouseScreen.js";
 import KYCRetireLondonScreen from "./KYCRetireLondonScreen.js";
-
+import LoginScreen from './LoginScreen.js';
 // import HeaderBar from "../components/HeaderBar.js";
 import KYCCompleteScreen from "./KYCCompleteScreen.js";
 
@@ -67,6 +67,13 @@ function KYCStack({ navigation, route }) {
             headerTitle: (props) => <HeaderBar {...props} />,
           }}
           component={KYCCompleteScreen}
+        />
+        <Stack.Screen
+          name="logins"
+          options={{
+            headerTitle: (props) => <HeaderBar {...props} />,
+          }}
+          component={LoginScreen}
         />
       </>
     </Stack.Navigator>
