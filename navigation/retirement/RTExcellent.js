@@ -11,18 +11,20 @@ import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List } from "react-native-paper";
-import Api from "../../api";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import OutcomeCard from "../../components/Outcome_Card";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import OutcomeDatatable from "../../components/outcomeDataTable";
-import RtOutcomeDatatable  from "../../components/RtOutcomeDataTable";
+import RtOutcomeDatatable from "../../components/RtOutcomeDataTable";
+import api from "../../api";
 
 function RTExcellent({ navigation, route }) {
   const [showCard, setShowCard] = React.useState(true);
   const [scores, setScores] = React.useState(route.params?.result || 0);
   const [profile] = React.useState(route?.params?.profile || {});
+  const [grossTarget, setGrossTarget] = React.useState(0);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const IntroPopper = new Animated.ValueXY({
@@ -42,7 +44,17 @@ function RTExcellent({ navigation, route }) {
   const _next = () => {
     navigation.navigate("CPStack");
   };
-
+  const Calculate_logged_in_user_retirement = async () => {
+    await api
+      .Calculate_logged_in_user_retirement(ctx?.atk)
+      .then((res) => {
+        // console.log(res.data);
+        res?.data?.grossTarget && setGrossTarget(res?.data?.grossTarget);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const _goBack = () => {
     navigation.goBack();
   };
@@ -57,7 +69,9 @@ function RTExcellent({ navigation, route }) {
   //     "grossTarget": 27483.75
   //   }
   // }
-
+  React.useEffect(() => {
+    Calculate_logged_in_user_retirement();
+  }, []);
   return (
     <MyGradientBackground>
       <View
@@ -120,9 +134,9 @@ function RTExcellent({ navigation, route }) {
             fontWeight: "bold",
           }}
         >
-          £{scores ? Math.ceil(scores / 12) : 0}
+          £{grossTarget && grossTarget > 12 ? Math.ceil(grossTarget / 12) : 0}
         </Text>
-        <Text style={{ textAlign: "center" }}>(£{scores} Per Annum)</Text>
+        <Text style={{ textAlign: "center" }}>(£{grossTarget} Per Annum)</Text>
       </View>
       <View
         style={{
@@ -159,7 +173,6 @@ function RTExcellent({ navigation, route }) {
             alignSelf: "center",
             marginTop: 10,
             height: 2,
-          
           }}
         />
         <View style={{ marginTop: 30 }}>
@@ -196,7 +209,7 @@ function RTExcellent({ navigation, route }) {
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
-              <RtOutcomeDatatable {...{profile}} />
+              <RtOutcomeDatatable {...{ profile }} />
               <Text style={{ ...styles.textHead, textAlign: "left" }}>
                 Current Retirement Fund
               </Text>

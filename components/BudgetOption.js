@@ -12,10 +12,20 @@ import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { myColorsLight } from "../constant/colors";
 
-const BudgetOption = ({ type, _next, budetData, desccription }) => {
+const BudgetOption = ({
+  type,
+  _next,
+  budetData,
+  desccription,
+  focused,
+  setFocused,
+}) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
-  const toggle = () => setItsOpen(!itsOpen);
+  const toggle = () => {
+    setFocused(type);
+    setItsOpen(!itsOpen);
+  };
 
   return (
     <View style={styles.container}>
@@ -48,7 +58,7 @@ const BudgetOption = ({ type, _next, budetData, desccription }) => {
           )}
         </View>
       </TouchableOpacity>
-      {itsOpen && (
+      {itsOpen && focused === type && (
         <View style={styles.content}>
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.accordionBody}>

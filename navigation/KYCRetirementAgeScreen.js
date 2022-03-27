@@ -111,7 +111,7 @@ function KYCRetirementAgeScreen({ navigation }) {
         setIsLoading(false);
         setNextButtonDisabled(false);
         navigation.navigate("KYCRetireWithSpouse");
-      }, 1000);
+      }, 400);
     }
   };
 
@@ -119,14 +119,10 @@ function KYCRetirementAgeScreen({ navigation }) {
     navigation.goBack();
   };
 
-  const _showWhyPopup = () => {
-    console.log("Showing you why in a bit..");
-    setShowWhy(true);
-    setTimeout(() => {
-      setShowWhy(false);
-    }, 5000);
+  const options = () => {
+    return [...Array(100).keys()].slice(18).reverse().map((xx) => String(xx));
   };
-  const options = [...Array(100).keys()].slice(18).map((xx) => String(xx));
+
   return (
     <MyGradientBackground>
       <Portal>
@@ -266,7 +262,7 @@ function KYCRetirementAgeScreen({ navigation }) {
                     setRetirementAgeValidation(false);
                   }}
                   style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-                  options={options.reverse()}
+                  options={options()}
                 />
               )}
               {Platform.OS === "web" && (
@@ -280,7 +276,7 @@ function KYCRetirementAgeScreen({ navigation }) {
                       setRetirementAgeValidation(false);
                   }}
                 >
-                  {options.reverse().map((item) => (
+                  {options().map((item) => (
                     <Picker.Item label={item} value={item} />
                   ))}
                 </Picker>

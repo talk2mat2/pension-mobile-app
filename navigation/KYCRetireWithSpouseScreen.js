@@ -134,13 +134,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
               setSpouseNameValidation(true);
             }
 
-            if (
-              spouseGender.length < 1
-              // ||
-              // parseInt(spouseRetirementAge) < 1
-            ) {
-              setSpouseGenderValidation(true);
-            }
+            // if (
+            //   spouseGender.length < 1
+            //   // ||
+            //   // parseInt(spouseRetirementAge) < 1
+            // ) {
+            //   setSpouseGenderValidation(true);
+            // }
           } else {
             go = true;
           }
@@ -158,7 +158,22 @@ function KYCRetireWithSpouseScreen({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
+  const defaultDate = () => {
+    if (u?.included[0]?.dateOfBirth) {
+      const tempDate = u.included[0].dateOfBirth;
+      return new Date(
+        `${new Date(u?.included[0]?.dateOfBirth).getFullYear()}-01-01`
+      );
+      // return new Date(tempDate);
 
+      //tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
+    } else {
+      let tempDates = new Date();
+      const newDate = tempDates.setFullYear(tempDates.getFullYear() - 40);
+      return new Date(newDate);
+      //setBirthdayDisplay(new Date(newDate).getFullYear.toTimeString());
+    }
+  };
   const _showWhyPopup = () => {
     // console.log("Showing you why in a bit..");
     setShowWhy(true);
@@ -385,8 +400,8 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 {showDatePicker && (
                   <DateTimePicker
                     testID="birthdayDateTimePicker"
-                    minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                    value={birthday}
+                    maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    value={defaultDate()}
                     mode="date"
                     is24Hour={true}
                     display="default"

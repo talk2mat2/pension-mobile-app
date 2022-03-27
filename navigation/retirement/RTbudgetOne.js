@@ -32,6 +32,7 @@ function RTbudgetOne({ navigation }) {
   const [minimum, setMinimum] = React.useState([]);
   const [pageData, setPageData] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [focused, setFocused] = React.useState("");
 
   const _next = (selectedData) => {
     navigation.navigate("RTLifestyle", { selectedData: selectedData });
@@ -129,7 +130,7 @@ function RTbudgetOne({ navigation }) {
           justifyContent: "center",
         }}
       >
-        <View style={{ position: "absolute", left: 10 ,}}>
+        <View style={{ position: "absolute", left: 10 }}>
           <Pressable onPress={_goBack}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
@@ -140,10 +141,9 @@ function RTbudgetOne({ navigation }) {
         </View>
 
         <View>
-        
           <View>
             <Text
-             style={{...styles.loginText, fontSize: 20, textAlign: "center" }}
+              style={{ ...styles.loginText, fontSize: 20, textAlign: "center" }}
             >
               Your Retirement Lifestyle
             </Text>
@@ -185,11 +185,13 @@ function RTbudgetOne({ navigation }) {
                 budetData={minimumData(pageData)}
                 _next={_next}
                 type="Mimimum"
+                {...{ focused, setFocused }}
                 desccription={minimumOverview(pageData)}
               />
               <BudgetOption
                 budetData={moderateData(pageData)}
                 _next={_next}
+                {...{ focused, setFocused }}
                 type="Moderate"
                 desccription={moderateOverview(pageData)}
               />
@@ -197,6 +199,7 @@ function RTbudgetOne({ navigation }) {
                 budetData={comfortableData(pageData)}
                 _next={_next}
                 type="Comfortable"
+                {...{ focused, setFocused }}
                 desccription={comfortableOverview(pageData)}
               />
             </>

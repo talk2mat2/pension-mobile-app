@@ -28,7 +28,7 @@ function KYCRetireLondonScreen({ navigation }) {
       //Spouse details
       u.included[0].insideLondon = true;
     } else {
-      u.included[0].insideLondon = true;
+      u.included[0].insideLondon = false;
     }
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
@@ -74,7 +74,13 @@ function KYCRetireLondonScreen({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
-
+  React.useEffect(() => {
+    if (u?.included[0]?.insideLondon === true) {
+      setRetireLondon("yes");
+    } else if (u?.included[0]?.insideLondon === false) {
+      setRetireLondon("no");
+    }
+  }, []);
   return (
     <MyGradientBackground>
       <View
@@ -161,14 +167,12 @@ function KYCRetireLondonScreen({ navigation }) {
           </View>
         </View>
 
-    
-          {isLoading && (
-            <JarvisLoader
-              color={myColorsLight.lightGreyDark}
-              text="Please wait"
-            />
-          )}
-       
+        {isLoading && (
+          <JarvisLoader
+            color={myColorsLight.lightGreyDark}
+            text="Please wait"
+          />
+        )}
       </View>
       <View
         style={{

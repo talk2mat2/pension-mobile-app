@@ -17,11 +17,16 @@ const BudgetModalCustom = ({
   _next,
   budgetData,
   updateLifeStyleData,
+  focused,
+  setFocused,
 }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
-  const toggle = () => setItsOpen(!itsOpen);
+  const toggle = () => {
+    setFocused(type);
+    setItsOpen(!itsOpen);
+  };
   // React.useEffect(() => {
   //   // if (budgetData) {
   //   //   console.log(budgetData);
@@ -59,7 +64,7 @@ const BudgetModalCustom = ({
           )}
         </View>
       </TouchableOpacity>
-      {itsOpen && (
+      {itsOpen && focused === type && (
         <View style={styles.content}>
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.accordionBody}>
@@ -86,7 +91,7 @@ const BudgetModalCustom = ({
                   <Text style={{ fontWeight: "bold" }}>
                     £
                     <TextInput
-                      style={{ height: 40,width:100 }}
+                      style={{ height: 40, width: 100 }}
                       value={value}
                       onChangeText={(text) => setValue(text)}
                       keyboardType="numeric"

@@ -28,6 +28,7 @@ const LIfestylecard = ({
 }) => {
   const ctx = useContext(UserContext);
   const [visible, setVisible] = React.useState(false);
+  const [focused, setFocused] = React.useState("");
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -84,6 +85,7 @@ const LIfestylecard = ({
           <ScrollView>
             <View style={{ marginTop: 50 }}>
               <BudgetModal
+                {...{ focused, setFocused }}
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes.minimum}
                 _next={() => {}}
@@ -93,6 +95,7 @@ const LIfestylecard = ({
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes?.moderate}
                 _next={() => {}}
+                {...{ focused, setFocused }}
                 type="Moderate"
               />
               <BudgetModal
@@ -100,11 +103,13 @@ const LIfestylecard = ({
                 budgetData={listSelectedName(title)?.attributes.comfortable}
                 _next={() => {}}
                 type="Comfortable"
+                {...{ focused, setFocused }}
               />
               <BudgetModalCustom
                 updateLifeStyleData={updateLifeStyleData}
                 _next={() => {}}
                 type="Custom Budget"
+                {...{ focused, setFocused }}
               />
             </View>
           </ScrollView>

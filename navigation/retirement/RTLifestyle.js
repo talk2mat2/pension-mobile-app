@@ -149,7 +149,7 @@ function RTLifestyle({ route, navigation }) {
       .catch((err) => {
         console.log(err);
         setIsloading(false);
-        Alert.alert("An error orcured");
+        Alert.alert("An error orcured, try again");
       });
   };
   const _next = () => {
@@ -322,8 +322,8 @@ function RTLifestyle({ route, navigation }) {
           <View style={styles.sum}>
             <Text style={{ fontSize: 17 }}>Total Monthly Budget</Text>
             <Text style={{ fontSize: 17 }}>{`£${
-              lifestyleData?.["Total (Gross)"]
-                ? Math.ceil(lifestyleData?.["Total (Gross)"] / 12)
+              lifestyleData?.["Total"]
+                ? Math.ceil(lifestyleData?.["Total"] / 12)
                 : null
             }`}</Text>
           </View>

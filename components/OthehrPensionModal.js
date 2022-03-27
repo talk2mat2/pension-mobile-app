@@ -132,7 +132,7 @@ const OtherensionModal = ({
         )} */}
 
         <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
+        {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -155,7 +155,7 @@ const OtherensionModal = ({
               onPress={() => setPersonData({ ...personData, gender: "Female" })}
             />
           </View>
-        </View>
+        </View> */}
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
           style={{
