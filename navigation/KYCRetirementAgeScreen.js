@@ -239,7 +239,7 @@ function KYCRetirementAgeScreen({ navigation }) {
             </Text>
           </View>
         )} */}
-        <View style={[styles.centerView, { marginTop: 10, marginBottom: 30 }]}>
+        <View style={{ ...styles.centerView, marginTop: 10, marginBottom: 30 }}>
           <Chip icon="information" onPress={showModal}>
             Why are we asking you this?
           </Chip>
@@ -247,7 +247,6 @@ function KYCRetirementAgeScreen({ navigation }) {
 
         <View style={{ alignItems: "center" }}>
           <View style={styles.formGroup}>
-       
             <View style={(styles.centerView, { paddingVertical: 2 })}>
               {Platform.OS !== "web" && (
                 <ModalDropdown
@@ -261,11 +260,10 @@ function KYCRetirementAgeScreen({ navigation }) {
                     fontWeight: "900",
                   }}
                   onSelect={(itemIndex, itemValue) => {
-                  
                     // console.log(itemValue);
                     if (parseInt(itemValue) > 1)
-                    setRetirementAge(parseInt(itemValue));
-                      setRetirementAgeValidation(false);
+                      setRetirementAge(parseInt(itemValue));
+                    setRetirementAgeValidation(false);
                   }}
                   style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
                   options={options.reverse()}
@@ -300,7 +298,7 @@ function KYCRetirementAgeScreen({ navigation }) {
 
         {/* <View style={{ width: "100%", marginTop: 80 }}>
      
-          <View style={[styles.centerView, { marginTop: 60 }]}>
+          <View style={[styles.centerView, { FmarginTop: 60 }]}>
             <JarvisButton
               style={[styles.loginButton, { marginTop: 10 }]}
               bgcolor={myColorsLight.black}

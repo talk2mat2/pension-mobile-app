@@ -50,7 +50,7 @@ function LoginScreen({ navigation }) {
       ])
     ).start();
     //setIsFading(false);
-  });
+  },[]);
 
   const requestNewAccessTokenBuffer = 1000;
   //Development config
@@ -85,7 +85,7 @@ function LoginScreen({ navigation }) {
       disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
       setDiscovery(disc);
     }
-  });
+  },[hasCode]);
 
   const authPayload = {
     redirectUri: redirectUri,
@@ -231,6 +231,7 @@ function LoginScreen({ navigation }) {
                     atk: dt3.access_token,
                     rtk: dt.refresh_token,
                   });
+                  setLoginLoading(false)
                   //navigation.navigate("InitScreen");
                 } else {
                   console.log("error fetching user profile");

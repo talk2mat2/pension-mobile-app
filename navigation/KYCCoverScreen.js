@@ -15,11 +15,10 @@ import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "../components/JarvisButton";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
-
 
 function KYCCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -28,26 +27,37 @@ function KYCCoverScreen({ navigation }) {
   const _next = () => {
     navigation.navigate("KYCName");
   };
-const handleLogout=()=>{
-  //console.log(ctx)
-helpers.remove("pa_u");
-navigation.replace('logins')
-
-}
+  const handleLogout = () => {
+    //console.log(ctx)
+    helpers.remove("pa_u");
+    ctx?.setAtk(null);
+    ctx?.setRtk(null);
+    ctx?.setU(null);
+    ctx?.setLoggedIn(false);
+    // navigation.replace("logins");
+  };
   return (
     <MyGradientBackground>
-     <View style={{alignItems:"flex-end",paddingHorizontal:10,position:'absolute',top:60,right:0}}>
-    <TouchableOpacity onPress={handleLogout}>
-    <View style={{alignItems:"center"}}>
-    <AntDesign name="logout" size={24} color="black" />
-    <Text>Logout</Text>
-    </View>
-    </TouchableOpacity>
+      <View
+        style={{
+          alignItems: "flex-end",
+          paddingHorizontal: 10,
+          position: "absolute",
+          top: 60,
+          right: 0,
+        }}
+      >
+        <TouchableOpacity onPress={handleLogout}>
+          <View style={{ alignItems: "center" }}>
+            <AntDesign name="logout" size={24} color="black" />
+            <Text>Logout</Text>
+          </View>
+        </TouchableOpacity>
       </View>
       <View style={{ alignItems: "center", marginTop: 80 }}>
         <Text style={[styles.loginText, { fontSize: 40 }]}>Jarvis</Text>
       </View>
-     
+
       <View style={{ marginTop: 80, alignItems: "center" }}>
         <Text style={styles.subHeader}>Welcome to Jarvis</Text>
       </View>

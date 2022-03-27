@@ -52,7 +52,7 @@ const JsRetireCard = ({
 
   return (
     <>
-      <Portal>
+      {/* <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
@@ -109,7 +109,7 @@ const JsRetireCard = ({
             </View>
           </ScrollView>
         </Modal>
-      </Portal>
+      </Portal> */}
 
       <TouchableOpacity onPress={showModal}>
         <View style={styles.card1}>

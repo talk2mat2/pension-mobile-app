@@ -68,7 +68,7 @@ function KYCRetireLondonScreen({ navigation }) {
       setIsLoading(false);
       setNextButtonDisabled(false);
       navigation.navigate("KYCComplete");
-    }, 1000);
+    }, 300);
   };
 
   const _goBack = () => {

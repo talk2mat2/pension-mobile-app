@@ -21,6 +21,7 @@ import { Picker } from "@react-native-picker/picker";
 import { ProgressBar } from "react-native-paper";
 // import ModalDropdown from "react-native-modal-dropdown";
 import MyGradientBackground from "../components/grdientBackGround";
+import WhyAsk from "../components/whyask";
 import { myColorsLight } from "../constant/colors";
 
 import JarvisButton from "../components/JarvisButton";
@@ -44,6 +45,23 @@ function KYCBirthdayScreen({ navigation }) {
     setBirthdayValidation(false);
     setBirthdayObject(JSON.stringify(tempd));
     setShowDatePicker(false);
+  };
+
+  const defaultDate = () => {
+    if (birthday) {
+      return new Date(birthday);
+    } else if (u?.included[0]?.dateOfBirth) {
+      const tempDate = u.included[0].dateOfBirth;
+
+      return new Date(tempDate);
+
+      //tempDate?.toTimeString() && setBirthdayDisplay(tempDate?.toTimeString());
+    } else {
+      let tempDates = new Date();
+      const newDate = tempDates.setFullYear(tempDates.getFullYear() - 40);
+      return new Date(newDate);
+      //setBirthdayDisplay(new Date(newDate).getFullYear.toTimeString());
+    }
   };
   React.useEffect(() => {
     if (u?.included[0]?.dateOfBirth) {
@@ -123,7 +141,14 @@ function KYCBirthdayScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View style={{ marginTop: 100, paddingHorizontal: 20, marginBottom: 150,paddingBottom:90 }}>
+      <View
+        style={{
+          marginTop: 100,
+          paddingHorizontal: 20,
+          marginBottom: 150,
+          paddingBottom: 90,
+        }}
+      >
         <ScrollView>
           <View style={{ alignItems: "center", marginBottom: 40 }}>
             <Text
@@ -136,7 +161,7 @@ function KYCBirthdayScreen({ navigation }) {
               please tell us your {"\n"}gender and date of birth? {"\n"}
             </Text>
           </View>
-          <View
+          {/* <View
             style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}
           >
             <View style={{ flexDirection: "row" }}>
@@ -157,7 +182,8 @@ function KYCBirthdayScreen({ navigation }) {
                 Why are we asking you this?
               </Text>
             </View>
-          </View>
+          </View> */}
+          <WhyAsk reasons="" />
           <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
             <Text style={{ fontSize: 15 }}>Gender</Text>
           </View>
@@ -249,11 +275,12 @@ function KYCBirthdayScreen({ navigation }) {
               </View>
               <View style={{ width: 300, marginLeft: 30 }}>
                 {/* {  console.log(new Date(birthday))} */}
+               
                 {showDatePicker && (
                   <DateTimePicker
                     testID="birthdayDateTimePicker"
-                    value={new Date()}
-                    // minimum 18 years
+                    value={defaultDate()}
+                    // minimum 18 yearsß
 
                     maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
                     // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}

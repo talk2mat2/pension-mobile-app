@@ -13,6 +13,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
 import * as helpers from "../Helpers";
+import { useFocusEffect } from "@react-navigation/native";
 import UserContext from "../contexts/UserContext";
 
 function InitScreen({ navigation }) {
@@ -45,11 +46,19 @@ function InitScreen({ navigation }) {
     }
   };
 
-  useEffect(() => {
-    setTimeout(() => {
-      _next();
-    }, 3000);
-  }, [ctx?.u]);
+  // useEffect(() => {
+  //   console.log('initscreen mounted')
+  //   setTimeout(() => {
+  //     _next();
+  //   }, 3000);
+  // }, [ctx?.u]);
+  const navigateAway = React.useCallback(() => {
+    _next();
+  });
+  useFocusEffect(() => {
+    const nav = setTimeout(() => navigateAway(), 3000);
+  return ()=>clearTimeout(nav)
+  });
 
   return (
     <View style={[styles.container]}>
