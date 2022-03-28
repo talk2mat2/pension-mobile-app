@@ -62,7 +62,13 @@ const BudgetBenchmark2 = () => {
         <View style={{width:280 , alignContent:'center', marginTop:10, marginLeft:70}}><Text>Micheal</Text></View>
         <View style={{width:1, height:8, backgroundColor: '#000000', height:40, marginLeft: -160}}></View>
         <View style={{borderEndColor:'#00000', width:280, marginTop:10, marginLeft:70}}><Text>Sarah</Text></View>
-  
+      </View>
+      <View style={{flexDirection:'column', alignItems:'center'}}>
+        <View style={{backgroundColor:'black', height: 150, marginRight:10, alignItems:'center', width: 14, borderBottomRightRadius:20, borderBottomLeftRadius:20}}>
+          <View style={{backgroundColor:'white', borderColor:'white', borderRadius:100/2, height:50, marginLeft: 0,marginTop:70, height:10}}><Text>hhh</Text></View>
+        </View>
+        <View style={{backgroundColor:'#898c8b', height: 150, marginRight:10, width: 14, borderBottomRightRadius:20, borderBottomLeftRadius:20}}></View>
+        <View style={{backgroundColor:'#a6a6a6', height: 150, marginRight:10, width: 14, borderBottomRightRadius:20, borderBottomLeftRadius:20}}></View>
       </View>
      
 
