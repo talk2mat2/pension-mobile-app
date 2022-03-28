@@ -31,7 +31,7 @@ function RTExcellent({ navigation, route }) {
     x: -Dimensions.get("window").width,
     y: 0,
   });
-  const popperAnimated = () => {
+  const popperAnimated = React.useRef(() => {
     Animated.spring(IntroPopper, {
       toValue: 0,
       duration: 1000,
@@ -39,7 +39,7 @@ function RTExcellent({ navigation, route }) {
       tension: 20,
       useNativeDriver: true,
     }).start();
-  };
+  }).current;
   const hideCard = () => setShowCard(false);
   const _next = () => {
     navigation.navigate("CPStack");
@@ -49,7 +49,10 @@ function RTExcellent({ navigation, route }) {
       .Calculate_logged_in_user_retirement(ctx?.atk)
       .then((res) => {
         // console.log(res.data);
-        res?.data?.grossTarget && setGrossTarget(res?.data?.grossTarget);
+        //show gross target
+        //  res?.data?.grossTarget && setGrossTarget(res?.data?.grossTarget);
+        //we show netTarget
+        res?.data?.netTarget && setGrossTarget(res?.data?.netTarget);
       })
       .catch((err) => {
         console.log(err);
@@ -61,6 +64,7 @@ function RTExcellent({ navigation, route }) {
   useEffect(() => {
     setTimeout(() => {
       popperAnimated();
+      Calculate_logged_in_user_retirement();
     }, 1000);
   }, []);
 
@@ -69,9 +73,7 @@ function RTExcellent({ navigation, route }) {
   //     "grossTarget": 27483.75
   //   }
   // }
-  React.useEffect(() => {
-    Calculate_logged_in_user_retirement();
-  }, []);
+  React.useEffect(() => {}, []);
   return (
     <MyGradientBackground>
       <View

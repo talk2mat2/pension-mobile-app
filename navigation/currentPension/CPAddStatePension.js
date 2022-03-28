@@ -31,12 +31,12 @@ import api from "../../api";
 import StatePenContext from "../../contexts/satePenContext";
 
 function CPAddStatePension({ navigation }) {
-  const [statePension, setStatePension] = React.useState("");
+  const [statePension, setStatePensionData] = React.useState("");
   const [spouseGender, setSpouseGender] = React.useState("");
   const [spouseName, setSpouseName] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [retireProfile, setRetireProfile] = React.useState({});
-  const [spouseStatePension, setSpouseStatePension] = React.useState("");
+  const [spouseStatePension, setSpouseStatePensionData] = React.useState("");
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
 
@@ -98,6 +98,25 @@ function CPAddStatePension({ navigation }) {
         });
     }
   };
+
+  const setStatePension = (data) => {
+    helpers.save("statepension", JSON.stringify(data));
+    setStatePensionData(data);
+  };
+  const setSpouseStatePension = (data) => {
+    helpers.save("spouseStte", JSON.stringify(data));
+    setSpouseStatePensionData(data);
+  };
+  React.useEffect(async () => {
+    const statepensions = await helpers.getValueFor("statepension");
+    if (statepensions) {
+      setStatePensionData(JSON.parse(statepensions));
+    }
+    const spouseStte = await helpers.getValueFor("spouseStte");
+    if (spouseStte) {
+      setSpouseStatePensionData(JSON.parse(spouseStte));
+    }
+  }, []);
 
   const _next = () => {
     Promise.resolve(createStatePensionJar())

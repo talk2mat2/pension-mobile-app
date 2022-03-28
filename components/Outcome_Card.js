@@ -13,12 +13,12 @@ import { myColorsLight } from "../constant/colors";
 import OutcomeDatatable from "./outcomeDataTable";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const OutcomeCard = ({ hideCards ,children,styles:otherStyles}) => {
+const OutcomeCard = ({ hideCards, children, styles: otherStyles }) => {
   const outcomePopper = new Animated.ValueXY({
     x: 0,
     y: -Dimensions.get("window").height,
   });
-  const outcomeAnimated = () => {
+  const outcomeAnimated = React.useRef(() => {
     Animated.spring(outcomePopper, {
       toValue: 0,
       duration: 2000,
@@ -26,7 +26,7 @@ const OutcomeCard = ({ hideCards ,children,styles:otherStyles}) => {
       tension: 20,
       useNativeDriver: true,
     }).start();
-  };
+  }).current;
   React.useEffect(() => {
     setTimeout(() => {
       outcomeAnimated();
@@ -65,10 +65,11 @@ const OutcomeCard = ({ hideCards ,children,styles:otherStyles}) => {
         transform: [
           { translateY: outcomePopper.y },
           //   { translateX: outcomePopper.x },
-        ],...otherStyles
+        ],
+        ...otherStyles,
       }}
     >
-   {children}
+      {children}
       {/* <View style={styles.close}>
         <TouchableOpacity style={{flex:1}} onPress={hideCards}>
           <MaterialIcons name="cancel" size={30} color="black" />
@@ -79,7 +80,6 @@ const OutcomeCard = ({ hideCards ,children,styles:otherStyles}) => {
 };
 
 const styles = StyleSheet.create({
-
   container: {
     position: "absolute",
     bottom: 80,

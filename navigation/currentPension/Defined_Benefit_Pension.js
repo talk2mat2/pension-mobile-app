@@ -30,7 +30,7 @@ function DefinedStateBenefit({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
-  const [benefitJars, setBenefitJars] = React.useState([
+  const [benefitJars, setBenefitJar] = React.useState([
     {
       id: 18934,
       pensionName: "",
@@ -82,7 +82,34 @@ function DefinedStateBenefit({ navigation }) {
 
     setBenefitJars(newBenefitJars);
   };
+  const isValidJars = () => {
+    let isvalid = false;
 
+    const isExist = benefitJars.find(
+      (item) => item.name !== "" && item.annualIncome !== ""
+    );
+    // providerJars.map((item) => {
+    //   if (item.currentValue !== "" && item.currentValue !== "") {
+    //     return isvalid = true;
+    //   } else {
+    //     isvalid = false;
+    //   }
+    // });
+    if (isExist) {
+      isvalid = true;
+    }
+    return isvalid;
+  };
+  const setBenefitJars = (data) => {
+    helpers.save("benefitJar", JSON.stringify(data));
+    setBenefitJar(data);
+  };
+  React.useEffect(async () => {
+    const persistDta = await helpers.getValueFor("benefitJar");
+    if (persistDta) {
+      setBenefitJar(JSON.parse(persistDta));
+    }
+  }, []);
   const submitFilledJars = async () => {
     //iterate and make api call per jar
     const isExist = benefitJars.filter(
@@ -231,7 +258,7 @@ function DefinedStateBenefit({ navigation }) {
             <DefinedSwipper />
           </View>
           <View style={{ marginTop: 7, alignItems: "center" }}>
-            {iDontHhaveState === false || person1.annualIncome ? (
+            {iDontHhaveState === false || isValidJars() === true ? (
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={_next}

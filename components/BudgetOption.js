@@ -133,7 +133,10 @@ const BudgetOption = ({
 
                       <DataTable.Cell numeric>
                         <Text style={{ ...styles.textMid }}>
-                          £{budetData["Food & drink"]}
+                          £
+                          {budetData["Food & drink"]
+                            ? Math.ceil(budetData["Food & drink"] / 12)
+                            : 0}
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -151,7 +154,10 @@ const BudgetOption = ({
 
                       <DataTable.Cell numeric>
                         <Text style={{ ...styles.textMid }}>
-                          £{budetData["House"]}
+                          £
+                          {budetData["House"]
+                            ? Math.ceil(budetData["House"] / 12)
+                            : 0}
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -169,7 +175,10 @@ const BudgetOption = ({
 
                       <DataTable.Cell numeric>
                         <Text style={{ ...styles.textMid }}>
-                          £{budetData["Holidays & Leisure"]}
+                          £
+                          {budetData["Holidays & Leisure"]
+                            ? Math.ceil(budetData["Holidays & Leisure"] / 12)
+                            : 0}
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -187,7 +196,10 @@ const BudgetOption = ({
 
                       <DataTable.Cell numeric>
                         <Text style={{ ...styles.textMid }}>
-                          £{budetData["Clothing & Personal"]}
+                          £
+                          {budetData["Clothing & Personal"]
+                            ? Math.ceil(budetData["Clothing & Personal"] / 12)
+                            : 0}
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -205,7 +217,10 @@ const BudgetOption = ({
 
                       <DataTable.Cell numeric>
                         <Text style={{ ...styles.textMid }}>
-                          £{budetData["Helping Others"]}
+                          £
+                          {budetData["Helping Others"]
+                            ? Math.ceil(budetData["Helping Others"] / 12)
+                            : 0}
                         </Text>
                       </DataTable.Cell>
                     </DataTable.Row>
@@ -238,7 +253,10 @@ const BudgetOption = ({
                     <View>
                       <Text style={{ fontWeight: "bold" }}>Monthly Budget</Text>
                       <Text style={{ fontWeight: "bold" }}>
-                        £{budetData["Total (Gross)"]}
+                        £
+                        {budetData["Total"]
+                          ? Math.ceil(budetData["Total"] / 12)
+                          : 0}
                       </Text>
                     </View>
                   </View>

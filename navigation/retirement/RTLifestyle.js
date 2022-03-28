@@ -33,6 +33,7 @@ import { myColorsLight } from "../../constant/colors";
 
 function RTLifestyle({ route, navigation }) {
   const { selectedData } = route.params;
+  const [sum, setSum] = React.useState(0);
   const [lifestyleData, setLifeStyleData] = React.useState({
     ...(selectedData || ""),
   });
@@ -158,7 +159,20 @@ function RTLifestyle({ route, navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
-
+  React.useEffect(() => {
+    if (lifestyleData) {
+      const objKeys = Object.values(lifestyleData);
+      const sums = objKeys
+        .filter(
+          (xx) =>
+            xx !== lifestyleData["Total"] &&
+            xx !== lifestyleData["Total (Gross)"]
+        )
+        .map((xxx) => xxx / 12)
+        .reduce((a, b) => a + b, 0);
+      setSum(sums);
+    }
+  }, [lifestyleData]);
   return (
     <MyGradientBackground>
       {isLoading && <JarvisLoader />}
@@ -183,9 +197,9 @@ function RTLifestyle({ route, navigation }) {
         <View>
           <View>
             <Text
-              style={{...styles.loginText, fontSize: 20, textAlign: "center" }}
+              style={{ ...styles.loginText, fontSize: 20, textAlign: "center" }}
             >
-           Your Retirement Lifestyle
+              Your Retirement Lifestyle
             </Text>
           </View>
           <View>
@@ -243,7 +257,7 @@ function RTLifestyle({ route, navigation }) {
           <LIfestylecard
             {...{ lifestyleData, setLifeStyleData }}
             title="House"
-            amount={`£${lifestyleData?.House}`}
+            amount={`${lifestyleData?.House}`}
             Icon="home"
           >
             <AntDesign
@@ -256,7 +270,7 @@ function RTLifestyle({ route, navigation }) {
             {...{ lifestyleData, setLifeStyleData }}
             title="Food & drink"
             Icon="home"
-            amount={`£${lifestyleData?.["Food & drink"]}`}
+            amount={`${lifestyleData?.["Food & drink"]}`}
           >
             <MaterialCommunityIcons
               name="food-fork-drink"
@@ -267,7 +281,7 @@ function RTLifestyle({ route, navigation }) {
           <LIfestylecard
             {...{ lifestyleData, setLifeStyleData }}
             title="Transport"
-            amount={`£${lifestyleData?.Transport}`}
+            amount={`${lifestyleData?.Transport}`}
           >
             <AntDesign
               name="car"
@@ -278,7 +292,7 @@ function RTLifestyle({ route, navigation }) {
           <LIfestylecard
             {...{ lifestyleData, setLifeStyleData }}
             title="Holidays & Leisure"
-            amount={`£${lifestyleData?.["Holidays & Leisure"]}`}
+            amount={`${lifestyleData?.["Holidays & Leisure"]}`}
           >
             <Fontisto
               name="holiday-village"
@@ -289,7 +303,7 @@ function RTLifestyle({ route, navigation }) {
           <LIfestylecard
             {...{ lifestyleData, setLifeStyleData }}
             title="Clothing & Personal"
-            amount={`£${lifestyleData?.["Clothing & Personal"]}`}
+            amount={`${lifestyleData?.["Clothing & Personal"]}`}
           >
             <Ionicons
               name="md-shirt"
@@ -300,7 +314,7 @@ function RTLifestyle({ route, navigation }) {
           <LIfestylecard
             {...{ lifestyleData, setLifeStyleData }}
             title="Helping Others"
-            amount={`£${lifestyleData?.["Helping Others"]}`}
+            amount={`${lifestyleData?.["Helping Others"]}`}
           >
             <FontAwesome5
               name="hands-helping"
@@ -322,9 +336,7 @@ function RTLifestyle({ route, navigation }) {
           <View style={styles.sum}>
             <Text style={{ fontSize: 17 }}>Total Monthly Budget</Text>
             <Text style={{ fontSize: 17 }}>{`£${
-              lifestyleData?.["Total"]
-                ? Math.ceil(lifestyleData?.["Total"] / 12)
-                : null
+              sum ? Math.ceil(sum) : 0
             }`}</Text>
           </View>
 

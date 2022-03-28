@@ -19,6 +19,7 @@ const BudgetModalCustom = ({
   updateLifeStyleData,
   focused,
   setFocused,
+  amount,
 }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -33,6 +34,11 @@ const BudgetModalCustom = ({
   //   // }
   //   console.log(budgetData);
   // }, []);
+  React.useEffect(() => {
+    if (amount) {
+      setValue(String(Math.ceil(parseInt(amount) / 12)));
+    }
+  }, [amount]);
   return (
     <View style={styles.container}>
       <View style={styles.hrView} />
@@ -100,7 +106,10 @@ const BudgetModalCustom = ({
                 </View>
                 <JarvisButton
                   bgcolor={myColorsLight.black}
-                  play={() => updateLifeStyleData(value)}
+                  //multipky by 12 to fix databse data which is divided by 12
+                  play={() =>
+                    value ? updateLifeStyleData(parseInt(value) * 12) : null
+                  }
                   btn="Set Budget"
                   w={100}
                 />

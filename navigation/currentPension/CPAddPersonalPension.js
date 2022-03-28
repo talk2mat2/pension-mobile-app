@@ -31,7 +31,8 @@ function CPAddPersonalPension({ navigation }) {
   const [person1, setPerson1] = React.useState({});
   const [person2, setPerson2] = React.useState({});
   const ctx = useContext(UserContext);
-  const [providerJars, setProviderJars] = React.useState([
+
+  const [providerJars, setProviderJar] = React.useState([
     {
       id: 18934,
       provider: "",
@@ -39,6 +40,7 @@ function CPAddPersonalPension({ navigation }) {
       currentValue: "",
       regularContribution: "",
       contributeBasics: "",
+      regContributionTaxBasis: "",
       monthlyContribution: "",
       regContributionAmount: "",
       spousePension: "no",
@@ -54,6 +56,7 @@ function CPAddPersonalPension({ navigation }) {
       name: "",
       currentValue: "",
       regularContribution: "",
+      regContributionTaxBasis: "",
       contributeBasics: "",
       monthlyContribution: "",
       regContributionAmount: "",
@@ -65,6 +68,16 @@ function CPAddPersonalPension({ navigation }) {
       isSpouse: false,
     },
   ]);
+  const setProviderJars = (data) => {
+    helpers.save("providerPensions", JSON.stringify(data));
+    setProviderJar(data);
+  };
+  React.useEffect(async () => {
+    const persistDta = await helpers.getValueFor("providerPensions");
+    if (persistDta) {
+      setProviderJar(JSON.parse(persistDta));
+    }
+  }, []);
   const isValidJars = () => {
     let isvalid = false;
 
@@ -146,7 +159,7 @@ function CPAddPersonalPension({ navigation }) {
         .then((res) => {
           console.log("jar created");
         })
-        .catch((err) => console.log('error occured',err));
+        .catch((err) => console.log("error occured", err));
     }
   };
 

@@ -311,7 +311,11 @@ const PersoanalStatePensionModal = ({
                       : "unchecked"
                   }
                   onPress={() => {
-                    setPersoData({ ...personData, contributeBasics: "net" });
+                    setPersoData({
+                      ...personData,
+                      contributeBasics: "net",
+                      regContributionTaxBasis: "net",
+                    });
                   }}
                 />
                 <Text style={[styles.radioText, { marginLeft: 20 }]}>
@@ -325,7 +329,11 @@ const PersoanalStatePensionModal = ({
                       : "unchecked"
                   }
                   onPress={() => {
-                    setPersoData({ ...personData, contributeBasics: "gross" });
+                    setPersoData({
+                      ...personData,
+                      contributeBasics: "gross",
+                      regContributionTaxBasis: "gross",
+                    });
                   }}
                 />
               </View>

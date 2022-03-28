@@ -28,7 +28,7 @@ import PanableCard from "../../components/pannableCard";
 
 function OtherPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
-  const [person1, setPerson1] = React.useState({
+  const [person1, setPerson1Data] = React.useState({
     expectedAnualIncome: "",
     gender: "",
     expectedIncomeDate: "",
@@ -39,7 +39,7 @@ function OtherPension({ navigation }) {
     jarSubType: "other",
     currentValue: "",
   });
-  const [person2, setPerson2] = React.useState({
+  const [person2, setPerson2Data] = React.useState({
     expectedAnualIncome: "",
     name: "Retirement Income",
     gender: "",
@@ -83,6 +83,25 @@ function OtherPension({ navigation }) {
         });
     }
   };
+
+  const setPerson1 = (data) => {
+    helpers.save("person1", JSON.stringify(data));
+    setPerson1Data(data);
+  };
+  const setPerson2 = (data) => {
+    helpers.save("person2", JSON.stringify(data));
+    setPerson2Data(data);
+  };
+  React.useEffect(async () => {
+    const persistDta1 = await helpers.getValueFor("person1");
+    if (persistDta1) {
+      setPerson1Data(JSON.parse(persistDta1));
+    }
+    const persistDta2 = await helpers.getValueFor("person2");
+    if (persistDta2) {
+      setPerson2Data(JSON.parse(persistDta2));
+    }
+  }, []);
   const _next = () => {
     Promise.resolve(createStatePensionJar())
       .then(() => {
@@ -95,9 +114,8 @@ function OtherPension({ navigation }) {
   const _goBack = () => {
     navigation.goBack();
   };
- 
+
   const handleTextbtn = () => {
-   
     if (!person1.currentValue && !person2.currentValue) {
       return "Continue without other savings/income";
     }

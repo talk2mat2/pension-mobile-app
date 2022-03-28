@@ -109,7 +109,7 @@ const LIfestylecard = ({
                 updateLifeStyleData={updateLifeStyleData}
                 _next={() => {}}
                 type="Custom Budget"
-                {...{ focused, setFocused }}
+                {...{ focused, setFocused, amount }}
               />
             </View>
           </ScrollView>
@@ -128,7 +128,9 @@ const LIfestylecard = ({
           {children}
           <View style={{ marginTop: "auto" }}>
             <Text style={{ ...styles.cardTitle }}>{title}</Text>
-            <Text style={{ ...styles.cardTitle, fontSize: 17 }}>{amount}</Text>
+            <Text style={{ ...styles.cardTitle, fontSize: 17 }}>
+              £{!isNaN(amount) ? Math.ceil(parseInt(amount) / 12) : 0}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>
