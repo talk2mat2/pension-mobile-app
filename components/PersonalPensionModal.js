@@ -31,6 +31,7 @@ const PersoanalStatePensionModal = ({
   showModal,
   changeStatePension,
   setPersoData,
+  AddJar,
 }) => {
   // const [visible, setVisible] = React.useState(false);
 
@@ -52,6 +53,7 @@ const PersoanalStatePensionModal = ({
       return Alert.alert("Please provide current value");
     } else {
       changeStatePension(providerName);
+      AddJar();
     }
   };
   const hideModal = () => setVisible(false);

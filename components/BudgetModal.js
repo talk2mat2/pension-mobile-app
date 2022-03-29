@@ -19,6 +19,7 @@ const BudgetModal = ({
   updateLifeStyleData,
   focused,
   setFocused,
+  amount,
 }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
@@ -32,10 +33,14 @@ const BudgetModal = ({
   //   // }
   //   console.log(budgetData);
   // }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.hrView} />
-      <TouchableOpacity onPress={toggle}>
+      <TouchableOpacity
+        style={amount == budgetData?.value && styles.selected}
+        onPress={toggle}
+      >
         <View style={styles.optionsItem}>
           <View>
             <Text style={[styles.subHeader]}>Budget Level</Text>
@@ -88,7 +93,7 @@ const BudgetModal = ({
                 <View>
                   <Text style={{ fontWeight: "bold" }}>Monthly Budget</Text>
                   <Text style={{ fontWeight: "bold" }}>
-                    £{budgetData?.value}
+                    £{budgetData?.value ? Math.ceil(budgetData?.value / 12) : 0}
                   </Text>
                 </View>
                 <JarvisButton
@@ -130,6 +135,10 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 22,
+  },
+  selected: {
+    backgroundColor: myColorsLight.grey8,
+    borderRadius: 4,
   },
   textWhite: {
     color: "#fff",

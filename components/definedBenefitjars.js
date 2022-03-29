@@ -20,7 +20,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import PersonalPenContext from "../contexts/personalContext";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 
-const BenefitJars = ({ item, index }) => {
+const BenefitJars = ({ item, index, AddJar }) => {
   const [visible, setVisible] = React.useState(false);
   const [person2Visible, setPerson2Visible] = React.useState(false);
 
@@ -59,6 +59,7 @@ const BenefitJars = ({ item, index }) => {
           changeStatePension: changePerson1Pension,
           personData: item,
           setPersonData: handleJarUpdate,
+          AddJar,
         }}
       />
       <View key={item.id} style={styles.slide1}>

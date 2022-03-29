@@ -29,8 +29,15 @@ const CPPersonSwipper = () => {
   const hideModal = () => setVisible(false);
   const showPerson2Modal = () => setPerson2Visible(true);
   const hidePerson2Modal = () => setPerson2Visible(false);
-  const { person1, setPerson1, person2, setPerson2, AddJars, providerJars,updateJars } =
-    useContext(PersonalPenContext);
+  const {
+    person1,
+    setPerson1,
+    person2,
+    setPerson2,
+    AddJars,
+    providerJars,
+    updateJars,
+  } = useContext(PersonalPenContext);
   const changePerson1Pension = (newValue) => {
     setPersonPension1(newValue);
     hideModal();
@@ -38,6 +45,23 @@ const CPPersonSwipper = () => {
   const changePerson2Pension = (newValue) => {
     setPersonPension2(newValue);
     hidePerson2Modal();
+  };
+  const ScrolltoEnd = () => {
+    scrollRef.current?.scrollToEnd({
+      // x: deviceWidth / 2,
+      animated: true,
+    });
+  };
+  const ScrolltoInit = () => {
+    scrollRef.current?.scrollTo({
+      x: 0,
+      animated: true,
+    });
+  };
+
+  const handleAddJars = () => {
+    AddJars();
+    ScrolltoEnd();
   };
   return (
     <>
@@ -70,7 +94,10 @@ const CPPersonSwipper = () => {
           // showsButtons={false}
         >
           {providerJars?.map((item, index) => (
-            <PersonJars key={index} {...{ item, index}} />
+            <PersonJars
+              key={index}
+              {...{ item, index, AddJar: handleAddJars }}
+            />
             // <>
 
             // <View key={item.id} style={styles.slide1}>
@@ -129,14 +156,14 @@ const CPPersonSwipper = () => {
             // </View>
             // </>
           ))}
-          <TouchableOpacity onPress={() => AddJars()}>
+          {/* <TouchableOpacity onPress={() => AddJars()}>
             <AntDesign
               style={{ margin: 40, textAlign: "center", fontWeight: "600" }}
               name="pluscircle"
               size={37}
               color={myColorsLight.lightGrey}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
         {/* <Swiper
           paginationStyle={{
@@ -301,7 +328,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: "30%",
     justifyContent: "center",
-    paddingRight: deviceWidth * 0.5,
+    paddingRight: deviceWidth * 0.3,
   },
 });
 export default CPPersonSwipper;

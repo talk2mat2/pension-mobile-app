@@ -6,7 +6,7 @@ import {
   StyleSheet,
   ImageBackground,
   ScrollView,
-  Dimensions
+  Dimensions,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -38,6 +38,23 @@ const DefinedSwipper = () => {
   const changeSpouseStatePension = () => {
     // setSpouseStatePension(newValue);
     hideSpouseModal();
+  };
+  const ScrolltoEnd = () => {
+    scrollRef.current?.scrollToEnd({
+      // x: deviceWidth / 2,
+      animated: true,
+    });
+  };
+  const ScrolltoInit = () => {
+    scrollRef.current?.scrollTo({
+      x: 0,
+      animated: true,
+    });
+  };
+
+  const handleAddJars = () => {
+    AddJars();
+    ScrolltoEnd();
   };
   return (
     <>
@@ -79,7 +96,10 @@ const DefinedSwipper = () => {
           // showsButtons={false}
         >
           {benefitJars?.map((item, index) => (
-            <BenefitJars key={index} {...{ item, index }} />
+            <BenefitJars
+              key={index}
+              {...{ item, index, AddJar: handleAddJars }}
+            />
             // <>
 
             // <View key={item.id} style={styles.slide1}>
@@ -138,14 +158,14 @@ const DefinedSwipper = () => {
             // </View>
             // </>
           ))}
-          <TouchableOpacity onPress={() => AddJars()}>
+          {/* <TouchableOpacity onPress={() => AddJars()}>
             <AntDesign
               style={{ margin: 40, textAlign: "center", fontWeight: "600" }}
               name="pluscircle"
               size={37}
               color={myColorsLight.lightGrey}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </ScrollView>
         {/* <Swiper
           paginationStyle={{
@@ -310,7 +330,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingLeft: "30%",
     justifyContent: "center",
-    paddingRight: deviceWidth * 0.5,
+    paddingRight: deviceWidth * 0.3,
   },
 });
 export default DefinedSwipper;

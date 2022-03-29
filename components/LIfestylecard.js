@@ -85,7 +85,7 @@ const LIfestylecard = ({
           <ScrollView>
             <View style={{ marginTop: 50 }}>
               <BudgetModal
-                {...{ focused, setFocused }}
+                {...{ focused, setFocused, amount }}
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes.minimum}
                 _next={() => {}}
@@ -95,7 +95,7 @@ const LIfestylecard = ({
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes?.moderate}
                 _next={() => {}}
-                {...{ focused, setFocused }}
+                {...{ focused, setFocused, amount }}
                 type="Moderate"
               />
               <BudgetModal
@@ -103,11 +103,14 @@ const LIfestylecard = ({
                 budgetData={listSelectedName(title)?.attributes.comfortable}
                 _next={() => {}}
                 type="Comfortable"
-                {...{ focused, setFocused }}
+                {...{ focused, setFocused, amount }}
               />
               <BudgetModalCustom
                 updateLifeStyleData={updateLifeStyleData}
                 _next={() => {}}
+                minimal={listSelectedName(title)?.attributes.minimum}
+                moderate={listSelectedName(title)?.attributes?.moderate}
+                comfortable={listSelectedName(title)?.attributes.comfortable}
                 type="Custom Budget"
                 {...{ focused, setFocused, amount }}
               />

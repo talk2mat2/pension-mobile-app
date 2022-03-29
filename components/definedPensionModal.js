@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Alert,
 } from "react-native";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,6 +21,7 @@ const DefinedBenefitModal = ({
   changeStatePension,
   personData,
   setPersonData,
+  AddJar,
 }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
@@ -28,12 +30,14 @@ const DefinedBenefitModal = ({
     React.useState(false);
   const [stateAmount, setStateAmount] = React.useState("");
   const _next = () => {
-    // if (!stateAmount) {
-    //   setStateAmountValidation(true);
-    // } else {
-    //   changeStatePension();
-    // }
-    changeStatePension();
+    if (!personData.pensionName) {
+      return Alert.alert("Pension name is required");
+    } else if (!personData.incomeAmount) {
+      return Alert.alert("Annual income is required");
+    } else {
+      changeStatePension();
+      AddJar();
+    }
   };
   const hideModal = () => setVisible(false);
   return (

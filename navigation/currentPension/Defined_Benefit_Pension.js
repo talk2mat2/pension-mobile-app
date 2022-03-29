@@ -60,21 +60,26 @@ function DefinedStateBenefit({ navigation }) {
     setBenefitJars([...benefitJars, newJar]);
   };
   const cleanJars = (index) => {
-    const newJar = {
-      id: Math.floor(Math.random() * 100),
-      pensionName: "",
-      annualIncome: "",
-      provider: "",
-      name: "",
-      spousePension: "no",
-      jarType: "income",
-      jarSubType: "external",
-      incomeAmount: "",
-      isSpouse: false,
-    };
-    const newBenefitJars = benefitJars.slice();
-    newBenefitJars[index] = newJar;
-    setBenefitJars(newBenefitJars);
+    if (benefitJars.length > 1) {
+      const newbenefitJar = benefitJars.filter((item, i) => i !== index);
+      setBenefitJars(newbenefitJar);
+    } else {
+      const newJar = {
+        id: Math.floor(Math.random() * 100),
+        pensionName: "",
+        annualIncome: "",
+        provider: "",
+        name: "",
+        spousePension: "no",
+        jarType: "income",
+        jarSubType: "external",
+        incomeAmount: "",
+        isSpouse: false,
+      };
+      const newBenefitJars = benefitJars.slice();
+      newBenefitJars[index] = newJar;
+      setBenefitJars(newBenefitJars);
+    }
   };
   const updateJars = (index, newJarData) => {
     const newBenefitJars = benefitJars.slice();

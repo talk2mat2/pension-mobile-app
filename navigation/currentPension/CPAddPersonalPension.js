@@ -50,23 +50,23 @@ function CPAddPersonalPension({ navigation }) {
       regContributionFrequency: "monthly",
       isSpouse: false,
     },
-    {
-      id: 18935,
-      provider: "",
-      name: "",
-      currentValue: "",
-      regularContribution: "",
-      regContributionTaxBasis: "",
-      contributeBasics: "",
-      monthlyContribution: "",
-      regContributionAmount: "",
-      spousePension: "no",
-      secclExternalProviderId: "",
-      jarType: "asset",
-      jarSubType: "external",
-      regContributionFrequency: "monthly",
-      isSpouse: false,
-    },
+    // {
+    //   id: 18935,
+    //   provider: "",
+    //   name: "",
+    //   currentValue: "",
+    //   regularContribution: "",
+    //   regContributionTaxBasis: "",
+    //   contributeBasics: "",
+    //   monthlyContribution: "",
+    //   regContributionAmount: "",
+    //   spousePension: "no",
+    //   secclExternalProviderId: "",
+    //   jarType: "asset",
+    //   jarSubType: "external",
+    //   regContributionFrequency: "monthly",
+    //   isSpouse: false,
+    // },
   ]);
   const setProviderJars = (data) => {
     helpers.save("providerPensions", JSON.stringify(data));
@@ -122,25 +122,31 @@ function CPAddPersonalPension({ navigation }) {
     setProviderJars(newProviderJars);
   };
   const cleanJars = (index, newJarData) => {
-    const newJar = {
-      id: Math.floor(Math.random() * 100),
-      provider: "",
-      name: "",
-      currentValue: "",
-      regularContribution: "",
-      contributeBasics: "",
-      monthlyContribution: "",
-      regContributionAmount: "",
-      spousePension: "no",
-      secclExternalProviderId: "",
-      jarType: "asset",
-      jarSubType: "external",
-      regContributionFrequency: "monthly",
-      isSpouse: false,
-    };
-    const newProviderJars = providerJars.slice();
-    newProviderJars[index] = newJar;
-    setProviderJars(newProviderJars);
+    //we can only delete if there more tnah one jar visible
+    if (providerJars.length > 1) {
+      const newProviderJar = providerJars.filter((item, i) => i !== index);
+      setProviderJars(newProviderJar);
+    } else {
+      const newJar = {
+        id: Math.floor(Math.random() * 100),
+        provider: "",
+        name: "",
+        currentValue: "",
+        regularContribution: "",
+        contributeBasics: "",
+        monthlyContribution: "",
+        regContributionAmount: "",
+        spousePension: "no",
+        secclExternalProviderId: "",
+        jarType: "asset",
+        jarSubType: "external",
+        regContributionFrequency: "monthly",
+        isSpouse: false,
+      };
+      const newProviderJars = providerJars.slice();
+      newProviderJars[index] = newJar;
+      setProviderJars(newProviderJars);
+    }
   };
 
   const submitFilledJars = async () => {

@@ -20,6 +20,9 @@ const BudgetModalCustom = ({
   focused,
   setFocused,
   amount,
+  minimal,
+  moderate,
+  comfortable,
 }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -34,15 +37,33 @@ const BudgetModalCustom = ({
   //   // }
   //   console.log(budgetData);
   // }, []);
+  // minimal={listSelectedName(title)?.attributes.minimum}
+  // moderate={listSelectedName(title)?.attributes?.moderate}
+  // comfortable
   React.useEffect(() => {
     if (amount) {
       setValue(String(Math.ceil(parseInt(amount) / 12)));
     }
   }, [amount]);
+  const checkType = () => {
+    if (
+      amount != minimal?.value &&
+      amount?.value != moderate?.value &&
+      amount != comfortable?.value
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.hrView} />
-      <TouchableOpacity onPress={toggle}>
+      <TouchableOpacity
+        style={checkType() && styles.selected}
+        amoun
+        onPress={toggle}
+      >
         <View style={styles.optionsItem}>
           <View>
             <Text style={[styles.subHeader]}>Budget Level</Text>
@@ -162,5 +183,9 @@ const styles = StyleSheet.create({
     paddingBottom: 1,
     borderBottomWidth: 1,
     borderBottomColor: "#bbb",
+  },
+  selected: {
+    backgroundColor: myColorsLight.grey8,
+    borderRadius: 4,
   },
 });
