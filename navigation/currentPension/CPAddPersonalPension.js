@@ -297,7 +297,15 @@ function CPAddPersonalPension({ navigation }) {
                 w={210}
               />
             ) : (
-              <TouchableOpacity onPress={() => setIdontHaveState(true)}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (isValidJars() === false) {
+                    navigation.navigate("DefinedBenefit");
+                  } else {
+                    setIdontHaveState(true);
+                  }
+                }}
+              >
                 <View style={styles.btnIdont}>
                   <Text style={{ fontWeight: "900" }}>
                     I don’t have any Personal Pensions

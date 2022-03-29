@@ -269,7 +269,15 @@ function CPAddStatePension({ navigation }) {
                 w={200}
               />
             ) : (
-              <TouchableOpacity onPress={() => setIdontHaveState(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (!retireProfile?.attributes?.spouseName) {
+                    navigation.navigate("CPAddPersonalPension");
+                  } else {
+                    setIdontHaveState(false);
+                  }
+                }}
+              >
                 <View style={styles.btnIdont}>
                   <Text style={{ fontWeight: "900" }}>
                     I don’t have a State Pension
