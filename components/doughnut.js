@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   graphWrapper: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: 80,
+    paddingTop: 60,
   },
   text: {
     paddingTop: 80,
