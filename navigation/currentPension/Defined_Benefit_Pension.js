@@ -271,7 +271,15 @@ function DefinedStateBenefit({ navigation }) {
                 w={200}
               />
             ) : (
-              <TouchableOpacity onPress={() => setIdontHaveState(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (isValidJars() === false) {
+                    navigation.navigate("OtherPension");
+                  } else {
+                    setIdontHaveState(false);
+                  }
+                }}
+              >
                 <View style={styles.btnIdont}>
                   <Text style={{ fontWeight: "900" }}>
                     I don’t have any Defined Benefit Pensions

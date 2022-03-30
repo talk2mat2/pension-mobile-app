@@ -27,6 +27,7 @@ import OtherpenContext from "../../contexts/otherPenContext";
 import PanableCard from "../../components/pannableCard";
 
 function OtherPension({ navigation }) {
+  const [startScroll, setStartScroll] = React.useState(false);
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const [person1, setPerson1Data] = React.useState({
     expectedAnualIncome: "",
@@ -134,7 +135,14 @@ function OtherPension({ navigation }) {
 
   return (
     <OtherpenContext.Provider
-      value={{ person1, setPerson1, setPerson2, person2 }}
+      value={{
+        person1,
+        setPerson1,
+        setPerson2,
+        person2,
+        startScroll,
+        setStartScroll,
+      }}
     >
       <MyGradientBackground>
         <>
@@ -223,7 +231,12 @@ function OtherPension({ navigation }) {
                 w={200}
               />
             ) : (
-              <TouchableOpacity onPress={() => setIdontHaveState(false)}>
+              <TouchableOpacity
+                onPress={() => {
+                  setStartScroll(true);
+                  setIdontHaveState(false);
+                }}
+              >
                 <View style={styles.btnIdont}>
                   <Text style={{ fontWeight: "900" }}>
                     I don’t have any other savings

@@ -33,6 +33,8 @@ const CPSwipper = () => {
     spouseGender,
     setSpouseGender,
     setGender,
+    startScroll,
+    setStartScroll,
   } = useContext(StatePenContext);
 
   const showModal = () => setVisible(true);
@@ -52,6 +54,12 @@ const CPSwipper = () => {
       animated: true,
     });
   };
+  React.useEffect(() => {
+    if (startScroll) {
+      ScrolltoSpouse();
+      setStartScroll(false);
+    }
+  }, [startScroll]);
 
   const changeStatePension = (newValue, gender) => {
     setStatePension(newValue);
@@ -63,7 +71,7 @@ const CPSwipper = () => {
     setSpouseStatePension(newValue);
     hideSpouseModal();
     setSpouseGender(gender);
-    ScrolltoUser()
+    ScrolltoUser();
   };
 
   // React.useEffect(() => {

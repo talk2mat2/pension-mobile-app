@@ -28,8 +28,14 @@ const OtherSwipper = () => {
   const hideModal = () => setVisible(false);
   const showSpouseModal = () => setSpouseVisible(true);
   const hideSpouseModal = () => setSpouseVisible(false);
-  const { person1, setPerson1, setPerson2, person2 } =
-    useContext(OtherPenContext);
+  const {
+    person1,
+    setPerson1,
+    setPerson2,
+    person2,
+    startScroll,
+    setStartScroll,
+  } = useContext(OtherPenContext);
 
   const ScrolltoIncome = () => {
     scrollRef.current?.scrollTo({
@@ -43,6 +49,12 @@ const OtherSwipper = () => {
       animated: true,
     });
   };
+  React.useEffect(() => {
+    if (startScroll) {
+      ScrolltoIncome();
+      setStartScroll(false);
+    }
+  }, [startScroll]);
   const changeStatePension = () => {
     // setStatePension(newValue);
     ScrolltoIncome();
@@ -51,7 +63,7 @@ const OtherSwipper = () => {
   const changeSpouseStatePension = () => {
     // setSpouseStatePension(newValue);
     hideSpouseModal();
-    Scrolltosavings()
+    Scrolltosavings();
   };
 
   return (

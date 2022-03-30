@@ -36,6 +36,7 @@ function CPAddStatePension({ navigation }) {
   const [spouseName, setSpouseName] = React.useState("");
   const [gender, setGender] = React.useState("");
   const [retireProfile, setRetireProfile] = React.useState({});
+  const [startScroll, setStartScroll] = React.useState(false);
   const [spouseStatePension, setSpouseStatePensionData] = React.useState("");
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
@@ -180,6 +181,8 @@ function CPAddStatePension({ navigation }) {
         setSpouseStatePension,
         setGender,
         retireProfile,
+        startScroll,
+        setStartScroll,
       }}
     >
       <MyGradientBackground>
@@ -275,6 +278,7 @@ function CPAddStatePension({ navigation }) {
                     navigation.navigate("CPAddPersonalPension");
                   } else {
                     setIdontHaveState(false);
+                    setStartScroll(true);
                   }
                 }}
               >
