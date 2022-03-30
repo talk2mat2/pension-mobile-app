@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import BudgetBenchmark2 from "./BudgetBenchMark";
 import FullScreenContext from "../../contexts/fullScreenContext";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JSBudgetCards = ({ handleshowCards }) => {
@@ -73,10 +74,9 @@ const JSBudgetCards = ({ handleshowCards }) => {
         ...styles.container,
         ...styles.card,
         transform: [{ translateY: position.y }],
-        paddingTop: isfullScreen ? 40 : 20,
       }}
     >
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
@@ -93,7 +93,8 @@ const JSBudgetCards = ({ handleshowCards }) => {
             color={myColorsLight.black}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <BudgetBenchmark2 {...{ closeCard, handleToggleFullScreen }} />
     </Animated.View>
   );
 };
@@ -109,9 +110,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   card: {
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
+    // borderRadius: 10,
+    // padding: 10,
+    // paddingLeft: 20,
   },
 });
 export default JSBudgetCards;

@@ -8,6 +8,7 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
+import LifeExpectancy from "./LifeExpectancy";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
@@ -73,10 +74,9 @@ const JsLifeExpectCard = ({ handleshowCards }) => {
         ...styles.container,
         ...styles.card,
         transform: [{ translateY: position.y }],
-        paddingTop: isfullScreen ? 40 : 20,
       }}
     >
-      <View
+      {/* <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
@@ -93,7 +93,8 @@ const JsLifeExpectCard = ({ handleshowCards }) => {
             color={myColorsLight.black}
           />
         </TouchableOpacity>
-      </View>
+      </View> */}
+      <LifeExpectancy {...{ closeCard, handleToggleFullScreen }} />
     </Animated.View>
   );
 };
@@ -109,9 +110,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   card: {
-    borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
+    // borderRadius: 10,
+    // padding: 10,
+    // paddingLeft: 20,
   },
 });
 

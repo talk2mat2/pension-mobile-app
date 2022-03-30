@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import FullScreenContext from "../../contexts/fullScreenContext";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JsProfileCard = ({ handleshowCards }) => {
@@ -76,11 +77,17 @@ const JsProfileCard = ({ handleshowCards }) => {
         paddingTop: isfullScreen ? 40 : 20,
       }}
     >
+      <LinearGradient
+        // Background Linear Gradient
+        colors={[myColorsLight.grey4, "transparent"]}
+        style={styles.background}
+      />
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
+          paddingHorizontal: 20,
         }}
       >
         <TouchableOpacity onPress={closeCard}>
@@ -94,12 +101,25 @@ const JsProfileCard = ({ handleshowCards }) => {
           />
         </TouchableOpacity>
       </View>
+
+      <View style={{ marginTop: 30 }}>
+        <Text
+          style={[
+            styles.loginText,
+            ,
+            { fontSize: 20, textAlign: "center", fontWeight: "bold" },
+          ]}
+        >
+          Profile
+        </Text>
+      </View>
+      <Text style={{ textAlign: "center",marginTop:"40%",fontSize:20 }}>TBD</Text>
     </Animated.View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: myColorsLight.grey4,
+    backgroundColor: myColorsLight.white,
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -110,8 +130,39 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
+    // padding: 10,
+    // paddingLeft: 20,
+  },
+  background: {
+    height: 200,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    right: 0,
+  },
+  cardsContainer: {
+    marginTop: 17,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  sum: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 25,
+    marginTop: 10,
+    paddingHorizontal: 30,
+  },
+  hrView: {
+    width: "100%",
+    // marginTop: 10,
+    // paddingBottom: 10,
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#bbb",
+    height: 2,
+    backgroundColor: "#bbb",
   },
 });
 

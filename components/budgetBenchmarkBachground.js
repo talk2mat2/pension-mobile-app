@@ -9,19 +9,31 @@ import { AntDesign } from "@expo/vector-icons";
 
 import JSCardsAnimated from "./JScardsAnimated";
 
-const JSDashboardMain = () => {
 
+const config = {
+  hasXAxisBackgroundLines: false,
+  xAxisLabelStyle: {
+    position: 'right',
+    prefix: '$'
+  }
+};
+
+// const data = {
+//   labels: ["Home", "Food", "Car", "vacation", "Cloth", "Donations"],
+//   datasets: [
+//     {
+//       data: [20, 45, 28, 80, 99, 43]
+//     }
+//   ]
+// };
+const BudjetBenchmarkBackGround = () => {
   return (
     <MyGradientBackground>
       <View
         style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
       >
         <TouchableOpacity>
-          <MaterialCommunityIcons
-            name="account-details"
-            size={40}
-            color="black"
-          />
+        <AntDesign name="closecircle" size={24} color="grey" />
         </TouchableOpacity>
       </View>
       <View
@@ -34,17 +46,6 @@ const JSDashboardMain = () => {
       >
         <View>
           <View>
-            {/* <Text
-                  style={[
-                    styles.loginText,
-                    ,
-                    { fontSize: 20, textAlign: "center" },
-                  ]}
-                >
-                  Step 1 of 4
-                </Text> */}
-          </View>
-          <View>
             <Text
               style={[
                 styles.loginText,
@@ -52,7 +53,7 @@ const JSDashboardMain = () => {
                 { fontSize: 30, textAlign: "center", fontWeight: "bold" },
               ]}
             >
-              Life Plan
+            Budget Benchmark
             </Text>
             
           </View>
@@ -68,6 +69,7 @@ const JSDashboardMain = () => {
         </View>
       </View>
 
+<<<<<<< HEAD:navigation/jsdashboard/JSDashboardmain.js
       <View style={{ height: "90%", paddingBottom: 100 }}>
         <ScrollView>
           <View style={{ marginTop: 40 }}>
@@ -202,6 +204,110 @@ const JSDashboardMain = () => {
         </ScrollView>
       </View>
       <JSCardsAnimated />
+=======
+      <View style={{ marginTop: 40 }}>
+        <Text
+          style={{
+            ...styles.subHeader,
+            textAlign: "center",
+            fontSize: 16,
+          }}
+        >
+          Lorem ipsum dolor sit amet, consectetur{"\n"}
+        </Text>
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 100,
+        }}
+      />
+     {/* <View>
+    <VerticalBarGraph
+      data={[20, 45, 28, 80, 99, 43, 50]}
+      labels={['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']}
+      width={375}
+      height={300}
+      barRadius={5}
+      barWidthPercentage={0.65}
+      baseConfig={config}
+      style={styles.chart}
+    />
+  </View> */}
+      <View
+        style={{
+          justifyContent: "space-between",
+          marginVertical: 20,
+          paddingHorizontal: 20,
+        }}
+      >
+        <Text style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}>
+          Budget level {"\n"}
+        </Text>
+        <Text style={{ fontWeight: "200", color: myColorsLight.black }}>
+          Minimum
+        </Text>
+       
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 25,
+        }}
+      />
+      <View
+        style={{
+          justifyContent: "space-between",
+          marginVertical: 20,
+          paddingHorizontal: 20,
+        }}
+      >
+       <Text style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}>
+          Budget level {"\n"}
+        </Text>
+        <Text style={{ fontWeight: "200", color: myColorsLight.black }}>
+          Minimum
+        </Text>
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "90%",
+          alignSelf: "center",
+          marginTop: 25,
+        }}
+      />
+       <View
+        style={{
+          justifyContent: "space-between",
+          marginVertical: 20,
+          paddingHorizontal: 20,
+        }}
+      >
+       <Text style={{ fontWeight: "200", color: myColorsLight.lightGreyDim }}>
+          Budget level {"\n"}
+        </Text>
+        <Text style={{ fontWeight: "200", color: myColorsLight.black }}>
+          Minimum
+        </Text>
+      </View>
+      <View
+        style={{
+          ...styles.hrView,
+          width: "60%",
+          alignSelf: "center",
+          marginTop: 25,
+        }}
+
+      />
+
+      
+    
+>>>>>>> 11e5fbd4a5c0ded9160a5ffc69aa18bd071bf02c:components/budgetBenchmarkBachground.js
     </MyGradientBackground>
   );
 };
@@ -232,5 +338,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 90,
   },
+  chart: {
+    marginBottom: 30,
+    padding: 10,
+    paddingTop: 20,
+    borderRadius: 20,
+    width: 375
+  }
 });
-export default JSDashboardMain;
+export default BudjetBenchmarkBackGround;
