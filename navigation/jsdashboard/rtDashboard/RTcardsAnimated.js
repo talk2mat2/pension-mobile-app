@@ -1,5 +1,6 @@
 import React, { useContext, useRef } from "react";
 import RtSatePensionCard from "./rtSatePensionCard";
+import RtPersonalPensionCard from "./rtPersonalPensionCard";
 import {
   StyleSheet,
   Text,
@@ -14,12 +15,12 @@ import {
 } from "react-native";
 import { myColorsLight } from "../../../constant/colors";
 import CardsContext from "../../../contexts/cardsContext";
-import JSBudgetCards from "../JsBudgetCard";
-import JsTimelineCard from "../JsTimelineCard ";
-import JsLifeExpectCard from "../JsLifeExpectancy";
-import JsProfileCard from "../JsProfileCard";
-import JsCurrentCard from "../JsCurrentCard";
-import JsCarrierCard from "../JsCarrierCard";
+// import JSBudgetCards from "../JsBudgetCard";
+// import JsTimelineCard from "../JsTimelineCard ";
+// import JsLifeExpectCard from "../JsLifeExpectancy";
+// import JsProfileCard from "../JsProfileCard";
+// import JsCurrentCard from "../JsCurrentCard";
+// import JsCarrierCard from "../JsCarrierCard";
 const cardHeight = 430;
 const cardTitle = 50;
 const cardPadding = 30;
@@ -207,8 +208,8 @@ export default function RTcardsAnimated() {
                     <View
                       style={{ ...styles.card, backgroundColor: card.color }}
                     >
-                      {/* <TouchableOpacity onPress={hanleSelected.bind(this, i)}> */}
-                      <TouchableOpacity onPress={()=>{}}>
+                      <TouchableOpacity onPress={hanleSelected.bind(this, i)}>
+                      {/* <TouchableOpacity onPress={()=>{}}> */}
                         <Text style={styles.cardName}>{card.name}</Text>
                       </TouchableOpacity>
                     </View>
@@ -235,8 +236,8 @@ export default function RTcardsAnimated() {
         </Animated.View>
       )}
       {selectedCards === 0 && <RtSatePensionCard {...{ handleshowCards }} />}
-      {/* {selectedCards === 1 && <JSBudgetCards {...{ handleshowCards }} />}
-      {selectedCards === 2 && <JsTimelineCard {...{ handleshowCards }} />}
+      {selectedCards === 1 && <RtPersonalPensionCard {...{ handleshowCards }} />}
+      {/* {selectedCards === 2 && <JsTimelineCard {...{ handleshowCards }} />}
       {selectedCards === 3 && <JsLifeExpectCard {...{ handleshowCards }} />}
       {selectedCards === 4 && <JsProfileCard {...{ handleshowCards }} />}
       {selectedCards === 5 && <JsCurrentCard {...{ handleshowCards }} />}

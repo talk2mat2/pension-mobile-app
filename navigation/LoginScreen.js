@@ -15,7 +15,7 @@ import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
 
-function LoginScreen({ navigation }) {
+function LoginScreen() {
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [buttonTextColor, setButtonTextColor] = useState("#fff");
@@ -50,7 +50,7 @@ function LoginScreen({ navigation }) {
       ])
     ).start();
     //setIsFading(false);
-  },[]);
+  });
 
   const requestNewAccessTokenBuffer = 1000;
   //Development config
@@ -85,7 +85,7 @@ function LoginScreen({ navigation }) {
       disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
       setDiscovery(disc);
     }
-  },[hasCode]);
+  });
 
   const authPayload = {
     redirectUri: redirectUri,
@@ -131,7 +131,7 @@ function LoginScreen({ navigation }) {
         });
         return;
       }
-      if (params?.code) {
+      if (params.code) {
         //Exchange the authorization code for access and id tokens
 
         //Send POST request
@@ -185,7 +185,7 @@ function LoginScreen({ navigation }) {
                 });
                 let dt3 = dt3response.data;
 
-                // console.log("dt3: ", dt3);
+                console.log("dt3: ", dt3);
 
                 //Get the user info
 
@@ -205,9 +205,11 @@ function LoginScreen({ navigation }) {
                   //Save user info, access token, refresh token and update user context
                   //User info
                   //console.log("userinfo dt: ",uidt.data);
+                  console.log("userInfo is-");
                   let attributes = uidt.data.attributes,
                     included = uidt.data.included[0];
-                    console.log('userInfoIs',uidt)
+                  included?.attributes?.lifeExpectancies &&
+                    delete included.attributes.lifeExpectancies;
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,
@@ -224,6 +226,7 @@ function LoginScreen({ navigation }) {
                   console.log("trimmedUserInfo: ", trimmedUserInfo);
                   helpers.save("pa_atk", dt3.access_token);
                   helpers.save("pa_rtk", dt3.refresh_token);
+
                   helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
 
                   _updateUser({
@@ -231,8 +234,6 @@ function LoginScreen({ navigation }) {
                     atk: dt3.access_token,
                     rtk: dt.refresh_token,
                   });
-                  setLoginLoading(false)
-                  //navigation.navigate("InitScreen");
                 } else {
                   console.log("error fetching user profile");
 
@@ -283,14 +284,13 @@ function LoginScreen({ navigation }) {
         {loginLoading && <JarvisLoading />}
       </View>
 
-      <View style={{ alignItems: "center" }}>
+      <View style={{ flexDirection: "row", alignSelf: "center" }}>
         <JarvisButton
           style={styles.loginButton}
           disabled={loginButtonDisabled}
           bgcolor={buttonBackground}
           play={_initLogin}
           btn="Continue"
-          w={150}
         />
       </View>
     </View>
@@ -329,7 +329,9 @@ const styles = StyleSheet.create({
     // padding: 10
   },
   loginButton: {
+    alignItems: "center",
     marginTop: 50,
+    marginLeft: 20,
   },
   form: {},
 });

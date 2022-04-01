@@ -48,7 +48,7 @@ const BudgetModalCustom = ({
   const checkType = () => {
     if (
       amount != minimal?.value &&
-      amount?.value != moderate?.value &&
+      amount != moderate?.value &&
       amount != comfortable?.value
     ) {
       return true;

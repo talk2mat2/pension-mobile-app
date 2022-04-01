@@ -9,6 +9,7 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
+
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Fontisto } from "@expo/vector-icons";
@@ -100,13 +101,19 @@ const RetirementCards = ({ handleshowCards }) => {
         <TouchableOpacity onPress={closeCard}>
           <Text style={styles.cardName}>Retirement Lifestyle</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleToggleFullScreen}>
-          <MaterialIcons
-            name="fullscreen"
-            size={40}
-            color={myColorsLight.black}
-          />
-        </TouchableOpacity>
+        {!isfullScreen ? (
+          <TouchableOpacity onPress={handleToggleFullScreen}>
+            <MaterialIcons
+              name="fullscreen"
+              size={40}
+              color={myColorsLight.black}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity onPress={handleToggleFullScreen}>
+            <AntDesign name="closecircle" size={24} color="black" />
+          </TouchableOpacity>
+        )}
       </View>
 
       <View style={{ marginTop: 30 }}>

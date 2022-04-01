@@ -25,13 +25,19 @@ export default new (class Api {
   };
 
   Update_retirement_profile = async (id, token, data) => {
+    // console.log(JSON.stringify(data));
+    // console.log("id", data, id);
     return await axios
-      .patch(baseUrl + `/retirement-profiles/${id}`, data, {
-        headers: {
-          // "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .patch(
+        baseUrl + `/retirement-profiles/${id}`,
+        { data },
+        {
+          headers: {
+            // "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
@@ -39,7 +45,6 @@ export default new (class Api {
   };
 
   Calculate_logged_in_user_retirement = async (token) => {
-  
     return await axios
       .get(baseUrl + `/retirement-expenses/calculate`, {
         headers: {
@@ -68,12 +73,16 @@ export default new (class Api {
 
   create_Jar = async (token, jarData) => {
     return await axios
-      .post(baseUrl + `/jars`, jarData, {
-        headers: {
-          // "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .post(
+        baseUrl + `/jars`,
+        { data: jarData },
+        {
+          headers: {
+            // "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => res.data)
       .catch((err) => {
         // console.log(err)
@@ -90,8 +99,8 @@ export default new (class Api {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err)
-        throw err?.response?.data ;
+        console.log(err);
+        throw err?.response?.data;
       });
   };
   get_all_Pension_Providers = async (token) => {
@@ -104,8 +113,8 @@ export default new (class Api {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log(err)
-        throw err?.response?.data ;
+        console.log(err);
+        throw err?.response?.data;
       });
   };
 })();

@@ -139,6 +139,71 @@ function RTLifestyle({ route, navigation }) {
     // console.log('newData',newData)
     // return
     setIsloading(true);
+    // const newDatas = {
+    //   data: {
+    //     type: "retirementProfile",
+    //     attributes: {
+    //       userId: "d56ac18e-6c95-4240-b327-0702907706a6",
+    //       isSingle: false,
+    //       insideLondon: false,
+    //       netTotalExpenses: 0,
+    //       grossTotalExpenses: 0,
+    //       dateOfBirth: "1970-01-01",
+    //       gender: "Male",
+    //       retirementAge: "65",
+    //       retirementDate: "2035-01-01",
+    //       spouseName: "m,,m",
+    //       spouseDateOfBirth: "2004-01-15",
+    //       spouseGender: "",
+    //       spouseRetirementAge: "",
+    //       spouseRetirementDate: "1970-01-01",
+    //       lumpSumPercentage: "",
+    //       maritalStatus: "married",
+    //       employmentStatus: "",
+    //       createdAt: "2022-03-21T12:34:15.159+00:00",
+    //       updatedAt: "2022-03-30T06:29:23.984+00:00",
+    //       lifeExpectancies: "",
+    //       expectedLifeExpectancy: "",
+    //       expectedDateOfDeath: "1970-01-01",
+    //       requiredAssetValueAtRetirement: 0,
+    //       onboardingCompleted: false,
+    //       retireWithSpouse: false,
+    //       expenses: [
+    //         {
+    //           plsaCostCategoryId: 2,
+    //           plsaCostCategoryName: "House",
+    //           amount: 8830,
+    //         },
+    //         {
+    //           plsaCostCategoryId: 3,
+    //           plsaCostCategoryName: "Food & drink",
+    //           amount: 7371,
+    //         },
+    //         {
+    //           plsaCostCategoryId: 4,
+    //           plsaCostCategoryName: "Transport",
+    //           amount: 3681,
+    //         },
+    //         {
+    //           plsaCostCategoryId: 5,
+    //           plsaCostCategoryName: "Holidays & Leisure",
+    //           amount: 6702,
+    //         },
+    //         {
+    //           plsaCostCategoryId: 6,
+    //           plsaCostCategoryName: "Clothing and Personal",
+    //           amount: 4025,
+    //         },
+    //         {
+    //           plsaCostCategoryId: 7,
+    //           plsaCostCategoryName: "Helping Others",
+    //           amount: 2520,
+    //         },
+    //       ],
+    //     },
+    //   },
+    // };
+
     await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
       .then((res) => {
         setIsloading(false);
@@ -150,7 +215,14 @@ function RTLifestyle({ route, navigation }) {
       .catch((err) => {
         console.log(err);
         setIsloading(false);
-        Alert.alert("An error orcured, try again");
+        if (err?.errors?.[0]?.details) {
+          Alert.alert(
+            "An error orcured, try again. server says:",
+            err?.errors?.[0]?.details
+          );
+        } else {
+          Alert.alert("An error orcured, try again");
+        }
       });
   };
   const _next = () => {

@@ -13,16 +13,40 @@ import RealityDashboardMain from "./RealityDashbord/RealityDashboardmain";
 const JSDasboard = () => {
   const [mounted, setMounted] = React.useState(1);
   const [isfullScreen, setIsfullScreen] = React.useState(false);
+  const [rtisfullScreen, seRttIsfullScreen] = React.useState(false);
   const togglrFullScreen = () => setIsfullScreen(!isfullScreen);
+  const togglrRtFullScreen = () => seRttIsfullScreen(!rtisfullScreen);
+
+  const lockscroll = () => {
+    //prevent swipper horizontal scroll if the cards is in full screen
+    let value = true;
+    if (isfullScreen) {
+      value = false;
+    } else if (rtisfullScreen) {
+      value = false;
+    }
+    return value;
+  };
   return (
-    <FullScreenContext.Provider value={{ togglrFullScreen, isfullScreen }}>
+    <FullScreenContext.Provider
+      value={{
+        togglrFullScreen,
+        isfullScreen,
+        rtisfullScreen,
+        togglrRtFullScreen,
+      }}
+    >
       <View style={styles.container}>
         {/* {mounted === 1 && <JSDashboardMain />} */}
         {mounted === 1 && (
           <Swiper
+            loop={false}
             paginationStyle={{
               bottom: 0,
             }}
+            loadMinimal={true}
+            scrollEnabled={lockscroll()}
+            loadMinimalSize={1}
             activeDot={
               <View
                 style={{
@@ -44,7 +68,9 @@ const JSDasboard = () => {
           </Swiper>
         )}
         {mounted === 2 && <JSDashPension />}
-        {!isfullScreen && <JSDashboardnav {...{ mounted, setMounted }} />}
+        {!isfullScreen && !rtisfullScreen && (
+          <JSDashboardnav {...{ mounted, setMounted }} />
+        )}
       </View>
     </FullScreenContext.Provider>
   );

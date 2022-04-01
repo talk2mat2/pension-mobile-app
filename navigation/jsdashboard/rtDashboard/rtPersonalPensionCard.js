@@ -10,16 +10,18 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import RtstateUsers from "./rtStateUsers";
+import RtPersonlaUsers from "./rtPersonalUsers";
+import PersoanalPensionModal from "../../../components/rtPersonalPensionModal";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
+import JarvisButton from "../../../components/JarvisButton";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
-const RtSatePensionCard = ({ handleshowCards }) => {
+const RtPersonalPensionCard = ({ handleshowCards }) => {
   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
@@ -83,6 +85,16 @@ const RtSatePensionCard = ({ handleshowCards }) => {
         transform: [{ translateY: position.y }],
       }}
     >
+      <PersoanalPensionModal
+        {...{
+          visible,
+          setVisible,
+          personData: {},
+          changeStatePension: () => {},
+          setPersoData: () => {},
+          AddJar: () => {},
+        }}
+      />
       <View
         // Background Linear Gradient
         // colors={[myColorsLight.grey8, "transparent"]}
@@ -97,7 +109,7 @@ const RtSatePensionCard = ({ handleshowCards }) => {
           }}
         >
           <TouchableOpacity onPress={closeCard}>
-            <Text style={styles.cardName}>Sate Pension</Text>
+            <Text style={styles.cardName}>Personal Pensions</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>
@@ -125,12 +137,12 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-            Sate Pension
+            Personal Pensions
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
           <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
-            Total State Pension(s)
+            Total Personal Pension(s)
           </Text>
         </View>
         <View style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}>
@@ -141,48 +153,29 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £42,645
+            £26,325
           </Text>
         </View>
+
         <View style={{ marginTop: "auto" }}>
-          <RtstateUsers
-            name="Micheal Spender"
-            budget="£17,345"
-          />
-          <RtstateUsers name="Sarah Spender" budget="£25,300 " />
+          <ScrollView style={{}}>
+            <RtPersonlaUsers name="Micheal Spender" budget="£17,345" />
+            <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
+            <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
+          </ScrollView>
         </View>
       </View>
 
-      <ScrollView style={{ marginBottom: 10 }}>
-        {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
-          <View
-            style={{
-              ...styles.hrView,
-              width: "90%",
-              alignSelf: "center",
-              marginTop: 30,
-            }}
-          />
-          <View style={styles.sum}>
-            <Text style={{ fontSize: 18, fontWeight: "900" }}>Total</Text>
-            <Text style={{ fontSize: 18, fontWeight: "900" }}>{`£${44}`}</Text>
-          </View>
-
-          <View
-            style={{
-              ...styles.hrView,
-              width: "90%",
-              alignSelf: "center",
-              marginTop: 10,
-            }}
-          />
-          <View style={styles.sum}>
-            <Text style={{ fontSize: 15 }}>Apply Budget to all</Text>
-            <Text style={{ fontSize: 15 }}>lorem</Text>
-          </View>
-        </View>
-       */}
-      </ScrollView>
+      <View
+        style={{ alignItems: "center", marginBottom: 90, marginTop: "auto" }}
+      >
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={showModal}
+          btn="Add Pension"
+          w={200}
+        />
+      </View>
     </Animated.View>
   );
 };
@@ -210,7 +203,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   background: {
-    height: deviceHeight / 1.8,
+    minHeight: deviceHeight / 1.8,
     // position: "absolute",
     top: 0,
     left: 0,
@@ -248,4 +241,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default RtSatePensionCard;
+export default RtPersonalPensionCard;
