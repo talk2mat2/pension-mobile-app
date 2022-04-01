@@ -56,7 +56,7 @@ const RtstateUsers = ({ name, budget }) => {
                   fontSize: 20,
                 }}
               >
-                Department of works and pensions
+               Aviva
               </Text>
             </View>
             <View style={{ alignItems: "center", marginTop: 50 }}>
@@ -95,7 +95,6 @@ const RtstateUsers = ({ name, budget }) => {
               </Text>
               <TextInput placeholder="name" style={styles.input} />
             </View>
-            
             <View style={{ ...styles.hrView }} />
 
             <View style={{ alignItems: "center", marginTop: 90 }}>

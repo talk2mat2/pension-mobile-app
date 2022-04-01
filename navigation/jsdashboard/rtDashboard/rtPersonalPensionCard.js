@@ -159,7 +159,8 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
 
         <View style={{ marginTop: "auto" }}>
           <ScrollView style={{}}>
-            <RtPersonlaUsers name="Micheal Spender" budget="£17,345" />
+            <RtPersonlaUsers name="Aviva Pension" budget="£17,345" />
+            <RtPersonlaUsers name="Scotish windows" budget="£25,300 " />
             <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
             <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
           </ScrollView>

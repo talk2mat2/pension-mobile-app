@@ -17,13 +17,147 @@ import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
 
-const RtPersonlaUsers = ({ name, budget }) => {
+const RtPersonlaUsers = ({ 
+  
+  name, budget }) => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
 
   return (
     <>
+    <Portal>
+        <Modal
+          visible={visible}
+          onDismiss={hideModal}
+          contentContainerStyle={styles.containerStyle}
+        >
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+
+              marginBottom: 10,
+            }}
+          >
+            <View style={styles.close}>
+              <TouchableOpacity onPress={hideModal}>
+                <AntDesign name="leftcircleo" size={30} color="black" />
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          <ScrollView>
+            <View style={{ marginTop: 50, alignItems: "center" }}>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: 120,
+                  marginRight: 3,
+                  fontSize: 20,
+                }}
+              >
+               {name}
+              </Text>
+            </View>
+            <View style={{ alignItems: "center", marginTop: 50 }}>
+              <Text style={{ fontSize: 20, color: myColorsLight.grey3 }}>
+                Edit {name}
+              </Text>
+            </View>
+            <View style={{ ...styles.hrView, marginTop: 50 }} />
+
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                marginVertical: 20,
+                alignItems:"center"
+              }}
+            >
+              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
+                Current Value
+              </Text>
+              <TextInput placeholder="name" style={styles.input} />
+            </View>
+            <View style={{ ...styles.hrView }} />
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                marginVertical: 20,
+                alignItems:"center"
+              }}
+            >
+              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
+                Regular Contributions
+              </Text>
+              <TextInput placeholder="name" style={styles.input} />
+            </View>
+            <View style={{ ...styles.hrView }} />
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                marginVertical: 20,
+                alignItems:"center"
+              }}
+            >
+              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
+                Contribution Tax Basis
+              </Text>
+              <TextInput placeholder="name" style={styles.input} />
+            </View>
+            
+            <View style={{ ...styles.hrView }} />
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                marginVertical: 20,
+                alignItems:"center"
+              }}
+            >
+              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
+               Monthly Contribution
+              </Text>
+              <TextInput placeholder="name" style={styles.input} />
+            </View>
+            <View style={{ ...styles.hrView }} />
+            <View
+              style={{
+                justifyContent: "space-between",
+                flexDirection: "row",
+                paddingHorizontal: 20,
+                marginVertical: 20,
+                alignItems:"center"
+              }}
+            >
+              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
+                Spouse Pension ?
+              </Text>
+              <TextInput placeholder="name" style={styles.input} />
+            </View>
+            <View style={{ ...styles.hrView }} />
+
+            <View style={{ alignItems: "center", marginTop: 40 }}>
+              <JarvisButton
+                bgcolor={myColorsLight.black}
+                play={() => {}}
+                btn="Update Pension"
+                w={200}
+                disabled={false}
+              />
+            </View>
+          </ScrollView>
+        </Modal>
+      </Portal>
       <View style={styles.cardUsers}>
         <View style={styles.cardConteent}>
           <Text

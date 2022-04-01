@@ -125,7 +125,7 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-            Sate Pension
+            State Pension
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
