@@ -75,14 +75,40 @@ function RTLifestyle({ route, navigation }) {
         amount: lifestyleData?.["Helping Others"],
       },
     ];
-    u.included[0].expenses = expenses;
+    u.included[0].expenses = [];
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));
-
+    const {
+      dateOfBirth,
+      employmentStatus,
+      gender,
+      isSingle,
+      maritalStatus,
+      // onboardingCompleted,
+      retirementAge,
+      retirementDate,
+      spouseDateOfBirth,
+      spouseGender,
+      spouseName,
+      spouseRetirementAge,
+      spouseRetirementDate,
+    } = ctx?.u?.included[0];
     const newData = {
       type: "retirementProfile",
       attributes: {
-        ...ctx?.u?.included[0],
+        dateOfBirth,
+        employmentStatus,
+        gender,
+        isSingle,
+        maritalStatus,
+        onboardingCompleted: true,
+        retirementAge,
+        retirementDate,
+        spouseDateOfBirth,
+        spouseGender,
+        spouseName,
+        spouseRetirementAge,
+        spouseRetirementDate,
         expenses: [
           {
             plsaCostCategoryId: 2,
@@ -117,94 +143,10 @@ function RTLifestyle({ route, navigation }) {
         ],
       },
     };
-    // u.type = "user";
-    // const newData = {
-    //   ...u,
-    // };
 
-    // setIsloading(true);
-    // await Api.update_user_profile(newData, ctx?.atk)
-    //   .then((res) => {
-    //     setIsloading(false);
-    //     console.log(res);
-    //     navigation.navigate("RTExcellent", {
-    //       result: lifestyleData?.["Total (Gross)"],
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     setIsloading(false);
-    //     console.log(err);
-    //     Alert.alert("An error occured in the requested operation, try again");
-    //   });
-    // console.log('newData',newData)
-    // return
     setIsloading(true);
-    // const newDatas = {
-    //   data: {
-    //     type: "retirementProfile",
-    //     attributes: {
-    //       userId: "d56ac18e-6c95-4240-b327-0702907706a6",
-    //       isSingle: false,
-    //       insideLondon: false,
-    //       netTotalExpenses: 0,
-    //       grossTotalExpenses: 0,
-    //       dateOfBirth: "1970-01-01",
-    //       gender: "Male",
-    //       retirementAge: "65",
-    //       retirementDate: "2035-01-01",
-    //       spouseName: "m,,m",
-    //       spouseDateOfBirth: "2004-01-15",
-    //       spouseGender: "",
-    //       spouseRetirementAge: "",
-    //       spouseRetirementDate: "1970-01-01",
-    //       lumpSumPercentage: "",
-    //       maritalStatus: "married",
-    //       employmentStatus: "",
-    //       createdAt: "2022-03-21T12:34:15.159+00:00",
-    //       updatedAt: "2022-03-30T06:29:23.984+00:00",
-    //       lifeExpectancies: "",
-    //       expectedLifeExpectancy: "",
-    //       expectedDateOfDeath: "1970-01-01",
-    //       requiredAssetValueAtRetirement: 0,
-    //       onboardingCompleted: false,
-    //       retireWithSpouse: false,
-    //       expenses: [
-    //         {
-    //           plsaCostCategoryId: 2,
-    //           plsaCostCategoryName: "House",
-    //           amount: 8830,
-    //         },
-    //         {
-    //           plsaCostCategoryId: 3,
-    //           plsaCostCategoryName: "Food & drink",
-    //           amount: 7371,
-    //         },
-    //         {
-    //           plsaCostCategoryId: 4,
-    //           plsaCostCategoryName: "Transport",
-    //           amount: 3681,
-    //         },
-    //         {
-    //           plsaCostCategoryId: 5,
-    //           plsaCostCategoryName: "Holidays & Leisure",
-    //           amount: 6702,
-    //         },
-    //         {
-    //           plsaCostCategoryId: 6,
-    //           plsaCostCategoryName: "Clothing and Personal",
-    //           amount: 4025,
-    //         },
-    //         {
-    //           plsaCostCategoryId: 7,
-    //           plsaCostCategoryName: "Helping Others",
-    //           amount: 2520,
-    //         },
-    //       ],
-    //     },
-    //   },
-    // };
 
-    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
+    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);
         navigation.navigate("RTExcellent", {
@@ -213,7 +155,7 @@ function RTLifestyle({ route, navigation }) {
         });
       })
       .catch((err) => {
-        console.log(err);
+        console.log("err is", err);
         setIsloading(false);
         if (err?.errors?.[0]?.details) {
           Alert.alert(

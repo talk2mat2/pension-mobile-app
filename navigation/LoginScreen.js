@@ -208,8 +208,7 @@ function LoginScreen() {
                   console.log("userInfo is-");
                   let attributes = uidt.data.attributes,
                     included = uidt.data.included[0];
-                  included?.attributes?.lifeExpectancies &&
-                    delete included.attributes.lifeExpectancies;
+                    included?.attributes?.lifeExpectancies&& delete included.attributes.lifeExpectancies
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,
@@ -226,7 +225,7 @@ function LoginScreen() {
                   console.log("trimmedUserInfo: ", trimmedUserInfo);
                   helpers.save("pa_atk", dt3.access_token);
                   helpers.save("pa_rtk", dt3.refresh_token);
-
+                 
                   helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
 
                   _updateUser({

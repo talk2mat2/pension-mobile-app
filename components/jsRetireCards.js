@@ -6,16 +6,18 @@ import {
   TouchableOpacity,
   Text,
   Platform,
+  Alert,
 } from "react-native";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
-import BudgetModal from "./BudgetModal";
+
+import JSBudgetModal from "./jsBudgetModal";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { myColorsLight } from "../constant/colors";
 import UserContext from "../contexts/UserContext";
-import BudgetModalCustom from "./BudgetModalCustome.";
+import JSBudgetModalCustom from "./jsBudgetModalCustome";
 
 const JsRetireCard = ({
   children,
@@ -28,6 +30,7 @@ const JsRetireCard = ({
 }) => {
   const ctx = useContext(UserContext);
   const [visible, setVisible] = React.useState(false);
+  const [focused, setFocused] = React.useState("");
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -52,7 +55,7 @@ const JsRetireCard = ({
 
   return (
     <>
-      {/* <Portal>
+      <Portal>
         <Modal
           visible={visible}
           onDismiss={hideModal}
@@ -83,33 +86,37 @@ const JsRetireCard = ({
           </Text>
           <ScrollView>
             <View style={{ marginTop: 50 }}>
-              <BudgetModal
+              <JSBudgetModal
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes.minimum}
                 _next={() => {}}
                 type="Mimimum"
+                {...{ focused, setFocused }}
               />
-              <BudgetModal
+              <JSBudgetModal
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes?.moderate}
                 _next={() => {}}
                 type="Moderate"
+                {...{ focused, setFocused }}
               />
-              <BudgetModal
+              <JSBudgetModal
                 updateLifeStyleData={updateLifeStyleData}
                 budgetData={listSelectedName(title)?.attributes.comfortable}
                 _next={() => {}}
                 type="Comfortable"
+                {...{ focused, setFocused }}
               />
-              <BudgetModalCustom
+              <JSBudgetModalCustom
                 updateLifeStyleData={updateLifeStyleData}
                 _next={() => {}}
                 type="Custom Budget"
+                {...{ focused, setFocused }}
               />
             </View>
           </ScrollView>
         </Modal>
-      </Portal> */}
+      </Portal>
 
       <TouchableOpacity onPress={showModal}>
         <View style={styles.card1}>
@@ -136,7 +143,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width / 2.5,
     aspectRatio: 0.99,
     margin: 4,
-    backgroundColor:myColorsLight.grey9,
+    backgroundColor: myColorsLight.grey9,
     elevation: 8,
     shadowColor: "#171717",
     shadowOffset: { width: 0, height: 3 },

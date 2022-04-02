@@ -20,13 +20,15 @@ import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
 import { LinearGradient } from "expo-linear-gradient";
+import api from "../../api";
+import UserContext from "../../contexts/UserContext";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RetirementCards = ({ handleshowCards }) => {
   const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
-
+  const ctx = useContext(UserContext);
   React.useEffect(() => {
     Animated.timing(position, {
       toValue: { x: 0, y: 0 },
@@ -66,6 +68,7 @@ const RetirementCards = ({ handleshowCards }) => {
       closeCard();
     }
   };
+
   React.useEffect(() => {
     const banckhandle = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -75,6 +78,29 @@ const RetirementCards = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+
+  const getPrice = (title) => {
+    if (ctx?.retireProfile?.attributes?.expenses) {
+      const value = ctx?.retireProfile?.attributes?.expenses.find(
+        (obj) => obj.plsaCostCategoryName === title
+      );
+      if (value) {
+        return Math.ceil(value?.amount / 12);
+      } else return 0;
+    }
+  };
+  const getSumExpeses = () => {
+    let sum = 0;
+    if (ctx?.retireProfile?.attributes?.expenses) {
+      ctx?.retireProfile?.attributes?.expenses?.map(
+        (obj) => (sum += obj.amount / 12)
+      );
+    }
+    return Math.ceil(sum);
+  };
+  // React.useEffect(() => {
+  //   console.log(ctx?.retireProfile?.attributes?.expenses);
+  // }, []);
   return (
     <Animated.View
       style={{
@@ -134,7 +160,11 @@ const RetirementCards = ({ handleshowCards }) => {
       </View>
       <ScrollView style={{ marginBottom: 10 }}>
         <View style={styles.cardsContainer}>
-          <JsRetireCard title="House" amount="300" Icon="home">
+          <JsRetireCard
+            title="House"
+            amount={`£${getPrice("House")}`}
+            Icon="home"
+          >
             <AntDesign
               name="home"
               size={60}
@@ -148,28 +178,37 @@ const RetirementCards = ({ handleshowCards }) => {
               color={myColorsLight.lightGreyDim}
             />
           </JsRetireCard>
-          <JsRetireCard title="Transport" amount={`£${394}`}>
+          <JsRetireCard title="Transport" amount={`£${getPrice("Transport")}`}>
             <AntDesign
               name="car"
               size={60}
               color={myColorsLight.lightGreyDim}
             />
           </JsRetireCard>
-          <JsRetireCard title="Holidays & Leisure" amount={`£${3423}`}>
+          <JsRetireCard
+            title="Holidays & Leisure"
+            amount={`£${getPrice("Holidays & Leisure")}`}
+          >
             <Fontisto
               name="holiday-village"
               size={60}
               color={myColorsLight.lightGreyDim}
             />
           </JsRetireCard>
-          <JsRetireCard title="Clothing & Personal" amount={`£${776}`}>
+          <JsRetireCard
+            title="Clothing & Personal"
+            amount={`£${getPrice("Clothing & Personal")}`}
+          >
             <Ionicons
               name="md-shirt"
               size={40}
               color={myColorsLight.lightGreyDim}
             />
           </JsRetireCard>
-          <JsRetireCard title="Helping Others" amount={`£${3345}`}>
+          <JsRetireCard
+            title="Helping Others"
+            amount={`£${getPrice("Helping Others")}`}
+          >
             <FontAwesome5
               name="hands-helping"
               step
@@ -189,7 +228,9 @@ const RetirementCards = ({ handleshowCards }) => {
           />
           <View style={styles.sum}>
             <Text style={{ fontSize: 18, fontWeight: "900" }}>Total</Text>
-            <Text style={{ fontSize: 18, fontWeight: "900" }}>{`£${44}`}</Text>
+            <Text
+              style={{ fontSize: 18, fontWeight: "900" }}
+            >{`£${getSumExpeses()}`}</Text>
           </View>
 
           <View

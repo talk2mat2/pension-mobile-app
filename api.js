@@ -26,14 +26,14 @@ export default new (class Api {
 
   Update_retirement_profile = async (id, token, data) => {
     // console.log(JSON.stringify(data));
-    // console.log("id", data, id);
+    // console.log("id", data, id,token);
     return await axios
       .patch(
         baseUrl + `/retirement-profiles/${id}`,
-        { data },
+         data ,
         {
           headers: {
-            // "Content-Type": "application/x-www-form-urlencoded",
+             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
         }

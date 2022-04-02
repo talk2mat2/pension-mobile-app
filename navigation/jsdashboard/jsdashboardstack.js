@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import JSDashPension from "./JSDashPension";
 import Swiper from "react-native-swiper";
@@ -9,6 +9,8 @@ import JSDashboardnav from "../../components/JSDashboardnav";
 // import BudgetBenchmark2 from "./BudgetBenchmark2";
 import RTDashboardMain from "./rtDashboard/RtDashboardmain";
 import RealityDashboardMain from "./RealityDashbord/RealityDashboardmain";
+import api from "../../api";
+import UserContext from "../../contexts/UserContext";
 
 const JSDasboard = () => {
   const [mounted, setMounted] = React.useState(1);
@@ -16,7 +18,7 @@ const JSDasboard = () => {
   const [rtisfullScreen, seRttIsfullScreen] = React.useState(false);
   const togglrFullScreen = () => setIsfullScreen(!isfullScreen);
   const togglrRtFullScreen = () => seRttIsfullScreen(!rtisfullScreen);
-
+  const ctx = useContext(UserContext);
   const lockscroll = () => {
     //prevent swipper horizontal scroll if the cards is in full screen
     let value = true;
@@ -27,6 +29,28 @@ const JSDasboard = () => {
     }
     return value;
   };
+  const Get_retirement_profile_user = async () => {
+    await api
+      .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        // setRetireProfile(res?.data);
+        // console.log(res.data);
+        // retireProfile,
+        ctx?.setRetireProfile(res.data);
+
+        // ctx.setRetireProfile(res.data),
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert(
+          "Network error, unable to retrieve your retirement profile"
+        );
+        return err;
+      });
+  };
+  React.useEffect(() => {
+    Get_retirement_profile_user();
+  }, []);
   return (
     <FullScreenContext.Provider
       value={{

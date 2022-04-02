@@ -58,6 +58,7 @@ export default function App() {
   const [atk, setAtk] = useState(null);
   const [rtk, setRtk] = useState(null);
   const [budgetData, setBudgetData] = React.useState([]);
+  const [retireProfile, setRetireProfile] = React.useState({});
   const [etk, setEtk] = useState("");
   const [hasDoneSetup, setHasDoneSetup] = useState(false);
   const [online, setOnline] = useState(false);
@@ -129,6 +130,8 @@ export default function App() {
   let ctx = {
     budgetData,
     setBudgetData,
+    retireProfile,
+    setRetireProfile,
     loggedIn: loggedIn,
     setLoggedIn: setLoggedIn,
     etk: etk,
@@ -154,7 +157,7 @@ export default function App() {
         }*/
 
   useEffect(() => {
-  //  helpers.remove("pa_u");
+    //  helpers.remove("pa_u");
     async function prepare() {
       try {
         //make any API calls you need to do here
@@ -253,7 +256,7 @@ export default function App() {
 
   if (showApp) {
     return (
-      <View style={{flex:1}}>
+      <View style={{ flex: 1 }}>
         <UserProvider value={ctx}>
           <Provider>
             <NavigationContainer ref={navigationRef}>

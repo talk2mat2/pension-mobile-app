@@ -10,6 +10,7 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
+  Alert,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
@@ -56,6 +57,11 @@ function RTbudgetOne({ navigation }) {
       .catch((err) => {
         setLoading(false);
         console.log(err);
+        if (err?.errors[0].details) {
+          Alert.alert("server says", err?.errors[0].details);
+        } else {
+          Alert.alert("An error occured, try again");
+        }
       });
   };
   React.useEffect(() => {
