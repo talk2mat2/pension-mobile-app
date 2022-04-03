@@ -47,7 +47,9 @@ const EditPersoanalStatePensionModal = ({
 
   const [providerNameValidation, setproviderNameValidation] =
     React.useState(false);
-  const [providerName, setproviderName] = React.useState(personData?.name);
+  const [providerName, setproviderName] = React.useState(
+    personData?.name || ""
+  );
   const _next = () => {
     if (!providerName) {
       setproviderNameValidation(true);
@@ -91,6 +93,11 @@ const EditPersoanalStatePensionModal = ({
   React.useEffect(() => {
     get_all_Pension_Providers();
   }, []);
+  React.useEffect(() => {
+    if (personData?.name) {
+      setproviderName(personData?.name);
+    }
+  }, [personData]);
 
   const mapResults = () => {
     return (
@@ -181,7 +188,7 @@ const EditPersoanalStatePensionModal = ({
                 style={{ ...styles.input, width: 140 }}
                 value={providerName}
               />
-              {(search?.length > 0 || providerName.length > 0) && (
+              {(search?.length > 0 || providerName?.length > 0) && (
                 <View style={styles.searchDrop}>
                   <ScrollView>
                     <TouchableOpacity

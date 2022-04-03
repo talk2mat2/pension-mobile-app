@@ -179,7 +179,7 @@ const PersoanalStatePensionModal = ({
                 style={{ ...styles.input, width: 140 }}
                 value={providerName}
               />
-              {(search?.length > 0 || providerName.length > 0) && (
+              {(search?.length > 0 || providerName?.length > 0) && (
                 <View style={styles.searchDrop}>
                   <ScrollView>
                     <TouchableOpacity
