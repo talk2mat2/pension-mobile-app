@@ -18,7 +18,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
 
-const RtPersonlaUsers = ({ 
+const RtOtherIncomeUsers = ({ 
   
   name, budget }) => {
   const [visible, setVisible] = React.useState(false);
@@ -64,8 +64,8 @@ const RtPersonlaUsers = ({
               </Text>
             </View>
             <View style={{ alignItems: "center", marginTop: 50 }}>
-              <Text style={{ fontSize: 20, color: myColorsLight.grey3 }}>
-                Edit {name}
+              <Text style={{ fontSize: 30, color: myColorsLight.black }}>
+                Edit Retirement Income
               </Text>
             </View>
             <View style={{ ...styles.hrView, marginTop: 50 }} />
@@ -80,9 +80,9 @@ const RtPersonlaUsers = ({
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                Current Value
+                Enter the total value of any other income you may have available to add to your pension when you retire
               </Text>
-              <TextInput placeholder="3000" style={styles.input} />
+            
             </View>
             <View style={{ ...styles.hrView }} />
             <View
@@ -95,64 +95,12 @@ const RtPersonlaUsers = ({
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                Regular Contributions
-              </Text>
-              <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="yes"
-              
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="no"
-            
-            />
-          </View>
-            </View>
-            <View style={{ ...styles.hrView }} />
-            <View
-              style={{
-                justifyContent: "space-between",
-                flexDirection: "row",
-                paddingHorizontal: 20,
-                marginVertical: 20,
-                alignItems:"center"
-              }}
-            >
-              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                Contribution Tax Basis
-              </Text>
-              <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Gross</Text>
-            <RadioButton
-              value="yes"
-              
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>Net</Text>
-            <RadioButton
-              value="no"
-            
-            />
-          </View>
-            </View>
-            
-            <View style={{ ...styles.hrView }} />
-            <View
-              style={{
-                justifyContent: "space-between",
-                flexDirection: "row",
-                paddingHorizontal: 20,
-                marginVertical: 20,
-                alignItems:"center"
-              }}
-            >
-              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-               Monthly Contribution
+               Expected Annual Income
               </Text>
               <TextInput placeholder="15000" style={styles.input} />
             </View>
             <View style={{ ...styles.hrView }} />
+           
             <View
               style={{
                 justifyContent: "space-between",
@@ -163,28 +111,17 @@ const RtPersonlaUsers = ({
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                Spouse Pension ?
+               Expected Income start date
               </Text>
-              <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="yes"
-              
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="no"
-            
-            />
-          </View>
+             
             </View>
-            <View style={{ ...styles.hrView }} />
+            
 
-            <View style={{ alignItems: "center", marginTop: 40 }}>
+            <View style={{ alignItems: "center", marginTop: 180 }}>
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={() => {}}
-                btn="Update Pension"
+                btn="Update Income"
                 w={200}
                 disabled={false}
               />
@@ -194,28 +131,12 @@ const RtPersonlaUsers = ({
       </Portal>
       <View style={styles.cardUsers}>
         <View style={styles.cardConteent}>
-          <Text
-            style={{
-              fontWeight: "800",
-              display: "flex",
-              flexWrap: "wrap",
-              width: 90,
-              marginRight: 3,
-            }}
-          >
-            Lorem ips
-          </Text>
-          <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-            {name}
-          </Text>
-        </View>
-        <View style={styles.cardConteent}>
           <Text style={{ fontWeight: "bold" }}>{budget}</Text>
           <TouchableOpacity onPress={showModal}>
             <MaterialCommunityIcons
               name="circle-edit-outline"
-              size={27}
-              color={myColorsLight.lightGreyDim}
+              size={40}
+              color={myColorsLight.white}
             />
           </TouchableOpacity>
         </View>
@@ -226,11 +147,8 @@ const RtPersonlaUsers = ({
 
 const styles = StyleSheet.create({
   cardUsers: {
-    backgroundColor: myColorsLight.white,
     height: 70,
     flexDirection: "row",
-    borderTopWidth: 2,
-    borderBottomWidth: 2,
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -242,6 +160,8 @@ const styles = StyleSheet.create({
     minWidth: 90,
     justifyContent: "space-between",
     alignItems: "center",
+    marginRight:110,
+    marginTop:20
   },
   close: {
     // position: "absolute",
@@ -276,4 +196,4 @@ const styles = StyleSheet.create({
     borderColor: myColorsLight.grey4,
   },
 });
-export default RtPersonlaUsers;
+export default RtOtherIncomeUsers;

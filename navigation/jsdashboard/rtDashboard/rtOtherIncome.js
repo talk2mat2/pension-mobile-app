@@ -9,17 +9,19 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
+import JarvisButton from "../../../components/JarvisButton";
 import { AntDesign } from "@expo/vector-icons";
-import RtstateUsers from "./rtStateUsers";
+import RtBenefitPensionUsers from "./rtBenefitPensionsUsers";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import RtOtherIncomeUsers from "./rtOtherIncomeUsers";
 
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
-const RtSatePensionCard = ({ handleshowCards }) => {
+const RtOtherIncomeCard = ({ handleshowCards }) => {
   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
@@ -97,7 +99,6 @@ const RtSatePensionCard = ({ handleshowCards }) => {
           }}
         >
           <TouchableOpacity onPress={closeCard}>
-            <Text style={styles.cardName}>State Pension</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>
@@ -125,12 +126,12 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-            State Pension
+           Defined Benefit Pensions
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
           <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
-            Total State Pension(s)
+            Total Defined Benefit Pensions
           </Text>
         </View>
         <View style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}>
@@ -141,17 +142,25 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £42,645
+            £8,300
           </Text>
+          <RtOtherIncomeUsers />
+          
         </View>
         <View style={{ marginTop: "auto" }}>
-          <RtstateUsers
-            name="Micheal Spender"
-            budget="£17,345"
-          />
-          <RtstateUsers name="Sarah Spender" budget="£25,300 " />
+        
+          
         </View>
       </View>
+      <View style={{ alignItems: "center", marginTop: 90 }}>
+              <JarvisButton
+                bgcolor={myColorsLight.black}
+                play={() => {}}
+                btn="Add Pension"
+                w={200}
+                disabled={false}
+              />
+            </View>
 
       <ScrollView style={{ marginBottom: 10 }}>
         {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
@@ -216,7 +225,7 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     right: 0,
-    backgroundColor: myColorsLight.grey8,
+    backgroundColor: myColorsLight.grey5,
   },
   cardsContainer: {
     marginTop: 17,
@@ -248,4 +257,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default RtSatePensionCard;
+export default RtOtherIncomeCard;

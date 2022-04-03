@@ -16,7 +16,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
 
-const RtstateUsers = ({ name, budget }) => {
+const RtBenefitPensionUsers = ({ name, budget }) => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -56,15 +56,17 @@ const RtstateUsers = ({ name, budget }) => {
                   fontSize: 20,
                 }}
               >
-               Aviva
+               Jar logo
               </Text>
             </View>
             <View style={{ alignItems: "center", marginTop: 50 }}>
-              <Text style={{ fontSize: 20, color: myColorsLight.grey3 }}>
-                Edit State Pension(s)
-              </Text>
+              <Text style={{ fontSize: 20, color: myColorsLight.black }}>
+                Edit {name} 's{"\n"}
+                 Defined Benefit Pension
+             </Text>
             </View>
-            <View style={{ ...styles.hrView, marginTop: 50 }} />
+            <TextInput placeholder="Pension name" style={styles.input1} />
+            <View style={{ ...styles.hrView, marginTop: 10 }} />
 
             <View
               style={{
@@ -76,32 +78,15 @@ const RtstateUsers = ({ name, budget }) => {
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                {name}
+              Annual Income amount
               </Text>
-              <TextInput placeholder="name" style={styles.input} />
+              <TextInput placeholder="5000" style={styles.input} />
             </View>
-            <View style={{ ...styles.hrView }} />
-            <View
-              style={{
-                justifyContent: "space-between",
-                flexDirection: "row",
-                paddingHorizontal: 20,
-                marginVertical: 35,
-                alignItems:"center"
-              }}
-            >
-              <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-                {name}
-              </Text>
-              <TextInput placeholder="name" style={styles.input} />
-            </View>
-            <View style={{ ...styles.hrView }} />
-
             <View style={{ alignItems: "center", marginTop: 90 }}>
               <JarvisButton
                 bgcolor={myColorsLight.black}
                 play={() => {}}
-                btn="Continue"
+                btn="Update Pension"
                 w={200}
                 disabled={false}
               />
@@ -192,5 +177,16 @@ const styles = StyleSheet.create({
     width: 100,
     borderColor: myColorsLight.grey4,
   },
+  input1: {
+    borderWidth: 1.5,
+    borderRadius: 7,
+    paddingHorizontal: 10,
+    paddingVertical:8,
+    fontWeight: "bold",
+    width: 200,
+    borderColor: myColorsLight.grey4,
+    marginLeft: 50,
+    marginTop: 50
+  },
 });
-export default RtstateUsers;
+export default RtBenefitPensionUsers;
