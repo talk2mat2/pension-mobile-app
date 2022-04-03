@@ -8,6 +8,8 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
+import MyGradientBackground from "../../components/grdientBackGround";
+import { AntDesign } from '@expo/vector-icons';
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
@@ -94,7 +96,129 @@ const JsTimelineCard = ({ handleshowCards }) => {
           />
         </TouchableOpacity>
       </View>
-      <Text>  hey</Text>
+      <>
+      <View
+        style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
+      >
+        <TouchableOpacity>
+        <AntDesign name="closecircle" size={30} color="black" />
+        </TouchableOpacity>
+      </View>
+      <View
+        style={{
+          marginTop: 5,
+          alignContent: "flex-start",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <View>
+          <View>
+            <Text
+              style={[
+                styles.loginText,
+                ,
+                { fontSize: 30, textAlign: "center", fontWeight: "bold" },
+              ]}
+            >
+              Budget Benchmark
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <View style={{ marginTop: 40 }}>
+        <Text
+          style={{
+            ...styles.subHeader,
+            textAlign: "center",
+            fontSize: 16,
+          }}
+        >
+          Lorem ipsum dolor sit amet, consectetur{"\n"}
+         
+        </Text>
+      </View>
+      <View style={styles.nameContainer}>
+        <View style={{width:280 , alignContent:'center', marginTop:10, marginLeft:74}}><Text>Micheal</Text></View>
+        <View style={{width:1, height:8, backgroundColor: '#000000', height:40, marginLeft: -160}}></View>
+        <View style={{borderEndColor:'#00000', width:280, marginTop:10, marginLeft:70}}><Text>Sarah</Text></View>
+      </View>
+      <View style={styles.dividerContainer}>
+        <View style={styles.divider1}>
+        </View>
+        <View style={styles.divider2}></View>
+        <View style={styles.divider3}></View>
+      </View>
+      <View style={styles.leftTimeline}>
+       <View style={styles.timeline1}>
+        <View style={styles.date}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.text}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+       </View>
+       <View style={styles.timeline2}>
+       <View style={styles.date}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.text}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+        </View>
+        <View style={styles.timeline3}>
+        <View style={styles.date}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.text}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+        </View>
+      </View>
+      <View style={styles.rightTimeline}>
+       <View style={styles.rightTimeline1}>
+        <View style={styles.rightDate}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.rightText}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+       </View>
+       <View style={styles.rightTimeline2}>
+       <View style={styles.rightDate}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.rightText}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+        </View>
+        <View style={styles.rightTimeline3}>
+        <View style={styles.rightDate}>
+          <Text style={styles.dateFont}>0000</Text>
+        </View>
+        <View>
+          <Text style={styles.rightText}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          Lorem ipsum dolor sit amet, consectetur
+          </Text>
+        </View>
+        </View>
+      </View>
+     
+
+    
+     
+    </>
     </Animated.View>
   );
 };
@@ -114,5 +238,78 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingLeft: 20,
   },
+  dividerContainer:{
+    flexDirection:"column",
+    alignItems:'center'
+  },
+  divider1:{
+    height:150,
+    marginRight:10,
+    width: 14,
+    borderBottomRightRadius:20, 
+    borderBottomLeftRadius:20,
+    backgroundColor:myColorsLight.black
+  },
+  divider2:{
+    backgroundColor:myColorsLight.grey2, 
+    height: 150, 
+    marginRight:10, 
+    width: 14, 
+    borderBottomRightRadius:20, 
+    borderBottomLeftRadius:20
+  },
+  divider3:{
+    backgroundColor:myColorsLight.grey3, 
+    height: 150, 
+    marginRight:10,
+     width: 14, 
+     borderBottomRightRadius:20,
+    borderBottomLeftRadius:20
+  },
+  nameContainer:{
+    marginTop:20, 
+    marginLeft:-19, 
+    display:'flex', 
+    borderColor: myColorsLight.grey4, 
+    borderWidth: 1, 
+    height: 40, 
+    flexDirection: "row", 
+    width:390
+  },
+  leftTimeline:{
+    marginLeft:5,
+    marginTop:-400
+  },
+  rightTimeline:{
+    marginLeft:200,
+  marginTop:-400
+  },
+   text:{
+    fontSize: 10
+  },
+  date:{
+    marginLeft: 100,
+  },
+  timeline2:{
+    marginTop:100
+  },
+  timeline3:{
+    marginTop:110
+  },
+  rightText:{
+    fontSize: 10
+  },
+  rightTimeline1:{
+    marginTop:72
+  },
+  rightTimeline2:{
+    marginTop:100
+  },
+  rightTimeline3:{
+    marginTop:110
+  },
+  dateFont:{
+    fontWeight: "bold"
+  }
 });
 export default JsTimelineCard;
