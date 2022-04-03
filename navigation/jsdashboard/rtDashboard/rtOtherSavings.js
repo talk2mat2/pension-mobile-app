@@ -9,22 +9,21 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
+import JarvisButton from "../../../components/JarvisButton";
 import { AntDesign } from "@expo/vector-icons";
-import RtstateUsers from "./rtStateUsers";
+import RtBenefitPensionUsers from "./rtBenefitPensionsUsers";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import RtOtherSavingUsers from "./rtOtherSavingsUsers";
+
 
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
-import UserContext from "../../../contexts/UserContext";
-import api from "../../../api";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
-const RtSatePensionCard = ({ handleshowCards }) => {
-  const { rtisfullScreen, togglrRtFullScreen, pensionJars, setPensionJars } =
-    useContext(FullScreenContext);
-  const ctx = useContext(UserContext);
+const RtOtherSavingsCard = ({ handleshowCards }) => {
+  const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
@@ -69,49 +68,7 @@ const RtSatePensionCard = ({ handleshowCards }) => {
       closeCard();
     }
   };
-  const selectStatePension = () => {
-    // console.log(ctx?.pensionJars)
-    if (ctx?.pensionJars?.length > 0) {
-      const statePenJars = ctx?.pensionJars?.filter(
-        (jars) => jars.attributes?.jarSubType === "state"
-      );
-      if (statePenJars) {
-        return statePenJars;
-      } else return [];
-    } else return [];
-  };
-  const retrieve_all_jars_Jar = async () => {
-    await api
-      .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
-      .then((res) => {
-        // setRetireProfile(res?.data);
-        // console.log(res.data);
-        // retireProfile,
-        ctx?.setPensionJars(res.data);
-
-        // ctx.setRetireProfile(res.data),
-      })
-      .catch((err) => {
-        console.log(err);
-        Alert.alert("Network error, unable to retrieve your pension jars");
-        return err;
-      });
-  };
-  const sumStateJarsValue = () => {
-    let sum = 0;
-    if (ctx?.pensionJars?.length > 0) {
-      ctx?.pensionJars?.map((jar) => {
-        if (jar.attributes.jarSubType === "state") {
-          sum += jar.attributes.incomeAmount;
-        }
-      });
-    }
-    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
   React.useEffect(() => {
-    retrieve_all_jars_Jar();
-    selectStatePension();
-    // console.log(selectStatePension());
     const banckhandle = BackHandler.addEventListener(
       "hardwareBackPress",
       handleBackButton
@@ -143,7 +100,6 @@ const RtSatePensionCard = ({ handleshowCards }) => {
           }}
         >
           <TouchableOpacity onPress={closeCard}>
-            <Text style={styles.cardName}>State Pension</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>
@@ -171,12 +127,12 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-            State Pension
+           Defined Benefit Pensions
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
-          <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
-            Total State Pension(s)
+          <Text style={{ textAlign: "center", color: myColorsLight.black }}>
+            Total Defined Benefit Pensions
           </Text>
         </View>
         <View style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}>
@@ -187,22 +143,25 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £{sumStateJarsValue()}
+            £285,000
           </Text>
+          <RtOtherSavingUsers />
+          
         </View>
-        <View style={{ marginTop: "auto",maxHeight:400 }}>
-          <ScrollView style={{}}>
-            {selectStatePension()?.map((users) => (
-              <RtstateUsers user={users}
-                key={users.id}
-                selectStatePension
-                name="Micheal Spender"
-                budget="£17,345"
-              />
-            ))}
-          </ScrollView>
+        <View style={{ marginTop: "auto" }}>
+        
+          
         </View>
       </View>
+      <View style={{ alignItems: "center", marginTop: 170 }}>
+              <JarvisButton
+                bgcolor={myColorsLight.black}
+                play={() => {}}
+                btn="Add Pension"
+                w={200}
+                disabled={false}
+              />
+            </View>
 
       <ScrollView style={{ marginBottom: 10 }}>
         {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
@@ -261,13 +220,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   background: {
-    minHeight: deviceHeight / 1.8,
+    height: deviceHeight / 1.8,
     // position: "absolute",
     top: 0,
     left: 0,
     width: "100%",
     right: 0,
-    backgroundColor: myColorsLight.grey8,
+    backgroundColor: myColorsLight.grey4,
   },
   cardsContainer: {
     marginTop: 17,
@@ -299,4 +258,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default RtSatePensionCard;
+export default RtOtherSavingsCard;

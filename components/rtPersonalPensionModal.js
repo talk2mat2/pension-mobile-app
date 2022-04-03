@@ -387,7 +387,7 @@ const PersoanalStatePensionModal = ({
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Spouse Pensio ?</Text>
+          <Text style={{ fontSize: 16 }}>Spouse Pension ?</Text>
           <View style={{ flexDirection: "row" }}>
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
@@ -496,3 +496,6 @@ const styles = StyleSheet.create({
   },
 });
 export default PersoanalStatePensionModal;
+
+
+

@@ -1,6 +1,9 @@
 import React, { useContext, useRef } from "react";
 import RtSatePensionCard from "./rtSatePensionCard";
 import RtPersonalPensionCard from "./rtPersonalPensionCard";
+import RtBenefitPensionCard from "./rtBenefitPensionCard";
+import RtOtherIncomeCard from "./rtOtherIncome";
+import RtOtherSavingsCard from "./rtOtherSavings";
 import {
   StyleSheet,
   Text,
@@ -237,10 +240,10 @@ export default function RTcardsAnimated() {
       )}
       {selectedCards === 0 && <RtSatePensionCard {...{ handleshowCards }} />}
       {selectedCards === 1 && <RtPersonalPensionCard {...{ handleshowCards }} />}
-      {/* {selectedCards === 2 && <JsTimelineCard {...{ handleshowCards }} />}
-      {selectedCards === 3 && <JsLifeExpectCard {...{ handleshowCards }} />}
-      {selectedCards === 4 && <JsProfileCard {...{ handleshowCards }} />}
-      {selectedCards === 5 && <JsCurrentCard {...{ handleshowCards }} />}
+      {selectedCards === 2 && <RtBenefitPensionCard {...{ handleshowCards }} />}
+      {selectedCards === 3 && <RtOtherIncomeCard {...{ handleshowCards }} />}
+      {selectedCards === 4 && <RtOtherSavingsCard {...{ handleshowCards }} />}
+      {/* {selectedCards === 5 && <JsCurrentCard {...{ handleshowCards }} />}
       {selectedCards === 6 && <JsCarrierCard {...{ handleshowCards }} />} */}
     </CardsContext.Provider>
   );
