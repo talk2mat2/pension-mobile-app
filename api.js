@@ -28,16 +28,12 @@ export default new (class Api {
     // console.log(JSON.stringify(data));
     // console.log("id", data, id,token);
     return await axios
-      .patch(
-        baseUrl + `/retirement-profiles/${id}`,
-         data ,
-        {
-          headers: {
-             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .patch(baseUrl + `/retirement-profiles/${id}`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         throw err.response.data;
@@ -83,6 +79,38 @@ export default new (class Api {
           },
         }
       )
+      .then((res) => res.data)
+      .catch((err) => {
+        // console.log(err)
+        throw err?.response?.data;
+      });
+  };
+  update_filled_Jar = async (id,token, jarData) => {
+    return await axios
+      .put(
+        baseUrl + `/jars/${id}`,
+        { data: jarData },
+        {
+          headers: {
+            // "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => res.data)
+      .catch((err) => {
+        // console.log(err)
+        throw err?.response?.data;
+      });
+  };
+  retrieve_all_jars_Jar = async (token) => {
+    return await axios
+      .get(baseUrl + `/jars`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => res.data)
       .catch((err) => {
         // console.log(err)

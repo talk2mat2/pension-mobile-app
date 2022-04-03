@@ -17,10 +17,14 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
+import UserContext from "../../../contexts/UserContext";
+import api from "../../../api";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RtSatePensionCard = ({ handleshowCards }) => {
-  const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
+  const { rtisfullScreen, togglrRtFullScreen, pensionJars, setPensionJars } =
+    useContext(FullScreenContext);
+  const ctx = useContext(UserContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
@@ -65,7 +69,49 @@ const RtSatePensionCard = ({ handleshowCards }) => {
       closeCard();
     }
   };
+  const selectStatePension = () => {
+    // console.log(ctx?.pensionJars)
+    if (ctx?.pensionJars?.length > 0) {
+      const statePenJars = ctx?.pensionJars?.filter(
+        (jars) => jars.attributes?.jarSubType === "state"
+      );
+      if (statePenJars) {
+        return statePenJars;
+      } else return [];
+    } else return [];
+  };
+  const retrieve_all_jars_Jar = async () => {
+    await api
+      .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        // setRetireProfile(res?.data);
+        // console.log(res.data);
+        // retireProfile,
+        ctx?.setPensionJars(res.data);
+
+        // ctx.setRetireProfile(res.data),
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Network error, unable to retrieve your pension jars");
+        return err;
+      });
+  };
+  const sumStateJarsValue = () => {
+    let sum = 0;
+    if (ctx?.pensionJars?.length > 0) {
+      ctx?.pensionJars?.map((jar) => {
+        if (jar.attributes.jarSubType === "state") {
+          sum += jar.attributes.incomeAmount;
+        }
+      });
+    }
+    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
   React.useEffect(() => {
+    retrieve_all_jars_Jar();
+    selectStatePension();
+    // console.log(selectStatePension());
     const banckhandle = BackHandler.addEventListener(
       "hardwareBackPress",
       handleBackButton
@@ -141,15 +187,20 @@ const RtSatePensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £42,645
+            £{sumStateJarsValue()}
           </Text>
         </View>
-        <View style={{ marginTop: "auto" }}>
-          <RtstateUsers
-            name="Micheal Spender"
-            budget="£17,345"
-          />
-          <RtstateUsers name="Sarah Spender" budget="£25,300 " />
+        <View style={{ marginTop: "auto",maxHeight:400 }}>
+          <ScrollView style={{}}>
+            {selectStatePension()?.map((users) => (
+              <RtstateUsers user={users}
+                key={users.id}
+                selectStatePension
+                name="Micheal Spender"
+                budget="£17,345"
+              />
+            ))}
+          </ScrollView>
         </View>
       </View>
 
@@ -210,7 +261,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   background: {
-    height: deviceHeight / 1.8,
+    minHeight: deviceHeight / 1.8,
     // position: "absolute",
     top: 0,
     left: 0,

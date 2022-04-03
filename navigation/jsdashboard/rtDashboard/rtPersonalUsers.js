@@ -17,7 +17,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
 
-const RtPersonlaUsers = ({ name, budget }) => {
+const RtPersonlaUsers = ({ ctxData, name, budget, user, showEditModal }) => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
@@ -35,15 +35,21 @@ const RtPersonlaUsers = ({ name, budget }) => {
               marginRight: 3,
             }}
           >
-            Lorem ips
+            {user?.attributes?.name}
           </Text>
           <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-            {name}
+            {user?.attributes?.isSpouse
+              ? ctxData?.included[0]?.spouseName
+              : `${ctxData?.attributes?.fname} ${ctxData?.attributes?.lname}`}
           </Text>
         </View>
-        <View style={styles.cardConteent}>
-          <Text style={{ fontWeight: "bold" }}>{budget}</Text>
-          <TouchableOpacity onPress={showModal}>
+        <View style={{ ...styles.cardConteent, width: 120 }}>
+          <Text style={{ fontWeight: "bold" }}>
+            £{user?.attributes?.currentValue}
+          </Text>
+          <TouchableOpacity
+            onPress={() => showEditModal(user?.attributes, user.id)}
+          >
             <MaterialCommunityIcons
               name="circle-edit-outline"
               size={27}

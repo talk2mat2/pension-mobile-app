@@ -8,10 +8,12 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import RtPersonlaUsers from "./rtPersonalUsers";
 import PersoanalPensionModal from "../../../components/rtPersonalPensionModal";
+import EditPersoanalPensionModal from "../../../components/EditPersonalPensionModal";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -19,14 +21,37 @@ import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
 import JarvisButton from "../../../components/JarvisButton";
+import UserContext from "../../../contexts/UserContext";
+import api from "../../../api";
+import JarvisLoader from "../../../components/JarvisLoader";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RtPersonalPensionCard = ({ handleshowCards }) => {
+  const [loading, setIsLoading] = React.useState(false);
+  const [personData, setPersoData] = React.useState({
+    id: Math.floor(Math.random() * 100),
+    provider: "",
+    name: "",
+    currentValue: "",
+    regularContribution: "",
+    contributeBasics: "",
+    monthlyContribution: "",
+    regContributionAmount: "",
+    spousePension: "no",
+    secclExternalProviderId: "",
+    jarType: "asset",
+    jarSubType: "external",
+    regContributionFrequency: "monthly",
+    isSpouse: false,
+  });
+  const [editPersonData, setEditPersoData] = React.useState({});
   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
   const [visible, setVisible] = React.useState(false);
+  const [editVisible, setEditVisible] = React.useState(false);
+  const ctx = useContext(UserContext);
   React.useEffect(() => {
     Animated.timing(position, {
       toValue: { x: 0, y: 0 },
@@ -49,6 +74,8 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
       }
     });
   };
+  const retireProfile = {};
+
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
   const handleToggleFullScreen = () => {
@@ -67,7 +94,102 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
       closeCard();
     }
   };
+  const selectStatePension = () => {
+    // console.log(ctx?.pensionJars)
+    if (ctx?.pensionJars?.length > 0) {
+      const statePenJars = ctx?.pensionJars?.filter(
+        (jars) => jars.attributes?.jarSubType === "external"
+      );
+      if (statePenJars) {
+        return statePenJars;
+      } else return [];
+    } else return [];
+  };
+  const retrieve_all_jars_Jar = async () => {
+    await api
+      .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        // setRetireProfile(res?.data);
+        // console.log(res.data);
+        // retireProfile,
+        ctx?.setPensionJars(res.data);
+
+        // ctx.setRetireProfile(res.data),
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Network error, unable to retrieve your pension jars");
+        return err;
+      });
+  };
+  const sumPersonalJarsValue = () => {
+    let sum = 0;
+    if (ctx?.pensionJars?.length > 0) {
+      ctx?.pensionJars?.map((jar) => {
+        if (jar.attributes.jarSubType === "external") {
+          sum += jar.attributes.currentValue;
+        }
+      });
+    }
+    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const submitFilledJars = async () => {
+    //iterate and make api call per jar
+    const isExist =
+      personData.currentValue !== "" && personData.currentValue !== "";
+    const jarData = {
+      type: "jar",
+      attributes: { ...personData },
+    };
+    if (isExist) {
+      setIsLoading(true);
+      await api
+        .create_Jar(ctx?.atk, jarData)
+        .then((res) => {
+          console.log("jar created");
+          setIsLoading(false);
+          Alert.alert("Successful");
+          retrieve_all_jars_Jar();
+        })
+        .catch((err) => {
+          Alert.alert("Unable to add new personal pension");
+          setIsLoading(false);
+          console.log("error occured", err);
+        });
+    }
+  };
+  const updateFilledJars = async (id) => {
+    //iterate and make api call per jar
+    const isExist =
+      editPersonData.currentValue !== "" && editPersonData.name !== "";
+    const jarData = {
+      type: "jar",
+      attributes: { ...editPersonData },
+    };
+    if (isExist) {
+      setIsLoading(true);
+      await api
+        .update_filled_Jar(id, ctx?.atk, jarData)
+        .then((res) => {
+          console.log("jar updated");
+          setIsLoading(false);
+          Alert.alert("Successfully updated");
+          retrieve_all_jars_Jar();
+        })
+        .catch((err) => {
+          Alert.alert("Unable to add new personal pension");
+          setIsLoading(false);
+          console.log("error occured", err);
+        });
+    }
+  };
+  const showEditModal = (data, id) => {
+    setEditPersoData({ ...data, id: id });
+    // console.log(data)
+    setEditVisible(true);
+  };
   React.useEffect(() => {
+    retrieve_all_jars_Jar();
     const banckhandle = BackHandler.addEventListener(
       "hardwareBackPress",
       handleBackButton
@@ -89,9 +211,23 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
         {...{
           visible,
           setVisible,
-          personData: {},
+          submitFilledJars: submitFilledJars,
+          personData: personData,
           changeStatePension: () => {},
-          setPersoData: () => {},
+          setPersoData: setPersoData,
+          AddJar: () => {},
+        }}
+      />
+      <EditPersoanalPensionModal
+        {...{
+          visible: editVisible,
+          updateFilledJars: updateFilledJars,
+          showEditModal: showEditModal,
+          setVisible: setEditVisible,
+          submitFilledJars: () => {},
+          personData: editPersonData,
+          changeStatePension: () => {},
+          setPersoData: setEditPersoData,
           AddJar: () => {},
         }}
       />
@@ -140,6 +276,7 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
             Personal Pensions
           </Text>
         </View>
+        {loading && <JarvisLoader />}
         <View style={{ marginTop: 40, alignItems: "center" }}>
           <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
             Total Personal Pension(s)
@@ -153,15 +290,22 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £26,325
+            £{sumPersonalJarsValue()}
           </Text>
         </View>
 
-        <View style={{ marginTop: "auto" }}>
+        <View style={{ marginTop: "auto", maxHeight: 400 }}>
           <ScrollView style={{}}>
-            <RtPersonlaUsers name="Micheal Spender" budget="£17,345" />
-            <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
-            <RtPersonlaUsers name="Sarah Spender" budget="£25,300 " />
+            {selectStatePension()?.map((users) => (
+              <RtPersonlaUsers
+                showEditModal={showEditModal}
+                user={users}
+                ctxData={ctx.u}
+                key={users.id}
+                name="Micheal Spender"
+                budget="£17,345"
+              />
+            ))}
           </ScrollView>
         </View>
       </View>

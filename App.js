@@ -59,6 +59,7 @@ export default function App() {
   const [rtk, setRtk] = useState(null);
   const [budgetData, setBudgetData] = React.useState([]);
   const [retireProfile, setRetireProfile] = React.useState({});
+  const [pensionJars, setPensionJars] = React.useState([]);
   const [etk, setEtk] = useState("");
   const [hasDoneSetup, setHasDoneSetup] = useState(false);
   const [online, setOnline] = useState(false);
@@ -132,6 +133,8 @@ export default function App() {
     setBudgetData,
     retireProfile,
     setRetireProfile,
+    pensionJars,
+    setPensionJars,
     loggedIn: loggedIn,
     setLoggedIn: setLoggedIn,
     etk: etk,

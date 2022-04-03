@@ -48,8 +48,25 @@ const JSDasboard = () => {
         return err;
       });
   };
+  const retrieve_all_jars_Jar = async () => {
+    await api
+      .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        // setRetireProfile(res?.data);
+        console.log(res.data);
+        // retireProfile,
+        ctx?.setPensionJars(res.data);
+
+        // ctx.setRetireProfile(res.data),
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Network error, unable to retrieve your pension jars");
+        return err;
+      });
+  };
   React.useEffect(() => {
-    Get_retirement_profile_user();
+    Promise.resolve(Get_retirement_profile_user().then(retrieve_all_jars_Jar));
   }, []);
   return (
     <FullScreenContext.Provider

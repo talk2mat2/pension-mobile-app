@@ -24,10 +24,11 @@ import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
 import JarvisLoader from "./JarvisLoader";
-const PersoanalStatePensionModal = ({
+const EditPersoanalStatePensionModal = ({
   visible,
   setVisible,
   personData,
+  updateFilledJars,
   showModal,
   changeStatePension,
   setPersoData,
@@ -46,18 +47,19 @@ const PersoanalStatePensionModal = ({
 
   const [providerNameValidation, setproviderNameValidation] =
     React.useState(false);
-  const [providerName, setproviderName] = React.useState("");
+  const [providerName, setproviderName] = React.useState(personData?.name);
   const _next = () => {
     if (!providerName) {
       setproviderNameValidation(true);
     } else if (!personData.currentValue) {
       return Alert.alert("Please provide current value");
     } else {
-      submitFilledJars();
+      updateFilledJars(personData?.id);
       setVisible(false);
       AddJar();
     }
   };
+
   const hideModal = () => setVisible(false);
   const get_all_Pension_Providers = async () => {
     setIsloading(true);
@@ -117,6 +119,7 @@ const PersoanalStatePensionModal = ({
       ))
     );
   };
+  // console.log(personData.isSpouse)
   return (
     <Portal>
       <Modal
@@ -146,8 +149,7 @@ const PersoanalStatePensionModal = ({
               textAlign: "center",
             }}
           >
-            Add A Personal Pensions{"\n"}
-            To Your Fund
+            Updte A Personal Pensions{"\n"}
           </Text>
         </View>
         <View style={{ ...styles.hrView, marginTop: 35 }} />
@@ -243,7 +245,7 @@ const PersoanalStatePensionModal = ({
             <TextInput
               keyboardType="numeric"
               style={{ ...styles.input, width: 100 }}
-              value={personData.currentValue}
+              value={personData.currentValue?.toString()}
               onChangeText={(text) => {
                 setPersoData({ ...personData, currentValue: text });
               }}
@@ -314,7 +316,7 @@ const PersoanalStatePensionModal = ({
                 <RadioButton
                   value="net"
                   status={
-                    personData.contributeBasics === "net"
+                    personData.regContributionTaxBasis === "net"
                       ? "checked"
                       : "unchecked"
                   }
@@ -332,7 +334,7 @@ const PersoanalStatePensionModal = ({
                 <RadioButton
                   value="Female"
                   status={
-                    personData.contributeBasics === "gross"
+                    personData.regContributionTaxBasis === "gross"
                       ? "checked"
                       : "unchecked"
                   }
@@ -362,7 +364,7 @@ const PersoanalStatePensionModal = ({
                 <Text>£</Text>
                 <TextInput
                   keyboardType="numeric"
-                  value={personData.monthlyContribution}
+                  value={personData.regContributionAmount?.toString()}
                   onChangeText={(text) => {
                     setPersoData({
                       ...personData,
@@ -392,9 +394,7 @@ const PersoanalStatePensionModal = ({
             <Text style={[styles.radioText]}>Yes</Text>
             <RadioButton
               value="yes"
-              status={
-                personData.spousePension === "yes" ? "checked" : "unchecked"
-              }
+              status={personData.isSpouse === true ? "checked" : "unchecked"}
               onPress={() => {
                 setPersoData({
                   ...personData,
@@ -424,7 +424,7 @@ const PersoanalStatePensionModal = ({
           <JarvisButton
             bgcolor={myColorsLight.black}
             play={_next}
-            btn="Add Pension"
+            btn="Update Pension"
             w={200}
           />
         </View>
@@ -495,4 +495,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default PersoanalStatePensionModal;
+export default EditPersoanalStatePensionModal;

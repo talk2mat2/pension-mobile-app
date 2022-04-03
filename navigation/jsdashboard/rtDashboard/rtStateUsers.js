@@ -16,11 +16,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
 
-const RtstateUsers = ({ name, budget }) => {
+const RtstateUsers = ({ name, budget, user }) => {
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-
   return (
     <>
       <Portal>
@@ -72,7 +71,7 @@ const RtstateUsers = ({ name, budget }) => {
                 flexDirection: "row",
                 paddingHorizontal: 20,
                 marginVertical: 35,
-                alignItems:"center"
+                alignItems: "center",
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
@@ -87,7 +86,7 @@ const RtstateUsers = ({ name, budget }) => {
                 flexDirection: "row",
                 paddingHorizontal: 20,
                 marginVertical: 35,
-                alignItems:"center"
+                alignItems: "center",
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
@@ -123,11 +122,16 @@ const RtstateUsers = ({ name, budget }) => {
             Lorem ips
           </Text>
           <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-            {name}
+            {user?.attributes?.name}
           </Text>
         </View>
         <View style={styles.cardConteent}>
-          <Text style={{ fontWeight: "bold" }}>{budget}</Text>
+          <Text style={{ fontWeight: "bold" }}>
+            £
+            {user?.attributes?.incomeAmount
+              ?.toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          </Text>
           <TouchableOpacity onPress={showModal}>
             <MaterialCommunityIcons
               name="circle-edit-outline"
@@ -187,7 +191,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 7,
     paddingHorizontal: 10,
-    paddingVertical:4,
+    paddingVertical: 4,
     fontWeight: "bold",
     width: 100,
     borderColor: myColorsLight.grey4,
