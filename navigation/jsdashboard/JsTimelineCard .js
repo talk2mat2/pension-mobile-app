@@ -94,6 +94,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
           />
         </TouchableOpacity>
       </View>
+      <Text>  hey</Text>
     </Animated.View>
   );
 };
