@@ -2,14 +2,14 @@ import React from "react";
 import Swiper from "react-native-swiper/src";
 import { View, Text, StyleSheet } from "react-native";
 import { myColorsLight } from "../constant/colors";
-const CPDatatable = () => {
+const CPDatatable = ({ profile }) => {
+  // console.log(profile)
   const tableData = [1];
   return (
     <View style={{ height: "100%" }}>
       <Swiper
         paginationStyle={{
           bottom: 0,
-       
         }}
         activeDot={
           <View
@@ -30,11 +30,15 @@ const CPDatatable = () => {
           <View key={index} style={styles.slide1}>
             <View style={styles.tableRow}>
               <Text style={styles.rowData}>Your Retirement Age</Text>
-              <Text style={styles.PriceDetail}>80</Text>
+              <Text style={styles.PriceDetail}>
+                {profile?.included[0]?.retirementAge || 0}
+              </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={styles.rowData}>Spouses Retirement Age</Text>
-              <Text style={styles.PriceDetail}>85</Text>
+              <Text style={styles.PriceDetail}>
+                {profile?.included[0]?.spouseRetirementAge || 0}
+              </Text>
             </View>
             <View style={styles.tableRow}>
               <Text style={styles.rowData}>

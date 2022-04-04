@@ -17,6 +17,7 @@ import {
   overlay,
 } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import api from "../api";
 import UserContext from "../contexts/UserContext";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -69,6 +70,37 @@ const PersoanalStatePensionModal = ({
         setIsloading(false);
       });
   };
+  const handleSearchResult = async (search) => {
+    setproviderName(search);
+    setproviderNameValidation(false);
+    if (!search) {
+      return;
+    }
+    if (search?.length < 3) {
+      return;
+    }
+    await api
+      .search_all_Pension_Providers(ctx?.atk, search)
+      .then((res) => {
+        // console.log(res.data);
+        // console.log(search);
+        res.data && setSearch(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    await api
+      .search_all_Pension_Employers(ctx?.atk, search)
+      .then((res) => {
+        console.log(res.data);
+        console.log(search);
+        // res.data && setSearch(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleSearch = (value) => {
     setproviderName(value);
     setproviderNameValidation(false);
@@ -82,9 +114,9 @@ const PersoanalStatePensionModal = ({
 
     results && setSearch(results);
   };
-  React.useEffect(() => {
-    get_all_Pension_Providers();
-  }, []);
+  // React.useEffect(() => {
+  //   get_all_Pension_Providers();
+  // }, []);
 
   const mapResults = () => {
     return (
@@ -101,13 +133,19 @@ const PersoanalStatePensionModal = ({
                 provider: item?.attributes?.name,
                 name: item?.attributes?.name,
                 secclExternalProviderId:
-                  item?.attributes?.externalIds[0]?.value,
+                  item?.attributes?.secclExternalProviderId,
               });
             }}
           >
-            <Text style={{ fontWeight: "700", paddingVertical: 3 }} key={index}>
-              {item?.attributes?.name}
-            </Text>
+            <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+              <MaterialCommunityIcons style={{marginTop:6}} name="safe" size={20} color={myColorsLight.black} />
+              <Text
+                style={{ fontWeight: "700", paddingVertical: 3 ,marginLeft:4}}
+                key={index}
+              >
+                {item?.attributes?.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       ))
@@ -157,7 +195,7 @@ const PersoanalStatePensionModal = ({
           }}
         >
           <Text style={{ fontSize: 16 }}>
-            Search for your {"\n"} Pension Provider
+            Search for employers {"\n"}or pension providers…
           </Text>
 
           {personData?.provider ? (
@@ -169,8 +207,11 @@ const PersoanalStatePensionModal = ({
           ) : (
             <>
               <TextInput
+                // onChangeText={(text) => {
+                //   handleSearch(text);
+                // }}
                 onChangeText={(text) => {
-                  handleSearch(text);
+                  handleSearchResult(text);
                 }}
                 style={styles.input}
                 value={providerName}

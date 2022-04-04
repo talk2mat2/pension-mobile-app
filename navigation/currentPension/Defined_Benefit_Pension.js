@@ -289,7 +289,7 @@ function DefinedStateBenefit({ navigation }) {
             )}
           </View>
           <PanableCard styles={{ height: "29%" }}>
-            <CPDatatable />
+            <CPDatatable profile={ctx?.u} />
           </PanableCard>
           <View
             style={{

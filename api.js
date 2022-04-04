@@ -145,4 +145,32 @@ export default new (class Api {
         throw err?.response?.data;
       });
   };
+  search_all_Pension_Providers = async (token,search) => {
+    return await axios
+      .get(baseUrl + `/pension-providers?search=${search}`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
+  search_all_Pension_Employers = async (token,search) => {
+    return await axios
+      .get(baseUrl + `/employers?search=${search}`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
 })();
