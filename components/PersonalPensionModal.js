@@ -16,6 +16,7 @@ import {
   Title,
   overlay,
 } from "react-native-paper";
+import lodash from "lodash";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import api from "../api";
@@ -43,6 +44,7 @@ const PersoanalStatePensionModal = ({
   const [providers, setProviders] = React.useState([]);
 
   const [search, setSearch] = React.useState([]);
+  const [search2, setSearch2] = React.useState([]);
   let u = ctx.u;
   const [providerNameValidation, setproviderNameValidation] =
     React.useState(false);
@@ -58,20 +60,20 @@ const PersoanalStatePensionModal = ({
     }
   };
   const hideModal = () => setVisible(false);
-  const get_all_Pension_Providers = async () => {
-    setIsloading(true);
-    await api
-      .get_all_Pension_Providers(ctx?.atk)
-      .then((res) => {
-        setProviders(res?.data);
-        setIsloading(false);
-      })
-      .catch((err) => {
-        setIsloading(false);
-      });
-  };
+  // const get_all_Pension_Providers = async () => {
+  //   setIsloading(true);
+  //   await api
+  //     .get_all_Pension_Providers(ctx?.atk)
+  //     .then((res) => {
+  //       setProviders(res?.data);
+  //       setIsloading(false);
+  //     })
+  //     .catch((err) => {
+  //       setIsloading(false);
+  //     });
+  // };
   const handleSearchResult = async (search) => {
-    setproviderName(search);
+   
     setproviderNameValidation(false);
     if (!search) {
       return;
@@ -92,14 +94,18 @@ const PersoanalStatePensionModal = ({
     await api
       .search_all_Pension_Employers(ctx?.atk, search)
       .then((res) => {
-        console.log(res.data);
-        console.log(search);
-        // res.data && setSearch(res.data);
+        // console.log(res.data);
+        // console.log(search);
+        res.data && setSearch2(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const debouncedSearch = lodash.debounce((text) => {
+    handleSearchResult(text);
+  }, 500);
 
   const handleSearch = (value) => {
     setproviderName(value);
@@ -126,8 +132,9 @@ const PersoanalStatePensionModal = ({
           <TouchableOpacity
             onPress={() => {
               setSearch([]);
+              setSearch2([]);
               // console.log(item?.attributes?.externalIds[0]?.value)
-              // setChoosenProvider(item);
+              // setChoosmnenProvider(item);
               setPersoData({
                 ...personData,
                 provider: item?.attributes?.name,
@@ -138,9 +145,53 @@ const PersoanalStatePensionModal = ({
             }}
           >
             <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
-              <MaterialCommunityIcons style={{marginTop:6}} name="safe" size={20} color={myColorsLight.black} />
+              <MaterialCommunityIcons
+                style={{ marginTop: 6 }}
+                name="safe"
+                size={20}
+                color={myColorsLight.black}
+              />
               <Text
-                style={{ fontWeight: "700", paddingVertical: 3 ,marginLeft:4}}
+                style={{ fontWeight: "700", paddingVertical: 3, marginLeft: 4 }}
+                key={index}
+              >
+                {item?.attributes?.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))
+    );
+  };
+  const mapResults2 = () => {
+    return (
+      search2?.length > 0 &&
+      search2?.map((item, index) => (
+        <View key={item?.id} style={{ marginVertical: 3 }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearch2([]);
+              setSearch([]);
+              // console.log(item?.attributes?.externalIds[0]?.value)
+              // setChoosmnenProvider(item);
+              setPersoData({
+                ...personData,
+                provider: item?.attributes?.name,
+                name: item?.attributes?.name,
+                // secclExternalProviderId:
+                //   item?.attributes?.secclExternalProviderId,
+              });
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+              <MaterialCommunityIcons
+                style={{ marginTop: 6 }}
+                name="office-building"
+                size={20}
+                color={myColorsLight.black}
+              />
+              <Text
+                style={{ fontWeight: "700", paddingVertical: 3, marginLeft: 4 }}
                 key={index}
               >
                 {item?.attributes?.name}
@@ -211,7 +262,8 @@ const PersoanalStatePensionModal = ({
                 //   handleSearch(text);
                 // }}
                 onChangeText={(text) => {
-                  handleSearchResult(text);
+                  setproviderName(text);
+                  debouncedSearch(text);
                 }}
                 style={styles.input}
                 value={providerName}
@@ -232,11 +284,19 @@ const PersoanalStatePensionModal = ({
                         // });
                       }}
                     >
-                      <Text style={{ fontWeight: "700", paddingVertical: 4 }}>
+                      <Text
+                        style={{
+                          fontWeight: "700",
+                          paddingVertical: 4,
+                          backgroundColor: myColorsLight.grey9,
+                          paddingHorizontal: 20,
+                        }}
+                      >
                         {providerName}
                       </Text>
                     </TouchableOpacity>
                     {mapResults()}
+                    {mapResults2()}
                   </ScrollView>
                 </View>
               )}
