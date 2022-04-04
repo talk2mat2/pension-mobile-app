@@ -16,7 +16,6 @@ import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import RtOtherSavingUsers from "./rtOtherSavingsUsers";
 
-
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
@@ -100,6 +99,7 @@ const RtOtherSavingsCard = ({ handleshowCards }) => {
           }}
         >
           <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Other Savings</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>
@@ -127,7 +127,7 @@ const RtOtherSavingsCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-           Defined Benefit Pensions
+        Other Retirement Savings
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
@@ -146,22 +146,18 @@ const RtOtherSavingsCard = ({ handleshowCards }) => {
             £285,000
           </Text>
           <RtOtherSavingUsers />
-          
         </View>
-        <View style={{ marginTop: "auto" }}>
-        
-          
-        </View>
+        <View style={{ marginTop: "auto" }}></View>
       </View>
       <View style={{ alignItems: "center", marginTop: 170 }}>
-              <JarvisButton
-                bgcolor={myColorsLight.black}
-                play={() => {}}
-                btn="Add Pension"
-                w={200}
-                disabled={false}
-              />
-            </View>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={() => {}}
+          btn="Add Pension"
+          w={200}
+          disabled={false}
+        />
+      </View>
 
       <ScrollView style={{ marginBottom: 10 }}>
         {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>

@@ -109,7 +109,7 @@ const RTDashboardMain = () => {
           <Text
             style={{
               textAlign: "center",
-              fontSize: 16,
+              fontSize: 19,
               fontWeight: "700",
               marginVertical: 20,
             }}

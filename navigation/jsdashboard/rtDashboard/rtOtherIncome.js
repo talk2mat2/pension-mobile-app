@@ -99,6 +99,7 @@ const RtOtherIncomeCard = ({ handleshowCards }) => {
           }}
         >
           <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Other Income</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>
@@ -126,7 +127,7 @@ const RtOtherIncomeCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-           Defined Benefit Pensions
+            Other Retirement Income
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
@@ -145,22 +146,18 @@ const RtOtherIncomeCard = ({ handleshowCards }) => {
             £8,300
           </Text>
           <RtOtherIncomeUsers />
-          
         </View>
-        <View style={{ marginTop: "auto" }}>
-        
-          
-        </View>
+        <View style={{ marginTop: "auto" }}></View>
       </View>
       <View style={{ alignItems: "center", marginTop: 90 }}>
-              <JarvisButton
-                bgcolor={myColorsLight.black}
-                play={() => {}}
-                btn="Add Pension"
-                w={200}
-                disabled={false}
-              />
-            </View>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={() => {}}
+          btn="Add Pension"
+          w={200}
+          disabled={false}
+        />
+      </View>
 
       <ScrollView style={{ marginBottom: 10 }}>
         {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>

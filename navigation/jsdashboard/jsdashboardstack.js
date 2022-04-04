@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import JSDashPension from "./JSDashPension";
 import Swiper from "react-native-swiper";
 import JSDashboardMain from "./JSDashboardmain";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import jwtDecode from "jwt-decode";
 import { myColorsLight } from "../../constant/colors";
 import JSDashboardnav from "../../components/JSDashboardnav";
 // import BudgetBenchmark2 from "./BudgetBenchmark2";
@@ -29,6 +30,17 @@ const JSDasboard = () => {
     }
     return value;
   };
+  const checkTokenExpiration = () => {
+    const token = ctx?.atk;
+    if (token) {
+      if (jwtDecode(token).exp < Date.now() / 1000) {
+        // next(action);
+        // localStorage.clear();
+        console.log("token expired");
+        //log user out
+      }
+    }
+  };
   const Get_retirement_profile_user = async () => {
     await api
       .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
@@ -53,7 +65,7 @@ const JSDasboard = () => {
       .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
       .then((res) => {
         // setRetireProfile(res?.data);
-        console.log(res.data);
+        // console.log(res.data);
         // retireProfile,
         ctx?.setPensionJars(res.data);
 
@@ -66,6 +78,7 @@ const JSDasboard = () => {
       });
   };
   React.useEffect(() => {
+    checkTokenExpiration();
     Promise.resolve(Get_retirement_profile_user().then(retrieve_all_jars_Jar));
   }, []);
   return (

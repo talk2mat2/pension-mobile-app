@@ -97,7 +97,8 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
             paddingHorizontal: 20,
           }}
         >
-          <TouchableOpacity onPress={closeCard}>
+            <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Defined Benefit Pensions</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
             <TouchableOpacity onPress={handleToggleFullScreen}>

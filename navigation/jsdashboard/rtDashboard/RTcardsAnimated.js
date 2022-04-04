@@ -54,10 +54,6 @@ const cards = [
     name: "Jarvis Pension",
     color: myColorsLight.grey3,
   },
-  {
-    name: "Career Path",
-    color: myColorsLight.grey2,
-  },
 ];
 
 export default function RTcardsAnimated() {
@@ -212,7 +208,7 @@ export default function RTcardsAnimated() {
                       style={{ ...styles.card, backgroundColor: card.color }}
                     >
                       <TouchableOpacity onPress={hanleSelected.bind(this, i)}>
-                      {/* <TouchableOpacity onPress={()=>{}}> */}
+                        {/* <TouchableOpacity onPress={()=>{}}> */}
                         <Text style={styles.cardName}>{card.name}</Text>
                       </TouchableOpacity>
                     </View>
@@ -239,7 +235,9 @@ export default function RTcardsAnimated() {
         </Animated.View>
       )}
       {selectedCards === 0 && <RtSatePensionCard {...{ handleshowCards }} />}
-      {selectedCards === 1 && <RtPersonalPensionCard {...{ handleshowCards }} />}
+      {selectedCards === 1 && (
+        <RtPersonalPensionCard {...{ handleshowCards }} />
+      )}
       {selectedCards === 2 && <RtBenefitPensionCard {...{ handleshowCards }} />}
       {selectedCards === 3 && <RtOtherIncomeCard {...{ handleshowCards }} />}
       {selectedCards === 4 && <RtOtherSavingsCard {...{ handleshowCards }} />}
