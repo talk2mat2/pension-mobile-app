@@ -201,12 +201,12 @@ const RtPersonlaUsers = ({ ctxData, name, budget, user, showEditModal }) => {
               marginRight: 3,
             }}
           >
-            {user?.attributes?.name}
+            {user?.attributes?.name?.slice(0,19)}..
           </Text>
           <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
             {user?.attributes?.isSpouse
               ? ctxData?.included[0]?.spouseName
-              : `${ctxData?.attributes?.fname} ${ctxData?.attributes?.lname}`}
+              : `${ctxData?.attributes?.fname} ${ctxData?.attributes?.lname?.slice(0,5)}..`}
           </Text>
         </View>
         <View style={{ ...styles.cardConteent, width: 120 }}>

@@ -98,7 +98,7 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
     // console.log(ctx?.pensionJars)
     if (ctx?.pensionJars?.length > 0) {
       const statePenJars = ctx?.pensionJars?.filter(
-        (jars) => jars.attributes?.jarSubType === "external"
+        (jars) => jars.attributes?.jarSubType === "external" && jars.attributes?.jarType === "asset"
       );
       if (statePenJars) {
         return statePenJars;
@@ -126,7 +126,7 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
     let sum = 0;
     if (ctx?.pensionJars?.length > 0) {
       ctx?.pensionJars?.map((jar) => {
-        if (jar.attributes.jarSubType === "external") {
+        if (jar.attributes.jarSubType === "external" && jar.attributes?.jarType === "asset") {
           sum += jar.attributes.currentValue;
         }
       });

@@ -34,7 +34,7 @@ const JSDasboard = () => {
     const token = ctx?.atk;
     if (token) {
       if (jwtDecode(token).exp < Date.now() / 1000) {
-        // next(action);
+        // next(action );
         // localStorage.clear();
         console.log("token expired");
         //log user out
@@ -54,9 +54,12 @@ const JSDasboard = () => {
       })
       .catch((err) => {
         console.log(err);
-        Alert.alert(
-          "Network error, unable to retrieve your retirement profile"
-        );
+        if (err?.errors[0]?.details) {
+          Alert.alert("Failed to get RT profile, server says", err?.errors[0].details);
+        } else {
+          Alert.alert("An error occured, try again");
+        }
+
         return err;
       });
   };

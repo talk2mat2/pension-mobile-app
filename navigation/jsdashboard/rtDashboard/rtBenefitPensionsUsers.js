@@ -7,20 +7,62 @@ import {
   Text,
   Platform,
   ScrollView,
+  Alert,
   TextInput,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import JarvisLoader from "../../../components/JarvisLoader";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { myColorsLight } from "../../../constant/colors";
 import JarvisButton from "../../../components/JarvisButton";
+import api from "../../../api";
 
-const RtBenefitPensionUsers = ({ name, budget }) => {
+const RtBenefitPensionUsers = ({
+  name,
+  budget,
+  ctxData,
+  ctx,
+  user,
+  showEditModal,
+  retrieve_all_jars_Jar,
+}) => {
   const [visible, setVisible] = React.useState(false);
-  const showModal = () => setVisible(true);
+  const [loading, setIsLoading] = React.useState(false);
+  const [editPersonData, setEditPersoData] = React.useState({});
+  const showModal = (data, id) => {
+    setEditPersoData({ ...data, id: id });
+    setVisible(true);
+  };
   const hideModal = () => setVisible(false);
-
+  const updateFilledJars = async (id) => {
+    //iterate and make api call per jar
+    const isExist =
+      editPersonData.currentValue !== "" && editPersonData.name !== "";
+    const jarData = {
+      type: "jar",
+      attributes: { ...editPersonData },
+    };
+    if (isExist) {
+      setIsLoading(true);
+      await api
+        .update_filled_Jar(id, ctx?.atk, jarData)
+        .then((res) => {
+          console.log("jar updated");
+          setIsLoading(false);
+          Alert.alert("Successfully updated");
+          retrieve_all_jars_Jar();
+          hideModal();
+        })
+        .catch((err) => {
+          Alert.alert("Unable to add new personal pension");
+          setIsLoading(false);
+          hideModal();
+          console.log("error occured", err);
+        });
+    }
+  };
   return (
     <>
       <Portal>
@@ -56,16 +98,30 @@ const RtBenefitPensionUsers = ({ name, budget }) => {
                   fontSize: 20,
                 }}
               >
-               Jar logo
+                Jar logo
               </Text>
             </View>
+            {loading && <JarvisLoader />}
             <View style={{ alignItems: "center", marginTop: 50 }}>
               <Text style={{ fontSize: 20, color: myColorsLight.black }}>
-                Edit {name} 's{"\n"}
-                 Defined Benefit Pension
-             </Text>
+                Edit{" "}
+                {user?.attributes?.isSpouse
+                  ? ctxData?.included[0]?.spouseName
+                  : `${
+                      ctxData?.attributes?.fname
+                    } ${ctxData?.attributes?.lname?.slice(0, 5)}..`}{" "}
+                's{"\n"}
+                Defined Benefit Pension
+              </Text>
             </View>
-            <TextInput placeholder="Pension name" style={styles.input1} />
+            <TextInput
+              value={editPersonData?.name}
+              placeholder="Pension name"
+              style={styles.input1}
+              onChangeText={(text) =>
+                setEditPersoData({ ...editPersonData, name: text })
+              }
+            />
             <View style={{ ...styles.hrView, marginTop: 10 }} />
 
             <View
@@ -74,21 +130,35 @@ const RtBenefitPensionUsers = ({ name, budget }) => {
                 flexDirection: "row",
                 paddingHorizontal: 20,
                 marginVertical: 35,
-                alignItems:"center"
+                alignItems: "center",
               }}
             >
               <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-              Annual Income amount
+                Annual Income amount
               </Text>
-              <TextInput placeholder="5000" style={styles.input} />
+              <TextInput
+                keyboardType="numeric"
+                value={editPersonData?.incomeAmount?.toString() || ""}
+                placeholder="current value"
+                style={styles.input}
+                onChangeText={(text) =>
+                  setEditPersoData({
+                    ...editPersonData,
+                    currentValue: text,
+                    incomeAmount: text,
+                  })
+                }
+              />
             </View>
             <View style={{ alignItems: "center", marginTop: 90 }}>
               <JarvisButton
                 bgcolor={myColorsLight.black}
-                play={() => {}}
+                play={() => {
+                  updateFilledJars(editPersonData?.id);
+                }}
                 btn="Update Pension"
                 w={200}
-                disabled={false}
+                disabled={loading}
               />
             </View>
           </ScrollView>
@@ -105,15 +175,23 @@ const RtBenefitPensionUsers = ({ name, budget }) => {
               marginRight: 3,
             }}
           >
-            Lorem ips
+            {user?.attributes?.name?.slice(0, 19)}..
           </Text>
           <Text style={{ fontSize: 17, color: myColorsLight.grey3 }}>
-            {name}
+            {user?.attributes?.isSpouse
+              ? ctxData?.included[0]?.spouseName
+              : `${
+                  ctxData?.attributes?.fname
+                } ${ctxData?.attributes?.lname?.slice(0, 5)}..`}
           </Text>
         </View>
         <View style={styles.cardConteent}>
-          <Text style={{ fontWeight: "bold" }}>{budget}</Text>
-          <TouchableOpacity onPress={showModal}>
+          <Text style={{ fontWeight: "bold" }}>
+            £{user?.attributes?.incomeAmount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          </Text>
+          <TouchableOpacity
+            onPress={() => showModal(user?.attributes, user.id)}
+          >
             <MaterialCommunityIcons
               name="circle-edit-outline"
               size={27}
@@ -172,7 +250,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 7,
     paddingHorizontal: 10,
-    paddingVertical:4,
+    paddingVertical: 4,
     fontWeight: "bold",
     width: 100,
     borderColor: myColorsLight.grey4,
@@ -181,12 +259,12 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderRadius: 7,
     paddingHorizontal: 10,
-    paddingVertical:8,
+    paddingVertical: 8,
     fontWeight: "bold",
     width: 200,
     borderColor: myColorsLight.grey4,
     marginLeft: 50,
-    marginTop: 50
+    marginTop: 50,
   },
 });
 export default RtBenefitPensionUsers;

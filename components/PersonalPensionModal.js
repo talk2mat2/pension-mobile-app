@@ -276,6 +276,7 @@ const PersoanalStatePensionModal = ({
                         setSearch([]);
                         setPersoData({
                           ...personData,
+                          secclExternalProviderId:"",
                           provider: providerName,
                           name: providerName,
                         });

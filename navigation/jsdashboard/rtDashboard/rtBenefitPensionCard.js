@@ -8,7 +8,9 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import RTDefinedBenefitModal from "../../../components/rtDefinedPensionModal";
 import JarvisButton from "../../../components/JarvisButton";
 import { AntDesign } from "@expo/vector-icons";
 import RtBenefitPensionUsers from "./rtBenefitPensionsUsers";
@@ -18,6 +20,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
+import UserContext from "../../../contexts/UserContext";
+import api from "../../../api";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RtBenefitPensionCard = ({ handleshowCards }) => {
@@ -25,7 +29,22 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
+  const [editPersonData, setEditPersoData] = React.useState({});
+  const ctx = useContext(UserContext);
+  const [editVisible, setEditVisible] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
+  const [benefitJars, setBenefitJar] = React.useState({
+    id: Math.floor(Math.random() * 100),
+    pensionName: "",
+    annualIncome: "",
+    provider: "",
+    name: "",
+    spousePension: "no",
+    jarType: "income",
+    jarSubType: "external",
+    incomeAmount: "",
+    isSpouse: false,
+  });
   React.useEffect(() => {
     Animated.timing(position, {
       toValue: { x: 0, y: 0 },
@@ -66,6 +85,77 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
       closeCard();
     }
   };
+  const selectStatePension = () => {
+    // console.log(ctx?.pensionJars)
+    if (ctx?.pensionJars?.length > 0) {
+      const statePenJars = ctx?.pensionJars?.filter((jars) => {
+        return (
+          jars.attributes?.jarSubType === "external" &&
+          jars.attributes?.jarType === "income"
+        );
+      });
+      if (statePenJars) {
+        return statePenJars;
+      } else return [];
+    } else return [];
+  };
+  const sumBenefitJarsValue = () => {
+    let sum = 0;
+    if (ctx?.pensionJars?.length > 0) {
+      ctx?.pensionJars?.map((jar) => {
+        if (
+          jar.attributes.jarSubType === "external" &&
+          jar.attributes?.jarType === "income"
+        ) {
+          sum += jar.attributes.incomeAmount;
+        }
+      });
+    }
+    return sum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+  const showEditModal = (data, id) => {
+    setEditPersoData({ ...data, id: id });
+    setEditVisible(true);
+  };
+  const submitFilledJars = async () => {
+    //iterate and make api call per jar
+    const isExist = benefitJars.name !== "" && benefitJars.incomeAmoun !== "";
+
+    const jarData = {
+      type: "jar",
+      attributes: { ...benefitJars },
+    };
+    if (isExist) {
+      await api
+        .create_Jar(ctx?.atk, jarData)
+        .then((res) => {
+          Alert.alert("successfully created");
+          console.log("jar created");
+          retrieve_all_jars_Jar()
+        })
+        .catch((err) => {
+          Alert.alert("Unable to create Defined Benefit Jar");
+          console.log(err);
+        });
+    }
+  };
+  const retrieve_all_jars_Jar = async () => {
+    await api
+      .retrieve_all_jars_Jar(ctx?.atk, ctx?.u?.id)
+      .then((res) => {
+        // setRetireProfile(res?.data);
+        // console.log(res.data);
+        // retireProfile,
+        ctx?.setPensionJars(res.data);
+
+        // ctx.setRetireProfile(res.data),
+      })
+      .catch((err) => {
+        console.log(err);
+        Alert.alert("Network error, unable to retrieve your pension jars");
+        return err;
+      });
+  };
   React.useEffect(() => {
     const banckhandle = BackHandler.addEventListener(
       "hardwareBackPress",
@@ -74,6 +164,9 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
     return () => {
       banckhandle.remove();
     };
+  }, []);
+  React.useEffect(() => {
+    retrieve_all_jars_Jar();
   }, []);
   return (
     <Animated.View
@@ -84,6 +177,18 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
         transform: [{ translateY: position.y }],
       }}
     >
+      <RTDefinedBenefitModal
+        {...{
+          visible,
+          setVisible,
+          showModal,
+          changeStatePension: () => {},
+          personData: benefitJars,
+          setPersonData: setBenefitJar,
+          AddJar: () => {},
+          submitFilledJars: submitFilledJars,
+        }}
+      />
       <View
         // Background Linear Gradient
         // colors={[myColorsLight.grey8, "transparent"]}
@@ -97,7 +202,7 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
             paddingHorizontal: 20,
           }}
         >
-            <TouchableOpacity onPress={closeCard}>
+          <TouchableOpacity onPress={closeCard}>
             <Text style={styles.cardName}>Defined Benefit Pensions</Text>
           </TouchableOpacity>
           {!rtisfullScreen ? (
@@ -126,7 +231,7 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
               { fontSize: 23, textAlign: "center", fontWeight: "bold" },
             ]}
           >
-           Defined Benefit Pensions
+            Defined Benefit Pensions
           </Text>
         </View>
         <View style={{ marginTop: 40, alignItems: "center" }}>
@@ -142,26 +247,37 @@ const RtBenefitPensionCard = ({ handleshowCards }) => {
               fontSize: 55,
             }}
           >
-            £8,300
+            £{sumBenefitJarsValue()}
           </Text>
         </View>
-        <View style={{ marginTop: "auto" }}>
-          <RtBenefitPensionUsers
-            name="Micheal Spender"
-            budget="£17,345"
-          />
-          <RtBenefitPensionUsers name="Sarah Spender" budget="£25,300 " />
+        <View style={{ marginTop: "auto", maxHeight: 400 }}>
+          <ScrollView style={{}}>
+            {selectStatePension().map((users, index) => (
+              <RtBenefitPensionUsers
+                ctx={ctx}
+                retrieve_all_jars_Jar={retrieve_all_jars_Jar}
+                user={users}
+                showEditModal={showEditModal}
+                ctxData={ctx.u}
+                key={index}
+                name="Micheal Spender"
+                budget="£17,345"
+              />
+            ))}
+          </ScrollView>
         </View>
       </View>
       <View style={{ alignItems: "center", marginTop: 90 }}>
-              <JarvisButton
-                bgcolor={myColorsLight.black}
-                play={() => {}}
-                btn="Add Pension"
-                w={200}
-                disabled={false}
-              />
-            </View>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={() => {
+            showModal();
+          }}
+          btn="Add Pension"
+          w={200}
+          disabled={false}
+        />
+      </View>
 
       <ScrollView style={{ marginBottom: 10 }}>
         {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
@@ -220,7 +336,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   background: {
-    height: deviceHeight / 1.8,
+    minHeight: deviceHeight / 1.8,
     // position: "absolute",
     top: 0,
     left: 0,

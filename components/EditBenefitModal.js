@@ -26,7 +26,7 @@ import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
 import JarvisLoader from "./JarvisLoader";
-const EditBenefitModal = ({
+const EditPersoanalStatePensionModal = ({
   visible,
   setVisible,
   personData,
@@ -594,4 +594,4 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
-export default EditBenefitModal;
+export default EditPersoanalStatePensionModal;
