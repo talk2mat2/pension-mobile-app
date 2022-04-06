@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
   loginButton: {
     alignItems: "center",
     marginTop: 50,
-    marginLeft: 20,
+    // marginLeft: 20,
   },
   form: {},
 });

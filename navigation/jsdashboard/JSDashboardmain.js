@@ -154,7 +154,7 @@ const JSDashboardMain = () => {
               <Text
                 style={{
                   textAlign: "center",
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: "bold",
                   marginTop: 6,
                 }}
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 90,
+    marginBottom: 300,
   },
 });
 export default JSDashboardMain;

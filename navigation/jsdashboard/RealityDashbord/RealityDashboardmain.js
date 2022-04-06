@@ -74,9 +74,9 @@ const RealityDashboardMain = () => {
         </View>
       </View>
 
-      <View style={{ height: "90%", paddingBottom: 100 }}>
+      <View style={{ height: 500, paddingBottom: 100,marginBottom:500 }}>
         <ScrollView>
-          <View style={{ marginTop: 20 }}>
+          <View style={{ marginTop: 20 ,marginBottom:100}}>
             <JarDoughnut />
           </View>
         </ScrollView>

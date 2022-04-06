@@ -91,8 +91,8 @@ const RTDashboardMain = () => {
               style={{
                 ...styles.subHeader,
                 textAlign: "center",
-                fontSize: 48,
-                fontWeight: "800",
+                fontSize: 40,
+                fontWeight: "600",
               }}
             >
               £375,645

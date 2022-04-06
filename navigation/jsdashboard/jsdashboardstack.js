@@ -5,6 +5,7 @@ import Swiper from "react-native-swiper";
 import JSDashboardMain from "./JSDashboardmain";
 import FullScreenContext from "../../contexts/fullScreenContext";
 import jwtDecode from "jwt-decode";
+import * as helpers from "../../Helpers";
 import { myColorsLight } from "../../constant/colors";
 import JSDashboardnav from "../../components/JSDashboardnav";
 // import BudgetBenchmark2 from "./BudgetBenchmark2";
@@ -41,6 +42,15 @@ const JSDasboard = () => {
       }
     }
   };
+  const handleLogout = () => {
+    //console.log(ctx)
+    helpers.remove("pa_u");
+    ctx?.setAtk(null);
+    ctx?.setRtk(null);
+    ctx?.setU(null);
+    ctx?.setLoggedIn(false);
+    // navigation.replace("logins");
+  };
   const Get_retirement_profile_user = async () => {
     await api
       .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
@@ -55,7 +65,13 @@ const JSDasboard = () => {
       .catch((err) => {
         console.log(err);
         if (err?.errors[0]?.details) {
-          Alert.alert("Failed to get RT profile, server says", err?.errors[0].details);
+          //logout in cse token hs expired
+          //might change this later
+          handleLogout()
+          Alert.alert(
+            "Failed to get RT profile, server says",
+            err?.errors[0].details
+          );
         } else {
           Alert.alert("An error occured, try again");
         }

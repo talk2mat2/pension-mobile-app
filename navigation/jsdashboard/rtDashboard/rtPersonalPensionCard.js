@@ -47,14 +47,14 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   const [editPersonData, setEditPersoData] = React.useState({});
   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
-    new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
+    new Animated.ValueXY({ x: 0, y: deviceHeight  })
   ).current;
   const [visible, setVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
   const ctx = useContext(UserContext);
   React.useEffect(() => {
     Animated.timing(position, {
-      toValue: { x: 0, y: 0 },
+      toValue: { x: 0, y: deviceHeight/2 },
       duration: 500,
       delay: 300,
       useNativeDriver: true,
@@ -80,9 +80,15 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   const hideModal = () => setVisible(false);
   const handleToggleFullScreen = () => {
     // togglrRtFullScreen();
-    Animated.timing(position, {
-      toValue: { x: 0, y: 0 },
+    !rtisfullScreen && Animated.timing(position, {
+      toValue: { x: 0, y: 2 },
       duration: 500,
+      delay: 300,
+      useNativeDriver: true,
+    }).start(() => togglrRtFullScreen());
+    rtisfullScreen && Animated.timing(position, {
+      toValue: { x: 0, y: deviceHeight/2 },
+      duration: 300,
       delay: 300,
       useNativeDriver: true,
     }).start(() => togglrRtFullScreen());
@@ -98,7 +104,9 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
     // console.log(ctx?.pensionJars)
     if (ctx?.pensionJars?.length > 0) {
       const statePenJars = ctx?.pensionJars?.filter(
-        (jars) => jars.attributes?.jarSubType === "external" && jars.attributes?.jarType === "asset"
+        (jars) =>
+          jars.attributes?.jarSubType === "external" &&
+          jars.attributes?.jarType === "asset"
       );
       if (statePenJars) {
         return statePenJars;
@@ -126,7 +134,10 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
     let sum = 0;
     if (ctx?.pensionJars?.length > 0) {
       ctx?.pensionJars?.map((jar) => {
-        if (jar.attributes.jarSubType === "external" && jar.attributes?.jarType === "asset") {
+        if (
+          jar.attributes.jarSubType === "external" &&
+          jar.attributes?.jarType === "asset"
+        ) {
           sum += jar.attributes.currentValue;
         }
       });
@@ -201,10 +212,13 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   return (
     <Animated.View
       style={{
-        height: rtisfullScreen ? deviceHeight - 20 : 400,
+        //height: rtisfullScreen ? deviceHeight - 20 : 400,
+        height: deviceHeight,
         ...styles.container,
         ...styles.card,
-        transform: [{ translateY: position.y }],
+        transform: [
+          { translateY: position.y },
+        ],
       }}
     >
       <PersoanalPensionModal
@@ -330,6 +344,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    overflow: "hidden",
   },
   cardName: {
     fontSize: 18,

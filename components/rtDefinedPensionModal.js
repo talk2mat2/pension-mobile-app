@@ -174,7 +174,7 @@ const RTDefinedBenefitModal = ({
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
 
-        <View style={{ ...styles.hrView, marginTop: "60%" }} />
+        <View style={{ ...styles.hrView, marginTop: "30%" }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}

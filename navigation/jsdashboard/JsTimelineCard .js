@@ -78,32 +78,37 @@ const JsTimelineCard = ({ handleshowCards }) => {
         paddingTop: isfullScreen ? 40 : 20,
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={closeCard}>
-          <Text style={styles.cardName}>Timeline</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleToggleFullScreen}>
-          <MaterialIcons
-            name="fullscreen"
-            size={40}
-            color={myColorsLight.black}
-          />
-        </TouchableOpacity>
-      </View>
+     <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+          }}
+        >
+          <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Timeline</Text>
+          </TouchableOpacity>
+          {!isfullScreen ? (
+            <TouchableOpacity onPress={handleToggleFullScreen}>
+              <MaterialIcons
+                name="fullscreen"
+                size={40}
+                color={myColorsLight.black}
+              />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity onPress={handleToggleFullScreen}>
+              <AntDesign
+                name="closecircle"
+                size={24}
+                color={myColorsLight.grey4}
+              />
+            </TouchableOpacity>
+          )}
+        </View>
       <>
-      <View
-        style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
-      >
-        <TouchableOpacity>
-        <AntDesign name="closecircle" size={30} color="black" />
-        </TouchableOpacity>
-      </View>
+     
       <View
         style={{
           marginTop: 5,
@@ -121,7 +126,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
                 { fontSize: 30, textAlign: "center", fontWeight: "bold" },
               ]}
             >
-              Budget Benchmark
+            Timeline
             </Text>
           </View>
         </View>
@@ -140,9 +145,9 @@ const JsTimelineCard = ({ handleshowCards }) => {
         </Text>
       </View>
       <View style={styles.nameContainer}>
-        <View style={{width:280 , alignContent:'center', marginTop:10, marginLeft:74}}><Text>Micheal</Text></View>
-        <View style={{width:1, height:8, backgroundColor: '#000000', height:40, marginLeft: -160}}></View>
-        <View style={{borderEndColor:'#00000', width:280, marginTop:10, marginLeft:70}}><Text>Sarah</Text></View>
+        <View style={{width:'50%' , alignItems:"center", marginTop:10}}><Text>Micheal</Text></View>
+        <View style={{width:1, height:8, backgroundColor: '#000000', height:40}}></View>
+        <View style={{borderEndColor:'#00000', width:'50%', marginTop:10,alignItems:"center"}}><Text>Sarah</Text></View>
       </View>
       <View style={styles.dividerContainer}>
         <View style={styles.divider1}>
@@ -150,7 +155,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
         <View style={styles.divider2}></View>
         <View style={styles.divider3}></View>
       </View>
-      <View style={styles.leftTimeline}>
+      {/* <View style={styles.leftTimeline}>
        <View style={styles.timeline1}>
         <View style={styles.date}>
           <Text style={styles.dateFont}>0000</Text>
@@ -176,7 +181,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
           <Text style={styles.dateFont}>0000</Text>
         </View>
         <View>
-          <Text style={styles.text}> Lorem ipsum dolor sit amet, consectetur{"\n"}
+          <Text style={styles.text}> Lorem ipsum dolor sit amet,{"\n"} consectetur{"\n"}
           Lorem ipsum dolor sit amet, consectetur
           </Text>
         </View>
@@ -188,8 +193,8 @@ const JsTimelineCard = ({ handleshowCards }) => {
           <Text style={styles.dateFont}>0000</Text>
         </View>
         <View>
-          <Text style={styles.rightText}> Lorem ipsum dolor sit amet, consectetur{"\n"}
-          Lorem ipsum dolor sit amet, consectetur
+          <Text style={styles.rightText}> Lorem ipsum dolor sit amet,{"\n"} consectetur
+          Lorem ipsum dolor {"\n"}sit amet, consectetur
           </Text>
         </View>
        </View>
@@ -213,7 +218,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
           </Text>
         </View>
         </View>
-      </View>
+      </View> */}
      
 
     
@@ -224,7 +229,7 @@ const JsTimelineCard = ({ handleshowCards }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: myColorsLight.grey6,
+    backgroundColor: myColorsLight.white,
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -235,16 +240,17 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 10,
-    padding: 10,
-    paddingLeft: 20,
+    // padding: 10,
+    // paddingLeft: 20,
   },
   dividerContainer:{
     flexDirection:"column",
-    alignItems:'center'
+    alignItems:'center',
+  
   },
   divider1:{
     height:150,
-    marginRight:10,
+    // marginRight:10,
     width: 14,
     borderBottomRightRadius:20, 
     borderBottomLeftRadius:20,
@@ -253,7 +259,7 @@ const styles = StyleSheet.create({
   divider2:{
     backgroundColor:myColorsLight.grey2, 
     height: 150, 
-    marginRight:10, 
+    // marginRight:10, 
     width: 14, 
     borderBottomRightRadius:20, 
     borderBottomLeftRadius:20
@@ -261,20 +267,19 @@ const styles = StyleSheet.create({
   divider3:{
     backgroundColor:myColorsLight.grey3, 
     height: 150, 
-    marginRight:10,
+    // marginRight:10,
      width: 14, 
      borderBottomRightRadius:20,
     borderBottomLeftRadius:20
   },
   nameContainer:{
     marginTop:20, 
-    marginLeft:-19, 
-    display:'flex', 
+    // marginLeft:-19,  
     borderColor: myColorsLight.grey4, 
     borderWidth: 1, 
     height: 40, 
     flexDirection: "row", 
-    width:390
+    width:'100%'
   },
   leftTimeline:{
     marginLeft:5,
