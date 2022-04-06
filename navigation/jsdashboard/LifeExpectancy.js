@@ -14,8 +14,50 @@ import {
   ContributionGraph,
 } from "react-native-chart-kit";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import UserContext from "../../contexts/UserContext";
 const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
   const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
+  const ctx = useContext(UserContext);
+
+  const userArray = () => {
+    let arrs = [];
+    if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
+      ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
+        arrs.push(data.user);
+      });
+    }
+    return arrs;
+  };
+  const combinedArray = () => {
+    let arrs = [];
+    if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
+      ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
+        arrs.push(data.combined);
+      });
+    }
+    return arrs;
+  };
+  // const probabilityArray = () => {
+  //   let arrs = [];
+  //   if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
+  //     ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
+  //       arrs.push(data.probability);
+  //     });
+  //   }
+  //   return arrs;
+  // };
+  const spouseArray = () => {
+    let arrs = [];
+    if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
+      ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
+        arrs.push(data.spouse);
+      });
+    }
+    return arrs;
+  };
+  // React.useEffect(() => {
+  //   console.log(ctx.retireProfile?.attributes?.lifeExpectancies);
+  // }, []);
   return (
     <MyGradientBackground>
       {/* <View
@@ -86,12 +128,13 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
           adipiscing elit. Curabitur arcu erat{"\n"}
         </Text>
       </View>
-      <View style={{ marginTop: 5, marginLeft: -50 }}>
-        <View style={{ marginTop: 35, marginLeft: 350 }}>
-          <TouchableOpacity>
-            <Entypo name="info-with-circle" size={14} color="black" />
-          </TouchableOpacity>
-        </View>
+      <View
+        style={{
+          marginTop: 20,
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <Text
           style={{
             ...styles.subHeader,
@@ -102,52 +145,70 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
           Lorem ipsum dolor sit amet, consectetur{"\n"}
           adipiscing elit. Curabitur arcu erat{"\n"}
         </Text>
+        <View>
+          <TouchableOpacity>
+            <Entypo name="info-with-circle" size={14} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
-      <>
-        <LineChart
-          data={{
-            labels: ["95%", "50%", "5%"],
-            datasets: [
-              {
-                data: [10, 20, 30, 40, 50, 60],
-                strokeWidth: 2,
-                color: (opacity = 1) => `rgba(36, 36, 35, ${opacity})`,
-              },
-              {
-                data: [20, 40, 39, 50, 70, 99],
-                color: (opacity = 1) => `rgba(66, 66, 64, ${opacity})`,
-              },
-              {
-                data: [40, 50, 70, 99],
-                color: (opacity = 1) => `rgba(133, 132, 130, ${opacity})`,
-              },
-            ],
-          }}
-          width={Dimensions.get("window").width + 7}
-          height={400}
-          fromZero={true}
-          withDots={false}
-          withShadow={false}
-          withInnerLines={false}
-          chartConfig={{
-            backgroundGradientFrom: myColorsLight.white,
-            backgroundGradientTo: myColorsLight.white,
-            decimalPlaces: 0,
-            color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-            style: {},
-          }}
-          style={{
-            marginVertical: 40,
-            borderRadius: 16,
-          }}
-        />
-      </>
+      {ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0 ? (
+        <>
+          <LineChart
+            data={{
+              labels: ["95%", "50%", "5%"].reverse(),
+              datasets: [
+                {
+                  data: userArray(),
+                  strokeWidth: 2,
+                  color: (opacity = 1) => myColorsLight.grey1,
+                },
+                {
+                  data: spouseArray(),
+                  strokeWidth: 2,
+                  color: (opacity = 1) => myColorsLight.grey7,
+                },
+                {
+                  data: combinedArray(),
+                  strokeWidth: 2,
+                  color: (opacity = 1) => myColorsLight.grey3,
+                },
+                // {
+                //   data: probabilityArray(),
+                //   strokeWidth: 2,
+                //   color: (opacity = 1) => myColorsLight.grey2,
+                // },
+              ],
+            }}
+            width={Dimensions.get("window").width-30 }
+            height={400}
+            fromZero={true}
+            withDots={false}
+            withShadow={false}
+            withInnerLines={false}
+            chartConfig={{
+              backgroundGradientFrom: myColorsLight.white,
+              backgroundGradientTo: myColorsLight.white,
+              decimalPlaces: 0,
+              color: (opacity = 1) => myColorsLight.grey1,
+              style: {},
+            }}
+            style={{
+              marginVertical: 40,
+              borderRadius: 16,
+           
+            }}
+          />
+        </>
+      ) : (
+        <Text style={{textAlign:'center',fontSize:17}}>No Record</Text>
+      )}
+
       <View>
         <View style={{ display: "flex", marginTop: -15 }}>
           <Text style={{ marginTop: -55, marginLeft: 110 }}>You</Text>
           <View
             style={{
-              backgroundColor: "#242423",
+              backgroundColor: myColorsLight.grey1,
               opacity: 1,
               marginLeft: 90,
               height: 5,
@@ -160,7 +221,7 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
           <Text style={{ marginTop: -55, marginLeft: 170 }}>Spouse</Text>
           <View
             style={{
-              backgroundColor: "#5e5c5c",
+              backgroundColor: myColorsLight.grey7,
               opacity: 1,
               marginLeft: 150,
               height: 5,

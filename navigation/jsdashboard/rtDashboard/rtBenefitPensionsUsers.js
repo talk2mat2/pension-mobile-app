@@ -9,6 +9,7 @@ import {
   ScrollView,
   Alert,
   TextInput,
+  ImageBackground,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisLoader from "../../../components/JarvisLoader";
@@ -88,29 +89,45 @@ const RtBenefitPensionUsers = ({
 
           <ScrollView>
             <View style={{ marginTop: 50, alignItems: "center" }}>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  width: 120,
-                  marginRight: 3,
-                  fontSize: 20,
-                }}
-              >
-                Jar logo
-              </Text>
+              <View style={styles.jarContainer}>
+                <ImageBackground
+                  source={require("../../../assets/jarIcon.png")}
+                  resizeMode="contain"
+                  style={styles.Jaricon}
+                >
+                  <View style={{ marginTop: "auto", marginBottom: 20 }}>
+                    <Text style={{ textAlign: "center", fontWeight: "600" }}>
+                      Defined{"\n"}benefit
+                    </Text>
+
+                    {/* {!statePension ? (
+                      <TouchableOpacity onPress={showModal}>
+                        <AntDesign
+                          style={{ textAlign: "center", fontWeight: "600" }}
+                          name="pluscircle"
+                          size={37}
+                          color={myColorsLight.lightGreyDim}
+                        />
+                      </TouchableOpacity>
+                    ) : (
+                      <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                        £{statePension}
+                      </Text>
+                    )} */}
+                  </View>
+                </ImageBackground>
+              </View>
             </View>
             {loading && <JarvisLoader />}
-            <View style={{ alignItems: "center", marginTop: 50 }}>
+            <View style={{ alignItems: "center", marginTop: 20 }}>
               <Text style={{ fontSize: 20, color: myColorsLight.black }}>
                 Edit{" "}
                 {user?.attributes?.isSpouse
                   ? ctxData?.included[0]?.spouseName
                   : `${
                       ctxData?.attributes?.fname
-                    } ${ctxData?.attributes?.lname?.slice(0, 5)}..`}{" "}
-                's{"\n"}
+                    } ${ctxData?.attributes?.lname?.slice(0, 9)}.`}{" "}
+                {"\n"}
                 Defined Benefit Pension
               </Text>
             </View>
@@ -122,7 +139,7 @@ const RtBenefitPensionUsers = ({
                 setEditPersoData({ ...editPersonData, name: text })
               }
             />
-            <View style={{ ...styles.hrView, marginTop: 10 }} />
+            <View style={{ ...styles.hrView, marginTop: 20 }} />
 
             <View
               style={{
@@ -187,7 +204,10 @@ const RtBenefitPensionUsers = ({
         </View>
         <View style={styles.cardConteent}>
           <Text style={{ fontWeight: "bold" }}>
-            £{user?.attributes?.incomeAmount?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+            £
+            {user?.attributes?.incomeAmount
+              ?.toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
           </Text>
           <TouchableOpacity
             onPress={() => showModal(user?.attributes, user.id)}
@@ -261,10 +281,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 8,
     fontWeight: "bold",
-    width: 200,
+    width: '80%',
     borderColor: myColorsLight.grey4,
-    marginLeft: 50,
-    marginTop: 50,
+    // marginLeft: 50,
+    marginTop: 20,
+    alignSelf:"center"
+  },
+  Jaricon: {
+    width: 140,
+    height: 140,
+    backgroundColor: "#fff",
+  },
+  jarContainer: {
+    padding: 10,
+    margin: 4,
+    borderColor: "#a9a9a9",
+    borderWidth: 3,
+    borderRadius: 20,
   },
 });
 export default RtBenefitPensionUsers;

@@ -8,6 +8,7 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
+  PanResponder,
   Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
@@ -46,6 +47,10 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   });
   const [editPersonData, setEditPersoData] = React.useState({});
   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
+  const outcomePopper = new Animated.ValueXY({
+    x: 0,
+    y: 0,
+  })
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight  })
   ).current;
@@ -209,8 +214,41 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+  const pan = PanResponder.create({
+    //this set the position to the supplied x/y position
+    onPanResponderRelease: () => {
+      // outcomePopper.setValue({ x: 0, y: 0 });
+      Animated.spring(outcomePopper, {
+        toValue: { x: 0, y: 0 },
+        useNativeDriver: true,
+        bounciness: 10,
+      }).start();
+    },
+    onMoveShouldSetPanResponder: () => true,
+    //this moves your animated view with response to pan dy dx value
+    // onPanResponderMove: Animated.event(
+    //   [null, { dx: position.x, dy: position.y }],
+    //   { useNativeDriver: false }
+    // ),
+    onPanResponderMove: (e, gesture) =>{
+      outcomePopper.setValue({ x: gesture.dx, y: gesture.dy })
+    
+      const { nativeEvent } = e;
+console.log(nativeEvent)
+      if (nativeEvent.velocityY > 0) {
+        console.log('Swipe up');
+      } else {
+        console.log('Swipe down');
+      }
+    }
+    // (e, c) => {
+    //   // console.log("move", e);
+    //   Animated.event([null, { dx: position.x, dy: position.y }]);
+    // },
+  });
   return (
     <Animated.View
+    // {...pan.panHandlers}
       style={{
         //height: rtisfullScreen ? deviceHeight - 20 : 400,
         height: deviceHeight,
