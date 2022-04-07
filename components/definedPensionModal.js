@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,12 +8,16 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
+import api from "../api";
+import lodash from "lodash";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
+import UserContext from "../contexts/UserContext";
 const DefinedBenefitModal = ({
   visible,
   setVisible,
@@ -25,9 +29,15 @@ const DefinedBenefitModal = ({
 }) => {
   // const [visible, setVisible] = React.useState(false);
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
+  const [providerName, setproviderName] = React.useState("");
+  const [search, setSearch] = React.useState([]);
+  const [search2, setSearch2] = React.useState([]);
   const [spouseGender, setSpouseGender] = React.useState("Male");
   const [stateAmountValidation, setStateAmountValidation] =
     React.useState(false);
+  const [providerNameValidation, setproviderNameValidation] =
+    React.useState(false);
+  const ctx = useContext(UserContext);
   const [stateAmount, setStateAmount] = React.useState("");
   const _next = () => {
     if (!personData.pensionName) {
@@ -40,6 +50,119 @@ const DefinedBenefitModal = ({
     }
   };
   const hideModal = () => setVisible(false);
+  const handleSearchResult = async (search) => {
+    setproviderNameValidation(false);
+    if (!search) {
+      return;
+    }
+    if (search?.length < 3) {
+      return;
+    }
+    await api
+      .search_all_Pension_Providers(ctx?.atk, search)
+      .then((res) => {
+        // console.log(res.data);
+        // console.log(search);
+        res.data && setSearch(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    await api
+      .search_all_Pension_Employers(ctx?.atk, search)
+      .then((res) => {
+        // console.log(res.data);
+        // console.log(search);
+        res.data && setSearch2(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const debouncedSearch = lodash.debounce((text) => {
+    handleSearchResult(text);
+  }, 500);
+  const mapResults = () => {
+    return (
+      search?.length > 0 &&
+      search?.map((item, index) => (
+        <View key={item?.id} style={{ marginVertical: 3 }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearch([]);
+              setSearch2([]);
+              // console.log(item?.attributes?.externalIds[0]?.value)
+              // setChoosmnenProvider(item);
+              setPersonData({
+                ...personData,
+                providerName: item?.attributes?.name,
+                name: item?.attributes?.name,
+                pensionName:item?.attributes?.name
+                // secclExternalProviderId:
+                //   item?.attributes?.secclExternalProviderId,
+              });
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+              <MaterialCommunityIcons
+                style={{ marginTop: 6 }}
+                name="safe"
+                size={20}
+                color={myColorsLight.black}
+              />
+              <Text
+                style={{ fontWeight: "700", paddingVertical: 3, marginLeft: 4 }}
+                key={index}
+              >
+                {item?.attributes?.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))
+    );
+  };
+  const mapResults2 = () => {
+    return (
+      search2?.length > 0 &&
+      search2?.map((item, index) => (
+        <View key={item?.id} style={{ marginVertical: 3 }}>
+          <TouchableOpacity
+            onPress={() => {
+              setSearch2([]);
+              setSearch([]);
+              // console.log(item?.attributes?.externalIds[0]?.value)
+              // setChoosmnenProvider(item);
+              setPersonData({
+                ...personData,
+                providerName: item?.attributes?.name,
+                name: item?.attributes?.name,
+                pensionName:item?.attributes?.name
+                // secclExternalProviderId:
+                //   item?.attributes?.secclExternalProviderId,
+              });
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "flex-start" }}>
+              <MaterialCommunityIcons
+                style={{ marginTop: 6 }}
+                name="office-building"
+                size={20}
+                color={myColorsLight.black}
+              />
+              <Text
+                style={{ fontWeight: "700", paddingVertical: 3, marginLeft: 4 }}
+                key={index}
+              >
+                {item?.attributes?.name}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ))
+    );
+  };
   return (
     <Portal>
       <Modal
@@ -83,14 +206,66 @@ const DefinedBenefitModal = ({
           }}
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <TextInput
-              placeholder="Pension Name"
-              style={{ ...styles.input, width: "100%" }}
-              value={personData.pensionName}
-              onChangeText={(text) => {
-                setPersonData({ ...personData, pensionName: text, name: text });
-              }}
-            />
+            {personData.pensionName ? (
+              <TouchableOpacity
+                onPress={() =>
+                  setPersonData({ ...personData, pensionName: "", name: "" })
+                }
+              >
+                <Text style={{ fontWeight: "700" }}>
+                  {personData.pensionName}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TextInput
+                  placeholder="Pension Name"
+                  style={{ ...styles.input, width: "100%" }}
+                  value={providerName}
+                  // onChangeText={(text) => {
+                  //   setPersonData({ ...personData, pensionName: text, name: text });
+                  // }}
+                  onChangeText={(text) => {
+                    setproviderName(text);
+                    debouncedSearch(text);
+                  }}
+                />
+                {(search?.length > 0 || providerName.length > 0) && (
+                  <View style={styles.searchDrop}>
+                    <ScrollView>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSearch([]);
+                          setPersonData({
+                            ...personData,
+                            secclExternalProviderId: "",
+                            provider: providerName,
+                            name: providerName,
+                            pensionName:providerName
+                          });
+                          // setChoosenProvider({
+                          //   attributes: { name: providerName },
+                          // });
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontWeight: "700",
+                            paddingVertical: 4,
+                            backgroundColor: myColorsLight.grey9,
+                            paddingHorizontal: 20,
+                          }}
+                        >
+                          {providerName}
+                        </Text>
+                      </TouchableOpacity>
+                      {mapResults()}
+                      {mapResults2()}
+                    </ScrollView>
+                  </View>
+                )}
+              </>
+            )}
           </View>
         </View>
         {/* {stateAmountValidation && (
@@ -224,6 +399,18 @@ const styles = StyleSheet.create({
 
     height: 2,
     backgroundColor: "#bbb",
+  },
+  searchDrop: {
+    maxHeight: 300,
+    position: "absolute",
+    right: 0,
+    width: '100%',
+    backgroundColor: myColorsLight.white,
+    zIndex: 5,
+    elevation: 5,
+    top: 50,
+    overflow: "scroll",
+    padding: 10,
   },
 });
 export default DefinedBenefitModal;
