@@ -197,7 +197,7 @@ const RetirementCards = ({ handleshowCards }) => {
           </JsRetireCard>
           <JsRetireCard
             title="Clothing & Personal"
-            amount={`£${getPrice("Clothing & Personal")}`}
+            amount={`£${getPrice("Clothing and Personal")}`}
           >
             <Ionicons
               name="md-shirt"

@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 
   container: {
     position: "absolute",
-    bottom: 80,
+    bottom: '3%',
     padding: 10,
     right: 0,
     backgroundColor: myColorsLight.white,

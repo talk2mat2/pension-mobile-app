@@ -26,18 +26,17 @@ const RtSatePensionCard = ({ handleshowCards }) => {
     useContext(FullScreenContext);
   const ctx = useContext(UserContext);
   const position = React.useRef(
-    new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
+    new Animated.ValueXY({ x: 0, y: deviceHeight })
   ).current;
   const [visible, setVisible] = React.useState(false);
   React.useEffect(() => {
     Animated.timing(position, {
-      toValue: { x: 0, y: 0 },
+      toValue: { x: 0, y: deviceHeight / 2 },
       duration: 500,
       delay: 300,
       useNativeDriver: true,
     }).start();
   }, []);
-
   const closeCard = () => {
     Animated.timing(position, {
       toValue: { x: 0, y: deviceHeight / 2 - 120 },
@@ -53,14 +52,31 @@ const RtSatePensionCard = ({ handleshowCards }) => {
   };
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
+  // const handleToggleFullScreen = () => {
+  //   // togglrRtFullScreen();
+  //   Animated.timing(position, {
+  //     toValue: { x: 0, y: 0 },
+  //     duration: 500,
+  //     delay: 300,
+  //     useNativeDriver: true,
+  //   }).start(() => togglrRtFullScreen());
+  // };
   const handleToggleFullScreen = () => {
     // togglrRtFullScreen();
-    Animated.timing(position, {
-      toValue: { x: 0, y: 0 },
-      duration: 500,
-      delay: 300,
-      useNativeDriver: true,
-    }).start(() => togglrRtFullScreen());
+    !rtisfullScreen &&
+      Animated.timing(position, {
+        toValue: { x: 0, y: 2 },
+        duration: 300,
+        delay: 300,
+        useNativeDriver: true,
+      }).start(() => togglrRtFullScreen());
+    rtisfullScreen &&
+      Animated.timing(position, {
+        toValue: { x: 0, y: deviceHeight / 2 },
+        duration: 300,
+        delay: 300,
+        useNativeDriver: true,
+      }).start(() => togglrRtFullScreen());
   };
   const handleBackButton = () => {
     if (rtisfullScreen) {
@@ -123,7 +139,8 @@ const RtSatePensionCard = ({ handleshowCards }) => {
   return (
     <Animated.View
       style={{
-        height: rtisfullScreen ? deviceHeight - 20 : 400,
+        // height: rtisfullScreen ? deviceHeight - 20 : 400,
+        height: deviceHeight,
         ...styles.container,
         ...styles.card,
         transform: [{ translateY: position.y }],
@@ -190,10 +207,11 @@ const RtSatePensionCard = ({ handleshowCards }) => {
             £{sumStateJarsValue()}
           </Text>
         </View>
-        <View style={{ marginTop: "auto",maxHeight:400 }}>
+        <View style={{ marginTop: "auto", maxHeight: 400 }}>
           <ScrollView style={{}}>
             {selectStatePension()?.map((users) => (
-              <RtstateUsers user={users}
+              <RtstateUsers
+                user={users}
                 key={users.id}
                 selectStatePension
                 name="Micheal Spender"
@@ -244,6 +262,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    overflow: "hidden",
   },
   cardName: {
     fontSize: 18,

@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, ScrollView } from "react-native";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import { AntDesign } from "@expo/vector-icons";
@@ -151,99 +151,99 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
           </TouchableOpacity>
         </View>
       </View>
-      {ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0 ? (
-        <>
-          <LineChart
-            data={{
-              labels: ["95%", "50%", "5%"].reverse(),
-              datasets: [
-                {
-                  data: userArray(),
-                  strokeWidth: 2,
-                  color: (opacity = 1) => myColorsLight.grey1,
-                },
-                {
-                  data: spouseArray(),
-                  strokeWidth: 2,
-                  color: (opacity = 1) => myColorsLight.grey7,
-                },
-                {
-                  data: combinedArray(),
-                  strokeWidth: 2,
-                  color: (opacity = 1) => myColorsLight.grey3,
-                },
-                // {
-                //   data: probabilityArray(),
-                //   strokeWidth: 2,
-                //   color: (opacity = 1) => myColorsLight.grey2,
-                // },
-              ],
-            }}
-            width={Dimensions.get("window").width-30 }
-            height={400}
-            fromZero={true}
-            withDots={false}
-            withShadow={false}
-            withInnerLines={false}
-            chartConfig={{
-              backgroundGradientFrom: myColorsLight.white,
-              backgroundGradientTo: myColorsLight.white,
-              decimalPlaces: 0,
-              color: (opacity = 1) => myColorsLight.grey1,
-              style: {},
-            }}
-            style={{
-              marginVertical: 40,
-              borderRadius: 16,
-           
-            }}
-          />
-        </>
-      ) : (
-        <Text style={{textAlign:'center',fontSize:17}}>No Record</Text>
-      )}
-
-      <View>
-        <View style={{ display: "flex", marginTop: -15 }}>
-          <Text style={{ marginTop: -55, marginLeft: 110 }}>You</Text>
-          <View
-            style={{
-              backgroundColor: myColorsLight.grey1,
-              opacity: 1,
-              marginLeft: 90,
-              height: 5,
-              width: 15,
-              marginTop: -10,
-            }}
-          ></View>
+      <ScrollView>
+        {ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0 ? (
+          <>
+            <LineChart
+              data={{
+                labels: ["95%", "50%", "5%"].reverse(),
+                datasets: [
+                  {
+                    data: userArray(),
+                    strokeWidth: 2,
+                    color: (opacity = 1) => myColorsLight.grey1,
+                  },
+                  {
+                    data: spouseArray(),
+                    strokeWidth: 2,
+                    color: (opacity = 1) => myColorsLight.grey7,
+                  },
+                  {
+                    data: combinedArray(),
+                    strokeWidth: 2,
+                    color: (opacity = 1) => myColorsLight.grey3,
+                  },
+                  // {
+                  //   data: probabilityArray(),
+                  //   strokeWidth: 2,
+                  //   color: (opacity = 1) => myColorsLight.grey2,
+                  // },
+                ],
+              }}
+              width={Dimensions.get("window").width - 30}
+              height={400}
+              fromZero={true}
+              withDots={false}
+              withShadow={false}
+              withInnerLines={false}
+              chartConfig={{
+                backgroundGradientFrom: myColorsLight.white,
+                backgroundGradientTo: myColorsLight.white,
+                decimalPlaces: 0,
+                color: (opacity = 1) => myColorsLight.grey1,
+                style: {},
+              }}
+              style={{
+                marginVertical: 40,
+                borderRadius: 16,
+              }}
+            />
+          </>
+        ) : (
+          <Text style={{ textAlign: "center", fontSize: 17 }}>No Record</Text>
+        )}
+        <View>
+          <View style={{ display: "flex", marginTop: -15 }}>
+            <Text style={{ marginTop: -55, marginLeft: 110 }}>You</Text>
+            <View
+              style={{
+                backgroundColor: myColorsLight.grey1,
+                opacity: 1,
+                marginLeft: 90,
+                height: 5,
+                width: 15,
+                marginTop: -10,
+              }}
+            ></View>
+          </View>
+          <View style={{ display: "flex", marginTop: -15 }}>
+            <Text style={{ marginTop: -55, marginLeft: 170 }}>Spouse</Text>
+            <View
+              style={{
+                backgroundColor: myColorsLight.grey7,
+                opacity: 1,
+                marginLeft: 150,
+                height: 5,
+                width: 15,
+                marginTop: -10,
+              }}
+            ></View>
+          </View>
+          <View style={{ display: "flex", marginTop: -15 }}>
+            <Text style={{ marginTop: -55, marginLeft: 250 }}>Combined</Text>
+            <View
+              style={{
+                backgroundColor: "#858482",
+                opacity: 1,
+                marginLeft: 230,
+                height: 5,
+                width: 15,
+                marginTop: -10,
+              }}
+            ></View>
+          </View>
         </View>
-        <View style={{ display: "flex", marginTop: -15 }}>
-          <Text style={{ marginTop: -55, marginLeft: 170 }}>Spouse</Text>
-          <View
-            style={{
-              backgroundColor: myColorsLight.grey7,
-              opacity: 1,
-              marginLeft: 150,
-              height: 5,
-              width: 15,
-              marginTop: -10,
-            }}
-          ></View>
-        </View>
-        <View style={{ display: "flex", marginTop: -15 }}>
-          <Text style={{ marginTop: -55, marginLeft: 250 }}>Combined</Text>
-          <View
-            style={{
-              backgroundColor: "#858482",
-              opacity: 1,
-              marginLeft: 230,
-              height: 5,
-              width: 15,
-              marginTop: -10,
-            }}
-          ></View>
-        </View>
-      </View>
+      </ScrollView>
     </MyGradientBackground>
   );
 };
