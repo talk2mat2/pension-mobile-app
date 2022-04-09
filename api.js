@@ -1,5 +1,6 @@
 import axios from "axios";
-const baseUrl = "https://api.getjarvis.dev/v1";
+import Env from "./env";
+const { Base_Url: baseUrl } = Env;
 
 export default new (class Api {
   Get_retirement_expe_catego = async (
@@ -85,7 +86,7 @@ export default new (class Api {
         throw err?.response?.data;
       });
   };
-  update_filled_Jar = async (id,token, jarData) => {
+  update_filled_Jar = async (id, token, jarData) => {
     return await axios
       .put(
         baseUrl + `/jars/${id}`,
@@ -145,7 +146,7 @@ export default new (class Api {
         throw err?.response?.data;
       });
   };
-  search_all_Pension_Providers = async (token,search) => {
+  search_all_Pension_Providers = async (token, search) => {
     return await axios
       .get(baseUrl + `/pension-providers?search=${search}`, {
         headers: {
@@ -159,7 +160,7 @@ export default new (class Api {
         throw err?.response?.data;
       });
   };
-  search_all_Pension_Employers = async (token,search) => {
+  search_all_Pension_Employers = async (token, search) => {
     return await axios
       .get(baseUrl + `/employers?search=${search}`, {
         headers: {

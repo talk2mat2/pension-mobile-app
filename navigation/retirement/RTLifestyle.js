@@ -93,22 +93,34 @@ function RTLifestyle({ route, navigation }) {
       spouseRetirementAge,
       spouseRetirementDate,
     } = ctx?.u?.included[0];
+    const attribs = {
+      dateOfBirth,
+      employmentStatus,
+      gender,
+      isSingle,
+      maritalStatus,
+      onboardingCompleted: true,
+      retirementAge,
+      retirementDate,
+      spouseDateOfBirth,
+      spouseGender: spouseGender || "Female",
+      spouseName,
+      spouseRetirementAge,
+      spouseRetirementDate,
+    };
+    // Object.keys(attribs).forEach(
+    //   (k) => attribs[k] == null && delete attribs[k]
+    // );
+    //remove null value
+    Object.keys(attribs).forEach((item) => {
+      if (attribs[item] == null) {
+        attribs[item] = "";
+      }
+    });
     const newData = {
       type: "retirementProfile",
       attributes: {
-        dateOfBirth,
-        employmentStatus,
-        gender,
-        isSingle,
-        maritalStatus,
-        onboardingCompleted: true,
-        retirementAge,
-        retirementDate,
-        spouseDateOfBirth,
-        spouseGender,
-        spouseName,
-        spouseRetirementAge,
-        spouseRetirementDate,
+        ...attribs,
         expenses: [
           {
             plsaCostCategoryId: 2,
@@ -145,7 +157,7 @@ function RTLifestyle({ route, navigation }) {
     };
 
     setIsloading(true);
-
+    // console.log(JSON.stringify(newData));
     await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);

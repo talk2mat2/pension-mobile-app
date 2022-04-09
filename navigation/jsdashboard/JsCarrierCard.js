@@ -11,6 +11,7 @@ import {
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import { PanGestureHandler } from "react-native-gesture-handler";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JsCarrierCard = ({ handleshowCards }) => {
   const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
@@ -66,35 +67,52 @@ const JsCarrierCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+  const handleGesture = (evt) => {
+    const { nativeEvent } = evt;
+
+    if (nativeEvent.velocityY > 0) {
+      //on swipe down
+      closeCard();
+    } else {
+      //on swipe up
+
+      if (!isfullScreen) {
+        handleToggleFullScreen();
+      }
+    }
+  };
+
   return (
-    <Animated.View
-      style={{
-        height: isfullScreen ? deviceHeight - 20 : 400,
-        ...styles.container,
-        ...styles.card,
-        transform: [{ translateY: position.y }],
-        paddingTop: isfullScreen ? 40 : 20,
-      }}
-    >
-      <View
+    <PanGestureHandler onGestureEvent={handleGesture}>
+      <Animated.View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
+          height: isfullScreen ? deviceHeight - 20 : 400,
+          ...styles.container,
+          ...styles.card,
+          transform: [{ translateY: position.y }],
+          paddingTop: isfullScreen ? 40 : 20,
         }}
       >
-        <TouchableOpacity onPress={closeCard}>
-          <Text style={styles.cardName}>Career Path</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleToggleFullScreen}>
-          <MaterialIcons
-            name="fullscreen"
-            size={40}
-            color={myColorsLight.black}
-          />
-        </TouchableOpacity>
-      </View>
-    </Animated.View>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Career Path</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleToggleFullScreen}>
+            <MaterialIcons
+              name="fullscreen"
+              size={40}
+              color={myColorsLight.black}
+            />
+          </TouchableOpacity>
+        </View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({

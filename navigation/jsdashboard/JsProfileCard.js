@@ -12,6 +12,7 @@ import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import { PanGestureHandler } from "react-native-gesture-handler";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JsProfileCard = ({ handleshowCards }) => {
   const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
@@ -67,54 +68,72 @@ const JsProfileCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+  const handleGesture = (evt) => {
+    const { nativeEvent } = evt;
+
+    if (nativeEvent.velocityY > 0) {
+      //on swipe down
+      closeCard();
+    } else {
+      //on swipe up
+
+      if (!isfullScreen) {
+        handleToggleFullScreen();
+      }
+    }
+  };
   return (
-    <Animated.View
-      style={{
-        height: isfullScreen ? deviceHeight - 20 : 400,
-        ...styles.container,
-        ...styles.card,
-        transform: [{ translateY: position.y }],
-        paddingTop: isfullScreen ? 40 : 20,
-      }}
-    >
-      <LinearGradient
-        // Background Linear Gradient
-        colors={[myColorsLight.grey4, "transparent"]}
-        style={styles.background}
-      />
-      <View
+    <PanGestureHandler onGestureEvent={handleGesture}>
+      <Animated.View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          paddingHorizontal: 20,
+          height: isfullScreen ? deviceHeight - 20 : 400,
+          ...styles.container,
+          ...styles.card,
+          transform: [{ translateY: position.y }],
+          paddingTop: isfullScreen ? 40 : 20,
         }}
       >
-        <TouchableOpacity onPress={closeCard}>
-          <Text style={styles.cardName}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleToggleFullScreen}>
-          <MaterialIcons
-            name="fullscreen"
-            size={40}
-            color={myColorsLight.black}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={{ marginTop: 30 }}>
-        <Text
-          style={[
-            styles.loginText,
-            ,
-            { fontSize: 20, textAlign: "center", fontWeight: "bold" },
-          ]}
+        <LinearGradient
+          // Background Linear Gradient
+          colors={[myColorsLight.grey4, "transparent"]}
+          style={styles.background}
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            paddingHorizontal: 20,
+          }}
         >
-          Profile
+          <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleToggleFullScreen}>
+            <MaterialIcons
+              name="fullscreen"
+              size={40}
+              color={myColorsLight.black}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={{ marginTop: 30 }}>
+          <Text
+            style={[
+              styles.loginText,
+              ,
+              { fontSize: 20, textAlign: "center", fontWeight: "bold" },
+            ]}
+          >
+            Profile
+          </Text>
+        </View>
+        <Text style={{ textAlign: "center", marginTop: "40%", fontSize: 20 }}>
+          TBD
         </Text>
-      </View>
-      <Text style={{ textAlign: "center",marginTop:"40%",fontSize:20 }}>TBD</Text>
-    </Animated.View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({

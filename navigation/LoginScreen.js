@@ -7,6 +7,7 @@ import {
   Text,
   Dimensions,
 } from "react-native";
+import Env from "../env";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
@@ -55,10 +56,10 @@ function LoginScreen() {
   const requestNewAccessTokenBuffer = 1000;
   //Development config
   //const Auth0_Domain = "https://pensionjar-development.eu.auth0.com";
-  const Auth0_Domain = helpers.API;
-  const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-  const Auth0_ClientSecret =
-    "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
+  // const Auth0_Domain = helpers.API;
+  // const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+  // const Auth0_ClientSecret =
+  //   "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
 
   /**
 	//Staging config
@@ -66,7 +67,13 @@ function LoginScreen() {
     const Auth0_ClientID = "PAQK5rFTPu2jdg2rSM4I0Nwjcwk8XWkI";
 	const Auth0_ClientSecret = "_-NCxLhpJlg5q8J6K2LYKyi_1CNu8uwbrU-X0s3IkxiLj3jhCjF37FdquZK78gUM";
     **/
-
+  const {
+    Auth0_Domain,
+    Auth0_ClientID,
+    Auth0_ClientSecret,
+    Base_Url,
+    audience,
+  } = Env;
   const authorizationEndpoint = `${Auth0_Domain}/authorize`;
   const oauthEndpoint = `${Auth0_Domain}/oauth/token`;
 
@@ -85,7 +92,8 @@ function LoginScreen() {
       disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
       setDiscovery(disc);
     }
-  });
+    console.log(Env);
+  }, []);
 
   const authPayload = {
     redirectUri: redirectUri,
@@ -95,7 +103,8 @@ function LoginScreen() {
     // retrieve the user's profile
     scopes: ["openid", "profile", "offline_access"],
     //audience: "https://auth.expo.io/@pensionjar/jarvis",
-    audience: "https://getjarvis.local",
+    // audience: "https://getjarvis.local",
+    audience,
     extraParams: {
       // ideally, this will be a random value
     },
@@ -189,7 +198,7 @@ function LoginScreen() {
 
                 //Get the user info
 
-                let url3 = `https://api.getjarvis.dev/v1/users/me`;
+                let url3 = `${Base_Url}/users/me`;
 
                 let userInfo = await axios({
                   method: "get",
@@ -208,7 +217,8 @@ function LoginScreen() {
                   console.log("userInfo is-");
                   let attributes = uidt.data.attributes,
                     included = uidt.data.included[0];
-                    included?.attributes?.lifeExpectancies&& delete included.attributes.lifeExpectancies
+                  included?.attributes?.lifeExpectancies &&
+                    delete included.attributes.lifeExpectancies;
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,
@@ -225,7 +235,7 @@ function LoginScreen() {
                   console.log("trimmedUserInfo: ", trimmedUserInfo);
                   helpers.save("pa_atk", dt3.access_token);
                   helpers.save("pa_rtk", dt3.refresh_token);
-                 
+
                   helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
 
                   _updateUser({

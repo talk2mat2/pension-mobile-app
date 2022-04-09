@@ -4,6 +4,7 @@ import RtPersonalPensionCard from "./rtPersonalPensionCard";
 import RtBenefitPensionCard from "./rtBenefitPensionCard";
 import RtOtherIncomeCard from "./rtOtherIncome";
 import RtOtherSavingsCard from "./rtOtherSavings";
+import RtJarvisPension from "./rtJarvisPension";
 import {
   StyleSheet,
   Text,
@@ -241,8 +242,7 @@ export default function RTcardsAnimated() {
       {selectedCards === 2 && <RtBenefitPensionCard {...{ handleshowCards }} />}
       {selectedCards === 3 && <RtOtherIncomeCard {...{ handleshowCards }} />}
       {selectedCards === 4 && <RtOtherSavingsCard {...{ handleshowCards }} />}
-      {/* {selectedCards === 5 && <JsCurrentCard {...{ handleshowCards }} />}
-      {selectedCards === 6 && <JsCarrierCard {...{ handleshowCards }} />} */}
+      {selectedCards === 5 && <RtJarvisPension {...{ handleshowCards }} />}
     </CardsContext.Provider>
   );
 }

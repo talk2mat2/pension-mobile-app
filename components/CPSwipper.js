@@ -207,7 +207,7 @@ const CPSwipper = () => {
               </View>
             </View>
           )}
-          {!retireProfile?.attributes?.spouseName && (
+          {/* {!retireProfile?.attributes?.spouseName && (
             <View style={styles.slide1}>
               <View style={styles.jarContainer}>
                 <ImageBackground
@@ -253,7 +253,7 @@ const CPSwipper = () => {
                 )}
               </View>
             </View>
-          )}
+          )} */}
         </ScrollView>
       </View>
     </>

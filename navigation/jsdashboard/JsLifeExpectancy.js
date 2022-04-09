@@ -12,6 +12,7 @@ import LifeExpectancy from "./LifeExpectancy";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import { PanGestureHandler } from "react-native-gesture-handler";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const JsLifeExpectCard = ({ handleshowCards }) => {
   const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
@@ -67,16 +68,31 @@ const JsLifeExpectCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+  const handleGesture = (evt) => {
+    const { nativeEvent } = evt;
+
+    if (nativeEvent.velocityY > 0) {
+      //on swipe down
+      closeCard();
+    } else {
+      //on swipe up
+
+      if (!isfullScreen) {
+        handleToggleFullScreen();
+      }
+    }
+  };
   return (
-    <Animated.View
-      style={{
-        height: isfullScreen ? deviceHeight - 20 : 400,
-        ...styles.container,
-        ...styles.card,
-        transform: [{ translateY: position.y }],
-      }}
-    >
-      {/* <View
+    <PanGestureHandler onGestureEvent={handleGesture}>
+      <Animated.View
+        style={{
+          height: isfullScreen ? deviceHeight - 20 : 400,
+          ...styles.container,
+          ...styles.card,
+          transform: [{ translateY: position.y }],
+        }}
+      >
+        {/* <View
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
@@ -94,8 +110,9 @@ const JsLifeExpectCard = ({ handleshowCards }) => {
           />
         </TouchableOpacity>
       </View> */}
-      <LifeExpectancy {...{ closeCard, handleToggleFullScreen }} />
-    </Animated.View>
+        <LifeExpectancy {...{ closeCard, handleToggleFullScreen }} />
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({

@@ -8,14 +8,14 @@ import {
   BackHandler,
   TouchableOpacity,
 } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
-import BudgetBenchmark2 from "./BudgetBenchMark";
-import FullScreenContext from "../../contexts/fullScreenContext";
+import FullScreenContext from "../../../contexts/fullScreenContext";
+import { PanGestureHandler } from "react-native-gesture-handler";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
-const JSBudgetCards = ({ handleshowCards }) => {
-  const { togglrFullScreen, isfullScreen } = useContext(FullScreenContext);
+const RtJarvisPension = ({ handleshowCards }) => {
+ 
+   const { rtisfullScreen, togglrRtFullScreen } = useContext(FullScreenContext);
   const position = React.useRef(
     new Animated.ValueXY({ x: 0, y: deviceHeight / 2 - 130 })
   ).current;
@@ -37,24 +37,24 @@ const JSBudgetCards = ({ handleshowCards }) => {
       useNativeDriver: true,
     }).start(() => {
       handleshowCards();
-      if (isfullScreen) {
-        togglrFullScreen();
+      if (rtisfullScreen) {
+        togglrRtFullScreen();
       }
     });
   };
 
   const handleToggleFullScreen = () => {
-    // togglrFullScreen();
+    // togglrRtFullScreen();
     Animated.timing(position, {
       toValue: { x: 0, y: 0 },
       duration: 500,
       delay: 300,
       useNativeDriver: true,
-    }).start(() => togglrFullScreen());
+    }).start(() => togglrRtFullScreen());
   };
   const handleBackButton = () => {
-    if (isfullScreen) {
-      togglrFullScreen();
+    if (rtisfullScreen) {
+      togglrRtFullScreen();
     } else {
       closeCard();
     }
@@ -77,7 +77,7 @@ const JSBudgetCards = ({ handleshowCards }) => {
     } else {
       //on swipe up
 
-      if (!isfullScreen) {
+      if (!rtisfullScreen) {
         handleToggleFullScreen();
       }
     }
@@ -87,38 +87,38 @@ const JSBudgetCards = ({ handleshowCards }) => {
     <PanGestureHandler onGestureEvent={handleGesture}>
       <Animated.View
         style={{
-          height: isfullScreen ? deviceHeight - 20 : 400,
+          height: rtisfullScreen ? deviceHeight - 20 : 400,
           ...styles.container,
           ...styles.card,
           transform: [{ translateY: position.y }],
+          paddingTop: rtisfullScreen ? 40 : 20,
         }}
       >
-        {/* <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <TouchableOpacity onPress={closeCard}>
-          <Text style={styles.cardName}>Budget Benchmark</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleToggleFullScreen}>
-          <MaterialIcons
-            name="fullscreen"
-            size={40}
-            color={myColorsLight.black}
-          />
-        </TouchableOpacity>
-      </View> */}
-        <BudgetBenchmark2 {...{ closeCard, handleToggleFullScreen }} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <TouchableOpacity onPress={closeCard}>
+            <Text style={styles.cardName}>Jarvis Pension</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleToggleFullScreen}>
+            <MaterialIcons
+              name="fullscreen"
+              size={40}
+              color={myColorsLight.black}
+            />
+          </TouchableOpacity>
+        </View>
       </Animated.View>
     </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: myColorsLight.grey7,
+    backgroundColor: myColorsLight.grey3,
     position: "absolute",
     bottom: 0,
     left: 0,
@@ -128,9 +128,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   card: {
-    // borderRadius: 10,
-    // padding: 10,
-    // paddingLeft: 20,
+    borderRadius: 10,
+    padding: 10,
+    paddingLeft: 20,
   },
 });
-export default JSBudgetCards;
+
+export default RtJarvisPension;

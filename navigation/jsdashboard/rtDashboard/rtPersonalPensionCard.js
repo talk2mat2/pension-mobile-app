@@ -25,6 +25,7 @@ import JarvisButton from "../../../components/JarvisButton";
 import UserContext from "../../../contexts/UserContext";
 import api from "../../../api";
 import JarvisLoader from "../../../components/JarvisLoader";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RtPersonalPensionCard = ({ handleshowCards }) => {
@@ -50,16 +51,16 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   const outcomePopper = new Animated.ValueXY({
     x: 0,
     y: 0,
-  })
+  });
   const position = React.useRef(
-    new Animated.ValueXY({ x: 0, y: deviceHeight  })
+    new Animated.ValueXY({ x: 0, y: deviceHeight })
   ).current;
   const [visible, setVisible] = React.useState(false);
   const [editVisible, setEditVisible] = React.useState(false);
   const ctx = useContext(UserContext);
   React.useEffect(() => {
     Animated.timing(position, {
-      toValue: { x: 0, y: deviceHeight/2 },
+      toValue: { x: 0, y: deviceHeight / 2 },
       duration: 500,
       delay: 300,
       useNativeDriver: true,
@@ -85,18 +86,20 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
   const hideModal = () => setVisible(false);
   const handleToggleFullScreen = () => {
     // togglrRtFullScreen();
-    !rtisfullScreen && Animated.timing(position, {
-      toValue: { x: 0, y: 2 },
-      duration: 500,
-      delay: 300,
-      useNativeDriver: true,
-    }).start(() => togglrRtFullScreen());
-    rtisfullScreen && Animated.timing(position, {
-      toValue: { x: 0, y: deviceHeight/2 },
-      duration: 300,
-      delay: 300,
-      useNativeDriver: true,
-    }).start(() => togglrRtFullScreen());
+    !rtisfullScreen &&
+      Animated.timing(position, {
+        toValue: { x: 0, y: 2 },
+        duration: 500,
+        delay: 300,
+        useNativeDriver: true,
+      }).start(() => togglrRtFullScreen());
+    rtisfullScreen &&
+      Animated.timing(position, {
+        toValue: { x: 0, y: deviceHeight / 2 },
+        duration: 300,
+        delay: 300,
+        useNativeDriver: true,
+      }).start(() => togglrRtFullScreen());
   };
   const handleBackButton = () => {
     if (rtisfullScreen) {
@@ -214,165 +217,150 @@ const RtPersonalPensionCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
-  const pan = PanResponder.create({
-    //this set the position to the supplied x/y position
-    onPanResponderRelease: () => {
-      // outcomePopper.setValue({ x: 0, y: 0 });
-      Animated.spring(outcomePopper, {
-        toValue: { x: 0, y: 0 },
-        useNativeDriver: true,
-        bounciness: 10,
-      }).start();
-    },
-    onMoveShouldSetPanResponder: () => true,
-    //this moves your animated view with response to pan dy dx value
-    // onPanResponderMove: Animated.event(
-    //   [null, { dx: position.x, dy: position.y }],
-    //   { useNativeDriver: false }
-    // ),
-    onPanResponderMove: (e, gesture) =>{
-      outcomePopper.setValue({ x: gesture.dx, y: gesture.dy })
-    
-      const { nativeEvent } = e;
-console.log(nativeEvent)
-      if (nativeEvent.velocityY > 0) {
-        console.log('Swipe up');
-      } else {
-        console.log('Swipe down');
+
+  const handleGesture = (evt) => {
+    const { nativeEvent } = evt;
+
+    if (nativeEvent.velocityY > 0) {
+      //on swipe down
+      closeCard();
+    } else {
+      //on swipe up
+
+      if (!rtisfullScreen) {
+        handleToggleFullScreen();
       }
     }
-    // (e, c) => {
-    //   // console.log("move", e);
-    //   Animated.event([null, { dx: position.x, dy: position.y }]);
-    // },
-  });
+  };
   return (
-    <Animated.View
-    // {...pan.panHandlers}
-      style={{
-        //height: rtisfullScreen ? deviceHeight - 20 : 400,
-        height: deviceHeight,
-        ...styles.container,
-        ...styles.card,
-        transform: [
-          { translateY: position.y },
-        ],
-      }}
-    >
-      <PersoanalPensionModal
-        {...{
-          visible,
-          setVisible,
-          submitFilledJars: submitFilledJars,
-          personData: personData,
-          changeStatePension: () => {},
-          setPersoData: setPersoData,
-          AddJar: () => {},
+    <PanGestureHandler onGestureEvent={handleGesture}>
+      <Animated.View
+        // {...pan.panHandlers}
+        style={{
+          //height: rtisfullScreen ? deviceHeight - 20 : 400,
+          height: deviceHeight,
+          ...styles.container,
+          ...styles.card,
+          transform: [{ translateY: position.y }],
         }}
-      />
-      <EditPersoanalPensionModal
-        {...{
-          visible: editVisible,
-          updateFilledJars: updateFilledJars,
-          showEditModal: showEditModal,
-          setVisible: setEditVisible,
-          submitFilledJars: () => {},
-          personData: editPersonData,
-          changeStatePension: () => {},
-          setPersoData: setEditPersoData,
-          AddJar: () => {},
-        }}
-      />
-      <View
-        // Background Linear Gradient
-        // colors={[myColorsLight.grey8, "transparent"]}
-        style={{ ...styles.background, paddingTop: rtisfullScreen ? 40 : 20 }}
       >
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 20,
+        <PersoanalPensionModal
+          {...{
+            visible,
+            setVisible,
+            submitFilledJars: submitFilledJars,
+            personData: personData,
+            changeStatePension: () => {},
+            setPersoData: setPersoData,
+            AddJar: () => {},
           }}
+        />
+        <EditPersoanalPensionModal
+          {...{
+            visible: editVisible,
+            updateFilledJars: updateFilledJars,
+            showEditModal: showEditModal,
+            setVisible: setEditVisible,
+            submitFilledJars: () => {},
+            personData: editPersonData,
+            changeStatePension: () => {},
+            setPersoData: setEditPersoData,
+            AddJar: () => {},
+          }}
+        />
+        <View
+          // Background Linear Gradient
+          // colors={[myColorsLight.grey8, "transparent"]}
+          style={{ ...styles.background, paddingTop: rtisfullScreen ? 40 : 20 }}
         >
-          <TouchableOpacity onPress={closeCard}>
-            <Text style={styles.cardName}>Personal Pensions</Text>
-          </TouchableOpacity>
-          {!rtisfullScreen ? (
-            <TouchableOpacity onPress={handleToggleFullScreen}>
-              <MaterialIcons
-                name="fullscreen"
-                size={40}
-                color={myColorsLight.black}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={handleToggleFullScreen}>
-              <AntDesign
-                name="closecircle"
-                size={24}
-                color={myColorsLight.grey4}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={{ marginTop: 30 }}>
-          <Text
-            style={[
-              styles.loginText,
-              ,
-              { fontSize: 23, textAlign: "center", fontWeight: "bold" },
-            ]}
-          >
-            Personal Pensions
-          </Text>
-        </View>
-        {loading && <JarvisLoader />}
-        <View style={{ marginTop: 40, alignItems: "center" }}>
-          <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
-            Total Personal Pension(s)
-          </Text>
-        </View>
-        <View style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}>
-          <Text
+          <View
             style={{
-              textAlign: "center",
-              color: myColorsLight.black,
-              fontSize: 55,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingHorizontal: 20,
             }}
           >
-            £{sumPersonalJarsValue()}
-          </Text>
+            <TouchableOpacity onPress={closeCard}>
+              <Text style={styles.cardName}>Personal Pensions</Text>
+            </TouchableOpacity>
+            {!rtisfullScreen ? (
+              <TouchableOpacity onPress={handleToggleFullScreen}>
+                <MaterialIcons
+                  name="fullscreen"
+                  size={40}
+                  color={myColorsLight.black}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={handleToggleFullScreen}>
+                <AntDesign
+                  name="closecircle"
+                  size={24}
+                  color={myColorsLight.grey4}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+          <View style={{ marginTop: 30 }}>
+            <Text
+              style={[
+                styles.loginText,
+                ,
+                { fontSize: 23, textAlign: "center", fontWeight: "bold" },
+              ]}
+            >
+              Personal Pensions
+            </Text>
+          </View>
+          {loading && <JarvisLoader />}
+          <View style={{ marginTop: 40, alignItems: "center" }}>
+            <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
+              Total Personal Pension(s)
+            </Text>
+          </View>
+          <View
+            style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: myColorsLight.black,
+                fontSize: 55,
+              }}
+            >
+              £{sumPersonalJarsValue()}
+            </Text>
+          </View>
+
+          <View style={{ marginTop: "auto", maxHeight: 400 }}>
+            <ScrollView style={{}}>
+              {selectStatePension()?.map((users) => (
+                <RtPersonlaUsers
+                  showEditModal={showEditModal}
+                  user={users}
+                  ctxData={ctx.u}
+                  key={users.id}
+                  name="Micheal Spender"
+                  budget="£17,345"
+                />
+              ))}
+            </ScrollView>
+          </View>
         </View>
 
-        <View style={{ marginTop: "auto", maxHeight: 400 }}>
-          <ScrollView style={{}}>
-            {selectStatePension()?.map((users) => (
-              <RtPersonlaUsers
-                showEditModal={showEditModal}
-                user={users}
-                ctxData={ctx.u}
-                key={users.id}
-                name="Micheal Spender"
-                budget="£17,345"
-              />
-            ))}
-          </ScrollView>
+        <View
+          style={{ alignItems: "center", marginBottom: 90, marginTop: "auto" }}
+        >
+          <JarvisButton
+            bgcolor={myColorsLight.black}
+            play={showModal}
+            btn="Add Pension"
+            w={200}
+          />
         </View>
-      </View>
-
-      <View
-        style={{ alignItems: "center", marginBottom: 90, marginTop: "auto" }}
-      >
-        <JarvisButton
-          bgcolor={myColorsLight.black}
-          play={showModal}
-          btn="Add Pension"
-          w={200}
-        />
-      </View>
-    </Animated.View>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({

@@ -19,6 +19,7 @@ import RtOtherIncomeUsers from "./rtOtherIncomeUsers";
 import { myColorsLight } from "../../../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import FullScreenContext from "../../../contexts/fullScreenContext";
+import { PanGestureHandler } from "react-native-gesture-handler";
 
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const RtOtherIncomeCard = ({ handleshowCards }) => {
@@ -76,91 +77,108 @@ const RtOtherIncomeCard = ({ handleshowCards }) => {
       banckhandle.remove();
     };
   }, []);
+  const handleGesture = (evt) => {
+    const { nativeEvent } = evt;
+
+    if (nativeEvent.velocityY > 0) {
+      //on swipe down
+      closeCard();
+    } else {
+      //on swipe up
+
+      if (!rtisfullScreen) {
+        handleToggleFullScreen();
+      }
+    }
+  };
   return (
-    <Animated.View
-      style={{
-        height: rtisfullScreen ? deviceHeight - 20 : 400,
-        ...styles.container,
-        ...styles.card,
-        transform: [{ translateY: position.y }],
-      }}
-    >
-      <View
-        // Background Linear Gradient
-        // colors={[myColorsLight.grey8, "transparent"]}
-        style={{ ...styles.background, paddingTop: rtisfullScreen ? 40 : 20 }}
+    <PanGestureHandler onGestureEvent={handleGesture}>
+      <Animated.View
+        style={{
+          height: rtisfullScreen ? deviceHeight - 20 : 400,
+          ...styles.container,
+          ...styles.card,
+          transform: [{ translateY: position.y }],
+        }}
       >
         <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            paddingHorizontal: 20,
-          }}
+          // Background Linear Gradient
+          // colors={[myColorsLight.grey8, "transparent"]}
+          style={{ ...styles.background, paddingTop: rtisfullScreen ? 40 : 20 }}
         >
-          <TouchableOpacity onPress={closeCard}>
-            <Text style={styles.cardName}>Other Income</Text>
-          </TouchableOpacity>
-          {!rtisfullScreen ? (
-            <TouchableOpacity onPress={handleToggleFullScreen}>
-              <MaterialIcons
-                name="fullscreen"
-                size={40}
-                color={myColorsLight.black}
-              />
-            </TouchableOpacity>
-          ) : (
-            <TouchableOpacity onPress={handleToggleFullScreen}>
-              <AntDesign
-                name="closecircle"
-                size={24}
-                color={myColorsLight.grey4}
-              />
-            </TouchableOpacity>
-          )}
-        </View>
-        <View style={{ marginTop: 30 }}>
-          <Text
-            style={[
-              styles.loginText,
-              ,
-              { fontSize: 23, textAlign: "center", fontWeight: "bold" },
-            ]}
-          >
-            Other Retirement Income
-          </Text>
-        </View>
-        <View style={{ marginTop: 40, alignItems: "center" }}>
-          <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
-            Total Defined Benefit Pensions
-          </Text>
-        </View>
-        <View style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}>
-          <Text
+          <View
             style={{
-              textAlign: "center",
-              color: myColorsLight.black,
-              fontSize: 55,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              paddingHorizontal: 20,
             }}
           >
-            £8,300
-          </Text>
-          <RtOtherIncomeUsers />
+            <TouchableOpacity onPress={closeCard}>
+              <Text style={styles.cardName}>Other Income</Text>
+            </TouchableOpacity>
+            {!rtisfullScreen ? (
+              <TouchableOpacity onPress={handleToggleFullScreen}>
+                <MaterialIcons
+                  name="fullscreen"
+                  size={40}
+                  color={myColorsLight.black}
+                />
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity onPress={handleToggleFullScreen}>
+                <AntDesign
+                  name="closecircle"
+                  size={24}
+                  color={myColorsLight.grey4}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+          <View style={{ marginTop: 30 }}>
+            <Text
+              style={[
+                styles.loginText,
+                ,
+                { fontSize: 23, textAlign: "center", fontWeight: "bold" },
+              ]}
+            >
+              Other Retirement Income
+            </Text>
+          </View>
+          <View style={{ marginTop: 40, alignItems: "center" }}>
+            <Text style={{ textAlign: "center", color: myColorsLight.grey3 }}>
+              Total Defined Benefit Pensions
+            </Text>
+          </View>
+          <View
+            style={{ marginTop: 9, alignItems: "center", marginBottom: 15 }}
+          >
+            <Text
+              style={{
+                textAlign: "center",
+                color: myColorsLight.black,
+                fontSize: 55,
+              }}
+            >
+              £8,300
+            </Text>
+            <RtOtherIncomeUsers />
+          </View>
+          <View style={{ marginTop: "auto" }}></View>
         </View>
-        <View style={{ marginTop: "auto" }}></View>
-      </View>
-      <View style={{ alignItems: "center", marginTop: 90 }}>
-        <JarvisButton
-          bgcolor={myColorsLight.black}
-          play={() => {}}
-          btn="Add Pension"
-          w={200}
-          disabled={false}
-        />
-      </View>
+        <View style={{ alignItems: "center", marginTop: 90 }}>
+          <JarvisButton
+            bgcolor={myColorsLight.black}
+            play={() => {}}
+            btn="Add Pension"
+            w={200}
+            disabled={false}
+          />
+        </View>
 
-      <ScrollView style={{ marginBottom: 10 }}>
-        {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
+        <ScrollView style={{ marginBottom: 10 }}>
+          {/* <View style={{ marginBottom: 5, paddingHorizontal: 20 }}>
           <View
             style={{
               ...styles.hrView,
@@ -188,8 +206,9 @@ const RtOtherIncomeCard = ({ handleshowCards }) => {
           </View>
         </View>
        */}
-      </ScrollView>
-    </Animated.View>
+        </ScrollView>
+      </Animated.View>
+    </PanGestureHandler>
   );
 };
 const styles = StyleSheet.create({
