@@ -37,7 +37,12 @@ export default new (class Api {
       })
       .then((res) => res.data)
       .catch((err) => {
-        throw err.response.data;
+        console.log('errrors')
+        if (err?.response?.data) {
+          throw err?.response?.data;
+        } else {
+          throw new Error();
+        }
       });
   };
 

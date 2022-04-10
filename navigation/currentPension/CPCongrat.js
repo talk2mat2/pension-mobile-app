@@ -42,6 +42,23 @@ function CPCongrat({ navigation, route }) {
     navigation.navigate("DashboardStack");
   };
 
+  const completeOnboarding = async () => {
+    const newData = {
+      data: {
+        type: "retirementProfile",
+        attributes: {
+          onboardingCompleted: true,
+        },
+      },
+    };
+    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
+      .then((res) => {
+        // console.log("done");
+      })
+      .catch((err) => {
+        // console.log("undone",err);
+      });
+  };
   const updateUsersMe = async () => {
     const usersAttrib = {
       firstName: ctx?.u?.attributes?.fname,
@@ -75,6 +92,7 @@ function CPCongrat({ navigation, route }) {
   React.useEffect(() => {
     // sync usersprofile with backend
     updateUsersMe();
+    completeOnboarding();
   }, []);
   //   "data": {
   //     "netTarget": 24187,

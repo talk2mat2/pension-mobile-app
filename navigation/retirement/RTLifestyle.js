@@ -99,7 +99,7 @@ function RTLifestyle({ route, navigation }) {
       gender,
       isSingle,
       maritalStatus,
-      onboardingCompleted: true,
+      onboardingCompleted,
       retirementAge,
       retirementDate,
       spouseDateOfBirth,
