@@ -7,10 +7,12 @@ import * as Notifications from "expo-notifications";
 import Constants from "expo-constants";
 import { useNavigation } from "@react-navigation/native";
 import * as RootNavigation from "./RootNavigation.js";
+import Env from "./env.js";
 import { showMessage, hideMessage } from "react-native-flash-message";
 
-export const API = "https://pensionjar-development.eu.auth0.com";
-export const API2 = "https://api.getjarvis.dev/v1";
+const { Auth0_Domain } = Env;
+export const API = Auth0_Domain;
+//export const API2 = "https://api.getjarvis.dev/v1";
 
 export function tryParseJSON(jsonString) {
   try {

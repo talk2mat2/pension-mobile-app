@@ -22,7 +22,7 @@ import * as WebBrowser from "expo-web-browser";
 import AppIntroSlider from "react-native-app-intro-slider";
 import { useFonts } from "expo-font";
 import { Provider } from "react-native-paper";
-
+import Env from "./env";
 import * as Notifications from "expo-notifications";
 import * as helpers from "./Helpers";
 import { UserProvider } from "./contexts/UserContext";
@@ -71,11 +71,11 @@ export default function App() {
     ntt = "";
 
   //Development config
-  const Auth0_Domain = helpers.API;
-  const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-  const Auth0_ClientSecret =
-    "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
-
+  // const Auth0_Domain = helpers.API;
+  // const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
+  // const Auth0_ClientSecret =
+  //   "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
+  const { Auth0_Domain, Auth0_ClientID, Auth0_ClientSecret } = Env;
   const data = [
     {
       title: "Title 1",
@@ -192,7 +192,7 @@ export default function App() {
                 },
                 body: helpers._urlEncode(refreshTokenData),
               });
-              console.log(refreshTokenData)
+              console.log(refreshTokenData);
               // let response2 = await fetch(req);
               await fetch(req)
                 .then((res) => res.json())
@@ -275,6 +275,9 @@ export default function App() {
                 activeColor="#f0edf6"
                 inactiveColor="#3e2465"
                 barStyle={{ backgroundColor: "#694fad" }}
+                screenOptions={{
+                  headerShown: false,
+                }}
               >
                 <Stack.Screen
                   name="InitScreen"

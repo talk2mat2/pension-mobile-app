@@ -92,7 +92,7 @@ function LoginScreen() {
       disc = await AuthSession.fetchDiscoveryAsync(Auth0_Domain);
       setDiscovery(disc);
     }
-    console.log(Env);
+    // console.log(Env);
   }, []);
 
   const authPayload = {
@@ -167,7 +167,7 @@ function LoginScreen() {
           data: helpers._urlEncode(oauthPayload),
         });
 
-        if (payload.status == "200") {
+        if (payload?.status == "200") {
           let dt = payload.data;
 
           //console.log("dt: ",dt);
@@ -192,7 +192,7 @@ function LoginScreen() {
                   },
                   data: helpers._urlEncode(oauthPayload),
                 });
-                let dt3 = dt3response.data;
+                let dt3 = dt3response?.data;
 
                 console.log("dt3: ", dt3);
 
@@ -208,7 +208,7 @@ function LoginScreen() {
                   },
                 });
 
-                if (userInfo.status == "200") {
+                if (userInfo?.status == "200") {
                   let uidt = userInfo.data;
                   // console.log("userInfo: ",uidt);
                   //Save user info, access token, refresh token and update user context
@@ -277,7 +277,7 @@ function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.centerView}>
+      <View style={{ ...styles.centerView, marginTop: 100 }}>
         <Text style={[styles.loginText, { marginBottom: 100, fontSize: 40 }]}>
           Jarvis
         </Text>
@@ -293,13 +293,14 @@ function LoginScreen() {
         {loginLoading && <JarvisLoading />}
       </View>
 
-      <View style={{ flexDirection: "row", alignSelf: "center" }}>
+      <View style={{ alignItems: "center" }}>
         <JarvisButton
           style={styles.loginButton}
           disabled={loginButtonDisabled}
           bgcolor={buttonBackground}
           play={_initLogin}
           btn="Continue"
+          w={150}
         />
       </View>
     </View>
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
     // padding: 10
   },
   loginButton: {
-    alignItems: "center",
+    // alignItems: "center",
     marginTop: 50,
     // marginLeft: 20,
   },

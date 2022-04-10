@@ -37,10 +37,33 @@ function CPCongrat({ navigation, route }) {
     }).start();
   };
   const hideCard = () => setShowCard(false);
+
   const _next = () => {
     navigation.navigate("DashboardStack");
   };
 
+  const updateUsersMe = async () => {
+    const usersAttrib = {
+      firstName: ctx?.u?.attributes?.fname,
+      lastName: ctx?.u?.attributes?.lname,
+      title: ctx?.u?.attributes?.title,
+      name: ctx?.u?.attributes?.name,
+    };
+
+    const usersData = {
+      data: {
+        type: "user",
+        attributes: {
+          ...usersAttrib,
+        },
+      },
+    };
+    await Api.update_user_profile(usersData, ctx?.atk)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {});
+  };
   const _goBack = () => {
     navigation.goBack();
   };
@@ -49,7 +72,10 @@ function CPCongrat({ navigation, route }) {
       popperAnimated();
     }, 1000);
   }, []);
-
+  React.useEffect(() => {
+    // sync usersprofile with backend
+    updateUsersMe();
+  }, []);
   //   "data": {
   //     "netTarget": 24187,
   //     "grossTarget": 27483.75

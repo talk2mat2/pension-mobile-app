@@ -28,51 +28,51 @@ function KYCStack({ navigation, route }) {
         <Stack.Screen name="KYCCover" component={KYCCoverScreen} />
         <Stack.Screen
           name="KYCName"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCNameScreen}
         />
         <Stack.Screen
           name="KYCBirthday"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCBirthdayScreen}
         />
         <Stack.Screen
           name="KYCRetirementAge"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCRetirementAgeScreen}
         />
         <Stack.Screen
           name="KYCRetireWithSpouse"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCRetireWithSpouseScreen}
         />
         <Stack.Screen
           name="KYCRetireLondon"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCRetireLondonScreen}
         />
         <Stack.Screen
           name="KYCComplete"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={KYCCompleteScreen}
         />
         <Stack.Screen
           name="logins"
-          options={{
-            headerTitle: (props) => <HeaderBar {...props} />,
-          }}
+          // options={{
+          //   headerTitle: (props) => <HeaderBar {...props} />,
+          // }}
           component={LoginScreen}
         />
       </>
