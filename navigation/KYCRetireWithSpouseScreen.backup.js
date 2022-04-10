@@ -47,7 +47,7 @@ function KYCRetireWithSpouseScreen({navigation}){
 
       if(retireWithSpouse == "yes"){
         u.included[0].maritalStatus = "married";
-        u.included[0].isSingle = false;
+        u.included[0].isSingle = true;
       }
       ctx.setU(u);
       helpers.save('pa_u',JSON.stringify(u));

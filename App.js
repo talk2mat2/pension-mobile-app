@@ -127,6 +127,15 @@ export default function App() {
         **/
     }
   });
+  const handleLogout = () => {
+    //console.log(ctx)
+    helpers.remove("pa_u");
+    setAtk(null);
+    setRtk(null);
+    setU(null);
+    setLoggedIn(false);
+    // navigation.replace("logins");
+  };
 
   let ctx = {
     budgetData,
@@ -197,11 +206,15 @@ export default function App() {
               await fetch(req)
                 .then((res) => res.json())
                 .then((dt) => {
-                  console.log("dt from App.js: ", dt);
-                  helpers.save("pa_atk", dt.access_token);
-                  helpers.save("pa_rtk", dt.refresh_token);
-                  setAtk(dt.access_token);
-                  setU(JSON.parse(uu));
+                  if (dt?.error) {
+                    handleLogout();
+                  } else {
+                    console.log("dt from App.js: ", dt);
+                    helpers.save("pa_atk", dt.access_token);
+                    helpers.save("pa_rtk", dt.refresh_token);
+                    setAtk(dt.access_token);
+                    setU(JSON.parse(uu));
+                  }
                 })
                 .catch((err) => {
                   console.log("error occured", err);
