@@ -13,12 +13,12 @@ import {
 } from "react-native";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
-import JarvisButton from "../components/JarvisButton";
+// import JarvisButton from "../components/JarvisButton";
 import { List } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
-import OutcomeCard from "../components/Outcome_Card";
+//import OutcomeCard from "../components/Outcome_Card";
 
 function RTExcellent({ navigation }) {
   const ctx = useContext(UserContext);
@@ -117,7 +117,7 @@ function RTExcellent({ navigation }) {
             w={200}
           />
         </View>
-      <OutcomeCard>
+      {/* <OutcomeCard>
         <>
           <Text style={styles.textHead}> Personal Information</Text>
           <View style={{ ...styles.hrView, marginVertical: 10 }} />
@@ -129,7 +129,7 @@ function RTExcellent({ navigation }) {
           </View>
           <View style={{ ...styles.hrView, marginVertical: 9 }} />
         </>
-      </OutcomeCard>
+      </OutcomeCard> */}
     </MyGradientBackground>
   );
 }
