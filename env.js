@@ -8,7 +8,7 @@ const ENV = {
     Auth0_ClientID: "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF",
     Auth0_ClientSecret:
       "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-",
-    Base_Url: "https://api.getjarvis.local/v1",
+    Base_Url: "https://api.getjarvis.dev/v1",
     audience: "https://getjarvis.local",
     redirectUrl:"https://getjarvis.local"
   },

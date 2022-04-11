@@ -277,8 +277,8 @@ function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={{ ...styles.centerView, marginTop: 100 }}>
-        <Text style={[styles.loginText, { marginBottom: 100, fontSize: 40 }]}>
+      <View style={{ marginTop: 100,alignItems:"center" }}>
+        <Text style={{ ...styles.loginText, marginBottom: 100, fontSize: 40 }}>
           Jarvis
         </Text>
       </View>
@@ -286,7 +286,7 @@ function LoginScreen() {
         <Text style={[styles.loginText, { marginBottom: 50 }]}>
           Welcome to Jarvis!
         </Text>
-        <Text style={styles.subText}>
+        <Text style={{...styles.subText,textAlign:"center"}}>
           Click the button below to continue to login or signup
         </Text>
 

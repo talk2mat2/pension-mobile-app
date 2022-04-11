@@ -7,17 +7,11 @@ const mobile = Platform.OS == "ios" || Platform.OS == "android";
 
 const JarvisLoader = (props) => {
   const propsColor = props.color || "#00f";
-  if (mobile) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color={propsColor} />
-      </View>
-    );
-  } else {
+  return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={propsColor} />
-    </View>;
-  }
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
