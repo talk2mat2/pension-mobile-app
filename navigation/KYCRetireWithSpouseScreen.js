@@ -9,6 +9,7 @@ import {
   ScrollView,
   Platform,
   Picker,
+  Alert,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
@@ -141,6 +142,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
             // ) {
             //   setSpouseGenderValidation(true);
             // }
+          }
+          if (
+            spouseGender.length < 1
+            // ||
+            // parseInt(spouseRetirementAge) < 1
+          ) {
+            setSpouseGenderValidation(true);
           } else {
             go = true;
           }

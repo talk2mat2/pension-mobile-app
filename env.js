@@ -8,7 +8,7 @@ const ENV = {
     Auth0_ClientID: "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF",
     Auth0_ClientSecret:
       "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-",
-    Base_Url: "https://api.getjarvis.local/v1",
+    Base_Url: "https://pj-jarvis-backend-development.herokuapp.com/v1",
     audience: "https://getjarvis.local",
     redirectUrl:"https://getjarvis.local"
   },
@@ -43,4 +43,4 @@ function getEnvVars(env = "") {
 }
 
 //export default getEnvVars(Constants.manifest.releaseChannel);
-export default getEnvVars("staging");
+export default getEnvVars("dev");

@@ -8,6 +8,8 @@ import {
   Pressable,
   Platform,
   Alert,
+  ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 let ModalDropdown;
 if (Platform.OS !== "web") {
@@ -24,6 +26,8 @@ import { myColorsLight } from "../constant/colors";
 import JarvisButton from "../components/JarvisButton";
 
 function KYCNameScreen({ navigation }) {
+  const lastNameRef = React.useRef();
+  const firstNameRef = React.useRef();
   const ctx = useContext(UserContext);
   let navv = navigation;
   let u = ctx?.u;
@@ -133,7 +137,6 @@ function KYCNameScreen({ navigation }) {
         </View>
 
         <View>
-        
           <View>
             <Text
               style={[
@@ -147,54 +150,61 @@ function KYCNameScreen({ navigation }) {
           </View>
         </View>
       </View>
-      <View
-        style={{ marginTop: 100, paddingHorizontal: 20, marginBottom: 120 }}
-      >
-        <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text style={[styles.subHeader, { textAlign: "center" }]}>
-            Let’s get to know you {"\n"}a little bit better,{"\n"} what's your
-            name ?
-          </Text>
-        </View>
+    <View>
+    <ScrollView>
+        <View
+          style={{
+            marginTop: 100,
+            paddingHorizontal: 20,
+            marginBottom: 200,
+        
+          }}
+        >
+          <View style={{ alignItems: "center", marginBottom: 40 }}>
+            <Text style={[styles.subHeader, { textAlign: "center" }]}>
+              Let’s get to know you {"\n"}a little bit better,{"\n"} what's your
+              name ?
+            </Text>
+          </View>
 
-        <View style={[styles.formGroup]}>
-          {Platform.OS !== "web" && (
-            <ModalDropdown
-              defaultValue={title || "Select"}
-              textStyle={{ fontSize: 15 }}
-              dropdownStyle={{ width: "100%" }}
-              dropdownTextStyle={{
-                fontSize: 16,
-                paddingLeft: 10,
-                fontWeight: "900",
-              }}
-              onSelect={(itemIndex, itemValue) => {
-                setTitle(itemValue);
+          <View style={[styles.formGroup]}>
+            {Platform.OS !== "web" && (
+              <ModalDropdown
+                defaultValue={title || "Select"}
+                textStyle={{ fontSize: 15 }}
+                dropdownStyle={{ width: "100%" }}
+                dropdownTextStyle={{
+                  fontSize: 16,
+                  paddingLeft: 10,
+                  fontWeight: "900",
+                }}
+                onSelect={(itemIndex, itemValue) => {
+                  setTitle(itemValue);
 
-                setTitleValidation(false);
-              }}
-              style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
-              defaultIndex={title ? options.indexOf(title) : 0}
-              options={options}
-            />
-          )}
-          {Platform.OS === "web" && (
-            <Picker
-              selectedValue={title || ""}
-              style={{ height: 40, paddingHorizontal: 10,border:'none' }}
-              onValueChange={(itemValue, itemIndex) => {
-                setTitle(itemValue);
+                  setTitleValidation(false);
+                }}
+                style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+                defaultIndex={title ? options.indexOf(title) : 0}
+                options={options}
+              />
+            )}
+            {Platform.OS === "web" && (
+              <Picker
+                selectedValue={title || ""}
+                style={{ height: 40, paddingHorizontal: 10, border: "none" }}
+                onValueChange={(itemValue, itemIndex) => {
+                  setTitle(itemValue);
 
-                setTitleValidation(false);
-              }}
-            >
-              {options.map((item) => (
-                <Picker.Item label={item} value={item} />
-              ))}
-            </Picker>
-          )}
+                  setTitleValidation(false);
+                }}
+              >
+                {options.map((item) => (
+                  <Picker.Item label={item} value={item} />
+                ))}
+              </Picker>
+            )}
 
-          {/* <Picker
+            {/* <Picker
             itemStyle={{ minHeight: 50, padding: 0 }}
             selectedValue={title}
             onValueChange={(itemValue, itemIndex) => {
@@ -209,50 +219,64 @@ function KYCNameScreen({ navigation }) {
               <Picker.Item label="Miss" value="miss" />
               <Picker.Item label="Dr" value="dr" />
           </Picker> */}
+          </View>
+          {titleValidation && (
+            <View style={styles.formGroupError}>
+              <Text style={styles.inputError}>Please select a title</Text>
+            </View>
+          )}
+          <View style={[styles.formGroup]}>
+            <View style={{ paddingVertical: 5 }}>
+              <TextInput
+                style={[styles.formInput]}
+                ref={firstNameRef}
+                onChangeText={(text) => {
+                  setFname(text);
+                  if (text.length > 1) setFnameValidation(false);
+                }}
+                placeholder="First name"
+                value={fname}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  lastNameRef.current.focus();
+                }}
+                blurOnSubmit={false}
+              />
+            </View>
+          </View>
+          {fnameValidation && (
+            <View style={styles.formGroupError}>
+              <Text style={styles.inputError}>
+                Please input your first name
+              </Text>
+            </View>
+          )}
+          <View style={[styles.formGroup]}>
+            <View style={(styles.centerView, { paddingVertical: 5 })}>
+              <TextInput
+                style={[styles.formInput]}
+                ref={lastNameRef}
+                onChangeText={(text) => {
+                  setLname(text);
+                  if (text.length > 1) setLnameValidation(false);
+                }}
+                placeholder="Last name"
+                value={lname}
+                returnKeyType="next"
+                onSubmitEditing={() => {
+                  _next();
+                }}
+                blurOnSubmit={false}
+              />
+            </View>
+          </View>
+          {lnameValidation && (
+            <View style={styles.formGroupError}>
+              <Text style={styles.inputError}>Please input your last name</Text>
+            </View>
+          )}
         </View>
-        {titleValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={styles.inputError}>Please select a title</Text>
-          </View>
-        )}
-        <View style={[styles.formGroup]}>
-          <View style={{ paddingVertical: 5 }}>
-            <TextInput
-              style={[styles.formInput]}
-              onChangeText={(text) => {
-                setFname(text);
-                if (text.length > 1) setFnameValidation(false);
-              }}
-              placeholder="First name"
-              value={fname}
-            />
-          </View>
-        </View>
-        {fnameValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={styles.inputError}>Please input your first name</Text>
-          </View>
-        )}
-        <View style={[styles.formGroup]}>
-          <View style={(styles.centerView, { paddingVertical: 5 })}>
-            <TextInput
-              style={[styles.formInput]}
-              onChangeText={(text) => {
-                setLname(text);
-                if (text.length > 1) setLnameValidation(false);
-              }}
-              placeholder="Last name"
-              value={lname}
-            />
-          </View>
-        </View>
-        {lnameValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={styles.inputError}>Please input your last name</Text>
-          </View>
-        )}
-      </View>
-      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
+        <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton
             bgcolor={myColorsLight.black}
@@ -277,6 +301,9 @@ function KYCNameScreen({ navigation }) {
           <Text style={{ textAlign: "center", fontSize: 20 }}>1/5</Text>
         </View>
       </View>
+      </ScrollView>
+    
+    </View>
     </MyGradientBackground>
   );
 }

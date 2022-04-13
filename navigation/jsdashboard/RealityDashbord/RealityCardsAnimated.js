@@ -14,12 +14,15 @@ import {
 } from "react-native";
 import { myColorsLight } from "../../../constant/colors";
 import CardsContext from "../../../contexts/cardsContext";
-import JSBudgetCards from "../JsBudgetCard";
-import JsTimelineCard from "../JsTimelineCard ";
-import JsLifeExpectCard from "../JsLifeExpectancy";
-import JsProfileCard from "../JsProfileCard";
-import JsCurrentCard from "../JsCurrentCard";
-import JsCarrierCard from "../JsCarrierCard";
+import RealityIncome from "./realityRetireIncome";
+import RealityHowLong from "./realityHowLong";
+import WhenRetire from "./whenretire";
+import RealityGolden from "./realityGolden";
+import SurplusAnalysis from "./SurplusAnalysis";
+import AccumulationAsset from "./AccumulationAsset";
+import DecumulationAsset from "./DecumulationAsset";
+import RetirementIncomeAnalysis from "./RetirementIncomeAnalysis";
+
 const cardHeight = 430;
 const cardTitle = 50;
 const cardPadding = 30;
@@ -51,7 +54,7 @@ const cards = [
     color: myColorsLight.grey3,
   },
   {
-    name: "Decumulation Asset Forecas",
+    name: "Decumulation Asset Forecast",
     color: myColorsLight.grey2,
   },
   {
@@ -211,8 +214,8 @@ export default function RealitycardsAnimated() {
                     <View
                       style={{ ...styles.card, backgroundColor: card.color }}
                     >
-                      {/* <TouchableOpacity onPress={hanleSelected.bind(this, i)}> */}
-                      <TouchableOpacity onPress={() => {}}>
+                      <TouchableOpacity onPress={hanleSelected.bind(this, i)}>
+                        {/* <TouchableOpacity onPress={() => {}}> */}
                         <Text style={styles.cardName}>{card.name}</Text>
                       </TouchableOpacity>
                     </View>
@@ -238,13 +241,14 @@ export default function RealitycardsAnimated() {
           </View>
         </Animated.View>
       )}
-      {/* {selectedCards === 0 && <RetirementCards {...{ handleshowCards }} />}
-      {selectedCards === 1 && <JSBudgetCards {...{ handleshowCards }} />}
-      {selectedCards === 2 && <JsTimelineCard {...{ handleshowCards }} />}
-      {selectedCards === 3 && <JsLifeExpectCard {...{ handleshowCards }} />}
-      {selectedCards === 4 && <JsProfileCard {...{ handleshowCards }} />}
-      {selectedCards === 5 && <JsCurrentCard {...{ handleshowCards }} />}
-      {selectedCards === 6 && <JsCarrierCard {...{ handleshowCards }} />} */}
+      {selectedCards === 0 && <RealityIncome {...{ handleshowCards }} />}
+      {selectedCards === 1 && <RealityHowLong {...{ handleshowCards }} />}
+      {selectedCards === 2 && <WhenRetire {...{ handleshowCards }} />}
+      {selectedCards === 3 && <RealityGolden {...{ handleshowCards }} />}
+      {selectedCards === 4 && <SurplusAnalysis {...{ handleshowCards }} />}
+      {selectedCards === 5 && <AccumulationAsset {...{ handleshowCards }} />}
+      {selectedCards === 6 && <DecumulationAsset {...{ handleshowCards }} />}
+      {selectedCards === 7 && <RetirementIncomeAnalysis {...{ handleshowCards }} />}
     </CardsContext.Provider>
   );
 }

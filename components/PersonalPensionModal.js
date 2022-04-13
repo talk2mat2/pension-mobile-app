@@ -73,7 +73,6 @@ const PersoanalStatePensionModal = ({
   //     });
   // };
   const handleSearchResult = async (search) => {
-   
     setproviderNameValidation(false);
     if (!search) {
       return;
@@ -235,293 +234,297 @@ const PersoanalStatePensionModal = ({
             Personal Pensions
           </Text>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 35 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            position: "relative",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>
-            Search for employers {"\n"}or pension providers…
-          </Text>
-
-          {personData?.provider ? (
-            <TouchableOpacity
-              onPress={() => setPersoData({ ...personData, provider: "" })}
-            >
-              <Text style={{ fontWeight: "700" }}>{personData.provider}</Text>
-            </TouchableOpacity>
-          ) : (
-            <>
-              <TextInput
-                // onChangeText={(text) => {
-                //   handleSearch(text);
-                // }}
-                onChangeText={(text) => {
-                  setproviderName(text);
-                  debouncedSearch(text);
-                }}
-                style={styles.input}
-                value={providerName}
-              />
-              {(search?.length > 0 || providerName.length > 0) && (
-                <View style={styles.searchDrop}>
-                  <ScrollView>
-                    <TouchableOpacity
-                      onPress={() => {
-                        setSearch([]);
-                        setPersoData({
-                          ...personData,
-                          secclExternalProviderId:"",
-                          provider: providerName,
-                          name: providerName,
-                        });
-                        // setChoosenProvider({
-                        //   attributes: { name: providerName },
-                        // });
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontWeight: "700",
-                          paddingVertical: 4,
-                          backgroundColor: myColorsLight.grey9,
-                          paddingHorizontal: 20,
-                        }}
-                      >
-                        {providerName}
-                      </Text>
-                    </TouchableOpacity>
-                    {mapResults()}
-                    {mapResults2()}
-                  </ScrollView>
-                </View>
-              )}
-            </>
-          )}
-        </View>
-        {providerNameValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
-              Please enter your provider name
-            </Text>
-          </View>
-        )}
-        {loading && (
+        <ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 35 }} />
           <View
             style={{
-              position: "absolute",
-              right: 0,
-              left: 0,
-              marginTop: "50%",
-              zIndex: 7,
-              elevation: 7,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              position: "relative",
             }}
           >
-            <JarvisLoader />
-          </View>
-        )}
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Current Value</Text>
+            <Text style={{ fontSize: 16 }}>
+              Search for employers {"\n"}or pension providers…
+            </Text>
 
-          <TextInput
-            keyboardType="numeric"
-            style={{ ...styles.input, width: 100 }}
-            value={personData.currentValue}
-            onChangeText={(text) => {
-              setPersoData({ ...personData, currentValue: text });
+            {personData?.provider ? (
+              <TouchableOpacity
+                onPress={() => setPersoData({ ...personData, provider: "" })}
+              >
+                <Text style={{ fontWeight: "700" }}>{personData.provider}</Text>
+              </TouchableOpacity>
+            ) : (
+              <>
+                <TextInput
+                  // onChangeText={(text) => {
+                  //   handleSearch(text);
+                  // }}
+                  onChangeText={(text) => {
+                    setproviderName(text);
+                    debouncedSearch(text);
+                  }}
+                  style={styles.input}
+                  value={providerName}
+                />
+                {(search?.length > 0 || providerName.length > 0) && (
+                  <View style={styles.searchDrop}>
+                    <ScrollView>
+                      <TouchableOpacity
+                        onPress={() => {
+                          setSearch([]);
+                          setPersoData({
+                            ...personData,
+                            secclExternalProviderId: "",
+                            provider: providerName,
+                            name: providerName,
+                          });
+                          // setChoosenProvider({
+                          //   attributes: { name: providerName },
+                          // });
+                        }}
+                      >
+                        <Text
+                          style={{
+                            fontWeight: "700",
+                            paddingVertical: 4,
+                            backgroundColor: myColorsLight.grey9,
+                            paddingHorizontal: 20,
+                          }}
+                        >
+                          {providerName}
+                        </Text>
+                      </TouchableOpacity>
+                      {mapResults()}
+                      {mapResults2()}
+                    </ScrollView>
+                  </View>
+                )}
+              </>
+            )}
+          </View>
+          {providerNameValidation && (
+            <View style={styles.formGroupError}>
+              <Text
+                style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}
+              >
+                Please enter your provider name
+              </Text>
+            </View>
+          )}
+          {loading && (
+            <View
+              style={{
+                position: "absolute",
+                right: 0,
+                left: 0,
+                marginTop: "50%",
+                zIndex: 7,
+                elevation: 7,
+              }}
+            >
+              <JarvisLoader />
+            </View>
+          )}
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
             }}
-          />
-        </View>
-        {/* {providerNameValidation && (
+          >
+            <Text style={{ fontSize: 16 }}>Current Value</Text>
+
+            <TextInput
+              keyboardType="numeric"
+              style={{ ...styles.input, width: 100 }}
+              value={personData.currentValue}
+              onChangeText={(text) => {
+                setPersoData({ ...personData, currentValue: text });
+              }}
+            />
+          </View>
+          {/* {providerNameValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
             </Text>
           </View>
         )} */}
-
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Regular{"\n"}Contributions</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="Male"
-              status={
-                personData.regularContribution === "yes"
-                  ? "checked"
-                  : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({ ...personData, regularContribution: "yes" });
-              }}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="Female"
-              status={
-                personData.regularContribution === "no"
-                  ? "checked"
-                  : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({ ...personData, regularContribution: "no" });
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        {personData?.regularContribution !== "no" && (
-          <>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginVertical: 10,
-                marginTop: 20,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Contribution Tax{"\n"} Basis</Text>
-              <View style={{ flexDirection: "row" }}>
-                <Text style={[styles.radioText]}>Net</Text>
-                <RadioButton
-                  value="net"
-                  status={
-                    personData.contributeBasics === "net"
-                      ? "checked"
-                      : "unchecked"
-                  }
-                  onPress={() => {
-                    setPersoData({
-                      ...personData,
-                      contributeBasics: "net",
-                      regContributionTaxBasis: "net",
-                    });
-                  }}
-                />
-                <Text style={[styles.radioText, { marginLeft: 20 }]}>
-                  Gross
-                </Text>
-                <RadioButton
-                  value="Female"
-                  status={
-                    personData.contributeBasics === "gross"
-                      ? "checked"
-                      : "unchecked"
-                  }
-                  onPress={() => {
-                    setPersoData({
-                      ...personData,
-                      contributeBasics: "gross",
-                      regContributionTaxBasis: "gross",
-                    });
-                  }}
-                />
-              </View>
-            </View>
-            <View style={{ ...styles.hrView, marginTop: 20 }} />
-
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                marginVertical: 10,
-                marginTop: 20,
-                alignItems: "center",
-              }}
-            >
-              <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
-
-              <TextInput
-                keyboardType="numeric"
-                value={personData.monthlyContribution}
-                onChangeText={(text) => {
-                  setPersoData({
-                    ...personData,
-                    monthlyContribution: text,
-                    regContributionAmount: text,
-                  });
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>Regular{"\n"}Contributions</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={[styles.radioText]}>Yes</Text>
+              <RadioButton
+                value="Male"
+                status={
+                  personData.regularContribution === "yes"
+                    ? "checked"
+                    : "unchecked"
+                }
+                onPress={() => {
+                  setPersoData({ ...personData, regularContribution: "yes" });
                 }}
-                style={{ ...styles.input, width: 100 }}
+              />
+              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <RadioButton
+                value="Female"
+                status={
+                  personData.regularContribution === "no"
+                    ? "checked"
+                    : "unchecked"
+                }
+                onPress={() => {
+                  setPersoData({ ...personData, regularContribution: "no" });
+                }}
               />
             </View>
-          </>
-        )}
+          </View>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          {personData?.regularContribution !== "no" && (
+            <>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginVertical: 10,
+                  marginTop: 20,
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ fontSize: 16 }}>
+                  Contribution Tax{"\n"} Basis
+                </Text>
+                <View style={{ flexDirection: "row" }}>
+                  <Text style={[styles.radioText]}>Net</Text>
+                  <RadioButton
+                    value="net"
+                    status={
+                      personData.contributeBasics === "net"
+                        ? "checked"
+                        : "unchecked"
+                    }
+                    onPress={() => {
+                      setPersoData({
+                        ...personData,
+                        contributeBasics: "net",
+                        regContributionTaxBasis: "net",
+                      });
+                    }}
+                  />
+                  <Text style={[styles.radioText, { marginLeft: 20 }]}>
+                    Gross
+                  </Text>
+                  <RadioButton
+                    value="Female"
+                    status={
+                      personData.contributeBasics === "gross"
+                        ? "checked"
+                        : "unchecked"
+                    }
+                    onPress={() => {
+                      setPersoData({
+                        ...personData,
+                        contributeBasics: "gross",
+                        regContributionTaxBasis: "gross",
+                      });
+                    }}
+                  />
+                </View>
+              </View>
+              <View style={{ ...styles.hrView, marginTop: 20 }} />
 
-        <View style={{ ...styles.hrView }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Spouse Pensio ?</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="yes"
-              status={
-                personData.spousePension === "yes" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({
-                  ...personData,
-                  spousePension: "yes",
-                  isSpouse: true,
-                });
-              }}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="no"
-              status={
-                personData.spousePension === "no" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersoData({
-                  ...personData,
-                  spousePension: "no",
-                  isSpouse: false,
-                });
-              }}
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  marginVertical: 10,
+                  marginTop: 20,
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
+
+                <TextInput
+                  keyboardType="numeric"
+                  value={personData.monthlyContribution}
+                  onChangeText={(text) => {
+                    setPersoData({
+                      ...personData,
+                      monthlyContribution: text,
+                      regContributionAmount: text,
+                    });
+                  }}
+                  style={{ ...styles.input, width: 100 }}
+                />
+              </View>
+            </>
+          )}
+          <View style={{ ...styles.hrView }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>Spouse Pensio ?</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={[styles.radioText]}>Yes</Text>
+              <RadioButton
+                value="yes"
+                status={
+                  personData.spousePension === "yes" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersoData({
+                    ...personData,
+                    spousePension: "yes",
+                    isSpouse: true,
+                  });
+                }}
+              />
+              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <RadioButton
+                value="no"
+                status={
+                  personData.spousePension === "no" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersoData({
+                    ...personData,
+                    spousePension: "no",
+                    isSpouse: false,
+                  });
+                }}
+              />
+            </View>
+          </View>
+          <View style={{ ...styles.hrView, marginTop: 25 }} />
+          <View style={{ alignItems: "center", marginTop: 40,marginBottom:20 }}>
+            <JarvisButton
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+              w={200}
             />
           </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 25 }} />
-        <View style={{ alignItems: "center", marginTop: 40 }}>
-          <JarvisButton
-            bgcolor={myColorsLight.black}
-            play={_next}
-            btn="Continue"
-            w={200}
-          />
-        </View>
+        </ScrollView>
         {/* <ScrollView></ScrollView> */}
       </Modal>
     </Portal>

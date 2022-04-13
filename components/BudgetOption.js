@@ -169,6 +169,27 @@ const BudgetOption = ({
                           style={{ ...styles.textMid }}
                         />
                         <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
+                          {"  "} Transport
+                        </Text>
+                      </DataTable.Cell>
+
+                      <DataTable.Cell numeric>
+                        <Text style={{ ...styles.textMid }}>
+                          £
+                          {budetData["House"]
+                            ? Math.ceil(budetData["Transport"] / 12)
+                            : 0}
+                        </Text>
+                      </DataTable.Cell>
+                    </DataTable.Row>
+                    <DataTable.Row>
+                      <DataTable.Cell style={styles.cell}>
+                        <AntDesign
+                          name="car"
+                          size={24}
+                          style={{ ...styles.textMid }}
+                        />
+                        <Text style={{ ...styles.textMid, fontWeight: "bold" }}>
                           {"  "} Holiday & Leisure
                         </Text>
                       </DataTable.Cell>

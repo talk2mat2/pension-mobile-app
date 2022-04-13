@@ -11,6 +11,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
+import WhyAsk from "../components/whyask";
 import JarvisLoader from "../components/JarvisLoader";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
@@ -77,7 +78,7 @@ function KYCRetireLondonScreen({ navigation }) {
   React.useEffect(() => {
     if (u?.included[0]?.insideLondon === true) {
       setRetireLondon("yes");
-    } else if (u?.included[0]?.insideLondon === false) {
+    } else if (u?.included[0]?.insideLondon === false || u?.included[0]?.insideLondon === null) {
       setRetireLondon("no");
     }
   }, []);
@@ -130,24 +131,7 @@ function KYCRetireLondonScreen({ navigation }) {
           </Text>
         </View>
         <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
-          <View style={{ flexDirection: "row" }}>
-            <MaterialCommunityIcons
-              name="information"
-              color={myColorsLight.black}
-              size={18}
-            />
-            <Text
-              style={{
-                ...styles.subHeader,
-                fontSize: 16,
-                color: myColorsLight.lightGreyDim,
-                paddingLeft: 3,
-                textAlign: "center",
-              }}
-            >
-              Why are we asking you this?
-            </Text>
-          </View>
+          <WhyAsk />
         </View>
 
         <View style={styles.borderBox}>
