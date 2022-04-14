@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
+import JSDasboard from "./navigation/jsdashboard/jsdashboardstack";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import NetInfo from "@react-native-community/netinfo";
 import { navigationRef } from "./RootNavigation.js";
@@ -60,6 +62,7 @@ export default function App() {
   const [budgetData, setBudgetData] = React.useState([]);
   const [retireProfile, setRetireProfile] = React.useState({});
   const [pensionJars, setPensionJars] = React.useState([]);
+  const [onboardingCompleted, setOnboardingCompleted] = React.useState(false);
   const [etk, setEtk] = useState("");
   const [hasDoneSetup, setHasDoneSetup] = useState(false);
   const [online, setOnline] = useState(false);
@@ -143,6 +146,8 @@ export default function App() {
     retireProfile,
     setRetireProfile,
     pensionJars,
+    onboardingCompleted,
+    setOnboardingCompleted,
     setPensionJars,
     loggedIn: loggedIn,
     setLoggedIn: setLoggedIn,
@@ -303,7 +308,7 @@ export default function App() {
                   <>
                     <Stack.Screen
                       name="SetupStack"
-                      component={SetupStack}
+                      component={onboardingCompleted ? JSDasboard : SetupStack}
                       options={{
                         headerShown: false,
                       }}
@@ -322,6 +327,11 @@ export default function App() {
                         ),
                       }}
                     />
+                    {/* <Stack.Screen
+                      name="DashboardStacks"
+                      options={{ headerShown: false }}
+                      component={JSDasboard}
+                    /> */}
                   </>
                 ) : (
                   <Stack.Screen

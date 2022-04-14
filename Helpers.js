@@ -66,7 +66,7 @@ export function parseUserData(dt) {
   let ret = {};
   //First get the sub
   let sub = dt.sub,
-    provider = sub.split("|");
+    provider = sub?.split("|");
   console.log("provider: ", provider);
   if (provider[0] == "google-oauth2") {
     ret.email = `${dt.nickname}@gmail.com`;

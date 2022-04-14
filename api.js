@@ -37,7 +37,7 @@ export default new (class Api {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log('errrors')
+        console.log('errrors',err)
         if (err?.response?.data) {
           throw err?.response?.data;
         } else {
@@ -62,6 +62,19 @@ export default new (class Api {
   update_user_profile = async (data, token) => {
     return await axios
       .patch(baseUrl + `/users/me`, data, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        throw err.response.data;
+      });
+  };
+  retrieve_users_profile = async ( token) => {
+    return await axios
+      .get(baseUrl + `/users/me`, {
         headers: {
           // "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Bearer ${token}`,

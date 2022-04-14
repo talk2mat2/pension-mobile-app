@@ -74,7 +74,7 @@ function OtherPension({ navigation }) {
       await api
         .create_Jar(ctx?.atk, {
           type: "jar",
-          attributes: { ...person1 },
+          attributes: { ...person2 },
         })
         .then((res) => {
           console.log("jar created");

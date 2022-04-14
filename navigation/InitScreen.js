@@ -20,18 +20,34 @@ function InitScreen({ navigation }) {
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
+  // React.useEffect(() => {
+  //   if (ctx?.u?.included[0]?.onboardingCompleted == true) {
+  //     ctx.setOnboardingCompleted(true);
+  //   }
+  // }, [ctx?.u]);
   const _next = async () => {
+    // console.log("ctx?.u",ctx?.u)
+
     let uu = null,
       hds = false;
     try {
       // Retrieve the credentials
       uu = await helpers.getValueFor("pa_u");
       if (uu) {
+        // if (ctx?.u?.included[0]?.onboardingCompleted == true) {
+        //   ctx.setOnboardingCompleted(true);
+        // }
         let hasDoneSetup = await helpers.getValueFor("pa_setup");
         ctx.setLoggedIn(true);
-        if (hasDoneSetup && hasDoneSetup != null && hasDoneSetup == "yes") {
-          ctx.setHasDoneSetup(true);
-          navigation.navigate("AppTab");
+        // if (hasDoneSetup && hasDoneSetup != null && hasDoneSetup == "yes") {
+        //   ctx.setHasDoneSetup(true);
+        //   navigation.navigate("AppTab");
+
+        // }
+ 
+        if (ctx?.u?.included[0]?.onboardingCompleted == true) {
+          ctx.setOnboardingCompleted(true);
+          navigation.replace("SetupStack");
         } else {
           //TODO: check the current level in the onboarding journey...
           //... and navigate to the appropriat screen
@@ -57,7 +73,7 @@ function InitScreen({ navigation }) {
   });
   useFocusEffect(() => {
     const nav = setTimeout(() => navigateAway(), 3000);
-  return ()=>clearTimeout(nav)
+    return () => clearTimeout(nav);
   });
 
   return (

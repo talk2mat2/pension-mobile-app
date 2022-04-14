@@ -8,11 +8,13 @@ import jwtDecode from "jwt-decode";
 import * as helpers from "../../Helpers";
 import { myColorsLight } from "../../constant/colors";
 import JSDashboardnav from "../../components/JSDashboardnav";
+import JSDashProfile from "./JSDashProfile";
 // import BudgetBenchmark2 from "./BudgetBenchmark2";
 import RTDashboardMain from "./rtDashboard/RtDashboardmain";
 import RealityDashboardMain from "./RealityDashbord/RealityDashboardmain";
 import api from "../../api";
 import UserContext from "../../contexts/UserContext";
+import AppTab from "../AppTab";
 
 const JSDasboard = () => {
   const [mounted, setMounted] = React.useState(1);
@@ -21,6 +23,7 @@ const JSDasboard = () => {
   const togglrFullScreen = () => setIsfullScreen(!isfullScreen);
   const togglrRtFullScreen = () => seRttIsfullScreen(!rtisfullScreen);
   const ctx = useContext(UserContext);
+  const prevScreen = React.useRef();
   const lockscroll = () => {
     //prevent swipper horizontal scroll if the cards is in full screen
     let value = true;
@@ -30,6 +33,19 @@ const JSDasboard = () => {
       value = false;
     }
     return value;
+  };
+  const openProfile = (prev) => {
+    if (prev) {
+      prevScreen.current = prev;
+    }
+    setMounted(3);
+  };
+  const closeProfile = () => {
+    if (prevScreen.current) {
+      setMounted(prevScreen.current);
+    } else {
+      setMounted(1);
+    }
   };
   const checkTokenExpiration = () => {
     const token = ctx?.atk;
@@ -67,7 +83,7 @@ const JSDasboard = () => {
         if (err?.errors[0]?.details) {
           //logout in cse token hs expired
           //might change this later
-          handleLogout()
+          handleLogout();
           Alert.alert(
             "Failed to get RT profile, server says",
             err?.errors[0].details
@@ -77,6 +93,36 @@ const JSDasboard = () => {
         }
 
         return err;
+      });
+  };
+  const syncUsersProfileData = async () => {
+    await api
+      .retrieve_users_profile(ctx?.atk)
+      .then((res) => {
+        // ctx?.setRetireProfile(res.data);
+        // console.log(res.data);
+        // ctx.setRetireProfile(res.data),
+        let attributes = res.data.attributes,
+          included = res.data.included[0];
+        included?.attributes?.lifeExpectancies &&
+          delete included.attributes.lifeExpectancies;
+        let trimmedUserInfo = {
+          attributes: {
+            title: attributes.title,
+            name: attributes.name,
+            fname: attributes.firstName,
+            lname: attributes.lastName,
+            email: attributes.email,
+            gender: attributes.gender,
+          },
+          type: included.type,
+          id: included.id,
+          included: [included.attributes],
+        };
+        helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   const retrieve_all_jars_Jar = async () => {
@@ -98,7 +144,11 @@ const JSDasboard = () => {
   };
   React.useEffect(() => {
     checkTokenExpiration();
-    Promise.resolve(Get_retirement_profile_user().then(retrieve_all_jars_Jar));
+    Promise.resolve(
+      syncUsersProfileData()
+        .then(Get_retirement_profile_user)
+        .then(retrieve_all_jars_Jar)
+    );
   }, []);
   return (
     <FullScreenContext.Provider
@@ -107,6 +157,8 @@ const JSDasboard = () => {
         isfullScreen,
         rtisfullScreen,
         togglrRtFullScreen,
+        openProfile,
+        closeProfile,
       }}
     >
       <View style={styles.container}>
@@ -141,6 +193,7 @@ const JSDasboard = () => {
           </Swiper>
         )}
         {mounted === 2 && <JSDashPension />}
+        {mounted === 3 && <JSDashProfile />}
         {!isfullScreen && !rtisfullScreen && (
           <JSDashboardnav {...{ mounted, setMounted }} />
         )}

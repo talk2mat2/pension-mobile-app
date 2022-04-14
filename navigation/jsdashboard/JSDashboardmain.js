@@ -8,15 +8,17 @@ import DashHomeCards from "../../components/dashHomeCards";
 import { AntDesign } from "@expo/vector-icons";
 
 import JSCardsAnimated from "./JScardsAnimated";
+import FullScreenContext from "../../contexts/fullScreenContext";
 
 const JSDashboardMain = () => {
+  const { openProfile } = useContext(FullScreenContext);
 
   return (
     <MyGradientBackground>
       <View
         style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openProfile.bind(this, 1)}>
           <MaterialCommunityIcons
             name="account-details"
             size={40}
@@ -54,17 +56,19 @@ const JSDashboardMain = () => {
             >
               Life Plan
             </Text>
-            
           </View>
-          <View style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}>
-        <Text
-          style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
-        >
-          To build your retirement profile{"\n"}, we would need to capture some
-          {"\n"}
-          information from you.
-        </Text>
-      </View>
+          <View
+            style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}
+          >
+            <Text
+              style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
+            >
+              To build your retirement profile{"\n"}, we would need to capture
+              some
+              {"\n"}
+              information from you.
+            </Text>
+          </View>
         </View>
       </View>
 

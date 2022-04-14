@@ -10,7 +10,7 @@ function HomeScreen({navigation}){
 
     const ctx = useContext(UserContext);
 	  let navv = navigation;
-    let u = helpers.parseUserData(ctx.u);
+    let u = ctx?.u
 		 //console.log("uu: ",u);
 
      const _changePassword = () => {

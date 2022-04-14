@@ -42,7 +42,15 @@ function CPCongrat({ navigation, route }) {
     navigation.navigate("DashboardStack");
   };
 
+  const _updateUser = () => {
+    //Update the frontend: context and async storage
+    let u = ctx?.u;
+    u.included[0].onboardingCompleted == true;
+    ctx.setU(u);
+    helpers.save("pa_u", JSON.stringify(u));
+  };
   const completeOnboarding = async () => {
+    _updateUser();
     const newData = {
       data: {
         type: "retirementProfile",
@@ -53,7 +61,7 @@ function CPCongrat({ navigation, route }) {
     };
     await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
       .then((res) => {
-        // console.log("done");
+        console.log("done", res);
       })
       .catch((err) => {
         // console.log("undone",err);
@@ -72,6 +80,7 @@ function CPCongrat({ navigation, route }) {
         type: "user",
         attributes: {
           ...usersAttrib,
+          onboardingCompleted: true,
         },
       },
     };
