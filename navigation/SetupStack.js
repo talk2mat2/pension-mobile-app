@@ -13,9 +13,9 @@ const Stack = createStackNavigator();
 
 function SetupStack() {
   const ctx = useContext(UserContext);
-  React.useEffect(() => {
-    console.log(ctx?.u?.included[0]?.onboardingCompleted);
-  }, []);
+  // React.useEffect(() => {
+  //   console.log(ctx?.u?.included[0]?.onboardingCompleted);
+  // }, []);
   return (
     <Stack.Navigator initialRouteName="KYC">
       <Stack.Screen

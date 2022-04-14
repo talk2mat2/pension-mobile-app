@@ -190,6 +190,10 @@ export default function App() {
           // Retrieve the credentials
           uu = await helpers.getValueFor("pa_u");
           if (uu) {
+            const userData = JSON.parse(uu);
+            const status = userData?.included[0]?.onboardingCompleted;
+            console.log(status)
+            setOnboardingCompleted(status);
             if (rtk != null && uu != null) {
               //get auth0 access token using refresh token
               let refreshTokenData = {

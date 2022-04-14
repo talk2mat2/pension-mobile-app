@@ -193,7 +193,7 @@ const JSDasboard = () => {
           </Swiper>
         )}
         {mounted === 2 && <JSDashPension />}
-        {mounted === 3 && <JSDashProfile />}
+        {mounted === 3 && <JSDashProfile handleLogout={handleLogout} />}
         {!isfullScreen && !rtisfullScreen && (
           <JSDashboardnav {...{ mounted, setMounted }} />
         )}

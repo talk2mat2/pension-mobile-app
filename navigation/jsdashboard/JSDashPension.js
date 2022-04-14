@@ -1,19 +1,21 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import FullScreenContext from "../../contexts/fullScreenContext";
 
 const JSDashPension = () => {
   const [isfullScreen, setIsfullScreen] = React.useState(false);
+  const { openProfile } = useContext(FullScreenContext);
   const togglrFullScreen = ()=>setIsfullScreen(!isfullScreen);
   return (
     <MyGradientBackground>
       <View
         style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
       >
-        <TouchableOpacity>
+        <TouchableOpacity onPress={openProfile.bind(this, 2)}>
           <MaterialCommunityIcons
             name="account-details"
             size={40}

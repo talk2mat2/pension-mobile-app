@@ -33,6 +33,9 @@ function LoginScreen() {
     ctx.setRtk(dt.rtk);
     ctx.setU(dt.u);
     ctx.setLoggedIn(true);
+    if (dt?.u?.included[0]?.onboardingCompleted != null) {
+      ctx.setOnboardingCompleted(dt?.u?.included[0]?.onboardingCompleted);
+    }
   };
 
   useEffect(() => {
@@ -122,7 +125,7 @@ function LoginScreen() {
   // Retrieve the redirect URL, add this to the callback URL list
   // of your Auth0 application.
   //console.log(`Redirect URL: ${redirectUri}`);
-
+  
   useEffect(async () => {
     if (result) {
       let params = result.params;
@@ -194,7 +197,7 @@ function LoginScreen() {
                 });
                 let dt3 = dt3response?.data;
 
-                console.log("dt3: ", dt3);
+                // console.log("dt3: ", dt3);
 
                 //Get the user info
 

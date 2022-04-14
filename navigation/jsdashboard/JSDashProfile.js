@@ -9,10 +9,12 @@ import { AntDesign } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import FullScreenContext from "../../contexts/fullScreenContext";
+import UserContext from "../../contexts/UserContext";
 
-const JSDashProfile = () => {
+const JSDashProfile = ({ handleLogout }) => {
   const { closeProfile } = useContext(FullScreenContext);
   const [isfullScreen, setIsfullScreen] = React.useState(false);
+  const ctx = useContext(UserContext);
   const togglrFullScreen = () => setIsfullScreen(!isfullScreen);
   const proptLogout = () =>
     Alert.alert("Log out", "Are you sure you want to log out", [
@@ -21,7 +23,7 @@ const JSDashProfile = () => {
         onPress: () => console.log("Cancel Pressed"),
         style: "cancel",
       },
-      { text: "OK", onPress: () => console.log("OK Pressed") },
+      { text: "OK", onPress: () => handleLogout() },
     ]);
   return (
     <MyGradientBackground>
@@ -70,11 +72,11 @@ const JSDashProfile = () => {
         />
       </View>
       <View style={{ alignItems: "center", marginTop: 30 }}>
-        <Text style={{ fontSize: 30 }}>Chukwuma Martins</Text>
+        <Text style={{ fontSize: 30 }}>{`${ctx?.u?.attributes?.fname} ${ctx?.u?.attributes?.lname}`}</Text>
       </View>
       <View style={{ alignItems: "center", marginTop: 2 }}>
         <Text style={{ fontSize: 20, color: myColorsLight.grey6 }}>
-          talk2mat@yahoo.com
+        {ctx?.u?.attributes?.email}
         </Text>
       </View>
       <View style={{ marginTop: 20 }}>

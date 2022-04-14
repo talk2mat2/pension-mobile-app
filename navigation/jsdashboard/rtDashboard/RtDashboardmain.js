@@ -9,14 +9,16 @@ import { AntDesign } from "@expo/vector-icons";
 import RTcardsAnimated from './RTcardsAnimated'
 import JSCardsAnimated from ".././JScardsAnimated";
 import CPDatatable from "../../../components/CPDatatable";
+import FullScreenContext from "../../../contexts/fullScreenContext";
 
 const RTDashboardMain = () => {
+  const { openProfile } = useContext(FullScreenContext);
   return (
     <MyGradientBackground>
       <View
         style={{ marginTop: 15, alignItems: "flex-end", paddingHorizontal: 20 }}
       >
-        <TouchableOpacity>
+         <TouchableOpacity onPress={openProfile.bind(this, 1)}>
           <MaterialCommunityIcons
             name="account-details"
             size={40}
