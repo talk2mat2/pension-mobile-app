@@ -62,11 +62,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
   };
 
   const _updateUser = async () => {
-    u.included[0].maritalStatus = "married";
-    u.included[0].isSingle = false;
+  
+  
 
     if (retireWithSpouse == "yes") {
       //Spouse details
+      u.included[0].isSingle = false;
+      u.included[0].maritalStatus = "married";
       u.included[0].spouseName = spouseName;
       let bd = birthday.toISOString().split("T");
       u.included[0].spouseGender = spouseGender;
@@ -86,6 +88,8 @@ function KYCRetireWithSpouseScreen({ navigation }) {
       // u.included[0].spouseRetirementDate = tempd[0];
     } else {
       u.included[0].retireWithSpouse = false;
+      u.included[0].maritalStatus = "single";
+      u.included[0].isSingle = true;
     }
     ctx.setU(u);
     helpers.save("pa_u", JSON.stringify(u));

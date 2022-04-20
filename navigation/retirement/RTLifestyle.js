@@ -159,7 +159,8 @@ function RTLifestyle({ route, navigation }) {
     };
 
     setIsloading(true);
-    console.log(JSON.stringify(newData,ctx.atk));
+    console.log(JSON.stringify(newData));
+    console.log('TOKEN IS',ctx?.atk);
     // await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
     //   .then((res) => {
     //     setIsloading(false);

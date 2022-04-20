@@ -97,7 +97,7 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
       visible={visible}
     >
       <View style={{ flex: 1, paddingTop: 90 }}>
-        <View style={{ position: "absolute", left: 10 }}>
+        <View style={{ position: "absolute", left: 10 ,top:20}}>
           <Pressable onPress={() => setVisiblility(false)}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"

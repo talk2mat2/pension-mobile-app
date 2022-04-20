@@ -135,6 +135,7 @@ function LoginScreen({ navigation }) {
 
   useEffect(async () => {
     if (result) {
+      console.log(result)
       let params = result.params;
       if (result.error) {
         helpers.jarvisAlert({
