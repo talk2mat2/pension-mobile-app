@@ -101,7 +101,7 @@ function RTLifestyle({ route, navigation }) {
       gender,
       isSingle,
       maritalStatus,
-      onboardingCompleted,
+      onboardingCompleted:false,
       retirementAge,
       retirementDate,
       spouseDateOfBirth,
@@ -159,10 +159,31 @@ function RTLifestyle({ route, navigation }) {
     };
 
     setIsloading(true);
-    console.log(JSON.stringify(newData)); 
-    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
+    console.log(JSON.stringify(newData,ctx.atk));
+    // await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
+    //   .then((res) => {
+    //     setIsloading(false);
+    //     navigation.navigate("RTExcellent", {
+    //       result: lifestyleData?.["Total (Gross)"],
+    //       profile: res?.data,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log("err is", err);
+    //     setIsloading(false);
+    //     if (err?.errors?.[0]?.details) {
+    //       Alert.alert(
+    //         "An error orcured, try again. server says:",
+    //         err?.errors?.[0]?.details
+    //       );
+    //     } else {
+    //       Alert.alert("An error orcured, try again");
+    //     }
+    //   });
+    await Api.create_retirement_profile(ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);
+        console.log(res)
         navigation.navigate("RTExcellent", {
           result: lifestyleData?.["Total (Gross)"],
           profile: res?.data,

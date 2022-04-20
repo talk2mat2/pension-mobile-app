@@ -45,6 +45,26 @@ export default new (class Api {
         }
       });
   };
+  create_retirement_profile = async (token, data) => {
+    // console.log(JSON.stringify(data));
+    // console.log("id", data, id,token);
+    return await axios
+      .post(baseUrl + `/retirement-profiles`, data, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log("errrors", err);
+        if (err?.response?.data) {
+          throw err?.response?.data;
+        } else {
+          throw new Error();
+        }
+      });
+  };
 
   Calculate_logged_in_user_retirement = async (token) => {
     return await axios
