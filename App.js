@@ -56,6 +56,7 @@ export default function App() {
   const [showApp, setShowApp] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [u, setU] = useState(null);
+  const [emailStart, setEmailStart] = useState();
   const [name, setName] = useState(null);
   const [atk, setAtk] = useState(null);
   const [rtk, setRtk] = useState(null);
@@ -141,6 +142,8 @@ export default function App() {
   };
 
   let ctx = {
+    emailStart,
+    setEmailStart,
     budgetData,
     setBudgetData,
     retireProfile,
@@ -192,7 +195,7 @@ export default function App() {
           if (uu) {
             const userData = JSON.parse(uu);
             const status = userData?.included[0]?.onboardingCompleted;
-            console.log(status)
+            console.log(status);
             setOnboardingCompleted(status);
             if (rtk != null && uu != null) {
               //get auth0 access token using refresh token

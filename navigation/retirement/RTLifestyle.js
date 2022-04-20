@@ -83,6 +83,7 @@ function RTLifestyle({ route, navigation }) {
       employmentStatus,
       gender,
       isSingle,
+      insideLondon,
       maritalStatus,
       onboardingCompleted,
       retirementAge,
@@ -95,6 +96,7 @@ function RTLifestyle({ route, navigation }) {
     } = ctx?.u?.included[0];
     const attribs = {
       dateOfBirth,
+      insideLondon,
       employmentStatus,
       gender,
       isSingle,
@@ -157,7 +159,7 @@ function RTLifestyle({ route, navigation }) {
     };
 
     setIsloading(true);
-    // console.log(JSON.stringify(newData));
+    console.log(JSON.stringify(newData)); 
     await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);

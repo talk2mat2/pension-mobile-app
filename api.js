@@ -37,7 +37,7 @@ export default new (class Api {
       })
       .then((res) => res.data)
       .catch((err) => {
-        console.log('errrors',err)
+        console.log("errrors", err);
         if (err?.response?.data) {
           throw err?.response?.data;
         } else {
@@ -72,7 +72,7 @@ export default new (class Api {
         throw err.response.data;
       });
   };
-  retrieve_users_profile = async ( token) => {
+  retrieve_users_profile = async (token) => {
     return await axios
       .get(baseUrl + `/users/me`, {
         headers: {
@@ -186,6 +186,37 @@ export default new (class Api {
           Authorization: `Bearer ${token}`,
         },
       })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
+  passwordless_start = async (data) => {
+    return await axios
+      .post(
+        baseUrl + `/passwordless-start`,
+        data
+        // {
+        //   headers: { "Connection": "keep-alive","Content-Type": "multipart/form-data; boundary=--------------------------456458853396088134311797" },
+        // }
+      )
+      .then((res) => res)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
+  passwordless_token = async (data) => {
+    console.log(data)
+    return await axios
+      .post(
+        baseUrl + `/passwordless-token`,
+        data
+        // {
+        //   headers:{ }
+        // }
+      )
       .then((res) => res.data)
       .catch((err) => {
         console.log(err);

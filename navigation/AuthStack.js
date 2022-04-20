@@ -1,27 +1,33 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { View, Text } from 'react-native';
-import LoginScreen from './LoginScreen.js';
- 
+import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import { View, Text } from "react-native";
+import LoginScreen from "./LoginScreen.js";
+import CodeScreen from "./codeScreen.js";
+
 //import HeaderBar from '../components/HeaderBar';
- 
- 
- const Stack = createStackNavigator();
 
+const Stack = createStackNavigator();
 
-function AuthStack(){
-  
-	return (
-	   <Stack.Navigator
-	    initialRouteName="Login"	
-		screenOptions={{
-        headerShown: false
+function AuthStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName="Login"
+      screenOptions={{
+        headerShown: false,
       }}
-	  >
-	   <Stack.Screen options={{headerShown:false}} name="Login" component={LoginScreen}/>
-	   </Stack.Navigator>
-	);
+    >
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="CodeScreen"
+        component={CodeScreen}
+      />
+    </Stack.Navigator>
+  );
 }
-
 
 export default AuthStack;

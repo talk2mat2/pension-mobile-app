@@ -6,6 +6,9 @@ import {
   View,
   Text,
   Dimensions,
+  TouchableOpacity,
+  Modal,
+  Pressable,
 } from "react-native";
 import Env from "../env";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -13,12 +16,16 @@ import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
+import Passwordless from "./passwordlessLogin";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
+import { TextInput } from "react-native-paper";
+import { myColorsLight } from "../constant/colors";
 
-function LoginScreen() {
+function LoginScreen({ navigation }) {
   const ctx = useContext(UserContext);
   const [buttonBackground, setButtonBackground] = useState("#77f");
+  const [visible, setVisiblility] = React.useState(false);
   const [buttonTextColor, setButtonTextColor] = useState("#fff");
   const [loginButtonDisabled, setLoginButtonDisabled] = useState(false);
   const [hasCode, setHasCode] = useState(false);
@@ -125,7 +132,7 @@ function LoginScreen() {
   // Retrieve the redirect URL, add this to the callback URL list
   // of your Auth0 application.
   //console.log(`Redirect URL: ${redirectUri}`);
-  
+
   useEffect(async () => {
     if (result) {
       let params = result.params;
@@ -237,7 +244,7 @@ function LoginScreen() {
                   };
                   console.log("trimmedUserInfo: ", trimmedUserInfo);
                   helpers.save("pa_atk", dt3.access_token);
-                  helpers.save("pa_rtk", dt3.refresh_token);
+                  helpers.save("pa_rtk", dt3?.refresh_token);
 
                   helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
 
@@ -305,7 +312,22 @@ function LoginScreen() {
           btn="Continue"
           w={150}
         />
+        <View style={{ alignItems: "center", marginTop: 30 }}>
+          <TouchableOpacity onPress={() => setVisiblility(true)}>
+            <Text
+              style={{
+                fontSize: 18,
+                color: buttonBackground,
+                fontWeight: "bold",
+              }}
+            >
+              Passwordless Login
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
+
+      <Passwordless {...{ visible, setVisiblility, navigation }} />
     </View>
   );
 }

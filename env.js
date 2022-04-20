@@ -43,4 +43,4 @@ function getEnvVars(env = "") {
 }
 
 //export default getEnvVars(Constants.manifest.releaseChannel);
-export default getEnvVars("staging");
+export default getEnvVars("dev");
