@@ -91,24 +91,38 @@ function RTLifestyle({ route, navigation }) {
       spouseDateOfBirth,
       spouseGender,
       spouseName,
-      spouseRetirementAge,
-      spouseRetirementDate,
+      // spouseRetirementAge,
+      // spouseRetirementDate,
     } = ctx?.u?.included[0];
+    // const attribs = {
+    //   dateOfBirth,
+    //   insideLondon,
+    //   employmentStatus,
+    //   gender,
+    //   isSingle,
+    //   maritalStatus,
+    //   onboardingCompleted:false,
+    //   retirementAge,
+    //   retirementDate,
+    //   spouseDateOfBirth,
+    //   spouseGender: spouseGender || "Female",
+    //   spouseName,
+    //   spouseRetirementAge,
+    //   spouseRetirementDate,
+    // };
     const attribs = {
-      dateOfBirth,
-      insideLondon,
-      employmentStatus,
-      gender,
       isSingle,
-      maritalStatus,
-      onboardingCompleted:false,
+      insideLondon,
+      onboardingCompleted: false,
+      dateOfBirth,
+      gender,
       retirementAge,
       retirementDate,
-      spouseDateOfBirth,
-      spouseGender: spouseGender || "Female",
       spouseName,
-      spouseRetirementAge,
-      spouseRetirementDate,
+      spouseDateOfBirth,
+      spouseGender,
+      // spouseRetirementAge,
+      // spouseRetirementDate,
     };
     // Object.keys(attribs).forEach(
     //   (k) => attribs[k] == null && delete attribs[k]
@@ -116,7 +130,8 @@ function RTLifestyle({ route, navigation }) {
     //remove null value
     Object.keys(attribs).forEach((item) => {
       if (attribs[item] == null) {
-        attribs[item] = "";
+        // attribs[item] = "";
+        delete attribs[item]
       }
     });
     const newData = {
@@ -159,8 +174,9 @@ function RTLifestyle({ route, navigation }) {
     };
 
     setIsloading(true);
-    console.log(JSON.stringify(newData));
-    console.log('TOKEN IS',ctx?.atk);
+    // console.log(JSON.stringify(newData));
+    // console.log("TOKEN IS", ctx?.atk);
+    
     // await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
     //   .then((res) => {
     //     setIsloading(false);
@@ -184,7 +200,8 @@ function RTLifestyle({ route, navigation }) {
     await Api.create_retirement_profile(ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);
-        console.log(res)
+        console.log(res);
+        ctx.setRetireProfile(res?.data)
         navigation.navigate("RTExcellent", {
           result: lifestyleData?.["Total (Gross)"],
           profile: res?.data,

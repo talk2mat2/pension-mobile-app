@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
+  Alert,
 } from "react-native";
 let ModalDropdown;
 if (Platform.OS !== "web") {
@@ -67,6 +68,9 @@ function KYCRetirementAgeScreen({ navigation }) {
   const _next = async () => {
     if (retirementAge == "none" || parseInt(retirementAge) < 1) {
       setRetirementAgeValidation(true);
+    }
+    if (retirementAge == "none" || parseInt(retirementAge) < 55) {
+      return Alert.alert("Retirement age can not be less than 55 years");
     } else {
       _updateUser();
 

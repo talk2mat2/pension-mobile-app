@@ -36,53 +36,77 @@ const CodeScreen = ({ navigation, route }) => {
     }
   };
   const getUsersData = async (dt3) => {
-    await api.retrieve_users_profile(dt3.access_token).then((userInfo) => {
-      if (userInfo) {
-        let uidt = userInfo;
-        // console.log("userInfo: ",uidt);
-        //Save user info, access token, refresh token and update user context
-        //User info
-        //console.log("userinfo dt: ",uidt.data);
-        console.log("userInfo is-", userInfo);
-        let attributes = uidt.data.attributes,
-          included = uidt.data?.included?.[0] || {};
-        included?.attributes?.lifeExpectancies &&
-          delete included.attributes.lifeExpectancies;
-        let trimmedUserInfo = {
-          attributes: {
-            title: attributes.title,
-            name: attributes.name,
-            fname: attributes.firstName,
-            lname: attributes.lastName,
-            email: attributes.email,
-            gender: attributes.gender,
-          },
-          type: included.type,
-          id: included.id,
-          included: [included.attributes || {}],
-        };
-        console.log("trimmedUserInfo: ", trimmedUserInfo);
-        helpers.save("pa_atk", dt3.access_token);
-        dt3.refresh_token && helpers.save("pa_rtk", dt3.refresh_token);
-
-        helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
-
-        _updateUser({
-          u: trimmedUserInfo,
-          atk: dt3.access_token,
-          rtk: "",
-        });
-      } else {
-        console.log("error fetching user profile");
-      }
-    });
+    await api
+      .retrieve_users_profile(dt3.access_token)
+      .then(async (userInfo) => {
+        if (userInfo) {
+          let uidt = userInfo;
+          // console.log("userInfo: ",uidt);
+          //Save user info, access token, refresh token and update user context
+          //User info
+          //console.log("userinfo dt: ",uidt.data);
+          console.log("userInfo is-", userInfo);
+          let attributes = uidt.data.attributes,
+            included = uidt.data?.included?.[0] || {};
+          included?.attributes?.lifeExpectancies &&
+            delete included.attributes.lifeExpectancies;
+          let trimmedUserInfo = {
+            attributes: {
+              title: attributes.title,
+              name: attributes.name,
+              fname: attributes.firstName,
+              lname: attributes.lastName,
+              email: attributes.email,
+              gender: attributes.gender,
+            },
+            type: included.type,
+            id: included.id,
+            included: [included.attributes || {}],
+          };
+          console.log("trimmedUserInfo: ", trimmedUserInfo);
+          helpers.save("pa_atk", dt3.access_token);
+          dt3.refresh_token && helpers.save("pa_rtk", dt3.refresh_token);
+          let includes = [{}];
+          // helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
+          //check onbording completed
+          await api
+            .Get_retirement_profiles_user(dt3.access_token)
+            .then((resp) => {
+              // console.log("resp is", resp)
+              // console.log(resp?.data?.attributes?.onboardingCompleted)
+              if (resp?.data?.attributes?.onboardingCompleted == true) {
+                ctx.setOnboardingCompleted(true);
+                includes = [{ ...resp?.data?.attributes }];
+              } else {
+              }
+            })
+            .catch((err) => {});
+          _updateUser({
+            u: {
+              ...trimmedUserInfo,
+              included: includes,
+            },
+            atk: dt3.access_token,
+            rtk: "",
+          });
+          helpers.save(
+            "pa_u",
+            JSON.stringify({
+              ...trimmedUserInfo,
+              included: includes,
+            })
+          );
+        } else {
+          console.log("error fetching user profile");
+        }
+        setLoading(false);
+      });
   };
   const passwordlessTokenStart = async () => {
     setLoading(true);
     await api
       .passwordless_token({ email, otp: value })
       .then((res) => {
-        setLoading(false);
         console.log(res);
         getUsersData(res);
       })

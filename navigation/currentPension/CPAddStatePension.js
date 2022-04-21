@@ -140,9 +140,10 @@ function CPAddStatePension({ navigation }) {
   };
   const Get_retirement_profile_user = async () => {
     await api
-      .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
+      .Get_retirements_profile_user(ctx?.atk)
       .then((res) => {
         setRetireProfile(res?.data);
+        console.log(res?.data)
       })
       .catch((err) => {
         console.log(err);
@@ -151,7 +152,7 @@ function CPAddStatePension({ navigation }) {
         );
         return err;
       });
-  };
+  }; 
 
   React.useEffect(() => {
     Get_retirement_profile_user();

@@ -23,7 +23,7 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
     let arrs = [];
     if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
       ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
-        arrs.push(data.user);
+        data.user && arrs.push(data.user);
       });
     }
     return arrs;
@@ -32,7 +32,7 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
     let arrs = [];
     if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
       ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
-        arrs.push(data.combined);
+        data.combined && arrs.push(data.combined);
       });
     }
     return arrs;
@@ -50,7 +50,7 @@ const LifeExpectancy = ({ handleToggleFullScreen, closeCard }) => {
     let arrs = [];
     if (ctx?.retireProfile?.attributes?.lifeExpectancies?.length > 0) {
       ctx?.retireProfile?.attributes?.lifeExpectancies?.map((data) => {
-        arrs.push(data.spouse);
+        data.spouse && arrs.push(data.spouse);
       });
     }
     return arrs;

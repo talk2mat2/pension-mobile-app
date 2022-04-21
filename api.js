@@ -170,6 +170,34 @@ export default new (class Api {
         throw err?.response?.data;
       });
   };
+  Get_retirement_profiles_user = async (token) => {
+    return await axios
+      .get(baseUrl + `/retirement-profiles`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
+  Get_retirements_profile_user = async (token) => {
+    return await axios
+      .get(baseUrl + `/retirement-profiles`, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => res.data)
+      .catch((err) => {
+        console.log(err);
+        throw err?.response?.data;
+      });
+  };
   get_all_Pension_Providers = async (token) => {
     return await axios
       .get(baseUrl + `/pension-providers`, {

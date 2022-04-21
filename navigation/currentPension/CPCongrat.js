@@ -59,9 +59,14 @@ function CPCongrat({ navigation, route }) {
         },
       },
     };
-    await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, newData)
+    await Api.Update_retirement_profile(
+      ctx?.retireProfile?.id,
+      ctx?.atk,
+      newData
+    )
       .then((res) => {
-        console.log("done", res);
+        // console.log("done", res);
+        ctx.setRetireProfile(res?.data);
       })
       .catch((err) => {
         // console.log("undone",err);

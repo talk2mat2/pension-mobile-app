@@ -97,7 +97,7 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
       visible={visible}
     >
       <View style={{ flex: 1, paddingTop: 90 }}>
-        <View style={{ position: "absolute", left: 10 ,top:20}}>
+        <View style={{ position: "absolute", left: 10, top: 20 }}>
           <Pressable onPress={() => setVisiblility(false)}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
@@ -143,7 +143,7 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
         <View style={{ alignItems: "center", marginTop: 50 }}>
           <JarvisButton
             style={styles.loginButton}
-            disabled={emailError.status}
+            disabled={emailError.status || loading}
             bgcolor={buttonBackground}
             play={_next}
             btn="Send Code by Email"

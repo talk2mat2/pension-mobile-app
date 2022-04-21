@@ -69,7 +69,7 @@ const JSDasboard = () => {
   };
   const Get_retirement_profile_user = async () => {
     await api
-      .Get_retirement_profile_user(ctx?.atk, ctx?.u?.id)
+      .Get_retirement_profiles_user(ctx?.atk)
       .then((res) => {
         // setRetireProfile(res?.data);
         // console.log(res.data);
@@ -96,16 +96,21 @@ const JSDasboard = () => {
       });
   };
   const syncUsersProfileData = async () => {
+ 
     await api
       .retrieve_users_profile(ctx?.atk)
+
       .then((res) => {
+        // console.log(ctx?.u)
+        // console.log(res.data)
+  
         // ctx?.setRetireProfile(res.data);
         // console.log(res.data);
         // ctx.setRetireProfile(res.data),
-        let attributes = res.data.attributes,
-          included = res.data.included[0];
-        included?.attributes?.lifeExpectancies &&
-          delete included.attributes.lifeExpectancies;
+        let attributes = res.data.attributes
+          // included = res.data.included[0];
+        // included?.attributes?.lifeExpectancies &&
+        //   delete included.attributes.lifeExpectancies;
         let trimmedUserInfo = {
           attributes: {
             title: attributes.title,
@@ -115,9 +120,9 @@ const JSDasboard = () => {
             email: attributes.email,
             gender: attributes.gender,
           },
-          type: included.type,
-          id: included.id,
-          included: [included.attributes],
+          type: attributes.type,
+          id: attributes.id,
+          included:ctx?.u?.included,
         };
         helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
       })

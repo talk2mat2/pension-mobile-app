@@ -21,6 +21,7 @@ import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
 import { TextInput } from "react-native-paper";
 import { myColorsLight } from "../constant/colors";
+import api from "../api";
 
 function LoginScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -135,7 +136,6 @@ function LoginScreen({ navigation }) {
 
   useEffect(async () => {
     if (result) {
-      console.log(result)
       let params = result.params;
       if (result.error) {
         helpers.jarvisAlert({
@@ -227,9 +227,9 @@ function LoginScreen({ navigation }) {
                   //console.log("userinfo dt: ",uidt.data);
                   console.log("userInfo is-");
                   let attributes = uidt.data.attributes,
-                    included = uidt.data.included[0];
-                  included?.attributes?.lifeExpectancies &&
-                    delete included.attributes.lifeExpectancies;
+                    included = uidt.data?.included?.[0] || {};
+                  // included?.attributes?.lifeExpectancies &&
+                  //   delete included.attributes.lifeExpectancies;
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,
@@ -241,19 +241,38 @@ function LoginScreen({ navigation }) {
                     },
                     type: included.type,
                     id: included.id,
-                    included: [included.attributes],
+                    included: [included.attributes || {}],
                   };
                   console.log("trimmedUserInfo: ", trimmedUserInfo);
                   helpers.save("pa_atk", dt3.access_token);
                   helpers.save("pa_rtk", dt3?.refresh_token);
-
-                  helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
-
+                  let includes = [{}];
+                  //helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
+                  await api
+                    .Get_retirement_profiles_user(dt3.access_token)
+                    .then((resp) => {
+                      if (resp?.data?.attributes?.onboardingCompleted == true) {
+                        ctx.setOnboardingCompleted(true);
+                        includes = [{ ...resp?.data?.attributes }];
+                      } else {
+                      }
+                    })
+                    .catch((err) => {});
                   _updateUser({
-                    u: trimmedUserInfo,
+                    u: {
+                      ...trimmedUserInfo,
+                      included: includes,
+                    },
                     atk: dt3.access_token,
                     rtk: dt.refresh_token,
                   });
+                  helpers.save(
+                    "pa_u",
+                    JSON.stringify({
+                      ...trimmedUserInfo,
+                      included: includes,
+                    })
+                  );
                 } else {
                   console.log("error fetching user profile");
 

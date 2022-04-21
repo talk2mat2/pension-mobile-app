@@ -176,6 +176,7 @@ export default function App() {
           return null;
         }*/
 
+
   useEffect(() => {
     //  helpers.remove("pa_u");
     async function prepare() {
@@ -195,7 +196,7 @@ export default function App() {
           if (uu) {
             const userData = JSON.parse(uu);
             const status = userData?.included[0]?.onboardingCompleted;
-            console.log(status);
+            console.log(userData,status);
             setOnboardingCompleted(status);
             if (rtk != null && uu != null) {
               //get auth0 access token using refresh token
@@ -219,7 +220,8 @@ export default function App() {
                 .then((res) => res.json())
                 .then((dt) => {
                   if (dt?.error) {
-                    handleLogout();
+                    console.log(dt);
+                    // handleLogout();
                   } else {
                     console.log("dt from App.js: ", dt);
                     helpers.save("pa_atk", dt.access_token);
