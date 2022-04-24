@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import JSDashPension from "./JSDashPension";
-import Swiper from "react-native-swiper";
+import Swiper from "react-native-swiper/src";
 import JSDashboardMain from "./JSDashboardmain";
 import FullScreenContext from "../../contexts/fullScreenContext";
 import jwtDecode from "jwt-decode";

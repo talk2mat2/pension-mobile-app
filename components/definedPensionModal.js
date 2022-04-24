@@ -41,9 +41,9 @@ const DefinedBenefitModal = ({
   const [stateAmount, setStateAmount] = React.useState("");
   const _next = () => {
     if (!personData.pensionName) {
-      return Alert.alert("Pension name is required");
+      return alert("Pension name is required");
     } else if (!personData.incomeAmount) {
-      return Alert.alert("Annual income is required");
+      return alert("Annual income is required");
     } else {
       changeStatePension();
       AddJar();
@@ -98,7 +98,7 @@ const DefinedBenefitModal = ({
                 ...personData,
                 providerName: item?.attributes?.name,
                 name: item?.attributes?.name,
-                pensionName:item?.attributes?.name
+                pensionName: item?.attributes?.name,
                 // secclExternalProviderId:
                 //   item?.attributes?.secclExternalProviderId,
               });
@@ -138,7 +138,7 @@ const DefinedBenefitModal = ({
                 ...personData,
                 providerName: item?.attributes?.name,
                 name: item?.attributes?.name,
-                pensionName:item?.attributes?.name
+                pensionName: item?.attributes?.name,
                 // secclExternalProviderId:
                 //   item?.attributes?.secclExternalProviderId,
               });
@@ -196,79 +196,80 @@ const DefinedBenefitModal = ({
             Defined Benefit {"\n"}Pensions
           </Text>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
+        <ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
 
-            marginVertical: 10,
-            marginTop: 20,
-          }}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            {personData.pensionName ? (
-              <TouchableOpacity
-                onPress={() =>
-                  setPersonData({ ...personData, pensionName: "", name: "" })
-                }
-              >
-                <Text style={{ fontWeight: "700" }}>
-                  {personData.pensionName}
-                </Text>
-              </TouchableOpacity>
-            ) : (
-              <>
-                <TextInput
-                  placeholder="Pension Name"
-                  style={{ ...styles.input, width: "100%" }}
-                  value={providerName}
-                  // onChangeText={(text) => {
-                  //   setPersonData({ ...personData, pensionName: text, name: text });
-                  // }}
-                  onChangeText={(text) => {
-                    setproviderName(text);
-                    debouncedSearch(text);
-                  }}
-                />
-                {(search?.length > 0 || providerName.length > 0) && (
-                  <View style={styles.searchDrop}>
-                    <ScrollView>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setSearch([]);
-                          setPersonData({
-                            ...personData,
-                            secclExternalProviderId: "",
-                            provider: providerName,
-                            name: providerName,
-                            pensionName:providerName
-                          });
-                          // setChoosenProvider({
-                          //   attributes: { name: providerName },
-                          // });
-                        }}
-                      >
-                        <Text
-                          style={{
-                            fontWeight: "700",
-                            paddingVertical: 4,
-                            backgroundColor: myColorsLight.grey9,
-                            paddingHorizontal: 20,
+              marginVertical: 10,
+              marginTop: 20,
+            }}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              {personData.pensionName ? (
+                <TouchableOpacity
+                  onPress={() =>
+                    setPersonData({ ...personData, pensionName: "", name: "" })
+                  }
+                >
+                  <Text style={{ fontWeight: "700" }}>
+                    {personData.pensionName}
+                  </Text>
+                </TouchableOpacity>
+              ) : (
+                <>
+                  <TextInput
+                    placeholder="Pension Name"
+                    style={{ ...styles.input, width: "100%" }}
+                    value={providerName}
+                    // onChangeText={(text) => {
+                    //   setPersonData({ ...personData, pensionName: text, name: text });
+                    // }}
+                    onChangeText={(text) => {
+                      setproviderName(text);
+                      debouncedSearch(text);
+                    }}
+                  />
+                  {(search?.length > 0 || providerName.length > 0) && (
+                    <View style={styles.searchDrop}>
+                      <ScrollView>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setSearch([]);
+                            setPersonData({
+                              ...personData,
+                              secclExternalProviderId: "",
+                              provider: providerName,
+                              name: providerName,
+                              pensionName: providerName,
+                            });
+                            // setChoosenProvider({
+                            //   attributes: { name: providerName },
+                            // });
                           }}
                         >
-                          {providerName}
-                        </Text>
-                      </TouchableOpacity>
-                      {mapResults()}
-                      {mapResults2()}
-                    </ScrollView>
-                  </View>
-                )}
-              </>
-            )}
+                          <Text
+                            style={{
+                              fontWeight: "700",
+                              paddingVertical: 4,
+                              backgroundColor: myColorsLight.grey9,
+                              paddingHorizontal: 20,
+                            }}
+                          >
+                            {providerName}
+                          </Text>
+                        </TouchableOpacity>
+                        {mapResults()}
+                        {mapResults2()}
+                      </ScrollView>
+                    </View>
+                  )}
+                </>
+              )}
+            </View>
           </View>
-        </View>
-        {/* {stateAmountValidation && (
+          {/* {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
@@ -276,87 +277,87 @@ const DefinedBenefitModal = ({
           </View>
         )} */}
 
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Annual Income Amount</Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>£</Text>
-            <TextInput
-              keyboardType="numeric"
-              value={personData.annualIncome}
-              onChangeText={(text) => {
-                setPersonData({
-                  ...personData,
-                  annualIncome: text,
-                  incomeAmount: text,
-                });
-              }}
-              style={styles.input}
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>Annual Income Amount</Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text>£</Text>
+              <TextInput
+                keyboardType="numeric"
+                value={personData.annualIncome}
+                onChangeText={(text) => {
+                  setPersonData({
+                    ...personData,
+                    annualIncome: text,
+                    incomeAmount: text,
+                  });
+                }}
+                style={styles.input}
+              />
+            </View>
+          </View>
+
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={[styles.radioText]}>Yes</Text>
+              <RadioButton
+                value="Male"
+                status={
+                  personData.spousePension === "yes" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "yes",
+                    isSpouse: true,
+                  });
+                }}
+              />
+              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <RadioButton
+                value="no"
+                status={
+                  personData.spousePension === "no" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "no",
+                    isSpouse: true,
+                  });
+                }}
+              />
+            </View>
+          </View>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+
+          <View style={{ ...styles.hrView, marginTop: "60%" }} />
+          <View style={{ alignItems: "center", marginTop: 40 }}>
+            <JarvisButton
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+              w={200}
             />
           </View>
-        </View>
-
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="Male"
-              status={
-                personData.spousePension === "yes" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "yes",
-                  isSpouse: true,
-                });
-              }}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="no"
-              status={
-                personData.spousePension === "no" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "no",
-                  isSpouse: true,
-                });
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-
-        <View style={{ ...styles.hrView, marginTop: "60%" }} />
-        <View style={{ alignItems: "center", marginTop: 40 }}>
-          <JarvisButton
-            bgcolor={myColorsLight.black}
-            play={_next}
-            btn="Continue"
-            w={200}
-          />
-        </View>
-        <ScrollView></ScrollView>
+        </ScrollView>
       </Modal>
     </Portal>
   );
@@ -404,7 +405,7 @@ const styles = StyleSheet.create({
     maxHeight: 300,
     position: "absolute",
     right: 0,
-    width: '100%',
+    width: "100%",
     backgroundColor: myColorsLight.white,
     zIndex: 5,
     elevation: 5,

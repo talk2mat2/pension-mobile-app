@@ -143,7 +143,7 @@ const LIfestylecard = ({
 
 const styles = StyleSheet.create({
   card1: {
-    width: Dimensions.get("window").width / 3.5,
+    width: Platform.OS === "web" ? 150 : Dimensions.get("window").width / 3.5,
     aspectRatio: 0.8,
     margin: 4,
     elevation: 8,

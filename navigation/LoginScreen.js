@@ -307,7 +307,7 @@ function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ ...styles.centerView, marginTop: 100 }}>
+      <View style={{ alignItems: "center", marginTop: 100 }}>
         <Text style={[styles.loginText, { marginBottom: 100, fontSize: 40 }]}>
           Jarvis
         </Text>

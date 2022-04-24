@@ -14,6 +14,10 @@ import {
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 let ModalDropdown;
+let Webdate;
+if (Platform.OS == "web") {
+  Webdate = require("react-native-paper-dates");
+}
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
@@ -52,6 +56,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
   );
   const [showExtra, setShowExtra] = useState(true);
   const [showWhy, setShowWhy] = useState(false);
+  const [date, setDate] = React.useState(new Date());
+  const [open, setOpen] = React.useState(false);
+
+  const onDismissSingle = React.useCallback(() => {
+    setOpen(false);
+    setShowDatePicker(false);
+  }, [setOpen]);
 
   const updateBirthday = (d) => {
     let tempd = new Date(d);
@@ -60,11 +71,16 @@ function KYCRetireWithSpouseScreen({ navigation }) {
     setBirthdayDisplay(tempd.toDateString());
     setShowDatePicker(false);
   };
-
+  const onConfirmSingle = React.useCallback(
+    (params) => {
+      setOpen(false);
+      setShowDatePicker(false);
+      setDate(params.date);
+      updateBirthday(params.date);
+    },
+    [setOpen, setDate, setBirthday]
+  );
   const _updateUser = async () => {
-  
-  
-
     if (retireWithSpouse == "yes") {
       //Spouse details
       u.included[0].isSingle = false;
@@ -423,6 +439,26 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                         updateBirthday(d);
                       }
                     }}
+                  />
+                )}
+                {Platform.OS == "web" && showDatePicker && (
+                  <Webdate.DatePickerModal
+                    locale="en"
+                    mode="single"
+                    visible={showDatePicker}
+                    onDismiss={onDismissSingle}
+                    date={defaultDate()}
+                    onConfirm={onConfirmSingle}
+                    validRange={{
+                      // startDate: new Date(new Date().getFullYear() - 18, 0, 1),  // optional
+                      endDate: new Date(new Date().getFullYear() - 18, 0, 1), // optional
+                      // disabledDates: [new Date()] // optional
+                    }}
+                    // onChange={} // same props as onConfirm but triggered without confirmed by user
+                    // saveLabel="Save" // optional
+                    // uppercase={false} // optional, default is true
+                    // label="Select date" // optional
+                    // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
                   />
                 )}
               </View>

@@ -80,7 +80,7 @@ function KYCRetirementAgeScreen({ navigation }) {
       //Save data to backend
 
       //First save personal information
-      let url3 = `${helpers.API2}/users/me`;
+      //let url3 = `${helpers.API2}/users/me`;
       // let saveData = {
       //   type: "user",
       //   attributes: {

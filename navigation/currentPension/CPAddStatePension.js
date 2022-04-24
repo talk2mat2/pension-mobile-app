@@ -294,7 +294,7 @@ function CPAddStatePension({ navigation }) {
           {/* <View style={styles.footerContainer}>
             <CPDatatable />
           </View> */}
-          <PanableCard styles={{ height: "29%" }}>
+          <PanableCard styles={{ height: "29%",marginTop:"auto" }}>
             <CPDatatable />
           </PanableCard>
           <View

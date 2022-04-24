@@ -245,7 +245,7 @@ function OtherPension({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <PanableCard styles={{ height: "29%" }}>
+          <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
             <CPDatatable />
           </PanableCard>
           <View

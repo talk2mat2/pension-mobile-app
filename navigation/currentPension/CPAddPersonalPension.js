@@ -89,7 +89,7 @@ function CPAddPersonalPension({ navigation }) {
     //     return isvalid = true;
     //   } else {
     //     isvalid = false;
-    //   } 
+    //   }
     // });
     if (isExist) {
       isvalid = true;
@@ -314,7 +314,7 @@ function CPAddPersonalPension({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <PanableCard styles={{ height: "29%" }}>
+          <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
             <CPDatatable />
           </PanableCard>
           <View

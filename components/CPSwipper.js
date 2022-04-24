@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -44,7 +45,7 @@ const CPSwipper = () => {
 
   const ScrolltoSpouse = () => {
     scrollRef.current?.scrollTo({
-      x: deviceWidth / 2,
+      x: Platform.OS === "web" ? deviceWidth / 5 : deviceWidth / 2,
       animated: true,
     });
   };

@@ -35,7 +35,13 @@ const JarvisButton = (props) => {
   }, [isPressed]);
 
   return (
-    <Animated.View style={{ ...props?.style, width: w, opacity: pressedAnim }}>
+    <Animated.View
+      style={{
+        ...props?.style,
+        width: Platform.OS === "web" ? null : w,
+        opacity: pressedAnim,
+      }}
+    >
       <Pressable
         disabled={disabled}
         onPress={() => {

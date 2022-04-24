@@ -7,6 +7,7 @@ import {
   ImageBackground,
   ScrollView,
   Dimensions,
+  Platform,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
@@ -39,7 +40,7 @@ const OtherSwipper = () => {
 
   const ScrolltoIncome = () => {
     scrollRef.current?.scrollTo({
-      x: deviceWidth / 2,
+      x: Platform.OS === "web" ? deviceWidth / 5 : deviceWidth / 2,
       animated: true,
     });
   };

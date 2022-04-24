@@ -288,7 +288,7 @@ function DefinedStateBenefit({ navigation }) {
               </TouchableOpacity>
             )}
           </View>
-          <PanableCard styles={{ height: "29%" }}>
+          <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
             <CPDatatable profile={ctx?.u} />
           </PanableCard>
           <View

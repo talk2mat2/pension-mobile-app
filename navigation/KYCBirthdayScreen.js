@@ -10,6 +10,10 @@ import {
   ScrollView,
 } from "react-native";
 let ModalDropdown;
+let Webdate;
+if (Platform.OS == "web") {
+  Webdate = require("react-native-paper-dates");
+}
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
@@ -37,6 +41,13 @@ function KYCBirthdayScreen({ navigation }) {
   const [genderValidation, setGenderValidation] = useState(false);
   const [birthdayDisplay, setBirthdayDisplay] = useState("");
   let u = ctx?.u;
+  const [date, setDate] = React.useState(new Date());
+  const [open, setOpen] = React.useState(false);
+
+  const onDismissSingle = React.useCallback(() => {
+    setOpen(false);
+    setShowDatePicker(false);
+  }, [setOpen]);
 
   const updateBirthday = (d) => {
     let tempd = new Date(d);
@@ -46,6 +57,15 @@ function KYCBirthdayScreen({ navigation }) {
     setBirthdayObject(JSON.stringify(tempd));
     setShowDatePicker(false);
   };
+  const onConfirmSingle = React.useCallback(
+    (params) => {
+      setOpen(false);
+      setShowDatePicker(false);
+      setDate(params.date);
+      updateBirthday(params.date);
+    },
+    [setOpen, setDate, setBirthday]
+  );
 
   const defaultDate = () => {
     if (birthday) {
@@ -225,8 +245,8 @@ function KYCBirthdayScreen({ navigation }) {
                       setGenderValidation(false);
                     }}
                   >
-                    {options.map((item) => (
-                      <Picker.Item label={item} value={item} />
+                    {options.map((item, index) => (
+                      <Picker.Item key={index} label={item} value={item} />
                     ))}
                   </Picker>
                 )}
@@ -275,25 +295,49 @@ function KYCBirthdayScreen({ navigation }) {
               </View>
               <View style={{ width: 300, marginLeft: 30 }}>
                 {/* {  console.log(new Date(birthday))} */}
-               
-                {showDatePicker && (
-                  <DateTimePicker
-                    testID="birthdayDateTimePicker"
-                    value={defaultDate()}
-                    // minimum 18 yearsß
 
-                    maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                    // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    onc
-                    onChange={(e, d) => {
-                      setShowDatePicker(false);
-                      if (typeof d != "undefined") {
-                        updateBirthday(d);
-                      }
+                {showDatePicker &&
+                  Platform.OS !==
+                    "web"(
+                      <DateTimePicker
+                        testID="birthdayDateTimePicker"
+                        value={defaultDate()}
+                        // minimum 18 yearsß
+
+                        maximumDate={
+                          new Date(new Date().getFullYear() - 18, 0, 1)
+                        }
+                        // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                        mode="date"
+                        is24Hour={true}
+                        display="default"
+                        onc
+                        onChange={(e, d) => {
+                          setShowDatePicker(false);
+                          if (typeof d != "undefined") {
+                            updateBirthday(d);
+                          }
+                        }}
+                      />
+                    )}
+                {Platform.OS == "web" && showDatePicker && (
+                  <Webdate.DatePickerModal
+                    locale="en"
+                    mode="single"
+                    visible={showDatePicker}
+                    onDismiss={onDismissSingle}
+                    date={defaultDate()}
+                    onConfirm={onConfirmSingle}
+                    validRange={{
+                      // startDate: new Date(new Date().getFullYear() - 18, 0, 1),  // optional
+                      endDate: new Date(new Date().getFullYear() - 18, 0, 1), // optional
+                      // disabledDates: [new Date()] // optional
                     }}
+                    // onChange={} // same props as onConfirm but triggered without confirmed by user
+                    // saveLabel="Save" // optional
+                    // uppercase={false} // optional, default is true
+                    // label="Select date" // optional
+                    // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
                   />
                 )}
               </View>
