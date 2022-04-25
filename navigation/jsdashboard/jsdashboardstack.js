@@ -72,7 +72,7 @@ const JSDasboard = () => {
       .Get_retirement_profiles_user(ctx?.atk)
       .then((res) => {
         // setRetireProfile(res?.data);
-        // console.log(res.data);
+        console.log(res.data);
         // retireProfile,
         ctx?.setRetireProfile(res.data);
 

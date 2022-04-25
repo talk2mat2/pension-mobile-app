@@ -72,15 +72,23 @@ const CodeScreen = ({ navigation, route }) => {
           await api
             .Get_retirement_profiles_user(dt3.access_token)
             .then((resp) => {
+              if (resp?.data == null) {
+                ctx.setOnboardingCompleted(false);
+              }
+              if (resp?.data?.attributes) {
+                includes = [{ ...resp?.data?.attributes }];
+              }
               // console.log("resp is", resp)
               // console.log(resp?.data?.attributes?.onboardingCompleted)
               if (resp?.data?.attributes?.onboardingCompleted == true) {
                 ctx.setOnboardingCompleted(true);
-                includes = [{ ...resp?.data?.attributes }];
               } else {
               }
             })
             .catch((err) => {});
+          //temp fix for expo storage filled isses. wil update later
+          includes?.attributes?.lifeExpectancies &&
+            delete includes.attributes.lifeExpectancies;
           _updateUser({
             u: {
               ...trimmedUserInfo,

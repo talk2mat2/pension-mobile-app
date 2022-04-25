@@ -103,13 +103,68 @@ function OtherPension({ navigation }) {
       setPerson2Data(JSON.parse(persistDta2));
     }
   }, []);
+  const _updateUser = () => {
+    //Update the frontend: context and async storage
+    let u = ctx?.u;
+    u.included[0].onboardingCompleted == true;
+    ctx.setU(u);
+    helpers.save("pa_u", JSON.stringify(u));
+  };
+  const updateUsersMe = async () => {
+    const usersAttrib = {
+      firstName: ctx?.u?.attributes?.fname,
+      lastName: ctx?.u?.attributes?.lname,
+      title: ctx?.u?.attributes?.title,
+      name: `${ctx?.u?.attributes?.fname} ${ctx?.u?.attributes?.lname}`,
+    };
+
+    const usersData = {
+      data: {
+        type: "user",
+        attributes: {
+          ...usersAttrib,
+          onboardingCompleted: true,
+        },
+      },
+    };
+    await api
+      .update_user_profile(usersData, ctx?.atk)
+      .then((res) => {
+        console.log("user information updted", res);
+      })
+      .catch((err) => {});
+  };
+  const completeOnboarding = async () => {
+    _updateUser();
+    const newData = {
+      data: {
+        type: "retirementProfile",
+        attributes: {
+          onboardingCompleted: true,
+        },
+      },
+    };
+    await api
+      .Update_retirement_profile(ctx?.retireProfile?.id, ctx?.atk, newData)
+      .then((res) => {
+        console.log("done", res);
+        ctx.setRetireProfile(res?.data);
+      })
+      .catch((err) => {
+        console.log("undone",err);
+      });
+  };
   const _next = () => {
     Promise.resolve(createStatePensionJar())
       .then(() => {
-        navigation.navigate("CPCongrat");
+        Promise.resolve(completeOnboarding())
+          .then(updateUsersMe())
+          .then(() => navigation.navigate("CPCongrat"));
       })
       .catch((err) => {
-        navigation.navigate("CPCongrat");
+        Promise.resolve(completeOnboarding)
+          .then(updateUsersMe)
+          .then(() => navigation.navigate("CPCongrat"));
       });
   };
   const _goBack = () => {
@@ -246,7 +301,7 @@ function OtherPension({ navigation }) {
             )}
           </View>
           <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
-            <CPDatatable />
+            <CPDatatable profile={ctx?.u} />
           </PanableCard>
           <View
             style={{

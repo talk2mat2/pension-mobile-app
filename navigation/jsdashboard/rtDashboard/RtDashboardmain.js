@@ -10,8 +10,10 @@ import RTcardsAnimated from './RTcardsAnimated'
 import JSCardsAnimated from ".././JScardsAnimated";
 import CPDatatable from "../../../components/CPDatatable";
 import FullScreenContext from "../../../contexts/fullScreenContext";
+import UserContext from "../../../contexts/UserContext";
 
 const RTDashboardMain = () => {
+  const ctx = useContext(UserContext);
   const { openProfile } = useContext(FullScreenContext);
   return (
     <MyGradientBackground>
@@ -126,7 +128,7 @@ const RTDashboardMain = () => {
             }}
           />
           <View style={{ paddingHorizontal: 20, paddingTop: 40 }}>
-            <CPDatatable />
+            <CPDatatable profile={ctx?.u}/>
           </View>
         </ScrollView>
       </View>

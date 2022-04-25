@@ -41,8 +41,10 @@ function LoginScreen({ navigation }) {
     ctx.setRtk(dt.rtk);
     ctx.setU(dt.u);
     ctx.setLoggedIn(true);
+    // console.log("update users",dt?.u )
     if (dt?.u?.included[0]?.onboardingCompleted != null) {
       ctx.setOnboardingCompleted(dt?.u?.included[0]?.onboardingCompleted);
+      // console.log(dt?.u?.included[0]?.onboardingCompleted);
     }
   };
 
@@ -251,13 +253,23 @@ function LoginScreen({ navigation }) {
                   await api
                     .Get_retirement_profiles_user(dt3.access_token)
                     .then((resp) => {
+                      if (resp?.data == null) {
+                        ctx.setOnboardingCompleted(false);
+                      }
+                      if (resp?.data?.attributes) {
+                        includes = [{ ...resp?.data?.attributes }];
+                      }
                       if (resp?.data?.attributes?.onboardingCompleted == true) {
                         ctx.setOnboardingCompleted(true);
-                        includes = [{ ...resp?.data?.attributes }];
                       } else {
                       }
                     })
-                    .catch((err) => {});
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                    //temp fix for storage issues, will touch this later
+                  includes?.attributes?.lifeExpectancies &&
+                    delete includes.attributes.lifeExpectancies;
                   _updateUser({
                     u: {
                       ...trimmedUserInfo,

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Platform } from "react-native";
 import { myColorsLight } from "../constant/colors";
 import { FontAwesome } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -56,6 +56,17 @@ const JSDashboardnav = ({ mounted, setMounted }) => {
     </View>
   );
 };
+const WebPadding = () => {
+  if (Platform.OS === "web") {
+    const width = Dimensions.get("window").width;
+    if (width < 750) {
+      return 0;
+    } else {
+      return 400;
+    }
+  }
+  return 0;
+};
 const styles = StyleSheet.create({
   circle: {
     position: "absolute",
@@ -69,10 +80,11 @@ const styles = StyleSheet.create({
   },
   container: {
     height: 79,
-    backgroundColor: myColorsLight.lightGrey,
+    backgroundColor: myColorsLight.white,
     marginTop: "auto",
     flexDirection: "row",
     justifyContent: "space-between",
+    paddingHorizontal: WebPadding(),
   },
   right: {
     width: "40%",

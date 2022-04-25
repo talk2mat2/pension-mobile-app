@@ -295,7 +295,7 @@ function CPAddStatePension({ navigation }) {
             <CPDatatable />
           </View> */}
           <PanableCard styles={{ height: "29%",marginTop:"auto" }}>
-            <CPDatatable />
+            <CPDatatable profile={ctx?.u} />
           </PanableCard>
           <View
             style={{

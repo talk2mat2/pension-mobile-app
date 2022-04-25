@@ -1,5 +1,12 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, Pressable, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Alert,
+  Platform,
+} from "react-native";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -17,14 +24,16 @@ const JSDashProfile = ({ handleLogout }) => {
   const ctx = useContext(UserContext);
   const togglrFullScreen = () => setIsfullScreen(!isfullScreen);
   const proptLogout = () =>
-    Alert.alert("Log out", "Are you sure you want to log out", [
-      {
-        text: "Cancel",
-        onPress: () => console.log("Cancel Pressed"),
-        style: "cancel",
-      },
-      { text: "OK", onPress: () => handleLogout() },
-    ]);
+    Platform.OS !== "web"
+      ? Alert.alert("Log out", "Are you sure you want to log out", [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel",
+          },
+          { text: "OK", onPress: () => handleLogout() },
+        ])
+      : handleLogout();
   return (
     <MyGradientBackground>
       <View style={{ alignItems: "flex-end", paddingHorizontal: 20 }}></View>
@@ -72,11 +81,13 @@ const JSDashProfile = ({ handleLogout }) => {
         />
       </View>
       <View style={{ alignItems: "center", marginTop: 30 }}>
-        <Text style={{ fontSize: 30 }}>{`${ctx?.u?.attributes?.fname} ${ctx?.u?.attributes?.lname}`}</Text>
+        <Text
+          style={{ fontSize: 30 }}
+        >{`${ctx?.u?.attributes?.fname} ${ctx?.u?.attributes?.lname}`}</Text>
       </View>
       <View style={{ alignItems: "center", marginTop: 2 }}>
         <Text style={{ fontSize: 20, color: myColorsLight.grey6 }}>
-        {ctx?.u?.attributes?.email}
+          {ctx?.u?.attributes?.email}
         </Text>
       </View>
       <View style={{ marginTop: 20 }}>

@@ -296,30 +296,26 @@ function KYCBirthdayScreen({ navigation }) {
               <View style={{ width: 300, marginLeft: 30 }}>
                 {/* {  console.log(new Date(birthday))} */}
 
-                {showDatePicker &&
-                  Platform.OS !==
-                    "web"(
-                      <DateTimePicker
-                        testID="birthdayDateTimePicker"
-                        value={defaultDate()}
-                        // minimum 18 yearsß
+                {showDatePicker && Platform.OS !== "web" && (
+                  <DateTimePicker
+                    testID="birthdayDateTimePicker"
+                    value={defaultDate()}
+                    // minimum 18 yearsß
 
-                        maximumDate={
-                          new Date(new Date().getFullYear() - 18, 0, 1)
-                        }
-                        // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                        mode="date"
-                        is24Hour={true}
-                        display="default"
-                        onc
-                        onChange={(e, d) => {
-                          setShowDatePicker(false);
-                          if (typeof d != "undefined") {
-                            updateBirthday(d);
-                          }
-                        }}
-                      />
-                    )}
+                    maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    // minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onc
+                    onChange={(e, d) => {
+                      setShowDatePicker(false);
+                      if (typeof d != "undefined") {
+                        updateBirthday(d);
+                      }
+                    }}
+                  />
+                )}
                 {Platform.OS == "web" && showDatePicker && (
                   <Webdate.DatePickerModal
                     locale="en"

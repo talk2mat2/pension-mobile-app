@@ -6,7 +6,7 @@ import RTCStack from "../navigation/retirement/RTStack";
 
 // import HeaderBar from "../components/HeaderBar.js";
 import CPStack from "./currentPension/CPStack.js";
-// import JSDasboard from "./jsdashboard/jsdashboardstack";
+import JSDasboard from "./jsdashboard/jsdashboardstack";
 import UserContext from "../contexts/UserContext.js";
 
 const Stack = createStackNavigator();
@@ -37,12 +37,12 @@ function SetupStack() {
         name="DashboardStack"
         options={{ headerShown: false }}
         component={DashboardStack}
-      />
-      {/* <Stack.Screen
+      /> */}
+      <Stack.Screen
         name="DashboardStack"
         options={{ headerShown: false }}
         component={JSDasboard}
-      />  */}
+      />
     </Stack.Navigator>
   );
 }

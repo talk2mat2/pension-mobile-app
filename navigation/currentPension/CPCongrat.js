@@ -27,7 +27,7 @@ function CPCongrat({ navigation, route }) {
     x: -Dimensions.get("window").width,
     y: 0,
   });
-  const popperAnimated = () => {
+  const popperAnimated = React.useRef(() => {
     Animated.spring(IntroPopper, {
       toValue: 0,
       duration: 1000,
@@ -35,66 +35,66 @@ function CPCongrat({ navigation, route }) {
       tension: 20,
       useNativeDriver: true,
     }).start();
-  };
+  }).current;
   const hideCard = () => setShowCard(false);
 
   const _next = () => {
     navigation.navigate("DashboardStack");
   };
 
-  const _updateUser = () => {
-    //Update the frontend: context and async storage
-    let u = ctx?.u;
-    u.included[0].onboardingCompleted == true;
-    ctx.setU(u);
-    helpers.save("pa_u", JSON.stringify(u));
-  };
-  const completeOnboarding = async () => {
-    _updateUser();
-    const newData = {
-      data: {
-        type: "retirementProfile",
-        attributes: {
-          onboardingCompleted: true,
-        },
-      },
-    };
-    await Api.Update_retirement_profile(
-      ctx?.retireProfile?.id,
-      ctx?.atk,
-      newData
-    )
-      .then((res) => {
-        // console.log("done", res);
-        ctx.setRetireProfile(res?.data);
-      })
-      .catch((err) => {
-        // console.log("undone",err);
-      });
-  };
-  const updateUsersMe = async () => {
-    const usersAttrib = {
-      firstName: ctx?.u?.attributes?.fname,
-      lastName: ctx?.u?.attributes?.lname,
-      title: ctx?.u?.attributes?.title,
-      name: ctx?.u?.attributes?.name,
-    };
+  // const _updateUser = () => {
+  //   //Update the frontend: context and async storage
+  //   let u = ctx?.u;
+  //   u.included[0].onboardingCompleted == true;
+  //   ctx.setU(u);
+  //   helpers.save("pa_u", JSON.stringify(u));
+  // };
+  // const completeOnboarding = async () => {
+  //   _updateUser();
+  //   const newData = {
+  //     data: {
+  //       type: "retirementProfile",
+  //       attributes: {
+  //         onboardingCompleted: true,
+  //       },
+  //     },
+  //   };
+  //   await Api.Update_retirement_profile(
+  //     ctx?.retireProfile?.id,
+  //     ctx?.atk,
+  //     newData
+  //   )
+  //     .then((res) => {
+  //       // console.log("done", res);
+  //       ctx.setRetireProfile(res?.data);
+  //     })
+  //     .catch((err) => {
+  //       // console.log("undone",err);
+  //     });
+  // };
+  // const updateUsersMe = async () => {
+  //   const usersAttrib = {
+  //     firstName: ctx?.u?.attributes?.fname,
+  //     lastName: ctx?.u?.attributes?.lname,
+  //     title: ctx?.u?.attributes?.title,
+  //     name: ctx?.u?.attributes?.name,
+  //   };
 
-    const usersData = {
-      data: {
-        type: "user",
-        attributes: {
-          ...usersAttrib,
-          onboardingCompleted: true,
-        },
-      },
-    };
-    await Api.update_user_profile(usersData, ctx?.atk)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {});
-  };
+  //   const usersData = {
+  //     data: {
+  //       type: "user",
+  //       attributes: {
+  //         ...usersAttrib,
+  //         onboardingCompleted: true,
+  //       },
+  //     },
+  //   };
+  //   await Api.update_user_profile(usersData, ctx?.atk)
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {});
+  // };
   const _goBack = () => {
     navigation.goBack();
   };
@@ -103,11 +103,11 @@ function CPCongrat({ navigation, route }) {
       popperAnimated();
     }, 1000);
   }, []);
-  React.useEffect(() => {
-    // sync usersprofile with backend
-    updateUsersMe();
-    completeOnboarding();
-  }, []);
+  // React.useEffect(() => {
+  //   // sync usersprofile with backend
+  //   // updateUsersMe();
+  //   completeOnboarding();
+  // }, []);
   //   "data": {
   //     "netTarget": 24187,
   //     "grossTarget": 27483.75
@@ -196,14 +196,7 @@ function CPCongrat({ navigation, route }) {
         </View> */}
 
       {/* </View> */}
-      <View style={{ ...styles.footerSection, paddingTop: 30 }}>
-        <JarvisButton
-          bgcolor={myColorsLight.black}
-          play={_next}
-          btn="Go to My Dasboard"
-          w={200}
-        />
-      </View>
+
       {showCard && (
         <OutcomeCard hideCards={hideCard}>
           <>
@@ -222,6 +215,14 @@ function CPCongrat({ navigation, route }) {
           </>
         </OutcomeCard>
       )}
+      <View style={styles.footerSection}>
+        <JarvisButton
+          bgcolor={myColorsLight.black}
+          play={_next}
+          btn="Go to My Dasboard"
+          w={200}
+        />
+      </View>
     </MyGradientBackground>
   );
 }
@@ -242,7 +243,7 @@ const styles = StyleSheet.create({
     ...{ alignItems: "center", marginTop: "auto", height: 100 },
     borderTopColor: "#bbb",
     borderTopWidth: 2,
-    paddingTop: 10,
+    paddingTop: 30,
     paddingBottom: 10,
     backgroundColor: myColorsLight.white,
     position: "absolute",
