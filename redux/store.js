@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import userSlice from "./slices/userslice";
+import jarSlice from "./slices/jarslice";
 import {
   persistStore,
   persistReducer,
@@ -16,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const rootReducer = combineReducers({
   user: userSlice,
+  jarSlice: jarSlice
   //reducers here
 });
 const authPersistConfig = {
@@ -29,9 +31,10 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
+      serializableCheck: false,
+      // serializableCheck: {
+      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      // },
     }),
 });
 export const persistor = persistStore(store);

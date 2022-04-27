@@ -14,6 +14,7 @@ import {
   Alert,
 } from "react-native";
 import * as helpers from "../../Helpers";
+import { useDispatch } from "react-redux";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
@@ -28,6 +29,12 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import MyGradientBackground from "../../components/grdientBackGround";
 import api from "../../api";
+import {
+  cleanSpousepension,
+  cleanStatepension,
+  updateSpousepension,
+  updateStatepension,
+} from "../../redux/slices/jarslice";
 import StatePenContext from "../../contexts/satePenContext";
 
 function CPAddStatePension({ navigation }) {
@@ -40,7 +47,7 @@ function CPAddStatePension({ navigation }) {
   const [spouseStatePension, setSpouseStatePensionData] = React.useState("");
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
-
+  const dispatch = useDispatch();
   const createStatePensionJar = async () => {
     const jarData = {
       type: "jar",
@@ -81,22 +88,15 @@ function CPAddStatePension({ navigation }) {
       },
     };
     if (statePension) {
-      await api
-        .create_Jar(ctx?.atk, jarData)
-        .then((res) => {
-          console.log("jar created");
-        })
-        .catch((err) => console.log(err));
+      dispatch(updateStatepension(jarData));
+      //will move the api call to rt query
+    } else {
+      dispatch(cleanStatepension());
     }
     if (spouseStatePension) {
-      await api
-        .create_Jar(ctx?.atk, spouseData)
-        .then((res) => {
-          console.log("jar created");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      dispatch(updateSpousepension(spouseData));
+    } else {
+      dispatch(cleanSpousepension());
     }
   };
 
@@ -143,7 +143,8 @@ function CPAddStatePension({ navigation }) {
       .Get_retirements_profile_user(ctx?.atk)
       .then((res) => {
         setRetireProfile(res?.data);
-        console.log(res?.data)
+        ctx.setRetireProfile(res?.data);
+        console.log(res?.data);
       })
       .catch((err) => {
         console.log(err);
@@ -152,7 +153,7 @@ function CPAddStatePension({ navigation }) {
         );
         return err;
       });
-  }; 
+  };
 
   React.useEffect(() => {
     Get_retirement_profile_user();
@@ -294,7 +295,7 @@ function CPAddStatePension({ navigation }) {
           {/* <View style={styles.footerContainer}>
             <CPDatatable />
           </View> */}
-          <PanableCard styles={{ height: "29%",marginTop:"auto" }}>
+          <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
             <CPDatatable profile={ctx?.u} />
           </PanableCard>
           <View

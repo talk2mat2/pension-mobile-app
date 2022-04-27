@@ -14,7 +14,7 @@ const Stack = createStackNavigator();
 function CPStack() {
   return (
     <Stack.Navigator
-      initialRouteName="KYCCover"
+      initialRouteName="CPCover"
       screenOptions={{
         headerShown: false,
       }}

@@ -15,6 +15,7 @@ import {
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import api from "../../api";
+import { useDispatch, useSelector } from "react-redux";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -22,13 +23,26 @@ import OtherSwipper from "../../components/OthehrSwipper";
 import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import jarslice, {
+  cleanBenefitJars,
+  cleanIncomePension,
+  cleanProviderJars,
+  cleanSavingPension,
+  cleanSpousepension,
+  cleanStatepension,
+  updateIncomePension,
+  updateSavingPension,
+} from "../../redux/slices/jarslice";
 import MyGradientBackground from "../../components/grdientBackGround";
 import OtherpenContext from "../../contexts/otherPenContext";
 import PanableCard from "../../components/pannableCard";
+import { useCreateJarsMutation } from "../../redux/query";
 
 function OtherPension({ navigation }) {
   const [startScroll, setStartScroll] = React.useState(false);
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
+  const jarSlices = useSelector(({ jarSlice }) => jarSlice);
+  const [createJars, result] = useCreateJarsMutation();
   const [person1, setPerson1Data] = React.useState({
     expectedAnualIncome: "",
     gender: "",
@@ -54,37 +68,44 @@ function OtherPension({ navigation }) {
     incomeAmountStartDate: "",
   });
   const ctx = useContext(UserContext);
+  const dispatch = useDispatch();
 
-  // const _next = () => {
-  //   navigation.navigate("CPCongrat");
-  // };
-  const createStatePensionJar = async () => {
+  const createOtherPensions = async () => {
     if (person1.currentValue) {
-      await api
-        .create_Jar(ctx?.atk, {
+      dispatch(updateSavingPension(person1));
+      await createJars({
+        token: ctx?.atk,
+        data: {
           type: "jar",
           attributes: { ...person1 },
-        })
-        .then((res) => {
-          console.log("jar created");
-        })
-        .catch((err) => console.log(err));
-    }
-    if (person2.currentValue) {
-      await api
-        .create_Jar(ctx?.atk, {
-          type: "jar",
-          attributes: { ...person2 },
-        })
-        .then((res) => {
-          console.log("jar created");
+        },
+      })
+        .unwrap()
+        .then((fuilfiled) => {
+          console.log("saving");
+          dispatch(cleanSavingPension());
         })
         .catch((err) => {
           console.log(err);
         });
     }
+    if (person2.currentValue) {
+      dispatch(updateIncomePension(person2));
+      await createJars({
+        token: ctx?.atk,
+        data: {
+          type: "jar",
+          attributes: { ...person2 },
+        },
+      })
+        .unwrap()
+        .then((fuilfiled) => {
+          console.log("income");
+          dispatch(cleanIncomePension());
+        })
+        .catch((err) => {});
+    }
   };
-
   const setPerson1 = (data) => {
     helpers.save("person1", JSON.stringify(data));
     setPerson1Data(data);
@@ -92,6 +113,85 @@ function OtherPension({ navigation }) {
   const setPerson2 = (data) => {
     helpers.save("person2", JSON.stringify(data));
     setPerson2Data(data);
+  };
+  const createStatePensions = async (jars) => {
+    const { statePension, spouseStatePension } = jarSlices;
+    // console.log(statePension);
+    if (statePension?.attributes?.incomeAmount) {
+      await createJars({
+        token: ctx?.atk,
+        data: statePension,
+      })
+        .unwrap()
+        .then((fuilfiled) => {
+          // console.log("statecreate");
+          dispatch(cleanStatepension());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    if (spouseStatePension?.attributes?.incomeAmount) {
+      await createJars({
+        token: ctx?.atk,
+        data: spouseStatePension,
+      })
+        .unwrap()
+        .then((fuilfiled) => {
+          // console.log("spouse");
+          dispatch(cleanSpousepension());
+        })
+        .catch((err) => {});
+    }
+  };
+
+  const createPersonalPensions = async () => {
+    //iterate and make api call per jar
+    const { providerJars } = jarSlices;
+    const isExist = providerJars.filter(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
+    if (isExist.length > 0) {
+      for (let i = 0; i < isExist.length; i++) {
+        const jarData = {
+          type: "jar",
+          attributes: { ...isExist[i] },
+        };
+        await createJars({ token: ctx?.atk, data: jarData })
+          .unwrap()
+          .then((fuilfiled) => {
+            // console.log("personal");
+            dispatch(cleanProviderJars());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
+  };
+  const createBenefitJarsPensions = async () => {
+    //iterate and make api call per jar
+    const { benefitJars } = jarSlices;
+    const isExist = benefitJars.filter(
+      (item) => item.currentValue !== "" && item.currentValue !== ""
+    );
+    if (isExist.length > 0) {
+      for (let i = 0; i < isExist.length; i++) {
+        const jarData = {
+          type: "jar",
+          attributes: { ...isExist[i] },
+        };
+        await createJars({ token: ctx?.atk, data: jarData })
+          .unwrap()
+          .then((fuilfiled) => {
+            // console.log("benefit");
+            dispatch(cleanBenefitJars());
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    }
   };
   React.useEffect(async () => {
     const persistDta1 = await helpers.getValueFor("person1");
@@ -130,9 +230,11 @@ function OtherPension({ navigation }) {
     await api
       .update_user_profile(usersData, ctx?.atk)
       .then((res) => {
-        console.log("user information updted", res);
+        // console.log("user information updted", res);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const completeOnboarding = async () => {
     _updateUser();
@@ -151,20 +253,36 @@ function OtherPension({ navigation }) {
         ctx.setRetireProfile(res?.data);
       })
       .catch((err) => {
-        console.log("undone",err);
+        console.log("undone", err);
       });
   };
+
   const _next = () => {
-    Promise.resolve(createStatePensionJar())
+    //sync users data
+    Promise.resolve(createOtherPensions())
+      .then(createStatePensions)
+      .then(createPersonalPensions)
+      .then(createBenefitJarsPensions)
       .then(() => {
         Promise.resolve(completeOnboarding())
           .then(updateUsersMe())
-          .then(() => navigation.navigate("CPCongrat"));
+          .then(() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "CPCongrat" }],
+            });
+          });
       })
       .catch((err) => {
-        Promise.resolve(completeOnboarding)
-          .then(updateUsersMe)
-          .then(() => navigation.navigate("CPCongrat"));
+        Promise.resolve(completeOnboarding())
+          .then(updateUsersMe())
+          .then(() => {
+            // navigation.navigate("CPCongrat");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "CPCongrat" }],
+            });
+          });
       });
   };
   const _goBack = () => {

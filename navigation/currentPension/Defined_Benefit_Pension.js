@@ -14,6 +14,7 @@ import {
 } from "react-native";
 import DefinedPenContext from "../../contexts/definedPenContext";
 import * as helpers from "../../Helpers";
+import { useDispatch } from "react-redux";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
@@ -24,11 +25,16 @@ import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
 import api from "../../api";
+import {
+  cleanBenefitJars,
+  updateBenefitJars,
+} from "../../redux/slices/jarslice";
 import PanableCard from "../../components/pannableCard";
 
 function DefinedStateBenefit({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const ctx = useContext(UserContext);
+  const dispatch = useDispatch();
   const [buttonBackground, setButtonBackground] = useState("#77f");
   const [benefitJars, setBenefitJar] = React.useState([
     {
@@ -140,9 +146,12 @@ function DefinedStateBenefit({ navigation }) {
       (item) => item.name !== "" && item.incomeAmoun !== ""
     );
     if (isExist.length > 0) {
-      return Promise.resolve(submitFilledJars()).then(() => {
-        navigation.navigate("OtherPension");
-      });
+      dispatch(updateBenefitJars(isExist));
+    } else {
+      dispatch(cleanBenefitJars());
+    }
+    if (isExist.length > 0) {
+      navigation.navigate("OtherPension");
     } else {
       return navigation.navigate("OtherPension");
     }

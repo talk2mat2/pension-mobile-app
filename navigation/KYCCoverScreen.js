@@ -19,9 +19,12 @@ import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "../components/JarvisButton";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight } from "../constant/colors";
+import api from "../api";
+import JarvisLoader from "../components/JarvisLoader";
 
 function KYCCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
+  const [isLoading, setIsloading] = React.useState(true);
   const [buttonBackground, setButtonBackground] = useState("#77f");
 
   const _next = () => {
@@ -36,126 +39,158 @@ function KYCCoverScreen({ navigation }) {
     ctx?.setLoggedIn(false);
     // navigation.replace("logins");
   };
+  const checkOnboardStatus = async () => {
+    setIsloading(true);
+    await api
+      .Get_retirement_profiles_user(ctx?.atk)
+      .then((resp) => {
+        setIsloading(false);
+        if (resp?.data == null) {
+          //if the user is registered but has not created a retire-profile
+          ctx.setOnboardingCompleted(false);
+        }
+        if (resp?.data?.attributes?.onboardingCompleted == true) {
+          ctx.setOnboardingCompleted(true);
+        } else {
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setIsloading(false);
+        //log out if the token is invalid?
+        handleLogout();
+      });
+  };
+
+  React.useEffect(() => {
+    checkOnboardStatus();
+  }, []);
   return (
     <MyGradientBackground>
-      <View
-        style={{
-          alignItems: "flex-end",
-          paddingHorizontal: 10,
-          position: "absolute",
-          top: 60,
-          right: 0,
-        }}
-      >
-        <TouchableOpacity onPress={handleLogout}>
-          <View style={{ alignItems: "center" }}>
-            <AntDesign name="logout" size={24} color="black" />
-            <Text>Logout</Text>
+      {isLoading ? (
+        <JarvisLoader />
+      ) : (
+        <>
+          <View
+            style={{
+              alignItems: "flex-end",
+              paddingHorizontal: 10,
+              position: "absolute",
+              top: 60,
+              right: 0,
+            }}
+          >
+            <TouchableOpacity onPress={handleLogout}>
+              <View style={{ alignItems: "center" }}>
+                <AntDesign name="logout" size={24} color="black" />
+                <Text>Logout</Text>
+              </View>
+            </TouchableOpacity>
           </View>
-        </TouchableOpacity>
-      </View>
-      <View style={{ alignItems: "center", marginTop: 80 }}>
-        <Text style={[styles.loginText, { fontSize: 40 }]}>Jarvis</Text>
-      </View>
-
-      <View style={{ marginTop: 80, alignItems: "center" }}>
-        <Text style={styles.subHeader}>Welcome to Jarvis</Text>
-      </View>
-
-      <View style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}>
-        <Text
-          style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
-        >
-          To build your retirement profile{"\n"}, we would need to capture some
-          {"\n"}
-          information from you.
-        </Text>
-      </View>
-
-      <View style={{ marginTop: 10 }}>
-        <Text
-          style={[
-            { fontWeight: "bold", alignSelf: "center", letterSpacing: 0.6 },
-          ]}
-        >
-          It would take just three steps:
-        </Text>
-      </View>
-
-      <View style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}>
-        <View style={styles.hrView}></View>
-
-        <View style={styles.hrView}>
-          <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+          <View style={{ alignItems: "center", marginTop: 80 }}>
+            <Text style={[styles.loginText, { fontSize: 40 }]}>Jarvis</Text>
+          </View>
+          <View style={{ marginTop: 80, alignItems: "center" }}>
+            <Text style={styles.subHeader}>Welcome to Jarvis</Text>
+          </View>
+          <View
+            style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}
+          >
             <Text
-              style={[
-                {
-                  marginLeft: 5,
-                  marginTop: 3,
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
+              style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
             >
-              <Text>1</Text> Personal Information
+              To build your retirement profile{"\n"}, we would need to capture
+              some
+              {"\n"}
+              information from you.
             </Text>
           </View>
-        </View>
-
-        <View style={styles.hrView}>
-          <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+          <View style={{ marginTop: 10 }}>
             <Text
               style={[
-                {
-                  marginLeft: 5,
-                  marginTop: 3,
-                  color: myColorsLight.lightGreyDark,
-                },
+                { fontWeight: "bold", alignSelf: "center", letterSpacing: 0.6 },
               ]}
             >
-              <Text>2</Text> Your Retirement Lifestyle
+              It would take just three steps:
             </Text>
           </View>
-        </View>
-        <View style={styles.hrView}>
-          <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-            <Text
-              style={[
-                {
-                  marginLeft: 5,
-                  marginTop: 3,
-                  color: myColorsLight.lightGreyDark,
-                },
-              ]}
-            >
-              <Text>3</Text> Pensions & Savings
-            </Text>
-          </View>
-        </View>
-      </View>
+          <View
+            style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}
+          >
+            <View style={styles.hrView}></View>
 
-      <>
-        <View
-          style={{
-            width: "100%",
-            marginTop: 10,
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 3,
-            marginBottom: 15,
-          }}
-        >
-          <View style={[styles.centerView, { marginTop: 60 }]}>
-            <JarvisButton
-              style={{ ...styles.loginButton, marginTop: 10 }}
-              bgcolor={myColorsLight.black}
-              play={_next}
-              btn="Let's begin"
-              w="50%"
-            />
+            <View style={styles.hrView}>
+              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 5,
+                      marginTop: 3,
+                      color: myColorsLight.lightGreyDark,
+                    },
+                  ]}
+                >
+                  <Text>1</Text> Personal Information
+                </Text>
+              </View>
+            </View>
+
+            <View style={styles.hrView}>
+              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 5,
+                      marginTop: 3,
+                      color: myColorsLight.lightGreyDark,
+                    },
+                  ]}
+                >
+                  <Text>2</Text> Your Retirement Lifestyle
+                </Text>
+              </View>
+            </View>
+            <View style={styles.hrView}>
+              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                <Text
+                  style={[
+                    {
+                      marginLeft: 5,
+                      marginTop: 3,
+                      color: myColorsLight.lightGreyDark,
+                    },
+                  ]}
+                >
+                  <Text>3</Text> Pensions & Savings
+                </Text>
+              </View>
+            </View>
           </View>
-        </View>
-      </>
+          <>
+            <View
+              style={{
+                width: "100%",
+                marginTop: 10,
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: 3,
+                marginBottom: 15,
+              }}
+            >
+              <View style={[styles.centerView, { marginTop: 60 }]}>
+                <JarvisButton
+                  style={{ ...styles.loginButton, marginTop: 10 }}
+                  bgcolor={myColorsLight.black}
+                  play={_next}
+                  btn="Let's begin"
+                  w="50%"
+                />
+              </View>
+            </View>
+          </>
+        </>
+      )}
     </MyGradientBackground>
   );
 }

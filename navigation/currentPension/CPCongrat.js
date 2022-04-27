@@ -103,6 +103,7 @@ function CPCongrat({ navigation, route }) {
       popperAnimated();
     }, 1000);
   }, []);
+ 
   // React.useEffect(() => {
   //   // sync usersprofile with backend
   //   // updateUsersMe();

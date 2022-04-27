@@ -15,12 +15,17 @@ import {
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
+import { useDispatch } from "react-redux";
 import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CPPersonSwipper from "../../components/CPPersonSwipper";
 import CPDatatable from "../../components/CPDatatable";
 import { myColorsLight } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
+import {
+  cleanProviderJars,
+  updateProviderJars,
+} from "../../redux/slices/jarslice";
 import PersonalPenContext from "../../contexts/personalContext";
 import MyGradientBackground from "../../components/grdientBackGround";
 import PanableCard from "../../components/pannableCard";
@@ -31,6 +36,7 @@ function CPAddPersonalPension({ navigation }) {
   const [person1, setPerson1] = React.useState({});
   const [person2, setPerson2] = React.useState({});
   const ctx = useContext(UserContext);
+  const dispatch = useDispatch();
 
   const [providerJars, setProviderJar] = React.useState([
     {
@@ -174,9 +180,12 @@ function CPAddPersonalPension({ navigation }) {
       (item) => item.currentValue !== "" && item.currentValue !== ""
     );
     if (isExist.length > 0) {
-      return Promise.resolve(submitFilledJars()).then(() => {
-        navigation.navigate("DefinedBenefit");
-      });
+      dispatch(updateProviderJars(isExist));
+    } else {
+      dispatch(cleanProviderJars());
+    }
+    if (isExist.length > 0) {
+      navigation.navigate("DefinedBenefit");
     } else {
       return navigation.navigate("DefinedBenefit");
     }

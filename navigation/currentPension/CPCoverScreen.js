@@ -8,6 +8,7 @@ import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import MyGradientBackground from "../../components/grdientBackGround";
 import { myColorsLight } from "../../constant/colors";
+import api from "../../api";
 
 function CpCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -16,7 +17,7 @@ function CpCoverScreen({ navigation }) {
   const _next = () => {
     navigation.navigate("CPAddStatePension");
   };
-
+ 
   return (
     <MyGradientBackground>
       <View style={{ marginTop: "40%" }}>
