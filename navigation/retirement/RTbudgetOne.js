@@ -10,8 +10,15 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
+  Image,
   Alert,
 } from "react-native";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
 
@@ -21,7 +28,7 @@ import JarvisButton from "../../components/JarvisButton";
 import { List, ProgressBar } from "react-native-paper";
 import BudgetOption from "../../components/BudgetOption";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import Api from "../../api";
 import JarvisLoading from "../../components/JarvisLoading";
 
@@ -130,88 +137,136 @@ function RTbudgetOne({ navigation }) {
     <MyGradientBackground>
       <View
         style={{
-          marginTop: 30,
-          alignContent: "flex-start",
-          flexDirection: "row",
-          justifyContent: "center",
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 3,
+          elevation: 5,
         }}
       >
-        <View style={{ position: "absolute", left: 10 }}>
-          <Pressable onPress={_goBack}>
-            <MaterialCommunityIcons
-              name="chevron-left-circle-outline"
-              color={myColorsLight.lightGreyDark}
-              size={40}
-            />
-          </Pressable>
-        </View>
+        <View
+          style={{
+            marginTop: 30,
+            alignContent: "flex-start",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <View style={{ position: "absolute", left: 10 }}>
+            <Pressable onPress={_goBack}>
+              <MaterialCommunityIcons
+                name="chevron-left-circle-outline"
+                color={primary.subText}
+                size={40}
+              />
+            </Pressable>
+          </View>
 
-        <View>
           <View>
-            <Text
-              style={{ ...styles.loginText, fontSize: 20, textAlign: "center" }}
-            >
-              Your Retirement Lifestyle
-            </Text>
+            <View>
+              <HeaderFour
+                style={{
+                  fontSize: 16,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Your Retirement Lifestyle
+              </HeaderFour>
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            ...styles.hrView,
+            width: "90%",
+            alignSelf: "center",
+            marginTop: 60,
+          }}
+        />
+        <View style={{ marginTop: 60 }}>
+          <HeaderThree
+            style={{
+              ...styles.subHeader,
+
+              textAlign: "center",
+            }}
+          >
+            Select the budget level from the list{"\n"}
+            below that matches the lifestyle you{"\n"}
+            want live when you’re retired
+          </HeaderThree>
+        </View>
+        <View style={{ marginTop: 15, minHeight: 300 }}>
+          <View style={{ flex: 1 }}>
+            {loading && (
+              <View
+                style={{
+                  position: "absolute",
+                  zIndex: 8,
+                  elevation: 8,
+                  left: 0,
+                  right: 0,
+                }}
+              >
+                <JarvisLoading color={primary.subText} text="Please wait" />
+              </View>
+            )}
+            {pageData.length > 0 && (
+              <>
+                <BudgetOption
+                  budetData={minimumData(pageData)}
+                  _next={_next}
+                  type="Mimimum"
+                  {...{ focused, setFocused }}
+                  desccription={minimumOverview(pageData)}
+                />
+                <BudgetOption
+                  budetData={moderateData(pageData)}
+                  _next={_next}
+                  {...{ focused, setFocused }}
+                  type="Moderate"
+                  desccription={moderateOverview(pageData)}
+                />
+                <BudgetOption
+                  budetData={comfortableData(pageData)}
+                  _next={_next}
+                  type="Comfortable"
+                  {...{ focused, setFocused }}
+                  desccription={comfortableOverview(pageData)}
+                />
+              </>
+            )}
+            {/* <View style={{ ...styles.hrView, marginTop: 1 }} /> */}
           </View>
         </View>
       </View>
       <View
         style={{
-          ...styles.hrView,
-          width: "90%",
-          alignSelf: "center",
-          marginTop: 30,
+       
+          width: "100%",
+          height: '38%',
+          marginTop: "auto",
         }}
-      />
-      <View style={{ marginTop: 25 }}>
-        <Text
+      >
+          <ImageBackground
+          source={require("../../assets/jarv3.png")}
           style={{
-            ...styles.subHeader,
-
-            textAlign: "center",
+            height:'140%',
+            width: "100%",
+            overflow:'hidden',
+            flex: 1,
+            alignItems: "center",
+            paddingVertical: 15,
           }}
-        >
-          Select the budget level from the list{"\n"}
-          below that matches the lifestyle you{"\n"}
-          want live when you’re retired
-        </Text>
-      </View>
-      <View style={{ marginTop: 30, height: 350 }}>
-        <ScrollView style={{ flex: 1 }}>
-          {loading && (
-            <JarvisLoading
-              color={myColorsLight.lightGreyDark}
-              text="Please wait"
-            />
-          )}
-          {pageData.length > 0 && (
-            <>
-              <BudgetOption
-                budetData={minimumData(pageData)}
-                _next={_next}
-                type="Mimimum"
-                {...{ focused, setFocused }}
-                desccription={minimumOverview(pageData)}
-              />
-              <BudgetOption
-                budetData={moderateData(pageData)}
-                _next={_next}
-                {...{ focused, setFocused }}
-                type="Moderate"
-                desccription={moderateOverview(pageData)}
-              />
-              <BudgetOption
-                budetData={comfortableData(pageData)}
-                _next={_next}
-                type="Comfortable"
-                {...{ focused, setFocused }}
-                desccription={comfortableOverview(pageData)}
-              />
-            </>
-          )}
-          <View style={{ ...styles.hrView, marginTop: 1 }} />
-        </ScrollView>
+          imageStyle={{ resizeMode: "repeat" ,flex:1,overflow:"hidden"}}
+        ></ImageBackground>
+        {/* <Image
+          style={{ flex: 1, width: undefined, height: undefined,aspectRatio:2/3 }}
+          source={require("../../assets/jr.png")}
+          resizeMode="repeat" 
+        /> */}
       </View>
       {/* <View style={{ marginTop: 50, width: "50%", alignSelf: "center",paddingTop:35 }}>
      
@@ -236,10 +291,18 @@ function RTbudgetOne({ navigation }) {
         >
           <ProgressBar
             progress={0.5}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>1/2</Text>
+          <Text
+            style={{
+              color: primary.subText,
+              textAlign: "center",
+              fontSize: 20,
+            }}
+          >
+            1/2
+          </Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -275,7 +338,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   subHeader: {
-    fontSize: 22,
+    // fontSize: 22,
     textAlign: "center",
   },
   hrView: {
@@ -284,7 +347,7 @@ const styles = StyleSheet.create({
     // paddingBottom: 10,
     // borderBottomWidth: 1,
     // borderBottomColor: "#bbb",
-    height: 2,
+    height: 1,
     backgroundColor: "#bbb",
   },
 });

@@ -15,6 +15,7 @@ const axios = require("axios");
 import * as helpers from "../Helpers";
 import { useFocusEffect } from "@react-navigation/native";
 import UserContext from "../contexts/UserContext";
+import { JarvisLogoBlack } from "../assets/SVG/svj";
 
 function InitScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -78,9 +79,10 @@ function InitScreen({ navigation }) {
 
   return (
     <View style={[styles.container]}>
-      <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
+      {/* <Text style={{ textAlign: "center", fontSize: 40, fontWeight: "bold" }}>
         Jarvis
-      </Text>
+      </Text> */}
+      <JarvisLogoBlack height={120} width={310}/>
       {/* <View style={styles.centerView}>
 		  	 <Text style={[styles.initText,styles.textWhite,{ fontSize: 40}]}>Helping people</Text>
 			</View>
@@ -100,6 +102,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
+    paddingTop:"25%"
     //justifyContent: 'center',
   },
   centerView: {

@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { HeaderFour } from "../constant/fonts";
 
 const JarvisButton = (props) => {
   const pressedAnim = useRef(new Animated.Value(1)).current;
@@ -59,7 +60,9 @@ const JarvisButton = (props) => {
             },
           ]}
         >
-          <Text style={styles.buttonText}>{props.btn}</Text>
+          <HeaderFour style={{ ...styles.buttonText, ...props.btnStyle }}>
+            {props.btn}
+          </HeaderFour>
         </View>
       </Pressable>
     </Animated.View>
@@ -69,11 +72,12 @@ const JarvisButton = (props) => {
 const styles = StyleSheet.create({
   button: {
     padding: 10,
-    borderRadius: 13,
+    borderRadius: 10,
   },
   buttonText: {
     color: "#fff",
     textAlign: "center",
+    fontSize: 20,
   },
 });
 

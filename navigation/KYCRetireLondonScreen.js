@@ -6,7 +6,7 @@ import {
   ImageBackground,
   Pressable,
 } from "react-native";
-
+import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
@@ -15,7 +15,7 @@ import WhyAsk from "../components/whyask";
 import JarvisLoader from "../components/JarvisLoader";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 function KYCRetireLondonScreen({ navigation }) {
   const [buttonBackground, setButtonBackground] = useState("#77f");
@@ -78,7 +78,10 @@ function KYCRetireLondonScreen({ navigation }) {
   React.useEffect(() => {
     if (u?.included[0]?.insideLondon === true) {
       setRetireLondon("yes");
-    } else if (u?.included[0]?.insideLondon === false || u?.included[0]?.insideLondon === null) {
+    } else if (
+      u?.included[0]?.insideLondon === false ||
+      u?.included[0]?.insideLondon === null
+    ) {
       setRetireLondon("no");
     }
   }, []);
@@ -96,39 +99,28 @@ function KYCRetireLondonScreen({ navigation }) {
           <Pressable onPress={_goBack}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
-              color={myColorsLight.lightGreyDark}
               size={40}
+              color={primary.subText}
             />
           </Pressable>
         </View>
 
         <View>
           <View>
-            <Text
-              style={{
-                ...styles.loginText,
-                fontSize: 15,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
+            <HeaderFour
+              style={{ fontSize: 15, textAlign: "center", fontWeight: "bold" }}
             >
               Personal Information
-            </Text>
+            </HeaderFour>
           </View>
         </View>
       </View>
       <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
-        <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text
-            style={{
-              ...styles.subHeader,
-              textAlign: "center",
-              fontWeight: "bold",
-            }}
-          >
+        <View style={{ alignItems: "center", marginBottom: 10 }}>
+          <HeaderTwo style={{ textAlign: "center" }}>
             Do you plan to{"\n"}
             retire in London?
-          </Text>
+          </HeaderTwo>
         </View>
         <View style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}>
           <WhyAsk />
@@ -136,13 +128,13 @@ function KYCRetireLondonScreen({ navigation }) {
 
         <View style={styles.borderBox}>
           <View style={styles.centerView}>
-            <Text style={styles.radioText}>Yes</Text>
+            <ParaOne style={styles.radioText}>Yes</ParaOne>
             <RadioButton
               value="yes"
               status={retireLondon === "yes" ? "checked" : "unchecked"}
               onPress={() => setRetireLondon("yes")}
             />
-            <Text style={styles.radioText}>No</Text>
+            <ParaOne style={styles.radioText}>No</ParaOne>
             <RadioButton
               value="no"
               status={retireLondon === "no" ? "checked" : "unchecked"}
@@ -153,7 +145,7 @@ function KYCRetireLondonScreen({ navigation }) {
 
         {isLoading && (
           <JarvisLoader
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             text="Please wait"
           />
         )}
@@ -171,7 +163,7 @@ function KYCRetireLondonScreen({ navigation }) {
         <View style={{ marginTop: 60, alignItems: "center" }}>
           <JarvisButton
             style={{ ...styles.loginButton, marginTop: 10 }}
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             w={150}
             btn="Next"
@@ -187,10 +179,14 @@ function KYCRetireLondonScreen({ navigation }) {
         >
           <ProgressBar
             progress={1}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>5/5</Text>
+          <Text
+            style={{ textAlign: "center", fontSize: 20, color: primary.subText }}
+          >
+            5/5
+          </Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -204,6 +200,7 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: "row",
     alignSelf: "center",
+    alignItems:"center"
   },
   loginButton: {
     // alignItems: 'center',
@@ -220,12 +217,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   borderBox: {
-    marginTop: 20,
+    marginTop: 6,
     width: "100%",
     borderBottomWidth: 1,
     borderTopWidth: 1,
     paddingVertical: 15,
-    borderColor: myColorsLight.lightGreyDim,
+    borderTopColor: primary.subBase,
+    borderBottomColor: primary.subBase,
   },
   imageBackground: {
     flex: 1,

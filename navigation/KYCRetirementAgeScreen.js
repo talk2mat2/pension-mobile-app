@@ -15,7 +15,9 @@ let ModalDropdown;
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
+import WhyAsk from "../components/whyask";
 import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
@@ -28,7 +30,7 @@ import JarvisLoading from "../components/JarvisLoading";
 import { Picker } from "@react-native-picker/picker";
 import { ProgressBar, Chip } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 function KYCRetirementAgeScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -273,7 +275,7 @@ function KYCRetirementAgeScreen({ navigation }) {
           <Pressable onPress={_goBack}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
-              color={myColorsLight.lightGreyDark}
+              color={primary.subText}
               size={40}
             />
           </Pressable>
@@ -281,29 +283,23 @@ function KYCRetirementAgeScreen({ navigation }) {
 
         <View>
           <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-              ]}
+            <HeaderFour
+              style={
+                (styles.loginText,
+                { fontSize: 15, textAlign: "center", fontWeight: "bold" })
+              }
             >
               Personal Information
-            </Text>
+            </HeaderFour>
           </View>
         </View>
       </View>
       <View style={{ marginTop: 100, paddingHorizontal: 20 }}>
         <View style={{ alignItems: "center", marginBottom: 40 }}>
-          <Text
-            style={[
-              styles.subHeader,
-              { textAlign: "center", fontWeight: "bold" },
-            ]}
-          >
+          <HeaderTwo style={{ textAlign: "center" }}>
             At what age would{"\n"}
             you like to retire?
-          </Text>
+          </HeaderTwo>
         </View>
         {/* {showWhy && (
           <View
@@ -323,11 +319,7 @@ function KYCRetirementAgeScreen({ navigation }) {
             </Text>
           </View>
         )} */}
-        <View style={{ ...styles.centerView, marginTop: 10, marginBottom: 30 }}>
-          <Chip icon="information" onPress={showModal}>
-            Why are we asking you this?
-          </Chip>
-        </View>
+        <WhyAsk />
 
         <View style={{ alignItems: "center" }}>
           <View style={styles.formGroup}>
@@ -336,8 +328,8 @@ function KYCRetirementAgeScreen({ navigation }) {
                 <ModalDropdown
                   // defaultIndex={47}
                   defaultValue={String(retirementAge) || "select."}
-                  textStyle={{ fontSize: 15 }}
-                  dropdownStyle={{ width: "100%" }}
+                  textStyle={{ fontSize: 15, color: primary.inputText }}
+                  dropdownStyle={{ width: "70%" }}
                   dropdownTextStyle={{
                     fontSize: 16,
                     paddingLeft: 10,
@@ -349,7 +341,13 @@ function KYCRetirementAgeScreen({ navigation }) {
                       setRetirementAge(parseInt(itemValue));
                     setRetirementAgeValidation(false);
                   }}
-                  style={{ height: 40, paddingTop: 10, paddingHorizontal: 10 }}
+                  style={{
+                    height: 45,
+                    paddingTop: 10,
+                    paddingHorizontal: 10,
+                    borderRadius: 10,
+                    backgroundColor: primary.subBase,
+                  }}
                   options={options()}
                 />
               )}
@@ -416,7 +414,7 @@ function KYCRetirementAgeScreen({ navigation }) {
         <View style={[{ marginTop: 60, alignItems: "center" }]}>
           <JarvisButton
             // style={{...styles.loginButton,  marginTop: 10 }}
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             w={150}
             btn="Next"
@@ -432,10 +430,18 @@ function KYCRetirementAgeScreen({ navigation }) {
         >
           <ProgressBar
             progress={0.6}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>3/5</Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              color: primary.subText,
+            }}
+          >
+            3/5
+          </Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -476,7 +482,7 @@ const styles = StyleSheet.create({
     width: "90%",
     textAlign: "center",
     marginTop: 20,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: "#bbb",
     borderRadius: 5,
   },

@@ -6,7 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import {
   Modal,
@@ -73,8 +73,14 @@ const WhyAsk = ({ reasons }) => {
         </Modal>
       </Portal>
       <View style={{ ...styles.centerView, marginTop: 10, marginBottom: 30 }}>
-        <Chip icon="information" onPress={showModal}>
-          Why are we asking you this?
+        <Chip
+          style={{ backgroundColor: primary.base }}
+          icon="information"
+          onPress={showModal}
+        >
+          <Text style={{ color: primary.subBase }}>
+            Why are we asking you this?
+          </Text>
         </Chip>
       </View>
     </>

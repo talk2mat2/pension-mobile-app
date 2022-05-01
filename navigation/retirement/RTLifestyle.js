@@ -12,6 +12,12 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
 import { AntDesign } from "@expo/vector-icons";
@@ -29,7 +35,7 @@ import BudgetOption from "../../components/BudgetOption";
 import LIfestylecard from "../../components/LIfestylecard";
 import { ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight,primary } from "../../constant/colors";
 
 function RTLifestyle({ route, navigation }) {
   const { selectedData } = route.params;
@@ -263,11 +269,11 @@ function RTLifestyle({ route, navigation }) {
 
         <View>
           <View>
-            <Text
-              style={{ ...styles.loginText, fontSize: 20, textAlign: "center" }}
+          <HeaderFour
+              style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
             >
               Your Retirement Lifestyle
-            </Text>
+            </HeaderFour>
           </View>
           <View>
             {/* <Text
@@ -288,17 +294,17 @@ function RTLifestyle({ route, navigation }) {
       />
       <ScrollView style={{ marginBottom: 120 }}>
         <View style={{ marginTop: 25 }}>
-          <Text
+          <HeaderThree
             style={{
-              ...styles.subHeader,
+            
 
               textAlign: "center",
-              fontWeight: "bold",
+              // fontWeight: "bold",
             }}
           >
             Here’s your Retirement{"\n"} Lifestyle Profile.
-          </Text>
-          <Text
+          </HeaderThree>
+          <ParaOne
             style={{
               ...styles.subHeader,
 
@@ -309,7 +315,7 @@ function RTLifestyle({ route, navigation }) {
           >
             Click on the categories to adjust {"\n"}
             your monthly budget
-          </Text>
+          </ParaOne>
         </View>
         <View
           style={{
@@ -401,10 +407,10 @@ function RTLifestyle({ route, navigation }) {
             }}
           />
           <View style={styles.sum}>
-            <Text style={{ fontSize: 17 }}>Total Monthly Budget</Text>
-            <Text style={{ fontSize: 17 }}>{`£${
+            <HeaderThree style={{ fontSize: 17 }}>Total Monthly Budget</HeaderThree>
+            < HeaderThree style={{ fontSize: 17 }}>{`£${
               sum ? Math.ceil(sum) : 0
-            }`}</Text>
+            }`}</ HeaderThree>
           </View>
 
           <View
@@ -437,10 +443,10 @@ function RTLifestyle({ route, navigation }) {
         >
           <ProgressBar
             progress={1}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>2/2</Text>
+          <Text style={{ textAlign: "center", fontSize: 20 ,color:primary.subText}}>2/2</Text>
         </View>
       </View>
     </MyGradientBackground>

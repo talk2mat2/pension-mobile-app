@@ -15,10 +15,11 @@ import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
+import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "../components/JarvisButton";
 import MyGradientBackground from "../components/grdientBackGround";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import api from "../api";
 import JarvisLoader from "../components/JarvisLoader";
 
@@ -68,7 +69,7 @@ function KYCCoverScreen({ navigation }) {
   return (
     <MyGradientBackground>
       {isLoading ? (
-        <JarvisLoader />
+        <JarvisLoader color={primary.subText} />
       ) : (
         <>
           <View
@@ -82,38 +83,58 @@ function KYCCoverScreen({ navigation }) {
           >
             <TouchableOpacity onPress={handleLogout}>
               <View style={{ alignItems: "center" }}>
-                <AntDesign name="logout" size={24} color="black" />
-                <Text>Logout</Text>
+                <AntDesign name="logout" size={20} color={primary.text} />
+                <Text style={{ color: primary.text, fontSize: 13 }}>
+                  Logout
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
-          <View style={{ alignItems: "center", marginTop: 80 }}>
-            <Text style={[styles.loginText, { fontSize: 40 }]}>Jarvis</Text>
-          </View>
-          <View style={{ marginTop: 80, alignItems: "center" }}>
-            <Text style={styles.subHeader}>Welcome to Jarvis</Text>
+          {/* <View style={{ alignItems: "center", marginTop: 80 }}>
+            <Text
+              style={[styles.loginText, { fontSize: 40, color: primary.text }]}
+            >
+              Jarvis
+            </Text>
+          </View> */}
+          <View
+            style={{
+              marginTop: 150,
+              backgroundColor: primary.subText,
+              height: 1,
+              width: "100%",
+              marginHorizontal:25
+            }}
+          />
+          <View style={{ alignItems: "center", marginTop: 30 }}>
+            <HeaderTwo>Welcome to Jarvis</HeaderTwo>
+            {/* <Text style={styles.subHeader}>Welcome to Jarvis</Text> */}
           </View>
           <View
             style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}
           >
-            <Text
-              style={{ textAlign: "center", color: myColorsLight.lightGreyDim }}
-            >
-              To build your retirement profile{"\n"}, we would need to capture
-              some
+            <ParaOne style={{ textAlign: "center" }}>
+              To build your retirement profile we{"\n"} would need to capture
+              some information
               {"\n"}
-              information from you.
-            </Text>
+              from you.
+            </ParaOne>
           </View>
-          <View style={{ marginTop: 10 }}>
-            <Text
-              style={[
-                { fontWeight: "bold", alignSelf: "center", letterSpacing: 0.6 },
-              ]}
-            >
-              It would take just three steps:
-            </Text>
-          </View>
+          {/* <View
+            style={{
+              backgroundColor: primary.subText,
+              height: 1,
+              width: "100%",
+            }}
+          /> */}
+      
+            <View style={{  alignItems: "center",borderTopWidth:1,paddingTop:30,borderTopColor:primary.subText,marginHorizontal:25 }}>
+              <HeaderFour style={{ alignSelf: "center", letterSpacing: 0.6 }}>
+                It would take just three steps:
+              </HeaderFour>
+            </View>
+         
+
           <View
             style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}
           >
@@ -121,48 +142,39 @@ function KYCCoverScreen({ navigation }) {
 
             <View style={styles.hrView}>
               <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <Text
-                  style={[
-                    {
-                      marginLeft: 5,
-                      marginTop: 3,
-                      color: myColorsLight.lightGreyDark,
-                    },
-                  ]}
+                <ParaOne
+                  style={{
+                    marginLeft: 5,
+                    marginTop: 3,
+                  }}
                 >
-                  <Text>1</Text> Personal Information
-                </Text>
+                  <Text>1</Text>&nbsp;&nbsp; Personal Information
+                </ParaOne>
               </View>
             </View>
 
             <View style={styles.hrView}>
               <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <Text
-                  style={[
-                    {
-                      marginLeft: 5,
-                      marginTop: 3,
-                      color: myColorsLight.lightGreyDark,
-                    },
-                  ]}
+                <ParaOne
+                  style={{
+                    marginLeft: 5,
+                    marginTop: 3,
+                  }}
                 >
-                  <Text>2</Text> Your Retirement Lifestyle
-                </Text>
+                  <Text>2</Text>&nbsp;&nbsp; Your Retirement Lifestyle
+                </ParaOne>
               </View>
             </View>
             <View style={styles.hrView}>
               <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <Text
-                  style={[
-                    {
-                      marginLeft: 5,
-                      marginTop: 3,
-                      color: myColorsLight.lightGreyDark,
-                    },
-                  ]}
+                <ParaOne
+                  style={{
+                    marginLeft: 5,
+                    marginTop: 3,
+                  }}
                 >
-                  <Text>3</Text> Pensions & Savings
-                </Text>
+                  <Text>3</Text>&nbsp;&nbsp; Pensions & Savings
+                </ParaOne>
               </View>
             </View>
           </View>
@@ -181,7 +193,7 @@ function KYCCoverScreen({ navigation }) {
               <View style={[styles.centerView, { marginTop: 60 }]}>
                 <JarvisButton
                   style={{ ...styles.loginButton, marginTop: 10 }}
-                  bgcolor={myColorsLight.black}
+                  bgcolor={primary.btn}
                   play={_next}
                   btn="Let's begin"
                   w="50%"
@@ -230,7 +242,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     paddingBottom: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#bbb",
+    borderBottomColor: primary.subText,
+  },
+  line: {
+    width: "100%",
+    height: 1,
+    backgroundColor: primary.subText,
   },
 });
 

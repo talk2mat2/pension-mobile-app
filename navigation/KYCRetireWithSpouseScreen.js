@@ -11,8 +11,10 @@ import {
   Picker,
   Alert,
 } from "react-native";
+import WhyAsk from "../components/whyask";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
+import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 let ModalDropdown;
 let Webdate;
 if (Platform.OS == "web") {
@@ -26,7 +28,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "../components/JarvisButton";
 import { RadioButton, ProgressBar, Chip } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 function KYCRetireWithSpouseScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -225,7 +227,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
             <Pressable onPress={_goBack}>
               <MaterialCommunityIcons
                 name="chevron-left-circle-outline"
-                color={myColorsLight.lightGreyDark}
+                color={primary.subText}
                 size={40}
               />
             </Pressable>
@@ -233,25 +235,31 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
           <View>
             <View>
-              <Text
-                style={[
-                  styles.loginText,
-                  ,
-                  { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                ]}
+              <HeaderFour
+                style={{
+                  fontSize: 15,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
               >
                 Personal Information
-              </Text>
+              </HeaderFour>
             </View>
           </View>
         </View>
         <View style={styles.container}>
-          <View style={[styles.centerView, { marginTop: 60 }]}>
-            <Text style={[styles.subHeader]}>{screenTitle}</Text>
+          {/* <HeaderTwo style={{ textAlign: "center", }}>
+        <Text style={[styles.subHeader]}>{screenTitle}</Text>
+        </HeaderTwo> */}
+          <View style={[styles.centerView, { marginTop: 100 }]}>
+            <HeaderTwo>{screenTitle}</HeaderTwo>
+          </View>
+          <View style={{ marginTop: 30 }}>
+            <WhyAsk />
           </View>
           {showExtra && (
             <>
-              {showWhy && (
+              {/* {showWhy && (
                 <View
                   style={[
                     styles.centerView,
@@ -269,12 +277,12 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                     planning and goals more accurately.
                   </Text>
                 </View>
-              )}
+              )} */}
 
               {!showSpouseNameField && !showOtherSpouseFields && (
                 <View style={styles.borderBox}>
                   <View style={styles.centerView}>
-                    <Text style={[styles.radioText]}>Yes</Text>
+                    <ParaOne style={{...styles.radioText}}>Yes</ParaOne>
                     <RadioButton
                       value="yes"
                       status={
@@ -282,9 +290,9 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                       }
                       onPress={() => setRetireWithSpouse("yes")}
                     />
-                    <Text style={[styles.radioText, { marginLeft: 20 }]}>
+                    <ParaOne style={{...styles.radioText,  marginLeft: 20 }}>
                       No
-                    </Text>
+                    </ParaOne>
                     <RadioButton
                       value="no"
                       status={
@@ -308,13 +316,23 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
           {showSpouseNameField && (
             <View style={[styles.inlineForm, styles.hrView]}>
-              <Text style={[styles.inlineFormText, { marginLeft: 5 }]}>
+              <Text
+                style={[
+                  styles.inlineFormText,
+                  { marginLeft: 5, color: primary.text, marginRight: 30 },
+                ]}
+              >
                 Enter spouse's name
               </Text>
               <View style={styles.inlineFormGroup}>
                 <View style={{ paddingVertical: 2 }}>
                   <TextInput
-                    style={[styles.formInput, { textAlign: "center" }]}
+                    style={{
+                      ...styles.formInput,
+                      textAlign: "center",
+                      backgroundColor: primary.subBase,
+                      color: primary.inputText,
+                    }}
                     onChangeText={(text) => {
                       setSpouseName(text);
                       setSpouseNameValidation(false);
@@ -341,7 +359,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 <View
                   style={[styles.inlineForm, styles.hrView, { marginLeft: 5 }]}
                 >
-                  <Text style={[styles.inlineFormText]}>Spouse gender</Text>
+                  <ParaOne style={styles.inlineFormText}>Spouse gender</ParaOne>
                   <View style={styles.inlineFormGroup}>
                     <View style={(styles.centerView, { paddingVertical: 1 })}>
                       {/* <TextInput
@@ -360,7 +378,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                         <ModalDropdown
                           defaultValue={"select.."}
                           textStyle={{ fontSize: 15 }}
-                          dropdownStyle={{ width: "100%", paddingLeft: 6 }}
+                          dropdownStyle={{ width: "40%", paddingLeft: 6 }}
                           dropdownTextStyle={{
                             fontSize: 16,
                             paddingLeft: 10,
@@ -374,6 +392,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                             ...styles.formInput,
                             textAlign: "center",
                             paddingHorizontal: 10,
+                            backgroundColor: primary.subBase,
                           }}
                           options={["Male", "Female"]}
                         />
@@ -407,12 +426,12 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   </View>
                 )}
 
-                <Text style={{ ...styles.formText, marginLeft: 5 }}>
+                <ParaOne style={{ ...styles.formText, marginLeft: 5 ,color:primary.subText}}>
                   Enter spouse's date of birth
-                </Text>
+                </ParaOne>
                 <View style={{ ...styles.formGroup, marginLeft: 5 }}>
                   <View style={{ flexDirection: "row", paddingVertical: 5 }}>
-                    <Text style={styles.formText}>{birthdayDisplay}</Text>
+                    <ParaOne style={styles.formText}>{birthdayDisplay}</ParaOne>
                     <JarvisButton
                       style={styles.loginButton}
                       bgcolor={myColorsLight.black}
@@ -508,7 +527,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
         <View style={{ marginTop: 60, alignItems: "center" }}>
           <JarvisButton
             // style={{ ...styles.loginButton, marginTop: 10 }}
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             w={150}
             btn="Next"
@@ -524,10 +543,18 @@ function KYCRetireWithSpouseScreen({ navigation }) {
         >
           <ProgressBar
             progress={0.8}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>4/5</Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              color: primary.subText,
+            }}
+          >
+            4/5
+          </Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -542,6 +569,7 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: "row",
     alignSelf: "center",
+    alignItems:"center"
   },
   loginButton: {
     // alignItems: 'center',
@@ -561,11 +589,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   borderBox: {
-    marginTop: 20,
+    marginTop: 30,
     width: "100%",
     borderBottomWidth: 1,
     borderTopWidth: 1,
     paddingVertical: 5,
+    borderTopColor: primary.subBase,
+    borderBottomColor: primary.subBase,
   },
   formGroup: {
     width: "90%",
@@ -605,8 +635,10 @@ const styles = StyleSheet.create({
   },
   hrView: {
     borderBottomWidth: 1,
+    borderBottomWidth: 1,
     paddingBottom: 15,
     width: "100%",
+    borderColor:primary.subText1
   },
 });
 

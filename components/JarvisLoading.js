@@ -11,9 +11,9 @@ const JarvisLoading = (props) => {
   if (mobile) {
     return (
       <View style={styles.container}>
-        <Text style={{ ...styles.loadingText, color: propsColor }}>
+        {/* <Text style={{ ...styles.loadingText, color: propsColor }}>
           {propsText}
-        </Text>
+        </Text> */}
         <ActivityIndicator size="large" color={propsColor} />
       </View>
     );

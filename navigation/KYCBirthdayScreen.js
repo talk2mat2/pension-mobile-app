@@ -17,6 +17,7 @@ if (Platform.OS == "web") {
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
+import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
@@ -26,7 +27,7 @@ import { ProgressBar } from "react-native-paper";
 // import ModalDropdown from "react-native-modal-dropdown";
 import MyGradientBackground from "../components/grdientBackGround";
 import WhyAsk from "../components/whyask";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 import JarvisButton from "../components/JarvisButton";
 
@@ -141,7 +142,7 @@ function KYCBirthdayScreen({ navigation }) {
           <Pressable onPress={_goBack}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
-              color={myColorsLight.lightGreyDark}
+              color={primary.subText}
               size={40}
             />
           </Pressable>
@@ -149,15 +150,14 @@ function KYCBirthdayScreen({ navigation }) {
 
         <View>
           <View>
-            <Text
-              style={[
-                styles.loginText,
-                ,
-                { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-              ]}
+            <HeaderFour
+              style={
+                (styles.loginText,
+                { fontSize: 15, textAlign: "center", fontWeight: "bold" })
+              }
             >
               Personal Information
-            </Text>
+            </HeaderFour>
           </View>
         </View>
       </View>
@@ -165,21 +165,21 @@ function KYCBirthdayScreen({ navigation }) {
         style={{
           marginTop: 100,
           paddingHorizontal: 20,
-          marginBottom: 150,
-          paddingBottom: 90,
+          marginBottom: 90,
+          paddingBottom: 80,
         }}
       >
         <ScrollView>
-          <View style={{ alignItems: "center", marginBottom: 40 }}>
-            <Text
-              style={[
-                styles.subHeader,
-                { textAlign: "center", fontWeight: "bold" },
-              ]}
+          <View style={{ alignItems: "center", marginBottom: 2 }}>
+            <HeaderTwo
+              style={
+                // styles.subHeader,
+                { textAlign: "center" }
+              }
             >
               Thanks {u?.attributes?.fname} {"\n"}
               please tell us your {"\n"}gender and date of birth? {"\n"}
-            </Text>
+            </HeaderTwo>
           </View>
           {/* <View
             style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}
@@ -204,8 +204,8 @@ function KYCBirthdayScreen({ navigation }) {
             </View>
           </View> */}
           <WhyAsk reasons="" />
-          <View style={{ marginHorizontal: 20, marginBottom: 8 }}>
-            <Text style={{ fontSize: 15 }}>Gender</Text>
+          <View style={{ marginHorizontal: 10, marginBottom: 8 }}>
+            <Text style={{ fontSize: 15,color:primary.subText }}>Gender</Text>
           </View>
           <View style={{ alignItems: "center" }}>
             <View style={[styles.formGroup]}>
@@ -213,8 +213,8 @@ function KYCBirthdayScreen({ navigation }) {
                 {Platform.OS !== "web" && (
                   <ModalDropdown
                     defaultValue={gender || "select.."}
-                    textStyle={{ fontSize: 15 }}
-                    dropdownStyle={{ width: "100%" }}
+                    textStyle={{ fontSize: 15,color:primary.inputText }}
+                    dropdownStyle={{ width: "70%" }}
                     dropdownTextStyle={{
                       fontSize: 16,
                       paddingLeft: 10,
@@ -225,9 +225,11 @@ function KYCBirthdayScreen({ navigation }) {
                       setGenderValidation(false);
                     }}
                     style={{
-                      height: 40,
+                      height: 45,
                       paddingTop: 10,
                       paddingHorizontal: 10,
+                      borderRadius: 10,
+                      backgroundColor: primary.subBase,
                     }}
                     options={options}
                   />
@@ -281,7 +283,7 @@ function KYCBirthdayScreen({ navigation }) {
                 ]}
               >
                 <View style={{ flexDirection: "row" }}>
-                  <Text style={[styles.bdayText]}>{birthdayDisplay}</Text>
+                  <ParaOne style={styles.bdayText}>{birthdayDisplay}</ParaOne>
                   <JarvisButton
                     style={{ ...styles.loginButton, marginVertical: 10 }}
                     bgcolor="#ff6c00"
@@ -371,7 +373,7 @@ function KYCBirthdayScreen({ navigation }) {
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton
-            bgcolor={myColorsLight.black}
+           bgcolor={primary.btn}
             play={_next}
             btn="Continue"
             w={200}
@@ -387,10 +389,18 @@ function KYCBirthdayScreen({ navigation }) {
         >
           <ProgressBar
             progress={0.4}
-            color={myColorsLight.lightGreyDark}
+            color={primary.subText}
             style={{ height: 7 }}
           />
-          <Text style={{ textAlign: "center", fontSize: 20 }}>2/5</Text>
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              color: primary.subText,
+            }}
+          >
+            2/5
+          </Text>
         </View>
       </View>
     </MyGradientBackground>
@@ -439,7 +449,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderColor: "#bbb",
     borderRadius: 5,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 15,
     marginBottom: 20,
   },

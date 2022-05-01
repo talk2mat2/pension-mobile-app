@@ -7,10 +7,13 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
+  ImageBackground,
   Modal,
   Pressable,
 } from "react-native";
 import Env from "../env";
+import { JarvisLogo, JarvisSymbol } from "../assets/SVG/svj";
+import { HeaderOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
@@ -20,7 +23,7 @@ import Passwordless from "./passwordlessLogin";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
 import { TextInput } from "react-native-paper";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLigh, primary } from "../constant/colors";
 import api from "../api";
 
 function LoginScreen({ navigation }) {
@@ -267,7 +270,7 @@ function LoginScreen({ navigation }) {
                     .catch((err) => {
                       console.log(err);
                     });
-                    //temp fix for storage issues, will touch this later
+                  //temp fix for storage issues, will touch this later
                   includes?.attributes?.lifeExpectancies &&
                     delete includes.attributes.lifeExpectancies;
                   _updateUser({
@@ -319,47 +322,64 @@ function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: "center", marginTop: 100 }}>
-        <Text style={[styles.loginText, { marginBottom: 100, fontSize: 40 }]}>
-          Jarvis
-        </Text>
-      </View>
-      <View style={{ alignItems: "center", marginVertical: 30 }}>
-        <Text style={[styles.loginText, { marginBottom: 50 }]}>
-          Welcome to Jarvis!
-        </Text>
-        <Text style={styles.subText}>
-          Click the button below to continue to login or signup
-        </Text>
+      <ImageBackground
+        source={require("../assets/2.jpg")}
+        style={{
+          backgroundColor: primary.btn,
 
-        {loginLoading && <JarvisLoading />}
-      </View>
-
-      <View style={{ alignItems: "center" }}>
-        <JarvisButton
-          style={styles.loginButton}
-          disabled={loginButtonDisabled}
-          bgcolor={buttonBackground}
-          play={_initLogin}
-          btn="Continue"
-          w={150}
-        />
-        <View style={{ alignItems: "center", marginTop: 30 }}>
-          <TouchableOpacity onPress={() => setVisiblility(true)}>
-            <Text
-              style={{
-                fontSize: 18,
-                color: buttonBackground,
-                fontWeight: "bold",
-              }}
-            >
-              Passwordless Login
-            </Text>
-          </TouchableOpacity>
+          flex: 1,
+          alignItems: "center",
+        }}
+      >
+        <View style={{ alignItems: "center", marginTop: 100,position:'absolute',top:10 }}>
+          <JarvisLogo height={150} width={400} />
+          <View style={{ marginTop: 17 }}>
+            <HeaderOne>We are here for innovative doers</HeaderOne>
+          </View>
         </View>
-      </View>
+        <View
+          style={{
+            alignItems: "center",
+            marginVertical: 30,
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top:"55%"
+          }}
+        >
+          {loginLoading && <JarvisLoading color={primary.subBase} />}
+        </View>
 
-      <Passwordless {...{ visible, setVisiblility, navigation }} />
+        <View
+          style={{
+            flexDirection: "row",
+            marginTop: "auto",
+            marginBottom: 50,
+            justifyContent: "center",
+          }}
+        >
+          <JarvisButton
+            style={styles.loginButton}
+            disabled={loginButtonDisabled}
+            bgcolor={primary.btn}
+            play={_initLogin}
+            btn="Continue"
+            w={150}
+            btnStyle={{ color: primary.text }}
+          />
+          <JarvisButton
+            style={styles.loginButton}
+            disabled={loginButtonDisabled}
+            bgcolor={primary.subBase}
+            play={() => setVisiblility(true)}
+            btn="Pas. Login"
+            btnStyle={{ color: primary.btn }}
+            w={150}
+          />
+        </View>
+
+        <Passwordless {...{ visible, setVisiblility, navigation }} />
+      </ImageBackground>
     </View>
   );
 }
@@ -367,9 +387,9 @@ function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: primary.btn,
 
-    paddingLeft: 5,
+    // paddingLeft: 5,
     //justifyContent: 'space-around',
   },
   centerView: {
@@ -397,8 +417,9 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     // alignItems: "center",
-    marginTop: 50,
+    // marginTop: 50,
     // marginLeft: 20,
+    marginHorizontal: 10,
   },
   form: {},
 });

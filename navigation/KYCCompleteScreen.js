@@ -10,14 +10,17 @@ import {
   Dimensions,
   ImageBackground,
   Pressable,
+  Image,
 } from "react-native";
 import * as helpers from "../Helpers";
+import { JarvisSymbol } from "../assets/SVG/svj";
 import UserContext from "../contexts/UserContext";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 import JarvisButton from "../components/JarvisButton";
 import { List } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import MyGradientBackground from "../components/grdientBackGround";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import OutcomeCard from "../components/Outcome_Card";
 
 function RTExcellent({ navigation }) {
@@ -42,43 +45,32 @@ function RTExcellent({ navigation }) {
       ></View>
 
       <View style={{ alignItems: "center" }}>
-        <MaterialCommunityIcons
+        {/* <MaterialCommunityIcons
           name="party-popper"
           size={60}
           color={myColorsLight.black}
-        />
-        <Text
-          style={{
-            ...styles.subHeader,
+        /> */}
+        {/* <Image
+          style={{ height: 60, width: 60, marginBottom: 10 }}
+          source={require("../assets/jarvisStar.png")}
+        /> */}
+        <JarvisSymbol style={{ marginBottom: 30 }} />
+        <HeaderTwo>Well done!</HeaderTwo>
 
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          Well done!
-        </Text>
-        <Text
-          style={{
-            ...styles.subHeader,
-            color: myColorsLight.lightGreyDim,
-            textAlign: "center",
-            fontSize: 17,
-            marginTop: 80,
-          }}
-        >
+        <ParaOne style={{ textAlign: "center" }}>
           You have completed step 1 and have earned your{"\n"}
           first Javis Insights Card, which gives you{"\n"}
           regular updates and useful facts and{"\n"}
           information on Pension Planning. You can{"\n"}
           access it from your dashboard at anytime{"\n"}
-        </Text>
+        </ParaOne>
       </View>
 
       <View style={styles.footerContainer}>
         <View style={{ marginTop: 20 }}>
-          <Text style={{ textAlign: "center" }}>
+          <HeaderFour style={{ textAlign: "center" }}>
             Facts & Stats On Saving/Investing
-          </Text>
+          </HeaderFour>
         </View>
         <View
           style={{
@@ -97,35 +89,50 @@ function RTExcellent({ navigation }) {
             on retirement lifestyle {"\n"} and planning
           </Text> */}
         </View>
-      
       </View>
       <View style={styles.footerSection}>
-          <Text
+        <ImageBackground
+          source={require("../assets/jr.png")}
+          style={{
+            height:130,
+            width: "100%",
+            flex: 1,
+            alignItems: "center",
+            paddingVertical: 15,
+          }}
+          imageStyle={{ resizeMode: "repeat" }}
+        >
+          <ParaOne
             style={{
               textAlign: "center",
-              fontSize: 14,
+              // fontSize: 14,
               marginBottom: 8,
-              color: myColorsLight.lightGreyDark,
+              // color: myColorsLight.lightGreyDark,
             }}
           >
             You’re just one steps away from completion. Next step{" "}
-          </Text>
+          </ParaOne>
           <JarvisButton
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             btn="Your Retirement Lifestyle"
-            w={200}
+            w={270}
           />
-        </View>
-      <OutcomeCard>
+        </ImageBackground>
+      </View>
+      <OutcomeCard styles={{ backgroundColor: primary.subBase }}>
         <>
-          <Text style={styles.textHead}> Personal Information</Text>
+          <HeaderThree
+            style={{ color: primary.inputText, textAlign: "center" }}
+          >
+            Personal Information
+          </HeaderThree>
           <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
           <View>
-            <Text style={{ ...styles.textHead, textAlign: "left" }}>
+            {/* <Text style={{ ...styles.textHead, textAlign: "left" }}>
               Personal Information
-            </Text>
+            </Text> */}
           </View>
           <View style={{ ...styles.hrView, marginVertical: 9 }} />
         </>
@@ -142,12 +149,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   footerSection: {
-    ...{ alignItems: "center", marginTop: "auto", height: 120 },
+    marginTop: "auto",
+    height: 130,
     borderTopColor: "#bbb",
     borderTopWidth: 2,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: myColorsLight.white,
+    // paddingTop: 15,
+    // paddingBottom: 15,
+    backgroundColor: primary.base,
     position: "absolute",
     bottom: 2,
     left: 0,
@@ -165,7 +173,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: myColorsLight.white,
+    backgroundColor: primary.base,
     height: 350,
     marginTop: "auto",
     borderTopColor: "#bbb",

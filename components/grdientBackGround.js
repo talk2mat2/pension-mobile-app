@@ -1,17 +1,17 @@
 import React from "react";
-import { Platform, Dimensions } from "react-native";
-import { myColorsLight } from "../constant/colors";
+import { Platform, Dimensions,ImageBackground } from "react-native";
+import { myColorsLight,primary } from "../constant/colors";
 import { View, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 const MyGradientBackground = ({ children }) => {
 
   return (
     <View style={styles.container}>
-      <LinearGradient
+      {/* <LinearGradient
         // Background Linear Gradient
         colors={[myColorsLight.lightGreyDim, "transparent"]}
         style={styles.background}
-      />
+      /> */}
       {children}
     </View>
   );
@@ -31,7 +31,7 @@ const WebPadding = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: primary.base,
     paddingTop:20,
     paddingHorizontal: WebPadding(),
     // marginTop: 30,

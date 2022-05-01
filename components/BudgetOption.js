@@ -5,12 +5,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  Pressable,
 } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
 import { DataTable } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
+import { HeaderFour, HeaderThree } from "../constant/fonts";
 
 const BudgetOption = ({
   type,
@@ -30,15 +33,15 @@ const BudgetOption = ({
   return (
     <View style={styles.container}>
       <View style={styles.hrView} />
-      <TouchableOpacity onPress={toggle}>
+      <Pressable onPress={toggle}>
         <View style={styles.optionsItem}>
           <View>
-            <Text style={[styles.subHeader]}>Budget Level</Text>
-            <Text
-              style={[styles.subHeader, { fontWeight: "bold", fontSize: 19 }]}
-            >
+            <HeaderThree style={{ fontWeight: "200" ,color:primary.subBase}}>
+              Budget Level
+            </HeaderThree>
+            <HeaderThree style={{ fontWeight: "bold", fontSize: 19 }}>
               {type}
-            </Text>
+            </HeaderThree>
           </View>
 
           {itsOpen ? (
@@ -57,7 +60,7 @@ const BudgetOption = ({
             />
           )}
         </View>
-      </TouchableOpacity>
+      </Pressable>
       {itsOpen && focused === type && (
         <View style={styles.content}>
           <ScrollView style={{ flex: 1 }}>
@@ -78,6 +81,7 @@ const BudgetOption = ({
                   play={_next.bind(this, budetData)}
                   btn="Set Budget"
                   w={100}
+                  btnStyle={{fontSize:14}}
                 />
               </View>
               <Text style={styles.textWriteUp}>
@@ -301,18 +305,21 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   content: {
-    minHeight: 300,
-    paddingBottom: 40,
-    paddingTop: 10,
-    backgroundColor: myColorsLight.lighterGrey,
+    height: 200,
+    paddingBottom: 20,
+    paddingTop: 5,
+    marginBottom:200,
+    backgroundColor: primary.subBase,
+  
   },
 
   optionsItem: {
     flexDirection: "row",
-    padding: 20,
+    padding: 15,
     paddingHorizontal: 25,
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor:primary.base
   },
   options: {
     flexDirection: "row",

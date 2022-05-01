@@ -8,15 +8,22 @@ import {
   TextInput,
   Dimensions,
   ImageBackground,
+  Image,
 } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as AuthSession from "expo-auth-session";
 const axios = require("axios");
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 
 function RTCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -28,27 +35,45 @@ function RTCoverScreen({ navigation }) {
 
   return (
     <MyGradientBackground>
-      <View style={{ marginTop: 150 ,alignItems:'center'}}>
-        <Text style={styles.subHeader}>
-          To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
-          {"\n"}
-          know what monthly {"\n"} income you will need {"\n"}for your pension
-        </Text>
-      </View>
-
-      <>
-        <View style={{ width: "100%", marginTop: 30, alignItems: "center" }}>
-          <View style={{ marginTop: 60 }}>
-            <JarvisButton
-              style={{ marginTop: 90 }}
-              bgcolor={myColorsLight.black}
-              play={_next}
-              btn="Continue"
-              w={150}
-            />
-          </View>
+      <ImageBackground
+        source={require("../../assets/j.png")}
+        style={{ height: "100%", width: "100%", flex: 1 }}
+        imageStyle={{
+          resizeMode: "repeat",
+          overflow: "visible",
+          backfaceVisibility: "visible",
+          flex: 1,
+        }}
+      >
+        <View style={{ marginTop: 150, alignItems: "center" }}>
+          <HeaderTwo style={styles.subHeader}>
+            To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
+            {"\n"}
+            know what monthly {"\n"} income you will need {"\n"}for your pension
+          </HeaderTwo>
         </View>
-      </>
+
+        <>
+          <View style={{ width: "100%", marginTop: 30, alignItems: "center" }}>
+            <View style={{ marginTop: 60 }}>
+              <JarvisButton
+                style={{ marginTop: 90 }}
+                bgcolor={primary.btn}
+                play={_next}
+                btn="Continue"
+                w={150}
+              />
+            </View>
+          </View>
+        </>
+        {/* <View style={{ width: "100%", height: "45%", marginTop: "auto" }}>
+        <Image
+          style={{ flex: 1, width: undefined, height: undefined }}
+          source={require("../../assets/jr.png")}
+          resizeMode="repeat"
+        />
+      </View> */}
+      </ImageBackground>
     </MyGradientBackground>
   );
 }
@@ -82,7 +107,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   subHeader: {
-    fontSize: 30,
+    // fontSize: 30,
     textAlign: "center",
   },
   hrView: {

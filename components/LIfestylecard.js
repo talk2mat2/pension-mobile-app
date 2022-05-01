@@ -13,7 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import BudgetModal from "./BudgetModal";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight ,primary} from "../constant/colors";
 import UserContext from "../contexts/UserContext";
 import BudgetModalCustom from "./BudgetModalCustome.";
 
@@ -157,12 +157,13 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: "30%",
     position: "relative",
+    backgroundColor:primary.subBase
   },
   containerStyle: {
     height: "90%",
     padding: 20,
     paddingTop: 20,
-    backgroundColor: "white",
+    backgroundColor: primary.subBase,
     marginHorizontal: 25,
     borderRadius: 10,
     justifyContent: "flex-start",
