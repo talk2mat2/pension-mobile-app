@@ -331,7 +331,14 @@ function LoginScreen({ navigation }) {
           alignItems: "center",
         }}
       >
-        <View style={{ alignItems: "center", marginTop: 100,position:'absolute',top:10 }}>
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: 100,
+            position: "absolute",
+            top: 10,
+          }}
+        >
           <JarvisLogo height={150} width={400} />
           <View style={{ marginTop: 17 }}>
             <HeaderOne>We are here for innovative doers</HeaderOne>
@@ -344,7 +351,7 @@ function LoginScreen({ navigation }) {
             position: "absolute",
             left: 0,
             right: 0,
-            top:"55%"
+            top: "55%",
           }}
         >
           {loginLoading && <JarvisLoading color={primary.subBase} />}
@@ -356,10 +363,14 @@ function LoginScreen({ navigation }) {
             marginTop: "auto",
             marginBottom: 50,
             justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <JarvisButton
-            style={styles.loginButton}
+            style={{
+              ...styles.loginButton,
+            }}
+            buttonSyle={{ borderWidth: 2, borderColor: primary.btn }}
             disabled={loginButtonDisabled}
             bgcolor={primary.btn}
             play={_initLogin}
@@ -372,7 +383,7 @@ function LoginScreen({ navigation }) {
             disabled={loginButtonDisabled}
             bgcolor={primary.subBase}
             play={() => setVisiblility(true)}
-            btn="Pas. Login"
+            btn="Pass. Login"
             btnStyle={{ color: primary.btn }}
             w={150}
           />
@@ -419,7 +430,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // marginTop: 50,
     // marginLeft: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
   form: {},
 });

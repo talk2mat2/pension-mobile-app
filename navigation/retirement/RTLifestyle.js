@@ -11,6 +11,7 @@ import {
   ImageBackground,
   Pressable,
   Alert,
+  Image,
 } from "react-native";
 import {
   HeaderFour,
@@ -35,7 +36,7 @@ import BudgetOption from "../../components/BudgetOption";
 import LIfestylecard from "../../components/LIfestylecard";
 import { ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight,primary } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 
 function RTLifestyle({ route, navigation }) {
   const { selectedData } = route.params;
@@ -137,7 +138,7 @@ function RTLifestyle({ route, navigation }) {
     Object.keys(attribs).forEach((item) => {
       if (attribs[item] == null) {
         // attribs[item] = "";
-        delete attribs[item]
+        delete attribs[item];
       }
     });
     const newData = {
@@ -182,7 +183,7 @@ function RTLifestyle({ route, navigation }) {
     setIsloading(true);
     // console.log(JSON.stringify(newData));
     // console.log("TOKEN IS", ctx?.atk);
-    
+
     // await Api.Update_retirement_profile(ctx?.u?.id, ctx?.atk, { data: newData })
     //   .then((res) => {
     //     setIsloading(false);
@@ -207,7 +208,7 @@ function RTLifestyle({ route, navigation }) {
       .then((res) => {
         setIsloading(false);
         console.log(res);
-        ctx.setRetireProfile(res?.data)
+        ctx.setRetireProfile(res?.data);
         navigation.navigate("RTExcellent", {
           result: lifestyleData?.["Total (Gross)"],
           profile: res?.data,
@@ -248,7 +249,7 @@ function RTLifestyle({ route, navigation }) {
   }, [lifestyleData]);
   return (
     <MyGradientBackground>
-      {isLoading && <JarvisLoader />}
+      {isLoading && <JarvisLoader color={primary.base} />}
       <View
         style={{
           marginTop: 30,
@@ -269,7 +270,7 @@ function RTLifestyle({ route, navigation }) {
 
         <View>
           <View>
-          <HeaderFour
+            <HeaderFour
               style={{ fontSize: 16, textAlign: "center", fontWeight: "bold" }}
             >
               Your Retirement Lifestyle
@@ -296,8 +297,6 @@ function RTLifestyle({ route, navigation }) {
         <View style={{ marginTop: 25 }}>
           <HeaderThree
             style={{
-            
-
               textAlign: "center",
               // fontWeight: "bold",
             }}
@@ -333,10 +332,14 @@ function RTLifestyle({ route, navigation }) {
             amount={`${lifestyleData?.House}`}
             Icon="home"
           >
-            <AntDesign
+            {/* <AntDesign
               name="home"
               size={30}
               color={myColorsLight.lightGreyDim}
+            /> */}
+            <Image
+              style={{ height: 45, resizeMode: "contain" }}
+              source={require("../../assets/House.png")}
             />
           </LIfestylecard>
           <LIfestylecard
@@ -345,10 +348,9 @@ function RTLifestyle({ route, navigation }) {
             Icon="home"
             amount={`${lifestyleData?.["Food & drink"]}`}
           >
-            <MaterialCommunityIcons
-              name="food-fork-drink"
-              size={30}
-              color={myColorsLight.lightGreyDim}
+            <Image
+              style={{ height: 43, resizeMode: "contain" }}
+              source={require("../../assets/Food-Drink.png")}
             />
           </LIfestylecard>
           <LIfestylecard
@@ -356,10 +358,9 @@ function RTLifestyle({ route, navigation }) {
             title="Transport"
             amount={`${lifestyleData?.Transport}`}
           >
-            <AntDesign
-              name="car"
-              size={30}
-              color={myColorsLight.lightGreyDim}
+            <Image
+              style={{ height: 45, resizeMode: "contain" }}
+              source={require("../../assets/Transport.png")}
             />
           </LIfestylecard>
           <LIfestylecard
@@ -367,10 +368,9 @@ function RTLifestyle({ route, navigation }) {
             title="Holidays & Leisure"
             amount={`${lifestyleData?.["Holidays & Leisure"]}`}
           >
-            <Fontisto
-              name="holiday-village"
-              size={30}
-              color={myColorsLight.lightGreyDim}
+            <Image
+              style={{ height: 40, resizeMode: "contain" }}
+              source={require("../../assets/Holiday.png")}
             />
           </LIfestylecard>
           <LIfestylecard
@@ -378,10 +378,9 @@ function RTLifestyle({ route, navigation }) {
             title="Clothing & Personal"
             amount={`${lifestyleData?.["Clothing & Personal"]}`}
           >
-            <Ionicons
-              name="md-shirt"
-              size={30}
-              color={myColorsLight.lightGreyDim}
+            <Image
+              style={{ height: 40, resizeMode: "contain" }}
+              source={require("../../assets/Clothing.png")}
             />
           </LIfestylecard>
           <LIfestylecard
@@ -389,11 +388,9 @@ function RTLifestyle({ route, navigation }) {
             title="Helping Others"
             amount={`${lifestyleData?.["Helping Others"]}`}
           >
-            <FontAwesome5
-              name="hands-helping"
-              step
-              size={24}
-              color={myColorsLight.lightGreyDim}
+            <Image
+              style={{ height: 40, resizeMode: "contain" }}
+              source={require("../../assets/Helping-Others.png")}
             />
           </LIfestylecard>
         </View>
@@ -407,10 +404,12 @@ function RTLifestyle({ route, navigation }) {
             }}
           />
           <View style={styles.sum}>
-            <HeaderThree style={{ fontSize: 17 }}>Total Monthly Budget</HeaderThree>
-            < HeaderThree style={{ fontSize: 17 }}>{`£${
+            <HeaderThree style={{ fontSize: 17 }}>
+              Total Monthly Budget
+            </HeaderThree>
+            <HeaderThree style={{ fontSize: 17 }}>{`£${
               sum ? Math.ceil(sum) : 0
-            }`}</ HeaderThree>
+            }`}</HeaderThree>
           </View>
 
           <View
@@ -423,31 +422,60 @@ function RTLifestyle({ route, navigation }) {
           />
         </View>
       </ScrollView>
-      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-        <View style={{ alignItems: "center", marginTop: 20 }}>
+      <View
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: 130,
+        }}
+      >
+        {/* <View style={{ alignItems: "center" }}> */}
+        <ImageBackground
+          source={require("../../assets/jr.png")}
+          style={{
+            height: 130,
+            width: "100%",
+            flex: 1,
+            alignItems: "center",
+            paddingVertical: 15,
+          }}
+          imageStyle={{ resizeMode: "repeat" }}
+        >
           <JarvisButton
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             btn="Continue"
             w={200}
             disabled={isLoading}
           />
-        </View>
-        <View
-          style={{
-            marginTop: 40,
-            width: "50%",
-            alignSelf: "center",
-            paddingBottom: 16,
-          }}
-        >
-          <ProgressBar
-            progress={1}
-            color={primary.subText}
-            style={{ height: 7 }}
-          />
-          <Text style={{ textAlign: "center", fontSize: 20 ,color:primary.subText}}>2/2</Text>
-        </View>
+
+          {/* </View> */}
+          <View
+            style={{
+              marginTop: 30,
+              width: "50%",
+              alignSelf: "center",
+              paddingBottom: 20,
+            }}
+          >
+            <ProgressBar
+              progress={1}
+              color={primary.subText}
+              style={{ height: 7 }}
+            />
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 20,
+                color: primary.subText,
+              }}
+            >
+              2/2
+            </Text>
+          </View>
+        </ImageBackground>
       </View>
     </MyGradientBackground>
   );

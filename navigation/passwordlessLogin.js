@@ -12,9 +12,11 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import { myColorsLight } from "../constant/colors";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
+import { myColorsLight, primary } from "../constant/colors";
 import Api from "../api";
 import JarvisLoader from "../components/JarvisLoader";
+import CustomeInput from "../components/customeInput";
 import * as helpers from "../Helpers";
 import JarvisButton from "../components/JarvisButton";
 import { TextInput, HelperText } from "react-native-paper";
@@ -96,36 +98,40 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
       onRequestClose={() => setVisiblility(false)}
       visible={visible}
     >
-      <View style={{ flex: 1, paddingTop: 90 }}>
+      <View style={{ flex: 1, paddingTop: 90, backgroundColor: primary.base }}>
         <View style={{ position: "absolute", left: 10, top: 20 }}>
           <Pressable onPress={() => setVisiblility(false)}>
             <MaterialCommunityIcons
               name="chevron-left-circle-outline"
-              color={myColorsLight.lightGreyDark}
+              color={primary.text}
               size={40}
             />
           </Pressable>
         </View>
-        <Text style={{ fontSize: 23, fontWeight: "900", textAlign: "center" }}>
+        <HeaderThree style={{ textAlign: "center", fontSize: 28 }}>
           Passwordless authentication
-        </Text>
-        <Text
+        </HeaderThree>
+        <ParaOne
           style={{
-            fontSize: 16,
-            fontWeight: "400",
+            // fontSize: 16,
+            // fontWeight: "400",
             textAlign: "center",
-            color: myColorsLight.grey6,
+            // color: myColorsLight.grey6,
             marginTop: 20,
           }}
         >
           Login/Register by Email
-        </Text>
-        {loading && <JarvisLoader />}
+        </ParaOne>
+        {loading && <JarvisLoader color={primary.subText} />}
         <View style={{ alignItems: "center", marginTop: 50 }}>
           <TextInput
-            style={{ width: "90%", backgroundColor: myColorsLight.grey9 }}
+            style={{
+              width: "90%",
+              borderRadius: 10,
+              backgroundColor: myColorsLight.grey9,
+              height: 40,
+            }}
             Type="flat"
-            label="Email"
             value={email}
             onChangeText={(text) => {
               setEmail(text);
@@ -135,19 +141,23 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
         </View>
         {emailError.status == true && (
           <View style={{ paddingHorizontal: 20 }}>
-            <HelperText type="error" visible={emailError.status}>
+            <HelperText
+              style={{ fontSize: 15 }}
+              type="error"
+              visible={emailError.status}
+            >
               {emailError.messagge}
             </HelperText>
           </View>
         )}
-        <View style={{ alignItems: "center", marginTop: 50 }}>
+        <View style={{ alignItems: "center", marginTop: 30 }}>
           <JarvisButton
             style={styles.loginButton}
             disabled={emailError.status || loading}
-            bgcolor={buttonBackground}
+            bgcolor={primary.btn}
             play={_next}
             btn="Send Code by Email"
-            w={150}
+            w={200}
           />
         </View>
       </View>

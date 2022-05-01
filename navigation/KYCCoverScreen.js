@@ -103,7 +103,7 @@ function KYCCoverScreen({ navigation }) {
               backgroundColor: primary.subText,
               height: 1,
               width: "100%",
-              marginHorizontal:25
+              marginHorizontal: 25,
             }}
           />
           <View style={{ alignItems: "center", marginTop: 30 }}>
@@ -111,7 +111,7 @@ function KYCCoverScreen({ navigation }) {
             {/* <Text style={styles.subHeader}>Welcome to Jarvis</Text> */}
           </View>
           <View
-            style={{ marginTop: 10, alignItems: "center", marginBottom: 15 }}
+            style={{ marginTop: 30, alignItems: "center", marginBottom: 30 }}
           >
             <ParaOne style={{ textAlign: "center" }}>
               To build your retirement profile we{"\n"} would need to capture
@@ -127,13 +127,19 @@ function KYCCoverScreen({ navigation }) {
               width: "100%",
             }}
           /> */}
-      
-            <View style={{  alignItems: "center",borderTopWidth:1,paddingTop:30,borderTopColor:primary.subText,marginHorizontal:25 }}>
-              <HeaderFour style={{ alignSelf: "center", letterSpacing: 0.6 }}>
-                It would take just three steps:
-              </HeaderFour>
-            </View>
-         
+
+          <View
+            style={{
+              borderTopWidth: 1,
+              paddingTop: 30,
+              borderTopColor: primary.subText,
+              marginHorizontal: 57,
+            }}
+          >
+            <HeaderFour style={{ letterSpacing: 0.6 }}>
+              It would take just three steps:
+            </HeaderFour>
+          </View>
 
           <View
             style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}
@@ -186,18 +192,30 @@ function KYCCoverScreen({ navigation }) {
                 position: "absolute",
                 left: 0,
                 right: 0,
-                bottom: 3,
-                marginBottom: 15,
+                bottom: 0,
+                marginBottom: 0,
               }}
             >
-              <View style={[styles.centerView, { marginTop: 60 }]}>
-                <JarvisButton
-                  style={{ ...styles.loginButton, marginTop: 10 }}
-                  bgcolor={primary.btn}
-                  play={_next}
-                  btn="Let's begin"
-                  w="50%"
-                />
+              <View style={[styles.centerView, { marginTop: 30 }]}>
+                <ImageBackground
+                  source={require("../assets/jr.png")}
+                  style={{
+                    height: 130,
+                    width: "100%",
+                    flex: 1,
+                    alignItems: "center",
+                    paddingVertical: 15,
+                  }}
+                  imageStyle={{ resizeMode: "repeat" }}
+                >
+                  <JarvisButton
+                    style={{ ...styles.loginButton, marginTop: 10 }}
+                    bgcolor={primary.btn}
+                    play={_next}
+                    btn="Let's begin"
+                    w="50%"
+                  />
+                </ImageBackground>
               </View>
             </View>
           </>

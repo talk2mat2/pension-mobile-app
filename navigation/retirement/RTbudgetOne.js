@@ -143,6 +143,7 @@ function RTbudgetOne({ navigation }) {
           right: 0,
           zIndex: 3,
           elevation: 5,
+          paddingTop:20
         }}
       >
         <View

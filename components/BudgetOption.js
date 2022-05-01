@@ -77,7 +77,7 @@ const BudgetOption = ({
                   OverView
                 </Text>
                 <JarvisButton
-                  bgcolor={myColorsLight.black}
+                  bgcolor={primary.btn}
                   play={_next.bind(this, budetData)}
                   btn="Set Budget"
                   w={100}

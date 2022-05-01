@@ -155,7 +155,7 @@ const styles = StyleSheet.create({
     borderRadius: 7,
     alignItems: "center",
     padding: 10,
-    paddingTop: "30%",
+    paddingTop: "24%",
     position: "relative",
     backgroundColor:primary.subBase
   },
@@ -171,14 +171,15 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     textAlign: "center",
+    lineHeight:20
   },
   textWhite: {
     color: "#fff",
   },
   edit: {
     position: "absolute",
-    right: 15,
-    top: 15,
+    right: 5,
+    top: 7,
   },
   subText: {
     fontSize: 14,

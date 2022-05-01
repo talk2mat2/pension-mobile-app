@@ -5,17 +5,19 @@ import {
   Text,
   ImageBackground,
   Pressable,
+  Platform,
 } from "react-native";
 import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
 import UserContext from "../contexts/UserContext";
 import JarvisButton from "../components/JarvisButton";
-import WhyAsk from "../components/whyask";
+import WhyAsPk from "../components/whyask";
 import JarvisLoader from "../components/JarvisLoader";
 import { RadioButton, ProgressBar } from "react-native-paper";
 import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight, primary } from "../constant/colors";
+import WhyAsk from "../components/whyask";
 
 function KYCRetireLondonScreen({ navigation }) {
   const [buttonBackground, setButtonBackground] = useState("#77f");
@@ -129,25 +131,38 @@ function KYCRetireLondonScreen({ navigation }) {
         <View style={styles.borderBox}>
           <View style={styles.centerView}>
             <ParaOne style={styles.radioText}>Yes</ParaOne>
-            <RadioButton
-              value="yes"
-              status={retireLondon === "yes" ? "checked" : "unchecked"}
-              onPress={() => setRetireLondon("yes")}
-            />
-            <ParaOne style={styles.radioText}>No</ParaOne>
-            <RadioButton
-              value="no"
-              status={retireLondon === "no" ? "checked" : "unchecked"}
-              onPress={() => setRetireLondon("no")}
-            />
+            {Platform.OS === "ios" ? (
+              <RadioButton.IOS
+                value="yes"
+                status={retireLondon === "yes" ? "checked" : "unchecked"}
+                onPress={() => setRetireLondon("yes")}
+              />
+            ) : (
+              <RadioButton.Android
+                value="yes"
+                status={retireLondon === "yes" ? "checked" : "unchecked"}
+                onPress={() => setRetireLondon("yes")}
+              />
+            )}
+            <ParaOne style={{...styles.radioText,marginLeft:20}}>No</ParaOne>
+            {Platform.OS === "ios" ? (
+              <RadioButton.IOS
+                value="no"
+                status={retireLondon === "no" ? "checked" : "unchecked"}
+                onPress={() => setRetireLondon("no")}
+              />
+            ) : (
+              <RadioButton.Android
+                value="no"
+                status={retireLondon === "no" ? "checked" : "unchecked"}
+                onPress={() => setRetireLondon("no")}
+              />
+            )}
           </View>
         </View>
 
         {isLoading && (
-          <JarvisLoader
-            color={primary.subText}
-            text="Please wait"
-          />
+          <JarvisLoader color={primary.subText} text="Please wait" />
         )}
       </View>
       <View
@@ -183,7 +198,11 @@ function KYCRetireLondonScreen({ navigation }) {
             style={{ height: 7 }}
           />
           <Text
-            style={{ textAlign: "center", fontSize: 20, color: primary.subText }}
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              color: primary.subText,
+            }}
           >
             5/5
           </Text>
@@ -200,7 +219,7 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: "row",
     alignSelf: "center",
-    alignItems:"center"
+    alignItems: "center",
   },
   loginButton: {
     // alignItems: 'center',

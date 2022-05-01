@@ -14,6 +14,8 @@ const CustomeInput = (props) => {
         flex: 1,
         height: 40,
         paddingBottom: 6,
+        fontSize:18,
+        color:primary.inputText
       }}
     />
   );

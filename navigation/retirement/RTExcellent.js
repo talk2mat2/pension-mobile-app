@@ -6,8 +6,15 @@ import {
   View,
   Text,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import * as helpers from "../../Helpers";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
 import { List } from "react-native-paper";
@@ -15,7 +22,7 @@ import { List } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import OutcomeCard from "../../components/Outcome_Card";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import OutcomeDatatable from "../../components/outcomeDataTable";
 import RtOutcomeDatatable from "../../components/RtOutcomeDataTable";
 import api from "../../api";
@@ -94,30 +101,24 @@ function RTExcellent({ navigation, route }) {
         <MaterialCommunityIcons
           name="party-popper"
           size={60}
-          color={myColorsLight.black}
+          color={primary.subText}
         />
-        <Text
+        <HeaderTwo
           style={{
-            ...styles.subHeader,
-
             textAlign: "center",
-            fontWeight: "bold",
           }}
         >
           Excellent
-        </Text>
-        <Text
+        </HeaderTwo>
+        <ParaOne
           style={{
-            ...styles.subHeader,
-            color: myColorsLight.lightGreyDark,
             textAlign: "center",
-            fontSize: 17,
             marginTop: 5,
           }}
         >
           You have completed step 2. To achieve your{"\n"} desired retirement
           lifestyle in will need a {"\n"}monthly retirement income of
-        </Text>
+        </ParaOne>
       </Animated.View>
       <View
         style={{
@@ -128,17 +129,17 @@ function RTExcellent({ navigation, route }) {
         }}
       />
       <View style={{ marginTop: 30 }}>
-        <Text
+        <HeaderThree
           style={{
-            ...styles.subHeader,
-
             textAlign: "center",
             fontWeight: "bold",
           }}
         >
           £{grossTarget && grossTarget > 12 ? Math.ceil(grossTarget / 12) : 0}
-        </Text>
-        <Text style={{ textAlign: "center" }}>(£{grossTarget} Per Annum)</Text>
+        </HeaderThree>
+        <HeaderFour style={{ textAlign: "center" }}>
+          (£{grossTarget} Per Annum)
+        </HeaderFour>
       </View>
       <View
         style={{
@@ -149,18 +150,16 @@ function RTExcellent({ navigation, route }) {
         }}
       />
       <View style={{ marginTop: 20 }}>
-        <Text
+        <ParaOne
           style={{
-            ...styles.subHeader,
-            color: myColorsLight.lightGreyDim,
             textAlign: "center",
-            fontSize: 17,
+
             marginTop: 5,
           }}
         >
           You have also earned your second Javis Insights{"\n"}card on Saving &
           Investing
-        </Text>
+        </ParaOne>
       </View>
       <View style={styles.footerContainer}>
         {/* <View style={{ marginTop: 20 }}>
@@ -188,26 +187,44 @@ function RTExcellent({ navigation, route }) {
         </View>
       </View>
       <View style={styles.footerSection}>
-        <Text
+        <ImageBackground
+          source={require("../../assets/jr.png")}
           style={{
-            textAlign: "center",
-            fontSize: 14,
-            marginBottom: 8,
+            height: 130,
+            width: "100%",
+            flex: 1,
+            alignItems: "center",
+            paddingVertical: 15,
           }}
+          imageStyle={{ resizeMode: "repeat" }}
         >
-          You’re just one steps away from completion. Next step{" "}
-        </Text>
-        <JarvisButton
-          bgcolor={myColorsLight.black}
-          play={_next}
-          btn="Pensions & Savings"
-          w={200}
-        />
+          <ParaOne
+            style={{
+              textAlign: "center",
+              marginBottom: 8,
+            }}
+          >
+            You’re just one steps away from completion. Next step{" "}
+          </ParaOne>
+          <JarvisButton
+            bgcolor={primary.btn}
+            play={_next}
+            btn="Pensions & Savings"
+            w={200}
+          />
+        </ImageBackground>
       </View>
       {showCard && (
-        <OutcomeCard hideCards={hideCard}>
+        <OutcomeCard
+          styles={{ backgroundColor: primary.subBase }}
+          hideCards={hideCard}
+        >
           <>
-            <Text style={styles.textHead}>Yours Retirement Profile</Text>
+            <HeaderThree
+              style={{ ...styles.textHead, color: primary.inputText }}
+            >
+              Yours Retirement Profile
+            </HeaderThree>
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
@@ -233,8 +250,6 @@ const styles = StyleSheet.create({
   },
   textHead: {
     textAlign: "center",
-    fontSize: 16,
-    fontWeight: "800",
   },
   footerSection: {
     ...{ alignItems: "center", marginTop: "auto", height: 100 },
@@ -242,7 +257,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: myColorsLight.white,
+    backgroundColor: primary.base,
     position: "absolute",
     bottom: 2,
     left: 0,
@@ -260,7 +275,7 @@ const styles = StyleSheet.create({
   footerContainer: {
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    backgroundColor: myColorsLight.white,
+    backgroundColor: primary.base,
     height: 330,
     marginTop: "auto",
     borderTopColor: "#bbb",

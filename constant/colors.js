@@ -25,4 +25,5 @@ export const primary = {
   subText1: "#DADADA",
   inputText: "#182a69",
   subBase: "#F1FBFF",
+  disabledBtn: '#949494',
 };

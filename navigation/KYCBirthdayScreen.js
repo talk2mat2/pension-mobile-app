@@ -163,7 +163,7 @@ function KYCBirthdayScreen({ navigation }) {
       </View>
       <View
         style={{
-          marginTop: 100,
+          marginTop: 70,
           paddingHorizontal: 20,
           marginBottom: 90,
           paddingBottom: 80,
@@ -204,16 +204,16 @@ function KYCBirthdayScreen({ navigation }) {
             </View>
           </View> */}
           <WhyAsk reasons="" />
-          <View style={{ marginHorizontal: 10, marginBottom: 8 }}>
-            <Text style={{ fontSize: 15,color:primary.subText }}>Gender</Text>
+          <View style={{ marginHorizontal: 20, marginBottom: 4 }}>
+            <ParaOne style={{ fontWeight: "bold" }}>Gender</ParaOne>
           </View>
-          <View style={{ alignItems: "center" }}>
+          <View style={{ alignItems: "center", paddingBottom: 10 }}>
             <View style={[styles.formGroup]}>
               <View style={(styles.centerView, { paddingVertical: 5 })}>
                 {Platform.OS !== "web" && (
                   <ModalDropdown
                     defaultValue={gender || "select.."}
-                    textStyle={{ fontSize: 15,color:primary.inputText }}
+                    textStyle={{ fontSize: 15, color: primary.inputText }}
                     dropdownStyle={{ width: "70%" }}
                     dropdownTextStyle={{
                       fontSize: 16,
@@ -276,22 +276,23 @@ function KYCBirthdayScreen({ navigation }) {
             )}
 
             <View style={styles.formGroup}>
-              <View
-                style={[
-                  styles.centerView,
-                  { paddingVertical: 5, marginTop: 10 },
-                ]}
-              >
-                <View style={{ flexDirection: "row" }}>
-                  <ParaOne style={styles.bdayText}>{birthdayDisplay}</ParaOne>
+              <View style={{ marginHorizontal: 5, marginBottom: 4 }}>
+                <ParaOne style={{ fontWeight: "bold" }}>Date Of Birth</ParaOne>
+              </View>
+              <View style={{ paddingVertical: 2, marginTop: 2 }}>
+                <View style={{}}>
+                  <ParaOne style={{ ...styles.bdayText, textAlign: "left" }}>
+                    {birthdayDisplay}
+                  </ParaOne>
                   <JarvisButton
-                    style={{ ...styles.loginButton, marginVertical: 10 }}
+                    btnStyle={{ fontSize: 15, alignSelf: "center" }}
+                    style={{ ...styles.loginButton, marginVertical: 4 }}
                     bgcolor="#ff6c00"
                     play={() => {
                       setShowDatePicker(true);
                     }}
                     btn="Select date"
-                    w="50%"
+                    w={250}
                   />
                 </View>
               </View>
@@ -373,7 +374,7 @@ function KYCBirthdayScreen({ navigation }) {
       <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
         <View style={{ alignItems: "center", marginTop: 20 }}>
           <JarvisButton
-           bgcolor={primary.btn}
+            bgcolor={primary.btn}
             play={_next}
             btn="Continue"
             w={200}
@@ -420,7 +421,7 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     alignItems: "center",
-    marginTop: 50,
+    marginTop: 10,
     marginLeft: 20,
   },
   textWhite: {
@@ -440,13 +441,11 @@ const styles = StyleSheet.create({
   },
   bdayText: {
     padding: 10,
-    fontWeight: "bold",
-    fontSize: 16,
   },
   formGroup: {
     width: "90%",
     textAlign: "center",
-    marginTop: 5,
+    marginTop: 2,
     borderColor: "#bbb",
     borderRadius: 5,
     // borderWidth: 1,
@@ -455,7 +454,7 @@ const styles = StyleSheet.create({
   },
 
   formGroupError: {
-    marginTop: 5,
+    marginTop: 1,
   },
   formInput: {
     padding: 5,

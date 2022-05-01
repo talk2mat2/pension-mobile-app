@@ -282,32 +282,60 @@ function KYCRetireWithSpouseScreen({ navigation }) {
               {!showSpouseNameField && !showOtherSpouseFields && (
                 <View style={styles.borderBox}>
                   <View style={styles.centerView}>
-                    <ParaOne style={{...styles.radioText}}>Yes</ParaOne>
-                    <RadioButton
-                      value="yes"
-                      status={
-                        retireWithSpouse === "yes" ? "checked" : "unchecked"
-                      }
-                      onPress={() => setRetireWithSpouse("yes")}
-                    />
-                    <ParaOne style={{...styles.radioText,  marginLeft: 20 }}>
+                    <ParaOne style={{ ...styles.radioText }}>Yes</ParaOne>
+                    {Platform.OS === "ios" ? (
+                      <RadioButton.IOS
+                        value="yes"
+                        status={
+                          retireWithSpouse === "yes" ? "checked" : "unchecked"
+                        }
+                        onPress={() => setRetireWithSpouse("yes")}
+                      />
+                    ) : (
+                      <RadioButton
+                        value="yes"
+                        status={
+                          retireWithSpouse === "yes" ? "checked" : "unchecked"
+                        }
+                        onPress={() => setRetireWithSpouse("yes")}
+                      />
+                    )}
+                    <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
                       No
                     </ParaOne>
-                    <RadioButton
-                      value="no"
-                      status={
-                        retireWithSpouse === "no" ? "checked" : "unchecked"
-                      }
-                      onPress={() => {
-                        setRetireWithSpouse("no");
-                        setScreenTitle(
-                          "Do you plan retiring with your spouse?"
-                        );
-                        setShowSpouseNameField(false);
-                        setShowOtherSpouseFields(false);
-                        setSpouseNameValidation(false);
-                      }}
-                    />
+                    {Platform.OS === "ios" ? (
+                      <RadioButton.IOS
+                        value="no"
+                        status={
+                          retireWithSpouse === "no" ? "checked" : "unchecked"
+                        }
+                        onPress={() => {
+                          setRetireWithSpouse("no");
+                          setScreenTitle(
+                            "Do you plan retiring with your spouse?"
+                          );
+                          setShowSpouseNameField(false);
+                          setShowOtherSpouseFields(false);
+                          setSpouseNameValidation(false);
+                        }}
+                      />
+                    ) : (
+                      <RadioButton
+                        value="no"
+                        status={
+                          retireWithSpouse === "no" ? "checked" : "unchecked"
+                        }
+                        onPress={() => {
+                          setRetireWithSpouse("no");
+                          setScreenTitle(
+                            "Do you plan retiring with your spouse?"
+                          );
+                          setShowSpouseNameField(false);
+                          setShowOtherSpouseFields(false);
+                          setSpouseNameValidation(false);
+                        }}
+                      />
+                    )}
                   </View>
                 </View>
               )}
@@ -426,7 +454,13 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   </View>
                 )}
 
-                <ParaOne style={{ ...styles.formText, marginLeft: 5 ,color:primary.subText}}>
+                <ParaOne
+                  style={{
+                    ...styles.formText,
+                    marginLeft: 5,
+                    color: primary.subText,
+                  }}
+                >
                   Enter spouse's date of birth
                 </ParaOne>
                 <View style={{ ...styles.formGroup, marginLeft: 5 }}>
@@ -569,7 +603,7 @@ const styles = StyleSheet.create({
   centerView: {
     flexDirection: "row",
     alignSelf: "center",
-    alignItems:"center"
+    alignItems: "center",
   },
   loginButton: {
     // alignItems: 'center',
@@ -638,7 +672,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 15,
     width: "100%",
-    borderColor:primary.subText1
+    borderColor: primary.subText1,
   },
 });
 

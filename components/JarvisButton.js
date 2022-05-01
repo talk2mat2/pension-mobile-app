@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
 } from "react-native";
+import { primary } from "../constant/colors";
 import { HeaderFour } from "../constant/fonts";
 
 const JarvisButton = (props) => {
@@ -55,12 +56,20 @@ const JarvisButton = (props) => {
           style={[
             styles.button,
             {
-              backgroundColor: disabled ? "#f2f2f2" : props.bgcolor,
+              backgroundColor: disabled ? primary.disabledBtn : props.bgcolor,
+
               width: Platform.OS === "web" ? 200 : null,
+              ...props.buttonSyle,
             },
           ]}
         >
-          <HeaderFour style={{ ...styles.buttonText, ...props.btnStyle }}>
+          <HeaderFour
+            style={{
+              ...styles.buttonText,
+              ...props.btnStyle,
+              color: disabled ? '#bebebe' : props.btnStyle?.color || "#ffffff",
+            }}
+          >
             {props.btn}
           </HeaderFour>
         </View>

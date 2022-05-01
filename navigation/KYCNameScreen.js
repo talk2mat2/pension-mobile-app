@@ -255,8 +255,8 @@ function KYCNameScreen({ navigation }) {
                     setFname(text);
                     if (text.length > 1) setFnameValidation(false);
                   }}
-                  // placeholder="First name"
-                  label="First name"
+                  placeholder="First name"
+                  // label="First name"
                   value={fname}
                   returnKeyType="next"
                   onSubmitEditing={() => {
@@ -282,7 +282,8 @@ function KYCNameScreen({ navigation }) {
                     setLname(text);
                     if (text.length > 1) setLnameValidation(false);
                   }}
-                  label="Last name"
+                  // label="Last name"
+                  placeholder='Last name'
                   value={lname}
                   returnKeyType="next"
                   onSubmitEditing={() => {
@@ -377,6 +378,7 @@ const styles = StyleSheet.create({
   },
   formGroupError: {
     marginTop: 5,
+    paddingHorizontal:20
   },
   inputError: {
     color: "red",
