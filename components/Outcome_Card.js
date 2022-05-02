@@ -30,7 +30,7 @@ const OutcomeCard = ({ hideCards, children, styles: otherStyles }) => {
   React.useEffect(() => {
     setTimeout(() => {
       outcomeAnimated();
-    }, 2000);
+    }, 1000);
   }, []);
 
   const pan = PanResponder.create({

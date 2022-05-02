@@ -467,8 +467,9 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   <View style={{ flexDirection: "row", paddingVertical: 5 }}>
                     <ParaOne style={styles.formText}>{birthdayDisplay}</ParaOne>
                     <JarvisButton
+                      btnStyle={{ fontSize: 14 }}
                       style={styles.loginButton}
-                      bgcolor={myColorsLight.black}
+                      bgcolor={primary.btn}
                       play={() => {
                         setShowDatePicker(true);
                       }}

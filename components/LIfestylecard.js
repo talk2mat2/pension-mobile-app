@@ -6,14 +6,16 @@ import {
   TouchableOpacity,
   Text,
   Platform,
+  Image,
 } from "react-native";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { HeaderThree, ParaOne, HeaderTwo } from "../constant/fonts";
 import BudgetModal from "./BudgetModal";
 import { ScrollView } from "react-native-gesture-handler";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { myColorsLight ,primary} from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import UserContext from "../contexts/UserContext";
 import BudgetModalCustom from "./BudgetModalCustome.";
 
@@ -69,19 +71,21 @@ const LIfestylecard = ({
           >
             <View style={styles.close}>
               <TouchableOpacity onPress={hideModal}>
-                <MaterialIcons name="cancel" size={24} color="black" />
+                <MaterialIcons name="cancel" size={24} color={primary.subText} />
               </TouchableOpacity>
             </View>
             <AntDesign name={Icon} size={50} color="black" />
-            <Text style={{ fontSize: 20, marginLeft: 15, fontWeight: "bold" }}>
+            <HeaderTwo
+              style={{ fontSize: 20, marginLeft: 15, fontWeight: "bold" }}
+            >
               {title}
-            </Text>
+            </HeaderTwo>
           </View>
-          <Text style={styles.subText}>
+          <ParaOne style={{ textAlign: "center" }}>
             Select the budget level that{"\n"} matches the lifestyle you want{" "}
             {"\n"}
             live when you’re retired.
-          </Text>
+          </ParaOne>
           <ScrollView>
             <View style={{ marginTop: 50 }}>
               <BudgetModal
@@ -122,10 +126,14 @@ const LIfestylecard = ({
       <TouchableOpacity onPress={showModal}>
         <View style={styles.card1}>
           <View style={styles.edit}>
-            <MaterialCommunityIcons
+            {/* <MaterialCommunityIcons
               name="circle-edit-outline"
               size={24}
-              color={myColorsLight.lightGreyDim}
+              color={primary.base}
+            /> */}
+            <Image
+              style={{ height: 20, width: 20, resizeMode: "contain" }}
+              source={require("../assets/edit.png")}
             />
           </View>
           {children}
@@ -157,13 +165,13 @@ const styles = StyleSheet.create({
     padding: 10,
     paddingTop: "24%",
     position: "relative",
-    backgroundColor:primary.subBase
+    backgroundColor: primary.subBase,
   },
   containerStyle: {
-    height: "90%",
+    height: "75%",
     padding: 20,
     paddingTop: 20,
-    backgroundColor: primary.subBase,
+    backgroundColor: primary.base,
     marginHorizontal: 25,
     borderRadius: 10,
     justifyContent: "flex-start",
@@ -171,7 +179,7 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     textAlign: "center",
-    lineHeight:20
+    lineHeight: 20,
   },
   textWhite: {
     color: "#fff",

@@ -53,7 +53,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 export default function App() {
   const [isAppReady, setIsAppReady] = useState(false);
-  const [showApp, setShowApp] = useState(false);
+  const [showApp, setShowApp] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [u, setU] = useState(null);
   const [emailStart, setEmailStart] = useState();

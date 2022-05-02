@@ -7,10 +7,12 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { HeaderThree } from "../constant/fonts";
+
 import { DataTable, TextInput, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 const BudgetModalCustom = ({
   type,
@@ -25,6 +27,7 @@ const BudgetModalCustom = ({
   comfortable,
 }) => {
   const [itsOpen, setItsOpen] = React.useState(false);
+
   const [value, setValue] = React.useState("");
   const [buttonBackground, setButtonBackground] = React.useState("#77f");
   const toggle = () => {
@@ -66,12 +69,12 @@ const BudgetModalCustom = ({
       >
         <View style={styles.optionsItem}>
           <View>
-            <Text style={[styles.subHeader]}>Budget Level</Text>
-            <Text
-              style={[styles.subHeader, { fontWeight: "bold", fontSize: 19 }]}
-            >
+            <HeaderThree style={{ fontWeight: "200", color: primary.subBase }}>
+              Budget Level
+            </HeaderThree>
+            <HeaderThree style={{ fontWeight: "bold", fontSize: 19 }}>
               {type}
-            </Text>
+            </HeaderThree>
           </View>
 
           {itsOpen ? (
@@ -79,14 +82,14 @@ const BudgetModalCustom = ({
               onPress={toggle}
               name="ios-caret-up-circle"
               size={24}
-              color="#000"
+              color={primary.subText}
             />
           ) : (
             <Ionicons
               onPress={toggle}
               name="ios-caret-down-circle"
               size={24}
-              color="#000"
+              color={primary.subText}
             />
           )}
         </View>
@@ -126,7 +129,8 @@ const BudgetModalCustom = ({
                   </Text>
                 </View>
                 <JarvisButton
-                  bgcolor={myColorsLight.black}
+                  bgcolor={primary.btn}
+                  btnStyle={{ fontSize: 13 }}
                   //multipky by 12 to fix databse data which is divided by 12
                   play={() =>
                     value ? updateLifeStyleData(parseInt(value) * 12) : null

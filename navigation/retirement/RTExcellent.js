@@ -28,7 +28,7 @@ import RtOutcomeDatatable from "../../components/RtOutcomeDataTable";
 import api from "../../api";
 
 function RTExcellent({ navigation, route }) {
-  const [showCard, setShowCard] = React.useState(true);
+  const [showCard, setShowCard] = React.useState(false);
   const [scores, setScores] = React.useState(route.params?.result || 0);
   const [profile] = React.useState(route?.params?.profile || {});
   const [grossTarget, setGrossTarget] = React.useState(0);
@@ -38,6 +38,7 @@ function RTExcellent({ navigation, route }) {
     x: -Dimensions.get("window").width,
     y: 0,
   });
+  const showCards = () => setShowCard(true);
   const popperAnimated = React.useRef(() => {
     Animated.spring(IntroPopper, {
       toValue: 0,
@@ -45,9 +46,10 @@ function RTExcellent({ navigation, route }) {
       friction: 3,
       tension: 20,
       useNativeDriver: true,
-    }).start();
+    }).start(showCards);
   }).current;
   const hideCard = () => setShowCard(false);
+  
   const _next = () => {
     navigation.navigate("CPStack");
   };

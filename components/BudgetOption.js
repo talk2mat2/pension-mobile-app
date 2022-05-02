@@ -49,14 +49,14 @@ const BudgetOption = ({
               onPress={toggle}
               name="ios-caret-up-circle"
               size={24}
-              style={styles.textMid}
+              color={primary.subText}
             />
           ) : (
             <Ionicons
               onPress={toggle}
               name="ios-caret-down-circle"
               size={24}
-              style={styles.textMid}
+              color={primary.subText}
             />
           )}
         </View>

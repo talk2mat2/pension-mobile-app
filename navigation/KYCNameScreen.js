@@ -261,6 +261,7 @@ function KYCNameScreen({ navigation }) {
                   returnKeyType="next"
                   onSubmitEditing={() => {
                     lastNameRef.current.focus();
+                    //console.log(lastNameRef)
                   }}
                   blurOnSubmit={false}
                 />
@@ -277,13 +278,13 @@ function KYCNameScreen({ navigation }) {
               <View style={(styles.centerView, { paddingVertical: 5 })}>
                 <CustomeInput
                   style={[styles.formInput]}
-                  ref={lastNameRef}
+                  refs={lastNameRef}
                   onChangeText={(text) => {
                     setLname(text);
                     if (text.length > 1) setLnameValidation(false);
                   }}
                   // label="Last name"
-                  placeholder='Last name'
+                  placeholder="Last name"
                   value={lname}
                   returnKeyType="next"
                   onSubmitEditing={() => {
@@ -378,7 +379,7 @@ const styles = StyleSheet.create({
   },
   formGroupError: {
     marginTop: 5,
-    paddingHorizontal:20
+    paddingHorizontal: 20,
   },
   inputError: {
     color: "red",

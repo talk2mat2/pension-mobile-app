@@ -7,6 +7,7 @@ const CustomeInput = (props) => {
     <TextInput
       Type="flat"
       {...props}
+      ref={props.refs}
       style={{
         backgroundColor: primary.subBase,
         ...props.style,

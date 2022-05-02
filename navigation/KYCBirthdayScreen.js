@@ -344,7 +344,7 @@ function KYCBirthdayScreen({ navigation }) {
 
             {birthdayValidation && (
               <View style={styles.formGroupError}>
-                <Text style={styles.inputError}>This field is required</Text>
+                <Text style={styles.inputError}>Date field is required</Text>
               </View>
             )}
           </View>
