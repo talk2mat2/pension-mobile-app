@@ -21,10 +21,16 @@ import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import DefinedSwipper from "../../components/DefinedBenSwipper";
 import CPDatatable from "../../components/CPDatatable";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import MyGradientBackground from "../../components/grdientBackGround";
 import api from "../../api";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import {
   cleanBenefitJars,
   updateBenefitJars,
@@ -209,14 +215,14 @@ function DefinedStateBenefit({ navigation }) {
               <Pressable onPress={_goBack}>
                 <MaterialCommunityIcons
                   name="chevron-left-circle-outline"
-                  color={myColorsLight.lightGreyDark}
+                  color={primary.text}
                   size={40}
                 />
               </Pressable>
             </View>
 
             <View>
-              <View>
+              {/* <View>
                 <Text
                   style={[
                     styles.loginText,
@@ -226,17 +232,16 @@ function DefinedStateBenefit({ navigation }) {
                 >
                   Step 3 of 4
                 </Text>
-              </View>
+              </View> */}
               <View>
-                <Text
-                  style={[
-                    styles.loginText,
-                    ,
-                    { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                  ]}
+                <HeaderFour
+                  style={{
+                    textAlign: "center",
+                    fontSize: 18,
+                  }}
                 >
                   Current Pensions & Savings
-                </Text>
+                </HeaderFour>
               </View>
             </View>
           </View>
@@ -250,15 +255,13 @@ function DefinedStateBenefit({ navigation }) {
             }}
           />
           <View style={{ marginTop: 10 }}>
-            <Text
+            <HeaderThree
               style={{
-                ...styles.subHeader,
                 textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Defined Benefit Pensions
-            </Text>
+            </HeaderThree>
           </View>
           <View
             style={{
@@ -274,10 +277,10 @@ function DefinedStateBenefit({ navigation }) {
           <View style={{ marginTop: 7, alignItems: "center" }}>
             {iDontHhaveState === false || isValidJars() === true ? (
               <JarvisButton
-                bgcolor={myColorsLight.black}
+                bgcolor={primary.btn}
                 play={_next}
                 btn={checkBenefitPensions()}
-                w={200}
+                w={300}
               />
             ) : (
               <TouchableOpacity

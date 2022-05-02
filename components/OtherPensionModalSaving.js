@@ -82,102 +82,98 @@ const OtherensionModalSaving = ({
             Other Retirement {"\n"}Savings
           </Text>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 40 }} />
-        <View style={{ paddingVertical: 20 }}>
-          <Text style={{ textAlign: "center" }}>
-            Enter the total value of savings, investments {"\n"}or properties
-            you may have available to add{"\n"} to your pension when you retire
-          </Text>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 10 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>
-            Total Expected{"\n"}
-            value at retirement
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>£</Text>
-            <TextInput
-              keyboardType="numeric"
-              style={styles.input}
-              value={personData.expectedAnualIncome}
-              onChangeText={(text) => {
-                setPersonData({
-                  ...personData,
-                  expectedAnualIncome: text,
-                  currentValue: text,
-                });
-              }}
-            />
-          </View>
-        </View>
-        {/* {stateAmountValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
-              Please enter your state pension amount
+        <ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 40 }} />
+          <View style={{ paddingVertical: 20 }}>
+            <Text style={{ textAlign: "center" }}>
+              Enter the total value of savings, investments {"\n"}or properties
+              you may have available to add{"\n"} to your pension when you
+              retire
             </Text>
           </View>
-        )} */}
+          <View style={{ ...styles.hrView, marginTop: 10 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>
+              Total Expected{"\n"}
+              value at retirement
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text>£</Text>
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                value={personData.expectedAnualIncome}
+                onChangeText={(text) => {
+                  setPersonData({
+                    ...personData,
+                    expectedAnualIncome: text,
+                    currentValue: text,
+                  });
+                }}
+              />
+            </View>
+          </View>
 
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
-          <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
-            <RadioButton
-              value="Male"
-              status={
-                personData.spousePension === "yes" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "yes",
-                  isSpouse: true,
-                });
-              }}
-            />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
-            <RadioButton
-              value="no"
-              status={
-                personData.spousePension === "no" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "no",
-                  isSpouse: false,
-                });
-              }}
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={[styles.radioText]}>Yes</Text>
+              <RadioButton
+                value="Male"
+                status={
+                  personData.spousePension === "yes" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "yes",
+                    isSpouse: true,
+                  });
+                }}
+              />
+              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <RadioButton
+                value="no"
+                status={
+                  personData.spousePension === "no" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "no",
+                    isSpouse: false,
+                  });
+                }}
+              />
+            </View>
+          </View>
+
+          <View style={{ ...styles.hrView, marginTop: "30%" }} />
+          <View style={{ alignItems: "center", marginTop: 80 }}>
+            <JarvisButton
+              bgcolor={myColorsLight.black}
+              play={_next}
+              btn="Continue"
+              w={200}
             />
           </View>
-        </View>
-
-        <View style={{ ...styles.hrView, marginTop: "30%" }} />
-        <View style={{ alignItems: "center", marginTop: 80 }}>
-          <JarvisButton
-            bgcolor={myColorsLight.black}
-            play={_next}
-            btn="Continue"
-            w={200}
-          />
-        </View>
+        </ScrollView>
       </Modal>
     </Portal>
   );

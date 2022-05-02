@@ -15,7 +15,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import OtherensionModalSaving from "./OtherPensionModalSaving";
 import OtherensionModal from "./OthehrPensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import OtherPenContext from "../contexts/otherPenContext";
 
@@ -182,10 +182,10 @@ const OtherSwipper = () => {
                 </View>
               </ImageBackground>
               {person1?.expectedAnualIncome?.length > 0 && (
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row", marginTop: 20 }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
-                      <AntDesign name="edit" size={20} color="black" />
+                      <AntDesign name="edit" size={20} color={primary.text} />
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
@@ -198,7 +198,11 @@ const OtherSwipper = () => {
                     }
                   >
                     <View style={styles.edit}>
-                      <MaterialIcons name="cancel" size={20} color="black" />
+                      <MaterialIcons
+                        name="cancel"
+                        size={20}
+                        color={primary.text}
+                      />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -273,12 +277,13 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     backgroundColor: "#fff",
+    borderRadius: 15,
   },
   jarContainer: {
     padding: 10,
     margin: 4,
-    borderColor: "#a9a9a9",
-    borderWidth: 3,
+    borderColor: primary.subText1,
+    borderWidth: 1,
     borderRadius: 20,
   },
   edit: {

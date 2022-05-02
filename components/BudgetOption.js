@@ -36,7 +36,7 @@ const BudgetOption = ({
       <Pressable onPress={toggle}>
         <View style={styles.optionsItem}>
           <View>
-            <HeaderThree style={{ fontWeight: "200" ,color:primary.subBase}}>
+            <HeaderThree style={{ fontWeight: "200" ,color:primary.subText1}}>
               Budget Level
             </HeaderThree>
             <HeaderThree style={{ fontWeight: "bold", fontSize: 19 }}>
@@ -49,14 +49,14 @@ const BudgetOption = ({
               onPress={toggle}
               name="ios-caret-up-circle"
               size={24}
-              color={primary.subText}
+              color={primary.btn}
             />
           ) : (
             <Ionicons
               onPress={toggle}
               name="ios-caret-down-circle"
               size={24}
-              color={primary.subText}
+              color={primary.btn}
             />
           )}
         </View>
@@ -276,8 +276,8 @@ const BudgetOption = ({
                     }}
                   >
                     <View>
-                      <Text style={{ fontWeight: "bold" }}>Monthly Budget</Text>
-                      <Text style={{ fontWeight: "bold" }}>
+                      <Text style={{ fontWeight: "bold",color:primary.inputText }}>Monthly Budget</Text>
+                      <Text style={{ fontWeight: "bold",color:primary.inputText }}>
                         £
                         {budetData["Total"]
                           ? Math.ceil(budetData["Total"] / 12)
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   textMid: {
-    color: myColorsLight.black,
+    color: primary.inputText,
   },
   textWriteUp: {
     color: myColorsLight.lightGreyDark,

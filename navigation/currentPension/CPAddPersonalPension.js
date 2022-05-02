@@ -20,7 +20,7 @@ import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CPPersonSwipper from "../../components/CPPersonSwipper";
 import CPDatatable from "../../components/CPDatatable";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import {
   cleanProviderJars,
@@ -30,6 +30,7 @@ import PersonalPenContext from "../../contexts/personalContext";
 import MyGradientBackground from "../../components/grdientBackGround";
 import PanableCard from "../../components/pannableCard";
 import api from "../../api";
+import { HeaderFour, HeaderThree, ParaOne } from "../../constant/fonts";
 
 function CPAddPersonalPension({ navigation }) {
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
@@ -232,7 +233,7 @@ function CPAddPersonalPension({ navigation }) {
               <Pressable onPress={_goBack}>
                 <MaterialCommunityIcons
                   name="chevron-left-circle-outline"
-                  color={myColorsLight.lightGreyDark}
+                  color={primary.text}
                   size={40}
                 />
               </Pressable>
@@ -251,15 +252,14 @@ function CPAddPersonalPension({ navigation }) {
                 </Text> */}
               </View>
               <View>
-                <Text
-                  style={[
-                    styles.loginText,
-                    ,
-                    { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                  ]}
+                <HeaderFour
+                  style={{
+                    textAlign: "center",
+                    fontSize: 18,
+                  }}
                 >
                   Current Pensions & Savings
-                </Text>
+                </HeaderFour>
               </View>
             </View>
           </View>
@@ -273,15 +273,13 @@ function CPAddPersonalPension({ navigation }) {
             }}
           />
           <View style={{ marginTop: 10 }}>
-            <Text
+            <HeaderThree
               style={{
-                ...styles.subHeader,
                 textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Personal Pensions
-            </Text>
+            </HeaderThree>
           </View>
           <View
             style={{
@@ -294,16 +292,17 @@ function CPAddPersonalPension({ navigation }) {
           <View style={{ marginTop: 30 }}>
             <CPPersonSwipper />
           </View>
-          <Text style={{ textAlign: "center", marginVertical: 7 }}>
+          <ParaOne style={{ textAlign: "center", marginVertical: 7 }}>
             Swipe to add more pensions
-          </Text>
+          </ParaOne>
           <View style={{ marginTop: 7, alignItems: "center" }}>
             {iDontHhaveState === true || isValidJars() === true ? (
               <JarvisButton
-                bgcolor={myColorsLight.black}
+                bgcolor={primary.btn}
                 play={_next}
+                btnStyle={{ fontSize: 17 }}
                 btn={checkPersonPensions()}
-                w={210}
+                w={300}
               />
             ) : (
               <TouchableOpacity
@@ -346,10 +345,18 @@ function CPAddPersonalPension({ navigation }) {
             >
               <ProgressBar
                 progress={0.5}
-                color={myColorsLight.lightGreyDark}
+                color={primary.subText}
                 style={{ height: 7 }}
               />
-              <Text style={{ textAlign: "center", fontSize: 20 }}>2/4</Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: primary.text,
+                }}
+              >
+                2/4
+              </Text>
             </View>
           </View>
         </>

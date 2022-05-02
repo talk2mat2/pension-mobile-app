@@ -71,7 +71,11 @@ const LIfestylecard = ({
           >
             <View style={styles.close}>
               <TouchableOpacity onPress={hideModal}>
-                <MaterialIcons name="cancel" size={24} color={primary.subText} />
+                <MaterialIcons
+                  name="cancel"
+                  size={24}
+                  color={primary.subText}
+                />
               </TouchableOpacity>
             </View>
             <AntDesign name={Icon} size={50} color="black" />
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
   },
   containerStyle: {
     height: "75%",
-    padding: 20,
+    padding: 2,
     paddingTop: 20,
     backgroundColor: primary.base,
     marginHorizontal: 25,
@@ -195,7 +199,7 @@ const styles = StyleSheet.create({
   },
   close: {
     position: "absolute",
-    right: 5,
+    right: 15,
     top: 5,
   },
 });

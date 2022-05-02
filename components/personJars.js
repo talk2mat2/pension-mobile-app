@@ -14,9 +14,10 @@ import StatePensionModal from "./statePensionModal";
 
 import SpouseStatePensionModal from "./spouseStatePensionModal";
 import PersoanalStatePensionModal from "./PersonalPensionModal";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import PersonalPenContext from "../contexts/personalContext";
+import { ParaOne } from "../constant/fonts";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 
 const PersonJars = ({ item, index, AddJar }) => {
@@ -70,16 +71,17 @@ const PersonJars = ({ item, index, AddJar }) => {
             style={styles.Jaricon}
           >
             <View style={{ marginTop: "auto", marginBottom: 20 }}>
-              <Text
+              <ParaOne
                 style={{
                   textAlign: "center",
                   fontWeight: "600",
                   paddingBottom: 10,
+                  color: primary.inputText,
                 }}
               >
                 Provider{"\n"}
                 {item?.provider && item?.provider?.substring(0, 10) + ".."}
-              </Text>
+              </ParaOne>
 
               {!item?.currentValue ? (
                 <TouchableOpacity onPress={showModal}>
@@ -87,26 +89,32 @@ const PersonJars = ({ item, index, AddJar }) => {
                     style={{ textAlign: "center", fontWeight: "600" }}
                     name="pluscircle"
                     size={37}
-                    color={myColorsLight.lightGreyDim}
+                    color={primary.btn}
                   />
                 </TouchableOpacity>
               ) : (
-                <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                <ParaOne
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: primary.inputText,
+                  }}
+                >
                   £{item?.currentValue}
-                </Text>
+                </ParaOne>
               )}
             </View>
           </ImageBackground>
           {item?.currentValue?.length > 0 && (
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: "row", marginTop: 10 }}>
               <TouchableOpacity onPress={showModal}>
                 <View style={styles.edit}>
-                  <AntDesign name="edit" size={20} color="black" />
+                  <AntDesign name="edit" size={20} color={primary.text} />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => cleanJars(index)}>
                 <View style={styles.edit}>
-                  <MaterialIcons name="cancel" size={20} color="black" />
+                  <MaterialIcons name="cancel" size={20} color={primary.text} />
                 </View>
               </TouchableOpacity>
             </View>
@@ -127,12 +135,13 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     backgroundColor: "#fff",
+    borderRadius: 15,
   },
   jarContainer: {
     padding: 10,
     margin: 4,
-    borderColor: "#a9a9a9",
-    borderWidth: 3,
+    borderColor: primary.text,
+    borderWidth: 2,
     borderRadius: 20,
   },
   edit: {

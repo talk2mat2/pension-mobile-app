@@ -13,9 +13,10 @@ import { AntDesign } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import StatePensionModal from "./statePensionModal";
 import SpouseStatePensionModal from "./spouseStatePensionModal";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import StatePenContext from "../contexts/satePenContext";
+import { ParaOne } from "../constant/fonts";
 const { width: deviceWidth, height: deviceHeight } = Dimensions.get("screen");
 const CPSwipper = () => {
   const [visible, setVisible] = React.useState(false);
@@ -126,9 +127,9 @@ const CPSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text style={{ textAlign: "center", fontWeight: "600" }}>
+                  <ParaOne style={{ textAlign: "center",color:primary.inputText }}>
                     My{"\n"} State{"\n"} Pension
-                  </Text>
+                  </ParaOne>
 
                   {!statePension ? (
                     <TouchableOpacity onPress={showModal}>
@@ -140,22 +141,22 @@ const CPSwipper = () => {
                       />
                     </TouchableOpacity>
                   ) : (
-                    <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                    <ParaOne style={{ textAlign: "center", fontWeight: "bold",color:primary.inputText }}>
                       £{statePension}
-                    </Text>
+                    </ParaOne>
                   )}
                 </View>
               </ImageBackground>
               {statePension.length > 0 && (
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: "row",marginTop:10 }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
-                      <AntDesign name="edit" size={20} color="black" />
+                      <AntDesign name="edit" size={20} color={primary.text} />
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => setStatePension("")}>
                     <View style={styles.edit}>
-                      <MaterialIcons name="cancel" size={20} color="black" />
+                      <MaterialIcons name="cancel" size={20} color={primary.text} />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -272,11 +273,12 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     backgroundColor: "#fff",
+    borderRadius:15
   },
   jarContainer: {
     padding: 10,
     margin: 4,
-    borderColor: "#a9a9a9",
+    borderColor: primary.subText1,
     borderWidth: 3,
     borderRadius: 20,
   },

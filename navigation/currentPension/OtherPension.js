@@ -21,7 +21,7 @@ import { List, ProgressBar } from "react-native-paper";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import OtherSwipper from "../../components/OthehrSwipper";
 import CPDatatable from "../../components/CPDatatable";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import jarslice, {
   cleanBenefitJars,
@@ -33,6 +33,12 @@ import jarslice, {
   updateIncomePension,
   updateSavingPension,
 } from "../../redux/slices/jarslice";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import MyGradientBackground from "../../components/grdientBackGround";
 import OtherpenContext from "../../contexts/otherPenContext";
 import PanableCard from "../../components/pannableCard";
@@ -331,7 +337,7 @@ function OtherPension({ navigation }) {
               <Pressable onPress={_goBack}>
                 <MaterialCommunityIcons
                   name="chevron-left-circle-outline"
-                  color={myColorsLight.lightGreyDark}
+                  color={primary.text}
                   size={40}
                 />
               </Pressable>
@@ -339,7 +345,7 @@ function OtherPension({ navigation }) {
 
             <View>
               <View>
-                <Text
+                {/* <Text
                   style={[
                     styles.loginText,
                     ,
@@ -347,18 +353,17 @@ function OtherPension({ navigation }) {
                   ]}
                 >
                   Step 4 of 4
-                </Text>
+                </Text> */}
               </View>
               <View>
-                <Text
-                  style={[
-                    styles.loginText,
-                    ,
-                    { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                  ]}
+                <HeaderFour
+                  style={{
+                    textAlign: "center",
+                    fontSize: 18,
+                  }}
                 >
                   Current Pensions & Savings
-                </Text>
+                </HeaderFour>
               </View>
             </View>
           </View>
@@ -372,15 +377,13 @@ function OtherPension({ navigation }) {
             }}
           />
           <View style={{ marginTop: 10 }}>
-            <Text
+            <HeaderThree
               style={{
-                ...styles.subHeader,
                 textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Other Retirement {"\n"}Savings / Income
-            </Text>
+            </HeaderThree>
           </View>
           <View
             style={{
@@ -398,10 +401,10 @@ function OtherPension({ navigation }) {
             person1.currentValue ||
             person2.currentValue ? (
               <JarvisButton
-                bgcolor={myColorsLight.black}
+                bgcolor={primary.btn}
                 play={_next}
                 btn={handleTextbtn()}
-                w={200}
+                w={300}
               />
             ) : (
               <TouchableOpacity
@@ -441,10 +444,18 @@ function OtherPension({ navigation }) {
             >
               <ProgressBar
                 progress={1}
-                color={myColorsLight.lightGreyDark}
+                color={primary.subText}
                 style={{ height: 7 }}
               />
-              <Text style={{ textAlign: "center", fontSize: 20 }}>4/4</Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: primary.text,
+                }}
+              >
+                4/4
+              </Text>
             </View>
           </View>
         </>

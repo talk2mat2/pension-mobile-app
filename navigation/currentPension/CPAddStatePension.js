@@ -13,6 +13,12 @@ import {
   Pressable,
   Alert,
 } from "react-native";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import * as helpers from "../../Helpers";
 import { useDispatch } from "react-redux";
 import UserContext from "../../contexts/UserContext";
@@ -24,7 +30,7 @@ import PanableCard from "../../components/pannableCard";
 
 import CPSwipper from "../../components/CPSwipper";
 import CPDatatable from "../../components/CPDatatable";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 import MyGradientBackground from "../../components/grdientBackGround";
@@ -201,7 +207,7 @@ function CPAddStatePension({ navigation }) {
               <Pressable onPress={_goBack}>
                 <MaterialCommunityIcons
                   name="chevron-left-circle-outline"
-                  color={myColorsLight.lightGreyDark}
+                  color={primary.text}
                   size={40}
                 />
               </Pressable>
@@ -220,15 +226,14 @@ function CPAddStatePension({ navigation }) {
                 </Text> */}
               </View>
               <View>
-                <Text
-                  style={[
-                    styles.loginText,
-                    ,
-                    { fontSize: 15, textAlign: "center", fontWeight: "bold" },
-                  ]}
+                <HeaderFour
+                  style={{
+                    textAlign: "center",
+                    fontSize: 18,
+                  }}
                 >
                   Current Pensions & Savings
-                </Text>
+                </HeaderFour>
               </View>
             </View>
           </View>
@@ -242,15 +247,13 @@ function CPAddStatePension({ navigation }) {
             }}
           />
           <View style={{ marginTop: 10 }}>
-            <Text
+            <HeaderThree
               style={{
-                ...styles.subHeader,
                 textAlign: "center",
-                fontWeight: "bold",
               }}
             >
               Add State Pensions
-            </Text>
+            </HeaderThree>
           </View>
           <View
             style={{
@@ -268,10 +271,11 @@ function CPAddStatePension({ navigation }) {
             statePension.length > 0 ||
             spouseStatePension.length > 0 ? (
               <JarvisButton
-                bgcolor={myColorsLight.black}
+                bgcolor={primary.btn}
                 play={_next}
                 btn={handleTextbtn()}
-                w={200}
+                w={300}
+                btnStyle={{ fontSize: 17 }}
               />
             ) : (
               <TouchableOpacity
@@ -296,7 +300,7 @@ function CPAddStatePension({ navigation }) {
             <CPDatatable />
           </View> */}
           <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
-            <CPDatatable profile={ctx?.u} />
+            <CPDatatable style={{backgroundColor:primary.subBase}} profile={ctx?.u} />
           </PanableCard>
           <View
             style={{
@@ -318,10 +322,18 @@ function CPAddStatePension({ navigation }) {
             >
               <ProgressBar
                 progress={0.3}
-                color={myColorsLight.lightGreyDark}
+                color={primary.text}
                 style={{ height: 7 }}
               />
-              <Text style={{ textAlign: "center", fontSize: 20 }}>1/4</Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: primary.text,
+                }}
+              >
+                1/4
+              </Text>
             </View>
           </View>
         </>

@@ -306,6 +306,7 @@ const styles = StyleSheet.create({
     width: 140,
     height: 140,
     backgroundColor: "#fff",
+    borderRadius:15
   },
   jarContainer: {
     padding: 10,

@@ -1,12 +1,13 @@
 import React from "react";
 import Swiper from "react-native-swiper/src";
-import { View, Text, StyleSheet } from "react-native";
-import { myColorsLight } from "../constant/colors";
-const CPDatatable = ({ profile }) => {
+import { View, StyleSheet } from "react-native";
+import { myColorsLight, primary } from "../constant/colors";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
+const CPDatatable = ({ profile, style }) => {
   // console.log(profile)
   const tableData = [1];
   return (
-    <View style={{ height: "100%" }}>
+    <View style={{ height: "100%", ...style }}>
       <Swiper
         paginationStyle={{
           bottom: 0,
@@ -29,30 +30,30 @@ const CPDatatable = ({ profile }) => {
         {tableData.map((data, index) => (
           <View key={index} style={styles.slide1}>
             <View style={styles.tableRow}>
-              <Text style={styles.rowData}>Your Retirement Age</Text>
-              <Text style={styles.PriceDetail}>
+              <ParaOne style={styles.rowData}>Your Retirement Age</ParaOne>
+              <ParaOne style={styles.PriceDetail}>
                 {profile?.included[0]?.retirementAge || 0}
-              </Text>
+              </ParaOne>
             </View>
             <View style={styles.tableRow}>
-              <Text style={styles.rowData}>Spouses Retirement Age</Text>
-              <Text style={styles.PriceDetail}>
+              <ParaOne style={styles.rowData}>Spouses Retirement Age</ParaOne>
+              <ParaOne style={styles.PriceDetail}>
                 {profile?.included[0]?.spouseRetirementAge || 0}
-              </Text>
+              </ParaOne>
             </View>
             <View style={styles.tableRow}>
-              <Text style={styles.rowData}>
+              <ParaOne style={styles.rowData}>
                 Desired Monthly Retirement Income{" "}
-              </Text>
-              <Text style={styles.PriceDetail}>£833,700</Text>
+              </ParaOne>
+              <ParaOne style={styles.PriceDetail}>£833,700</ParaOne>
             </View>
             <View style={styles.tableRow}>
-              <Text style={styles.rowData}>Required Pension Fund </Text>
-              <Text style={styles.PriceDetail}>£833,700</Text>
+              <ParaOne style={styles.rowData}>Required Pension Fund </ParaOne>
+              <ParaOne style={styles.PriceDetail}>£833,700</ParaOne>
             </View>
             <View style={styles.tableRow}>
-              <Text style={styles.rowData}>Current Balance </Text>
-              <Text style={styles.PriceDetail}>£000,000</Text>
+              <ParaOne style={styles.rowData}>Current Balance </ParaOne>
+              <ParaOne style={styles.PriceDetail}>£000,000</ParaOne>
             </View>
           </View>
         ))}
@@ -69,9 +70,10 @@ const styles = StyleSheet.create({
   },
   PriceDetail: {
     fontWeight: "bold",
+    color:primary.inputText
   },
   rowData: {
-    color: myColorsLight.lightGreyDark,
+    color:primary.inputText,
     fontWeight: "900",
   },
   tableRow: {
@@ -83,7 +85,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingVertical: 4,
   },
-  textWhite: {
+  ParaOneWhite: {
     color: "#fff",
   },
 });
