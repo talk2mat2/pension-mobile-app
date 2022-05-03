@@ -6,7 +6,14 @@ import {
   View,
   Text,
   Dimensions,
+  ImageBackground,
 } from "react-native";
+import {
+  HeaderFour,
+  HeaderTwo,
+  ParaOne,
+  HeaderThree,
+} from "../../constant/fonts";
 import * as helpers from "../../Helpers";
 import UserContext from "../../contexts/UserContext";
 import JarvisButton from "../../components/JarvisButton";
@@ -15,7 +22,7 @@ import Api from "../../api";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import OutcomeCard from "../../components/Outcome_Card";
 import MyGradientBackground from "../../components/grdientBackGround";
-import { myColorsLight } from "../../constant/colors";
+import { myColorsLight, primary } from "../../constant/colors";
 import OutcomeDatatable from "../../components/outcomeDataTable";
 
 function CPCongrat({ navigation, route }) {
@@ -103,7 +110,7 @@ function CPCongrat({ navigation, route }) {
       popperAnimated();
     }, 1000);
   }, []);
- 
+
   // React.useEffect(() => {
   //   // sync usersprofile with backend
   //   // updateUsersMe();
@@ -134,30 +141,28 @@ function CPCongrat({ navigation, route }) {
       >
         <MaterialCommunityIcons
           name="party-popper"
-          size={60}
-          color={myColorsLight.black}
+          size={80}
+          color={primary.text}
         />
-        <Text
+        <HeaderTwo
           style={{
             ...styles.subHeader,
-            marginTop: 20,
+            marginTop: 16,
             textAlign: "center",
             fontWeight: "bold",
           }}
         >
           Congratulations
-        </Text>
-        <Text
+        </HeaderTwo>
+        <ParaOne
           style={{
-            ...styles.subHeader,
-            color: myColorsLight.lightGreyDark,
             textAlign: "center",
             fontSize: 17,
             marginTop: 20,
           }}
         >
           our retirement profile is now compete
-        </Text>
+        </ParaOne>
       </Animated.View>
 
       <View style={{ marginTop: 30 }}></View>
@@ -199,30 +204,42 @@ function CPCongrat({ navigation, route }) {
       {/* </View> */}
 
       {showCard && (
-        <OutcomeCard hideCards={hideCard}>
+        <OutcomeCard
+          styles={{ backgroundColor: primary.subBase }}
+          hideCards={hideCard}
+        >
           <>
-            <Text style={styles.textHead}>
+            <HeaderThree style={styles.textHead}>
               Your Current Pensions & Savings Data
-            </Text>
+            </HeaderThree>
             <View style={{ ...styles.hrView, marginVertical: 10 }} />
 
             <View>
               <OutcomeDatatable />
-              <Text style={{ ...styles.textHead, textAlign: "left" }}>
-                Current Retirement Fund
-              </Text>
             </View>
-            <View style={{ ...styles.hrView, marginVertical: 9 }} />
+            {/* <View style={{ ...styles.hrView, marginVertical: 9 }} /> */}
           </>
         </OutcomeCard>
       )}
       <View style={styles.footerSection}>
-        <JarvisButton
-          bgcolor={myColorsLight.black}
-          play={_next}
-          btn="Go to My Dasboard"
-          w={200}
-        />
+        <ImageBackground
+          source={require("../../assets/jr.png")}
+          style={{
+            height: 200,
+            width: "100%",
+            flex: 1,
+            alignItems: "center",
+            paddingVertical: 30,
+          }}
+          imageStyle={{ resizeMode: "repeat" }}
+        >
+          <JarvisButton
+            bgcolor={primary.btn}
+            play={_next}
+            btn="Go to My Dasboard"
+            w={200}
+          />
+        </ImageBackground>
       </View>
     </MyGradientBackground>
   );
@@ -233,6 +250,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "800",
+    color: primary.baseText,
   },
   sum: {
     flexDirection: "row",
@@ -241,18 +259,31 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   footerSection: {
-    ...{ alignItems: "center", marginTop: "auto", height: 100 },
+    //  alignItems: "center", marginTop: "auto", height: 100 },
+    // borderTopColor: "#bbb",
+    // borderTopWidth: 2,
+    // paddingTop: 30,
+    // paddingBottom: 10,
+    // backgroundColor: primary.base,
+    // position: "absolute",
+    // bottom: 10,
+    // left: 0,
+    // right: 0,
+    // zIndex: 8,
+    // elevation: 8,
+    marginTop: "auto",
+    height: 130,
     borderTopColor: "#bbb",
     borderTopWidth: 2,
-    paddingTop: 30,
-    paddingBottom: 10,
-    backgroundColor: myColorsLight.white,
+    // paddingTop: 15,
+    // paddingBottom: 15,
+    backgroundColor: primary.base,
     position: "absolute",
-    bottom: 10,
+    bottom: 2,
     left: 0,
     right: 0,
-    zIndex: 8,
-    elevation: 8,
+    zIndex: 10,
+    elevation: 10,
   },
   container: {
     flex: 1,

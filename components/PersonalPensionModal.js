@@ -16,6 +16,7 @@ import {
   Title,
   overlay,
 } from "react-native-paper";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 import lodash from "lodash";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -24,7 +25,7 @@ import UserContext from "../contexts/UserContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import JarvisLoader from "./JarvisLoader";
 const PersoanalStatePensionModal = ({
   visible,
@@ -219,20 +220,21 @@ const PersoanalStatePensionModal = ({
         >
           <View style={styles.close}>
             <TouchableOpacity onPress={hideModal}>
-              <MaterialIcons name="cancel" size={24} color="black" />
+              <MaterialIcons name="cancel" size={24} color={primary.baseText}/>
             </TouchableOpacity>
           </View>
 
-          <Text
+          <HeaderTwo
             style={{
               fontSize: 20,
               marginLeft: 15,
               fontWeight: "bold",
               textAlign: "center",
+              color: primary.baseText,
             }}
           >
             Personal Pensions
-          </Text>
+          </HeaderTwo>
         </View>
         <ScrollView>
           <View style={{ ...styles.hrView, marginTop: 35 }} />
@@ -245,9 +247,9 @@ const PersoanalStatePensionModal = ({
               position: "relative",
             }}
           >
-            <Text style={{ fontSize: 16 }}>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
               Search for employers {"\n"}or pension providers…
-            </Text>
+            </ParaOne>
 
             {personData?.provider ? (
               <TouchableOpacity
@@ -337,7 +339,9 @@ const PersoanalStatePensionModal = ({
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 16 }}>Current Value</Text>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Current Value
+            </ParaOne>
 
             <TextInput
               keyboardType="numeric"
@@ -365,9 +369,11 @@ const PersoanalStatePensionModal = ({
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 16 }}>Regular{"\n"}Contributions</Text>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Regular{"\n"}Contributions
+            </ParaOne>
             <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.radioText]}>Yes</Text>
+              <ParaOne style={{ ...styles.radioText }}>Yes</ParaOne>
               <RadioButton
                 value="Male"
                 status={
@@ -405,11 +411,11 @@ const PersoanalStatePensionModal = ({
                   alignItems: "center",
                 }}
               >
-                <Text style={{ fontSize: 16 }}>
+                <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
                   Contribution Tax{"\n"} Basis
-                </Text>
+                </ParaOne>
                 <View style={{ flexDirection: "row" }}>
-                  <Text style={[styles.radioText]}>Net</Text>
+                  <ParaOne style={styles.radioText}>Net</ParaOne>
                   <RadioButton
                     value="net"
                     status={
@@ -425,9 +431,9 @@ const PersoanalStatePensionModal = ({
                       });
                     }}
                   />
-                  <Text style={[styles.radioText, { marginLeft: 20 }]}>
+                  <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
                     Gross
-                  </Text>
+                  </ParaOne>
                   <RadioButton
                     value="Female"
                     status={
@@ -456,7 +462,9 @@ const PersoanalStatePensionModal = ({
                   alignItems: "center",
                 }}
               >
-                <Text style={{ fontSize: 16 }}>Monthly Contribution</Text>
+                <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+                  Monthly Contribution
+                </ParaOne>
 
                 <TextInput
                   keyboardType="numeric"
@@ -483,7 +491,9 @@ const PersoanalStatePensionModal = ({
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 16 }}>Spouse Pensio ?</Text>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Spouse Pensio ?
+            </ParaOne>
             <View style={{ flexDirection: "row" }}>
               <Text style={[styles.radioText]}>Yes</Text>
               <RadioButton
@@ -499,7 +509,15 @@ const PersoanalStatePensionModal = ({
                   });
                 }}
               />
-              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <ParaOne
+                style={{
+                  ...styles.radioText,
+                  marginLeft: 20,
+                  color: primary.baseText,
+                }}
+              >
+                No
+              </ParaOne>
               <RadioButton
                 value="no"
                 status={
@@ -516,9 +534,11 @@ const PersoanalStatePensionModal = ({
             </View>
           </View>
           <View style={{ ...styles.hrView, marginTop: 25 }} />
-          <View style={{ alignItems: "center", marginTop: 40,marginBottom:20 }}>
+          <View
+            style={{ alignItems: "center", marginTop: 40, marginBottom: 20 }}
+          >
             <JarvisButton
-              bgcolor={myColorsLight.black}
+              bgcolor={primary.btn}
               play={_next}
               btn="Continue"
               w={200}
@@ -535,7 +555,7 @@ const styles = StyleSheet.create({
     height: "90%",
     padding: 20,
     paddingTop: 20,
-    backgroundColor: "white",
+    backgroundColor: primary.subBase,
     marginHorizontal: 25,
     borderRadius: 10,
     justifyContent: "flex-start",
@@ -553,6 +573,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontWeight: "bold",
     fontSize: 16,
+    color: primary.baseText,
   },
   inputError: {
     color: "red",
@@ -562,6 +583,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
     padding: 8,
     width: 140,
+    borderRadius: 6,
+    color: primary.inputText,
   },
   hrView: {
     width: "100%",

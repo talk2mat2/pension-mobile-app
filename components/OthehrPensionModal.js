@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import UserContext from "../contexts/UserContext";
@@ -14,7 +15,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 
 const OtherensionModal = ({
   visible,
@@ -77,24 +78,25 @@ const OtherensionModal = ({
             </TouchableOpacity>
           </View>
 
-          <Text
+          <HeaderTwo
             style={{
               fontSize: 20,
               marginLeft: 15,
               fontWeight: "bold",
               textAlign: "center",
               marginTop: 16,
+              color: primary.baseText,
             }}
           >
             Other Retirement {"\n"}Income
-          </Text>
+          </HeaderTwo>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View style={{ paddingVertical: 20 }}>
-          <Text style={{ textAlign: "center" }}>
+          <ParaOne style={{ textAlign: "center", color: primary.baseText }}>
             Enter the total value of any other income you {"\n"} may have
             available to add to your pension {"\n"} when you retire
-          </Text>
+          </ParaOne>
         </View>
         <View style={{ ...styles.hrView, marginTop: 10 }} />
         <View
@@ -106,7 +108,9 @@ const OtherensionModal = ({
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Expected Annual Income</Text>
+          <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+            Expected Annual Income
+          </ParaOne>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text>£</Text>
             <TextInput
@@ -166,9 +170,11 @@ const OtherensionModal = ({
             alignItems: "center",
           }}
         >
-          <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
+          <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+            Spouses {"\n"}Pension
+          </ParaOne>
           <View style={{ flexDirection: "row" }}>
-            <Text style={[styles.radioText]}>Yes</Text>
+            <ParaOne style={styles.radioText}>Yes</ParaOne>
             <RadioButton
               value="Male"
               status={
@@ -182,7 +188,9 @@ const OtherensionModal = ({
                 });
               }}
             />
-            <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+            <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
+              No
+            </ParaOne>
             <RadioButton
               value="no"
               status={
@@ -200,9 +208,16 @@ const OtherensionModal = ({
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View>
-          <Text style={{ fontSize: 16, marginTop: 10, marginBottom: 20 }}>
+          <ParaOne
+            style={{
+              fontSize: 16,
+              marginTop: 10,
+              marginBottom: 20,
+              color: primary.baseText,
+            }}
+          >
             Expected Income Start Date
-          </Text>
+          </ParaOne>
           <View style={{ height: 80 }}>
             <View
               style={{
@@ -210,10 +225,19 @@ const OtherensionModal = ({
                 alignItems: "center",
               }}
             >
-              <Text style={{ marginRight: 20 }}>{date.toDateString()}</Text>
+              <ParaOne
+                style={{
+                  marginRight: 20,
+                  color: primary.baseText,
+                  fontWeight: "bold",
+                }}
+              >
+                {date.toDateString()}
+              </ParaOne>
               <JarvisButton
                 style={[styles.loginButton]}
-                bgcolor={myColorsLight.black}
+                btnStyle={{ fontSize: 14 }}
+                bgcolor={primary.btn}
                 play={() => {
                   setShowDatePicker(true);
                 }}
@@ -246,7 +270,7 @@ const OtherensionModal = ({
         <View style={{ ...styles.hrView, marginTop: "16%" }} />
         <View style={{ alignItems: "center", marginTop: 19 }}>
           <JarvisButton
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.baseText}
             play={_next}
             btn="Continue"
             w={200}
@@ -262,7 +286,7 @@ const styles = StyleSheet.create({
     height: "90%",
     padding: 20,
     paddingTop: 20,
-    backgroundColor: "white",
+    backgroundColor: primary.subBase,
     marginHorizontal: 25,
     borderRadius: 10,
     justifyContent: "flex-start",
@@ -280,6 +304,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontWeight: "bold",
     fontSize: 16,
+    color: primary.baseText,
   },
   formGroup: {
     width: "90%",

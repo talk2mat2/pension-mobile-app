@@ -17,7 +17,7 @@ function SetupStack() {
   //   console.log(ctx?.u?.included[0]?.onboardingCompleted);
   // }, []);
   return (
-    <Stack.Navigator initialRouteName="CPStack">
+    <Stack.Navigator initialRouteName="KYC">
       <Stack.Screen
         name="KYC"
         options={{ headerShown: false }}

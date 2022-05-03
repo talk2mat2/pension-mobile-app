@@ -1,30 +1,33 @@
 import React from "react";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 // import Swiper from "react-native-swiper";
-import { View, Text, StyleSheet } from "react-native";
-import { myColorsLight } from "../constant/colors";
+import { View, StyleSheet } from "react-native";
+import { myColorsLight, primary } from "../constant/colors";
 const OutcomeDatatable = () => {
   return (
     <View style={{ height: 150 }}>
       <View style={styles.slide1}>
         <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Your Retirement Age</Text>
-          <Text style={styles.PriceDetail}>80</Text>
+          <ParaOne style={styles.rowData}>Your Retirement Age</ParaOne>
+          <ParaOne style={styles.PriceDetail}>80</ParaOne>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Spouses Retirement Age</Text>
-          <Text style={styles.PriceDetail}>85</Text>
+          <ParaOne style={styles.rowData}>Spouses Retirement Age</ParaOne>
+          <ParaOne style={styles.PriceDetail}>85</ParaOne>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Desired Monthly Retirement Income </Text>
-          <Text style={styles.PriceDetail}>£833,700</Text>
+          <ParaOne style={styles.rowData}>
+            Desired Monthly Retirement Income{" "}
+          </ParaOne>
+          <ParaOne style={styles.PriceDetail}>£833,700</ParaOne>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Required Pension Fund </Text>
-          <Text style={styles.PriceDetail}>£833,700</Text>
+          <ParaOne style={styles.rowData}>Required Pension Fund </ParaOne>
+          <ParaOne style={styles.PriceDetail}>£833,700</ParaOne>
         </View>
         <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Current Balance </Text>
-          <Text style={styles.PriceDetail}>£000,000</Text>
+          <ParaOne style={styles.rowData}>Current Balance </ParaOne>
+          <ParaOne style={styles.PriceDetail}>£000,000</ParaOne>
         </View>
       </View>
     </View>
@@ -39,9 +42,10 @@ const styles = StyleSheet.create({
   },
   PriceDetail: {
     fontWeight: "bold",
+    color: primary.baseText,
   },
   rowData: {
-    color: myColorsLight.lightGreyDark,
+    color: primary.baseParaOne,
     fontWeight: "900",
   },
   tableRow: {
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     paddingVertical: 4,
   },
-  textWhite: {
+  ParaOneWhite: {
     color: "#fff",
   },
 });

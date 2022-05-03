@@ -250,6 +250,7 @@ function CPAddStatePension({ navigation }) {
             <HeaderThree
               style={{
                 textAlign: "center",
+                fontSize: 28,
               }}
             >
               Add State Pensions
@@ -289,9 +290,11 @@ function CPAddStatePension({ navigation }) {
                 }}
               >
                 <View style={styles.btnIdont}>
-                  <Text style={{ fontWeight: "900" }}>
+                  <ParaOne
+                    style={{ fontWeight: "900", color: primary.baseText }}
+                  >
                     I don’t have a State Pension
-                  </Text>
+                  </ParaOne>
                 </View>
               </TouchableOpacity>
             )}
@@ -300,7 +303,10 @@ function CPAddStatePension({ navigation }) {
             <CPDatatable />
           </View> */}
           <PanableCard styles={{ height: "29%", marginTop: "auto" }}>
-            <CPDatatable style={{backgroundColor:primary.subBase}} profile={ctx?.u} />
+            <CPDatatable
+              style={{ backgroundColor: primary.subBase }}
+              profile={ctx?.u}
+            />
           </PanableCard>
           <View
             style={{
@@ -405,7 +411,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: myColorsLight.lightGreyDark,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: primary.subBase,
     minWidth: 200,
     alignItems: "center",
     shadowRadius: 2,

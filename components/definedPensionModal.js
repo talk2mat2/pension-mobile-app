@@ -10,13 +10,14 @@ import {
 } from "react-native";
 import api from "../api";
 import lodash from "lodash";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 import UserContext from "../contexts/UserContext";
 const DefinedBenefitModal = ({
   visible,
@@ -185,16 +186,17 @@ const DefinedBenefitModal = ({
             </TouchableOpacity>
           </View>
 
-          <Text
+          <HeaderTwo
             style={{
               fontSize: 20,
               marginLeft: 15,
               fontWeight: "bold",
               textAlign: "center",
+              color: primary.baseText,
             }}
           >
             Defined Benefit {"\n"}Pensions
-          </Text>
+          </HeaderTwo>
         </View>
         <ScrollView>
           <View style={{ ...styles.hrView, marginTop: 20 }} />
@@ -286,7 +288,9 @@ const DefinedBenefitModal = ({
               marginTop: 20,
             }}
           >
-            <Text style={{ fontSize: 16 }}>Annual Income Amount</Text>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Annual Income Amount
+            </ParaOne>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               <Text>£</Text>
               <TextInput
@@ -314,13 +318,15 @@ const DefinedBenefitModal = ({
               alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 16 }}>Spouses {"\n"}Pension</Text>
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Spouses {"\n"}Pension
+            </ParaOne>
             <View style={{ flexDirection: "row" }}>
-              <Text style={[styles.radioText]}>Yes</Text>
+              <ParaOne style={styles.radioText}>Yes</ParaOne>
               <RadioButton
                 value="Male"
                 status={
-                  personData.spousePension === "yes" ? "checked" : "unchecked"
+                  personData.spousePension === "yesP" ? "checked" : "unchecked"
                 }
                 onPress={() => {
                   setPersonData({
@@ -330,7 +336,9 @@ const DefinedBenefitModal = ({
                   });
                 }}
               />
-              <Text style={[styles.radioText, { marginLeft: 20 }]}>No</Text>
+              <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
+                No
+              </ParaOne>
               <RadioButton
                 value="no"
                 status={
@@ -351,7 +359,7 @@ const DefinedBenefitModal = ({
           <View style={{ ...styles.hrView, marginTop: "60%" }} />
           <View style={{ alignItems: "center", marginTop: 40 }}>
             <JarvisButton
-              bgcolor={myColorsLight.black}
+              bgcolor={primary.btn}
               play={_next}
               btn="Continue"
               w={200}
@@ -385,6 +393,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     fontWeight: "bold",
     fontSize: 16,
+    color: primary.baseText,
   },
   inputError: {
     color: "red",
@@ -394,6 +403,8 @@ const styles = StyleSheet.create({
     borderWidth: 0.3,
     padding: 8,
     width: 80,
+    borderRadius: 7,
+    color: primary.baseText,
   },
   hrView: {
     width: "100%",

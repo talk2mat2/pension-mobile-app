@@ -42,7 +42,7 @@ const h2Style = StyleSheet.create({
   text: {
     color: primary.text,
     fontFamily: "LabGrotesqueMedium",
-    fontSize: 33,
+    fontSize: 32,
     fontWeight: "normal",
   },
 });
@@ -62,6 +62,7 @@ const h4Style = StyleSheet.create({
     color: primary.text,
     fontWeight: "normal",
     fontFamily: "LabGrotesqueMedium",
+    fontSize:14
   },
 });
 export const ParaOne = ({ children, style }) => {
@@ -102,7 +103,7 @@ const h3Style = StyleSheet.create({
   text: {
     color: primary.text,
     fontFamily: "LabGrotesqueMedium",
-    fontSize: 22,
+    fontSize: 16,
     fontWeight: "normal",
   },
 });

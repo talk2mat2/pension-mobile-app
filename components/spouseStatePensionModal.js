@@ -7,12 +7,13 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import { HeaderFour, HeaderTwo, ParaOne, HeaderThree } from "../constant/fonts";
 import { Modal, Portal, Button, Provider, Title } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { RadioButton, ProgressBar } from "react-native-paper";
-import { myColorsLight } from "../constant/colors";
+import { myColorsLight, primary } from "../constant/colors";
 const SpouseStatePensionModal = ({
   visible,
   setVisible,
@@ -29,7 +30,7 @@ const SpouseStatePensionModal = ({
     if (!stateAmount) {
       setStateAmountValidation(true);
     } else {
-      changeSpouseStatePension(stateAmount,spouseGender);
+      changeSpouseStatePension(stateAmount, spouseGender);
     }
   };
   const hideModal = () => setVisible(false);
@@ -54,16 +55,17 @@ const SpouseStatePensionModal = ({
             </TouchableOpacity>
           </View>
 
-          <Text
+          <ParaOne
             style={{
               fontSize: 20,
               marginLeft: 15,
               fontWeight: "bold",
               textAlign: "center",
+              color: primary.baseText,
             }}
           >
             Add Your Spouse’s {"\n"}State Pension
-          </Text>
+          </ParaOne>
         </View>
         <View style={{ ...styles.hrView, marginTop: 20 }} />
         <View
@@ -74,9 +76,9 @@ const SpouseStatePensionModal = ({
             marginTop: 20,
           }}
         >
-          <Text style={{ fontSize: 16 }}>
+          <HeaderThree style={{ fontSize: 16, color: primary.baseText }}>
             Enter your Spouse’s {"\n"}State Pension
-          </Text>
+          </HeaderThree>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text>£</Text>
             <TextInput
@@ -124,20 +126,26 @@ const SpouseStatePensionModal = ({
         </View> */}
         <View style={{ ...styles.hrView, marginTop: 60 }} />
         <View style={{ marginTop: 20 }}>
-          <Text style={{ fontWeight: "bold" }}>
+          <HeaderThree style={{ fontWeight: "bold", color: primary.baseText }}>
             <AntDesign name="exclamationcircle" size={17} color="black" /> Why
             are we asking you this{" "}
-          </Text>
-          <Text style={{ fontWeight: "200", marginTop: 10 }}>
+          </HeaderThree>
+          <ParaOne
+            style={{
+              fontWeight: "200",
+              marginTop: 10,
+              color: primary.baseText,
+            }}
+          >
             Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
             nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
             volutpat. Ut wisi enim ad minim
-          </Text>
+          </ParaOne>
         </View>
         <View style={{ ...styles.hrView, marginTop: "40%" }} />
         <View style={{ alignItems: "center", marginTop: 40 }}>
           <JarvisButton
-            bgcolor={myColorsLight.black}
+            bgcolor={primary.btn}
             play={_next}
             btn="Continue"
             w={200}
@@ -153,7 +161,7 @@ const styles = StyleSheet.create({
     height: "90%",
     padding: 20,
     paddingTop: 20,
-    backgroundColor: "white",
+    backgroundColor: primary.subBase,
     marginHorizontal: 25,
     borderRadius: 10,
     justifyContent: "flex-start",

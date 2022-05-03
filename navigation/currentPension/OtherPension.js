@@ -380,6 +380,7 @@ function OtherPension({ navigation }) {
             <HeaderThree
               style={{
                 textAlign: "center",
+                fontSize: 26,
               }}
             >
               Other Retirement {"\n"}Savings / Income
@@ -402,9 +403,10 @@ function OtherPension({ navigation }) {
             person2.currentValue ? (
               <JarvisButton
                 bgcolor={primary.btn}
+                btnStyle={{fontSize:16}}
                 play={_next}
                 btn={handleTextbtn()}
-                w={300}
+                w={320}
               />
             ) : (
               <TouchableOpacity
@@ -414,9 +416,11 @@ function OtherPension({ navigation }) {
                 }}
               >
                 <View style={styles.btnIdont}>
-                  <Text style={{ fontWeight: "900" }}>
+                  <ParaOne
+                    style={{ fontWeight: "900", color: primary.baseText }}
+                  >
                     I don’t have any other savings
-                  </Text>
+                  </ParaOne>
                 </View>
               </TouchableOpacity>
             )}
@@ -526,7 +530,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: myColorsLight.lightGreyDark,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: primary.subBase,
     minWidth: 200,
     alignItems: "center",
     shadowRadius: 2,

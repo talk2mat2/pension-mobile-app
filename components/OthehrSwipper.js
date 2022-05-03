@@ -161,7 +161,13 @@ const OtherSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text style={{ textAlign: "center", fontWeight: "600" }}>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "600",
+                      color: primary.baseText,
+                    }}
+                  >
                     Other {"\n"}Retirement {"\n"}Savings
                   </Text>
 
@@ -171,7 +177,7 @@ const OtherSwipper = () => {
                         style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
                         size={37}
-                        color={myColorsLight.lightGreyDim}
+                        color={primary.btn}
                       />
                     </TouchableOpacity>
                   ) : (
@@ -217,7 +223,13 @@ const OtherSwipper = () => {
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text style={{ textAlign: "center", fontWeight: "800" }}>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "800",
+                      color: primary.baseText,
+                    }}
+                  >
                     Other {"\n"}Retirement {"\n"}Income
                   </Text>
                   {!person2?.expectedAnualIncome ? (

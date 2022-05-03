@@ -276,6 +276,7 @@ function CPAddPersonalPension({ navigation }) {
             <HeaderThree
               style={{
                 textAlign: "center",
+                fontSize: 28,
               }}
             >
               Personal Pensions
@@ -315,9 +316,9 @@ function CPAddPersonalPension({ navigation }) {
                 }}
               >
                 <View style={styles.btnIdont}>
-                  <Text style={{ fontWeight: "900" }}>
-                    I don’t have any Personal Pensions
-                  </Text>
+                  <ParaOne style={{ fontWeight: "900",color:primary.baseText }}>
+                    i don't have any Personal Pensions
+                  </ParaOne>
                 </View>
               </TouchableOpacity>
             )}
@@ -427,7 +428,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: myColorsLight.lightGreyDark,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: primary.subBase,
     minWidth: 200,
     alignItems: "center",
     shadowRadius: 2,

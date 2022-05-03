@@ -258,6 +258,7 @@ function DefinedStateBenefit({ navigation }) {
             <HeaderThree
               style={{
                 textAlign: "center",
+                fontSize: 28,
               }}
             >
               Defined Benefit Pensions
@@ -293,9 +294,11 @@ function DefinedStateBenefit({ navigation }) {
                 }}
               >
                 <View style={styles.btnIdont}>
-                  <Text style={{ fontWeight: "900" }}>
+                  <ParaOne
+                    style={{ fontWeight: "900", color: primary.baseText }}
+                  >
                     I don’t have any Defined Benefit Pensions
-                  </Text>
+                  </ParaOne>
                 </View>
               </TouchableOpacity>
             )}
@@ -323,10 +326,18 @@ function DefinedStateBenefit({ navigation }) {
             >
               <ProgressBar
                 progress={0.7}
-                color={myColorsLight.lightGreyDark}
+                color={primary.subText}
                 style={{ height: 7 }}
               />
-              <Text style={{ textAlign: "center", fontSize: 20 }}>3/4</Text>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 20,
+                  color: primary.text,
+                }}
+              >
+                3/4
+              </Text>
             </View>
           </View>
         </>
@@ -397,7 +408,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: myColorsLight.lightGreyDark,
-    backgroundColor: myColorsLight.lighterGrey,
+    backgroundColor: primary.subBase,
     minWidth: 200,
     alignItems: "center",
     shadowRadius: 2,
