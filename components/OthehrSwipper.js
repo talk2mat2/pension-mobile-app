@@ -18,6 +18,7 @@ import SpouseStatePensionModal from "./spouseStatePensionModal";
 import { myColorsLight, primary } from "../constant/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import OtherPenContext from "../contexts/otherPenContext";
+import { ParaOne } from "../constant/fonts";
 
 const OtherSwipper = () => {
   const [visible, setVisible] = React.useState(false);
@@ -156,20 +157,20 @@ const OtherSwipper = () => {
           <View style={styles.slide1}>
             <View style={styles.jarContainer}>
               <ImageBackground
-                source={require("../assets/jarIcon.png")}
+                source={require("../assets/jar.png")}
                 resizeMode="contain"
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text
+                  <ParaOne
                     style={{
                       textAlign: "center",
                       fontWeight: "600",
-                      color: primary.baseText,
+                      lineHeight:20
                     }}
                   >
                     Other {"\n"}Retirement {"\n"}Savings
-                  </Text>
+                  </ParaOne>
 
                   {!person1.expectedAnualIncome ? (
                     <TouchableOpacity onPress={showModal}>
@@ -177,13 +178,13 @@ const OtherSwipper = () => {
                         style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
                         size={37}
-                        color={primary.btn}
+                        color={primary.text}
                       />
                     </TouchableOpacity>
                   ) : (
-                    <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                    <ParaOne style={{ textAlign: "center", fontWeight: "900" }}>
                       £{person1.expectedAnualIncome}
-                    </Text>
+                    </ParaOne>
                   )}
                 </View>
               </ImageBackground>
@@ -218,33 +219,33 @@ const OtherSwipper = () => {
           <View style={styles.slide1}>
             <View style={styles.jarContainer}>
               <ImageBackground
-                source={require("../assets/jarIcon.png")}
+                source={require("../assets/jar.png")}
                 resizeMode="contain"
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <Text
+                  <ParaOne
                     style={{
                       textAlign: "center",
                       fontWeight: "800",
-                      color: primary.baseText,
+                      lineHeight: 20,
                     }}
                   >
                     Other {"\n"}Retirement {"\n"}Income
-                  </Text>
+                  </ParaOne>
                   {!person2?.expectedAnualIncome ? (
                     <TouchableOpacity onPress={showSpouseModal}>
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "800" }}
                         name="pluscircle"
                         size={37}
-                        color="black"
+                        color={primary.text}
                       />
                     </TouchableOpacity>
                   ) : (
-                    <Text style={{ textAlign: "center", fontWeight: "900" }}>
+                    <ParaOne style={{ textAlign: "center", fontWeight: "900" }}>
                       £{person2?.expectedAnualIncome}
-                    </Text>
+                    </ParaOne>
                   )}
                 </View>
               </ImageBackground>
@@ -286,16 +287,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Jaricon: {
-    width: 140,
-    height: 140,
-    backgroundColor: "#fff",
+    width: 130,
+    height: 130,
+    // backgroundColor: "#fff",
     borderRadius: 15,
   },
   jarContainer: {
-    padding: 10,
+    padding: 6,
+    height: 180,
+    width: 180,
+    justifyContent: "center",
+    alignItems: "center",
     margin: 4,
     borderColor: primary.subText1,
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 20,
   },
   edit: {

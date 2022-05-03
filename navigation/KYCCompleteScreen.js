@@ -92,7 +92,7 @@ function RTExcellent({ navigation }) {
       </View>
       <View style={styles.footerSection}>
         <ImageBackground
-          source={require("../assets/jr.png")}
+          source={require("../assets/j2.png")}
           style={{
             height:130,
             width: "100%",
@@ -127,8 +127,7 @@ function RTExcellent({ navigation }) {
           >
             Personal Information
           </HeaderThree>
-          <View style={{ ...styles.hrView, marginVertical: 10 }} />
-
+          
           <View>
             {/* <Text style={{ ...styles.textHead, textAlign: "left" }}>
               Personal Information

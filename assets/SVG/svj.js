@@ -57,7 +57,7 @@ const jRepeat = `<?xml version="1.0" encoding="utf-8"?>
 export function JarvisSymbol(props) {
   const svgMarkup = jarvsymbol;
   const SvgImage = () => (
-    <SvgXml xml={svgMarkup} {...props} height="30%" width="30%" />
+    <SvgXml xml={svgMarkup} {...props} height="20%" width="30%" />
   );
 
   return <SvgImage />;

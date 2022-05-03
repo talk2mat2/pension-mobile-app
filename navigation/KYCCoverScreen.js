@@ -102,8 +102,9 @@ function KYCCoverScreen({ navigation }) {
               marginTop: 150,
               backgroundColor: primary.subText,
               height: 1,
-              width: "100%",
+              width: "85%",
               marginHorizontal: 25,
+              alignSelf:'center'
             }}
           />
           <View style={{ alignItems: "center", marginTop: 30 }}>
@@ -198,7 +199,7 @@ function KYCCoverScreen({ navigation }) {
             >
               <View style={[styles.centerView, { marginTop: 30 }]}>
                 <ImageBackground
-                  source={require("../assets/jr.png")}
+                  source={require("../assets/j2.png")}
                   style={{
                     height: 130,
                     width: "100%",

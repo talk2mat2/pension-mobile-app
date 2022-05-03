@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     zIndex: 3,
     elevation: 7,
-    height: Dimensions.get("screen").width / 1.1,
+    minHeight: Dimensions.get("screen").width / 1.5,
     width: "100%",
   },
   hrView: {

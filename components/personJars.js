@@ -66,7 +66,7 @@ const PersonJars = ({ item, index, AddJar }) => {
       <View key={item.id} style={styles.slide1}>
         <View style={styles.jarContainer}>
           <ImageBackground
-            source={require("../assets/jarIcon.png")}
+            source={require("../assets/jar.png")}
             resizeMode="contain"
             style={styles.Jaricon}
           >
@@ -76,7 +76,7 @@ const PersonJars = ({ item, index, AddJar }) => {
                   textAlign: "center",
                   fontWeight: "600",
                   paddingBottom: 10,
-                  color: primary.inputText,
+               
                 }}
               >
                 Provider{"\n"}
@@ -89,7 +89,7 @@ const PersonJars = ({ item, index, AddJar }) => {
                     style={{ textAlign: "center", fontWeight: "600" }}
                     name="pluscircle"
                     size={37}
-                    color={primary.btn}
+                    color={primary.subText1}
                   />
                 </TouchableOpacity>
               ) : (
@@ -97,7 +97,7 @@ const PersonJars = ({ item, index, AddJar }) => {
                   style={{
                     textAlign: "center",
                     fontWeight: "bold",
-                    color: primary.inputText,
+                   
                   }}
                 >
                   £{item?.currentValue}
@@ -132,16 +132,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   Jaricon: {
-    width: 140,
-    height: 140,
-    backgroundColor: "#fff",
+    width: 130,
+    height: 130,
+    // backgroundColor: "#fff",
     borderRadius: 15,
   },
+
   jarContainer: {
-    padding: 10,
+    padding: 6,
+    height: 180,
+    width: 180,
+    justifyContent: "center",
+    alignItems: "center",
     margin: 4,
-    borderColor: primary.text,
-    borderWidth: 2,
+    borderColor: primary.subText1,
+    borderWidth: 3,
     borderRadius: 20,
   },
   edit: {

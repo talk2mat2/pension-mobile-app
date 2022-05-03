@@ -339,9 +339,9 @@ function LoginScreen({ navigation }) {
             top: 10,
           }}
         >
-          <JarvisLogo height={150} width={400} />
-          <View style={{ marginTop: 17 }}>
-            <HeaderOne>We are here for innovative doers</HeaderOne>
+          <JarvisLogo height={130} width={400} />
+          <View style={{ marginTop: 2 }}>
+            <HeaderOne>{' '}We are here for{"\n"} innovative doers</HeaderOne>
           </View>
         </View>
         <View
@@ -374,7 +374,7 @@ function LoginScreen({ navigation }) {
             disabled={loginButtonDisabled}
             bgcolor={primary.btn}
             play={_initLogin}
-            btn="Continue"
+            btn="Sign Up"
             w={150}
             btnStyle={{ color: primary.text }}
           />
@@ -383,7 +383,7 @@ function LoginScreen({ navigation }) {
             disabled={loginButtonDisabled}
             bgcolor={primary.subBase}
             play={() => setVisiblility(true)}
-            btn="Pass. Login"
+            btn="Login"
             btnStyle={{ color: primary.btn }}
             w={150}
           />

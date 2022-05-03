@@ -122,12 +122,12 @@ const CPSwipper = () => {
           <View style={styles.slide1}>
             <View style={styles.jarContainer}>
               <ImageBackground
-                source={require("../assets/jarIcon.png")}
+                source={require("../assets/jar.png")}
                 resizeMode="contain"
                 style={styles.Jaricon}
               >
                 <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <ParaOne style={{ textAlign: "center",color:primary.inputText }}>
+                  <ParaOne style={{ textAlign: "center" ,lineHeight:17}}>
                     My{"\n"} State{"\n"} Pension
                   </ParaOne>
 
@@ -137,18 +137,20 @@ const CPSwipper = () => {
                         style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
                         size={37}
-                        color={myColorsLight.lightGreyDim}
+                        color={primary.subText1}
                       />
                     </TouchableOpacity>
                   ) : (
-                    <ParaOne style={{ textAlign: "center", fontWeight: "bold",color:primary.inputText }}>
+                    <ParaOne
+                      style={{ textAlign: "center", fontWeight: "bold" }}
+                    >
                       £{statePension}
                     </ParaOne>
                   )}
                 </View>
               </ImageBackground>
               {statePension.length > 0 && (
-                <View style={{ flexDirection: "row",marginTop:10 }}>
+                <View style={{ flexDirection: "row", marginTop: 10 }}>
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color={primary.text} />
@@ -156,7 +158,11 @@ const CPSwipper = () => {
                   </TouchableOpacity>
                   <TouchableOpacity onPress={() => setStatePension("")}>
                     <View style={styles.edit}>
-                      <MaterialIcons name="cancel" size={20} color={primary.text} />
+                      <MaterialIcons
+                        name="cancel"
+                        size={20}
+                        color={primary.text}
+                      />
                     </View>
                   </TouchableOpacity>
                 </View>
@@ -270,13 +276,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   Jaricon: {
-    width: 140,
-    height: 140,
-    backgroundColor: "#fff",
-    borderRadius:15
+    width: 130,
+    height: 130,
+    // backgroundColor: "#fff",
+    borderRadius: 15,
   },
   jarContainer: {
-    padding: 10,
+    padding: 6,
+    height: 180,
+    width:180,
+    justifyContent: "center",
+    alignItems:'center',
     margin: 4,
     borderColor: primary.subText1,
     borderWidth: 3,

@@ -284,16 +284,18 @@ function KYCBirthdayScreen({ navigation }) {
                   <ParaOne style={{ ...styles.bdayText, textAlign: "left" }}>
                     {birthdayDisplay}
                   </ParaOne>
-                  <JarvisButton
-                    btnStyle={{ fontSize: 15, alignSelf: "center" }}
-                    style={{ ...styles.loginButton, marginVertical: 4 }}
-                    bgcolor="#ff6c00"
-                    play={() => {
-                      setShowDatePicker(true);
-                    }}
-                    btn="Select date"
-                    w={250}
-                  />
+                  <View style={{ alignItems: "center" }}>
+                    <JarvisButton
+                      btnStyle={{ fontSize: 15, alignSelf: "center" }}
+                      style={{ ...styles.loginButton, marginVertical: 4 }}
+                      bgcolor="#ff6c00"
+                      play={() => {
+                        setShowDatePicker(true);
+                      }}
+                      btn="Select date"
+                      w={100}
+                    />
+                  </View>
                 </View>
               </View>
               <View style={{ width: 300, marginLeft: 30 }}>
@@ -420,9 +422,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   loginButton: {
-    alignItems: "center",
     marginTop: 10,
-    marginLeft: 20,
   },
   textWhite: {
     color: "#fff",

@@ -27,7 +27,7 @@ function CpCoverScreen({ navigation }) {
   return (
     <MyGradientBackground>
       <ImageBackground
-        source={require(".././../assets/j.png")}
+        source={require(".././../assets/jj.png")}
         style={{ height: "100%", width: "100%", flex: 1 }}
         imageStyle={{
           resizeMode: "repeat",
@@ -36,7 +36,7 @@ function CpCoverScreen({ navigation }) {
           flex: 1,
         }}
       >
-        <View style={{ marginTop: "40%" }}>
+        <View style={{ marginTop: '40%' }}>
           <HeaderTwo style={{ textAlign: "center" }}>
             Planning your{"\n"}
             retirement now is{"\n"}
@@ -67,10 +67,10 @@ function CpCoverScreen({ navigation }) {
         </View>
       </> */}
         <>
-          <View style={{ width: "100%", marginTop: 30, alignItems: "center" }}>
-            <View style={{ marginTop: 60 }}>
+          <View style={{ width: "100%", marginTop: 'auto', alignItems: "center",marginBottom:'30%' }}>
+            <View style={{ marginTop: '5%' }}>
               <JarvisButton
-                style={{ marginTop: 90 }}
+                style={{  }}
                 bgcolor={primary.btn}
                 play={_next}
                 btn="Continue"

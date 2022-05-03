@@ -49,7 +49,7 @@ function RTExcellent({ navigation, route }) {
     }).start(showCards);
   }).current;
   const hideCard = () => setShowCard(false);
-  
+
   const _next = () => {
     navigation.navigate("CPStack");
   };
@@ -192,18 +192,18 @@ function RTExcellent({ navigation, route }) {
         <ImageBackground
           source={require("../../assets/jr.png")}
           style={{
-            height: 130,
+            height: 150,
             width: "100%",
             flex: 1,
             alignItems: "center",
-            paddingVertical: 15,
+            paddingVertical: 10,
           }}
           imageStyle={{ resizeMode: "repeat" }}
         >
           <ParaOne
             style={{
               textAlign: "center",
-              marginBottom: 8,
+              marginBottom: 6,
             }}
           >
             You’re just one steps away from completion. Next step{" "}
@@ -254,11 +254,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   footerSection: {
-    ...{ alignItems: "center", marginTop: "auto", height: 100 },
+    alignItems: "center",
+    marginTop: "auto",
+    height: 135,
     borderTopColor: "#bbb",
     borderTopWidth: 2,
     paddingTop: 10,
-    paddingBottom: 10,
+    paddingBottom: 20,
     backgroundColor: primary.base,
     position: "absolute",
     bottom: 2,

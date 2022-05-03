@@ -20,7 +20,7 @@ const h1Style = StyleSheet.create({
   text: {
     color: primary.text,
     fontFamily: "LabGrotesqueMedium",
-    fontSize: 45,
+    fontSize: 39,
     fontWeight: "normal",
   },
 });

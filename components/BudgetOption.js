@@ -13,7 +13,7 @@ import { DataTable } from "react-native-paper";
 import { AntDesign } from "@expo/vector-icons";
 import JarvisButton from "./JarvisButton";
 import { myColorsLight, primary } from "../constant/colors";
-import { HeaderFour, HeaderThree } from "../constant/fonts";
+import { HeaderFour, HeaderThree, ParaOne } from "../constant/fonts";
 
 const BudgetOption = ({
   type,
@@ -84,9 +84,9 @@ const BudgetOption = ({
                   btnStyle={{fontSize:14}}
                 />
               </View>
-              <Text style={styles.textWriteUp}>
+              <ParaOne style={{...styles.textWriteUp,lineHeight:19}}>
                 {desccription && desccription["Total (Gross)"]}
-              </Text>
+              </ParaOne>
 
               <View style={{ height: 300 }}>
                 <View style={{ paddingBottom: 60 }}>
@@ -305,10 +305,10 @@ const styles = StyleSheet.create({
     marginBottom: 80,
   },
   content: {
-    height: 200,
+    minHeight: 300,
     paddingBottom: 20,
     paddingTop: 5,
-    marginBottom:200,
+    marginBottom:1,
     backgroundColor: primary.subBase,
   
   },
@@ -338,9 +338,9 @@ const styles = StyleSheet.create({
     color: primary.inputText,
   },
   textWriteUp: {
-    color: myColorsLight.lightGreyDark,
+    color: primary.baseText,
     fontSize: 16,
-    fontWeight: "900",
+   
   },
   hrView: {
     width: "100%",

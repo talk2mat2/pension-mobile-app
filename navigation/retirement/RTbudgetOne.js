@@ -199,8 +199,8 @@ function RTbudgetOne({ navigation }) {
             want live when you’re retired
           </HeaderThree>
         </View>
-        <View style={{ marginTop: 15, minHeight: 300 }}>
-          <View style={{ flex: 1 }}>
+        <View style={{ marginTop: 15, height:600 }}>
+          <ScrollView style={{ flex: 1,marginBottom:220 }}>
             {loading && (
               <View
                 style={{
@@ -240,7 +240,7 @@ function RTbudgetOne({ navigation }) {
               </>
             )}
             {/* <View style={{ ...styles.hrView, marginTop: 1 }} /> */}
-          </View>
+          </ScrollView>
         </View>
       </View>
       <View
@@ -252,7 +252,7 @@ function RTbudgetOne({ navigation }) {
         }}
       >
           <ImageBackground
-          source={require("../../assets/jarv3.png")}
+          source={require("../../assets/jrp.png")}
           style={{
             height:'140%',
             width: "100%",

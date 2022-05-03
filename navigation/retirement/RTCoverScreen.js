@@ -36,16 +36,16 @@ function RTCoverScreen({ navigation }) {
   return (
     <MyGradientBackground>
       <ImageBackground
-        source={require("../../assets/j.png")}
+        source={require("../../assets/jj.png")}
         style={{ height: "100%", width: "100%", flex: 1 }}
         imageStyle={{
           resizeMode: "repeat",
           overflow: "visible",
           backfaceVisibility: "visible",
-          flex: 1,
+          flex: 1
         }}
       >
-        <View style={{ marginTop: 150, alignItems: "center" }}>
+        <View style={{ marginTop: 160, alignItems: "center" }}>
           <HeaderTwo style={styles.subHeader}>
             To Enjoy Your {"\n"}Retirement Lifestyle{"\n"} it is important to{" "}
             {"\n"}
@@ -54,7 +54,7 @@ function RTCoverScreen({ navigation }) {
         </View>
 
         <>
-          <View style={{ width: "100%", marginTop: 30, alignItems: "center" }}>
+          <View style={{ width: "100%", marginTop: 20, alignItems: "center" }}>
             <View style={{ marginTop: 60 }}>
               <JarvisButton
                 style={{ marginTop: 90 }}
