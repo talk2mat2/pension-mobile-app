@@ -96,6 +96,7 @@ function KYCBirthdayScreen({ navigation }) {
       let tempDates = new Date();
       const newDate = tempDates.setFullYear(tempDates.getFullYear() - 40);
       setBirthdayDisplay(new Date(newDate).toDateString());
+      // setBirthday(new Date(newDate));
       //setBirthdayDisplay(new Date(newDate).getFullYear.toTimeString());
     }
   }, []);
@@ -110,6 +111,7 @@ function KYCBirthdayScreen({ navigation }) {
   };
 
   const _next = () => {
+    // console.log(birthday);
     if (typeof birthday == "undefined" || !birthday) {
       setBirthdayValidation(true);
     } else {
@@ -189,7 +191,7 @@ function KYCBirthdayScreen({ navigation }) {
               please tell us your {"\n"}gender and date of {"\n"}birth?
             </HeaderTwo>
           </View>
-        
+
           <WhyAsk reasons="" />
           <View style={{ marginHorizontal: 20, marginBottom: 4 }}>
             <ParaOne style={{ fontWeight: "bold" }}>Gender</ParaOne>
