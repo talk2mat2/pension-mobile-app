@@ -384,8 +384,8 @@ function KYCRetirementAgeScreen({ navigation }) {
                         setRetirementAgeValidation(false);
                     }}
                   >
-                    {options().map((item) => (
-                      <Picker.Item label={item} value={item} />
+                    {options().map((item, index) => (
+                      <Picker.Item key={index} label={item} value={item} />
                     ))}
                   </Picker>
                 </View>

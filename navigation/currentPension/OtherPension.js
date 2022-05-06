@@ -43,12 +43,14 @@ import MyGradientBackground from "../../components/grdientBackGround";
 import OtherpenContext from "../../contexts/otherPenContext";
 import PanableCard from "../../components/pannableCard";
 import { useCreateJarsMutation } from "../../redux/query";
+import JarvisLoader from "../../components/JarvisLoader";
 
 function OtherPension({ navigation }) {
   const [startScroll, setStartScroll] = React.useState(false);
   const [iDontHhaveState, setIdontHaveState] = React.useState(null);
   const jarSlices = useSelector(({ jarSlice }) => jarSlice);
   const [createJars, result] = useCreateJarsMutation();
+  const [isLoading, setIsloading] = React.useState(false);
   const [person1, setPerson1Data] = React.useState({
     expectedAnualIncome: "",
     gender: "",
@@ -265,6 +267,7 @@ function OtherPension({ navigation }) {
 
   const _next = () => {
     //sync users data
+    setIsloading(true);
     Promise.resolve(createOtherPensions())
       .then(createStatePensions)
       .then(createPersonalPensions)
@@ -273,6 +276,7 @@ function OtherPension({ navigation }) {
         Promise.resolve(completeOnboarding())
           .then(updateUsersMe())
           .then(() => {
+            setIsloading(false);
             navigation.reset({
               index: 0,
               routes: [{ name: "CPCongrat" }],
@@ -283,7 +287,7 @@ function OtherPension({ navigation }) {
         Promise.resolve(completeOnboarding())
           .then(updateUsersMe())
           .then(() => {
-            // navigation.navigate("CPCongrat");
+            setIsloading(false);
             navigation.reset({
               index: 0,
               routes: [{ name: "CPCongrat" }],
@@ -324,6 +328,7 @@ function OtherPension({ navigation }) {
       }}
     >
       <MyGradientBackground>
+        {isLoading && <JarvisLoader color={primary.text} />}
         <>
           <View
             style={{
@@ -362,7 +367,7 @@ function OtherPension({ navigation }) {
                     fontSize: 18,
                   }}
                 >
-                  Current Pensions & Savings
+                  sCurrent Pensions & Savings
                 </HeaderFour>
               </View>
             </View>
@@ -403,7 +408,7 @@ function OtherPension({ navigation }) {
             person2.currentValue ? (
               <JarvisButton
                 bgcolor={primary.btn}
-                btnStyle={{fontSize:16}}
+                btnStyle={{ fontSize: 16 }}
                 play={_next}
                 btn={handleTextbtn()}
                 w={320}

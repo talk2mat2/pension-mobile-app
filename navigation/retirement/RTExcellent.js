@@ -51,7 +51,10 @@ function RTExcellent({ navigation, route }) {
   const hideCard = () => setShowCard(false);
 
   const _next = () => {
-    navigation.navigate("CPStack");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "CPStack" }],
+    });
   };
   const Calculate_logged_in_user_retirement = async () => {
     await api

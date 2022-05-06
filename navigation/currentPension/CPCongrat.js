@@ -46,7 +46,10 @@ function CPCongrat({ navigation, route }) {
   const hideCard = () => setShowCard(false);
 
   const _next = () => {
-    navigation.navigate("DashboardStack");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "DashboardStack" }],
+    });
   };
 
   // const _updateUser = () => {
@@ -161,7 +164,7 @@ function CPCongrat({ navigation, route }) {
             marginTop: 20,
           }}
         >
-          our retirement profile is now compete
+          Your retirement profile is now compete
         </ParaOne>
       </Animated.View>
 
