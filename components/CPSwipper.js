@@ -126,8 +126,14 @@ const CPSwipper = () => {
                 resizeMode="contain"
                 style={styles.Jaricon}
               >
-                <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                  <ParaOne style={{ textAlign: "center" ,lineHeight:17}}>
+                <View style={{ marginTop: "auto", marginBottom: 15 }}>
+                  <ParaOne
+                    style={{
+                      textAlign: "center",
+                      lineHeight: 17,
+                      color: primary.text,
+                    }}
+                  >
                     My{"\n"} State{"\n"} Pension
                   </ParaOne>
 
@@ -136,7 +142,7 @@ const CPSwipper = () => {
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
-                        size={37}
+                        size={30}
                         color={primary.subText1}
                       />
                     </TouchableOpacity>
@@ -150,7 +156,13 @@ const CPSwipper = () => {
                 </View>
               </ImageBackground>
               {statePension.length > 0 && (
-                <View style={{ flexDirection: "row", marginTop: 10 }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    marginTop: 10,
+                    paddingBottom: 3,
+                  }}
+                >
                   <TouchableOpacity onPress={showModal}>
                     <View style={styles.edit}>
                       <AntDesign name="edit" size={20} color={primary.text} />
@@ -173,22 +185,29 @@ const CPSwipper = () => {
             <View style={styles.slide1}>
               <View style={styles.jarContainer}>
                 <ImageBackground
-                  source={require("../assets/jarIcon.png")}
+                  source={require("../assets/jar.png")}
                   resizeMode="contain"
                   style={styles.Jaricon}
                 >
                   <View style={{ marginTop: "auto", marginBottom: 20 }}>
-                    <Text style={{ textAlign: "center", fontWeight: "800" }}>
+                    <ParaOne
+                      style={{
+                        textAlign: "center",
+                        fontWeight: "800",
+                        lineHeight: 20,
+                        color: primary.text,
+                      }}
+                    >
                       {retireProfile?.attributes?.spouseName}'s{"\n"}
                       Pension
-                    </Text>
+                    </ParaOne>
                     {!spouseStatePension ? (
                       <TouchableOpacity onPress={showSpouseModal}>
                         <AntDesign
                           style={{ textAlign: "center", fontWeight: "800" }}
                           name="pluscircle"
                           size={37}
-                          color="black"
+                          color={primary.text}
                         />
                       </TouchableOpacity>
                     ) : (
@@ -276,7 +295,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   Jaricon: {
-    width: 130,
+    width: 120,
     height: 130,
     // backgroundColor: "#fff",
     borderRadius: 15,
@@ -284,9 +303,9 @@ const styles = StyleSheet.create({
   jarContainer: {
     padding: 6,
     height: 180,
-    width:180,
+    width: 180,
     justifyContent: "center",
-    alignItems:'center',
+    alignItems: "center",
     margin: 4,
     borderColor: primary.subText1,
     borderWidth: 3,

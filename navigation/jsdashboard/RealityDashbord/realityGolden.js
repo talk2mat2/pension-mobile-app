@@ -168,7 +168,7 @@ const RealityGolden = ({ handleshowCards }) => {
       await api
         .create_Jar(ctx?.atk, jarData)
         .then((res) => {
-          console.log("jar created");
+       
           setIsLoading(false);
           Alert.alert("Successful");
           retrieve_all_jars_Jar();

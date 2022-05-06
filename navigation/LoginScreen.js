@@ -22,7 +22,7 @@ import UserContext from "../contexts/UserContext";
 import Passwordless from "./passwordlessLogin";
 import JarvisButton from "../components/JarvisButton";
 import JarvisLoading from "../components/JarvisLoading";
-import { TextInput } from "react-native-paper";
+import { TextInput, Button } from "react-native-paper";
 import { myColorsLigh, primary } from "../constant/colors";
 import api from "../api";
 
@@ -226,15 +226,11 @@ function LoginScreen({ navigation }) {
 
                 if (userInfo?.status == "200") {
                   let uidt = userInfo.data;
-                  // console.log("userInfo: ",uidt);
-                  //Save user info, access token, refresh token and update user context
-                  //User info
-                  //console.log("userinfo dt: ",uidt.data);
+
                   console.log("userInfo is-");
                   let attributes = uidt.data.attributes,
                     included = uidt.data?.included?.[0] || {};
-                  // included?.attributes?.lifeExpectancies &&
-                  //   delete included.attributes.lifeExpectancies;
+
                   let trimmedUserInfo = {
                     attributes: {
                       title: attributes.title,
@@ -252,7 +248,7 @@ function LoginScreen({ navigation }) {
                   helpers.save("pa_atk", dt3.access_token);
                   helpers.save("pa_rtk", dt3?.refresh_token);
                   let includes = [{}];
-                  //helpers.save("pa_u", JSON.stringify(trimmedUserInfo));
+
                   await api
                     .Get_retirement_profiles_user(dt3.access_token)
                     .then((resp) => {
@@ -323,10 +319,9 @@ function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../assets/2.jpg")}
+        // source={require("../assets/2.jpg")}
         style={{
-          backgroundColor: primary.btn,
-
+          backgroundColor: "#548cb2",
           flex: 1,
           alignItems: "center",
         }}
@@ -341,7 +336,7 @@ function LoginScreen({ navigation }) {
         >
           <JarvisLogo height={130} width={400} />
           <View style={{ marginTop: 2 }}>
-            <HeaderOne>{' '}We are here for{"\n"} innovative doers</HeaderOne>
+            <HeaderOne> We are here for{"\n"} innovative doers</HeaderOne>
           </View>
         </View>
         <View
@@ -364,13 +359,14 @@ function LoginScreen({ navigation }) {
             marginBottom: 50,
             justifyContent: "center",
             alignItems: "center",
+            paddingVertical: 4,
           }}
         >
           <JarvisButton
             style={{
               ...styles.loginButton,
             }}
-            buttonSyle={{ borderWidth: 2, borderColor: primary.btn }}
+            buttonSyle={{ padding: 11 }}
             disabled={loginButtonDisabled}
             bgcolor={primary.btn}
             play={_initLogin}

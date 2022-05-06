@@ -15,6 +15,7 @@ let ModalDropdown;
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
+import { useFonts } from "expo-font";
 import WhyAsk from "../components/whyask";
 import { MaterialIcons } from "@expo/vector-icons";
 import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
@@ -212,7 +213,13 @@ function KYCRetirementAgeScreen({ navigation }) {
       "18",
     ];
   };
+  const [loaded] = useFonts({
+    LabGrotesqueLight: require("../assets/fonts/LabGrotesque-Light.ttf"),
+  });
 
+  if (!loaded) {
+    return null;
+  }
   return (
     <MyGradientBackground>
       <Portal>
@@ -324,16 +331,17 @@ function KYCRetirementAgeScreen({ navigation }) {
         <View style={{ alignItems: "center" }}>
           <View style={styles.formGroup}>
             <View style={(styles.centerView, { paddingVertical: 2 })}>
-              {Platform.OS !== "web" && (
+              {/* {Platform.OS !== "web" && (
                 <ModalDropdown
                   // defaultIndex={47}
                   defaultValue={String(retirementAge) || "select."}
-                  textStyle={{ fontSize: 15, color: primary.inputText }}
+                  textStyle={{ fontSize: 17, color: primary.inputText }}
                   dropdownStyle={{ width: "70%" }}
                   dropdownTextStyle={{
-                    fontSize: 16,
+                    fontSize: 18,
                     paddingLeft: 10,
-                    fontWeight: "900",
+                    color: primary.baseText,
+                    fontFamily: "LabGrotesqueLight"
                   }}
                   onSelect={(itemIndex, itemValue) => {
                     // console.log(itemValue);
@@ -350,11 +358,45 @@ function KYCRetirementAgeScreen({ navigation }) {
                   }}
                   options={options()}
                 />
+              )} */}
+              {Platform.OS != "ios" && (
+                <View
+                  style={{
+                    borderRadius: 12,
+                    padding: 10,
+                    backgroundColor: primary.subBase,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Picker
+                    selectedValue={retirementAge.toString() || "select."}
+                    style={{
+                      height: 40,
+                      paddingHorizontal: 10,
+                      border: "none",
+                      borderRadius: 10,
+                      backgroundColor: primary.subBase,
+                    }}
+                    onValueChange={(itemValue, itemIndex) => {
+                      setRetirementAge(itemValue);
+                      // console.log(itemValue);
+                      if (parseInt(itemValue) > 1)
+                        setRetirementAgeValidation(false);
+                    }}
+                  >
+                    {options().map((item) => (
+                      <Picker.Item label={item} value={item} />
+                    ))}
+                  </Picker>
+                </View>
               )}
-              {Platform.OS === "web" && (
+              {Platform.OS == "ios" && (
                 <Picker
                   selectedValue={retirementAge.toString() || "select."}
-                  style={{ height: 40, paddingHorizontal: 10, border: "none" }}
+                  itemStyle={{
+                    textAlign: "center",
+                    color: primary.text,
+                  }}
                   onValueChange={(itemValue, itemIndex) => {
                     setRetirementAge(itemValue);
                     // console.log(itemValue);

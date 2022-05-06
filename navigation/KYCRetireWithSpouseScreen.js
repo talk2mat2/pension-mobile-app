@@ -214,43 +214,50 @@ function KYCRetireWithSpouseScreen({ navigation }) {
 
   return (
     <MyGradientBackground>
-      <ScrollView>
-        <View
-          style={{
-            marginTop: 30,
-            alignContent: "flex-start",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <View style={{ position: "absolute", left: 10 }}>
-            <Pressable onPress={_goBack}>
-              <MaterialCommunityIcons
-                name="chevron-left-circle-outline"
-                color={primary.subText}
-                size={40}
-              />
-            </Pressable>
-          </View>
+      <View
+        style={{
+          marginTop: 30,
+          alignContent: "flex-start",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <View style={{ position: "absolute", left: 10 }}>
+          <Pressable onPress={_goBack}>
+            <MaterialCommunityIcons
+              name="chevron-left-circle-outline"
+              color={primary.subText}
+              size={40}
+            />
+          </Pressable>
+        </View>
 
+        <View>
           <View>
-            <View>
-              <HeaderFour
-                style={{
-                  fontSize: 15,
-                  textAlign: "center",
-                  fontWeight: "bold",
-                }}
-              >
-                Personal Information
-              </HeaderFour>
-            </View>
+            <HeaderFour
+              style={{
+                fontSize: 15,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              Personal Information
+            </HeaderFour>
           </View>
         </View>
-        <View style={styles.container}>
-          {/* <HeaderTwo style={{ textAlign: "center", }}>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: 30,
+          marginBottom: 90,
+          paddingBottom: 100,
+          alignItems: "center",
+        }}
+      >
+        {/* <HeaderTwo style={{ textAlign: "center", }}>
         <Text style={[styles.subHeader]}>{screenTitle}</Text>
         </HeaderTwo> */}
+        <ScrollView>
           <View style={[styles.centerView, { marginTop: 100 }]}>
             <HeaderTwo>{screenTitle}</HeaderTwo>
           </View>
@@ -347,7 +354,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
               <Text
                 style={[
                   styles.inlineFormText,
-                  { marginLeft: 5, color: primary.text, marginRight: 30 },
+                  { marginLeft: 5, color: primary.text, marginRight: 10 },
                 ]}
               >
                 Enter spouse's name
@@ -389,7 +396,7 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 >
                   <ParaOne style={styles.inlineFormText}>Spouse gender</ParaOne>
                   <View style={styles.inlineFormGroup}>
-                    <View style={(styles.centerView, { paddingVertical: 1 })}>
+                    <View style={{ paddingVertical: 1 }}>
                       {/* <TextInput
                       keyboardType="number-pad"
                       style={[styles.formInput, { textAlign: "center" }]}
@@ -405,12 +412,17 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                       {Platform.OS !== "web" && (
                         <ModalDropdown
                           defaultValue={"select.."}
-                          textStyle={{ fontSize: 15 }}
-                          dropdownStyle={{ width: "40%", paddingLeft: 6 }}
+                          textStyle={{ fontSize: 17, color: primary.inputText }}
+                          dropdownStyle={{
+                            width: "30%",
+                            paddingLeft: 6,
+                            height: 90,
+                          }}
                           dropdownTextStyle={{
-                            fontSize: 16,
+                            fontSize: 18,
                             paddingLeft: 10,
-                            fontWeight: "900",
+                            color: primary.baseText,
+                            // fontFamily: "LabGrotesqueLight"
                           }}
                           onSelect={(itemIndex, itemValue) => {
                             setSpouseGender(itemValue);
@@ -454,7 +466,92 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                   </View>
                 )}
 
-                <ParaOne
+                <View style={styles.formGroup}>
+                  <View style={{ marginHorizontal: 5, marginBottom: 4 }}>
+                    <ParaOne style={{ fontWeight: "bold" }}>
+                      Enter spouse's date of birth
+                    </ParaOne>
+                  </View>
+                  <View style={{ paddingVertical: 2, marginTop: 2 }}>
+                    <View style={{}}>
+                      <ParaOne
+                        style={{
+                          ...styles.bdayText,
+                          textAlign: "left",
+                          paddingHorizontal: 5,
+                        }}
+                      >
+                        {birthdayDisplay}
+                      </ParaOne>
+                      {showDatePicker && (
+                        <View
+                          style={{
+                            minHeight: 100,
+                          }}
+                        >
+                          <DateTimePicker
+                            testID="birthdayDateTimePicker"
+                            maximumDate={
+                              new Date(new Date().getFullYear() - 18, 0, 1)
+                            }
+                            value={defaultDate()}
+                            mode="date"
+                            is24Hour={true}
+                            display="default"
+                            onChange={(e, d) => {
+                              setShowDatePicker(false);
+                              if (typeof d != "undefined") {
+                                updateBirthday(d);
+                              }
+                            }}
+                          />
+                        </View>
+                      )}
+                      <View style={{ alignItems: "center" }}>
+                        <JarvisButton
+                          btnStyle={{ fontSize: 15, alignSelf: "center" }}
+                          style={{ ...styles.loginButton, marginVertical: 4 }}
+                          bgcolor="#ff6c00"
+                          play={() => {
+                            !showDatePicker && setShowDatePicker(true);
+                            showDatePicker && setShowDatePicker(false);
+                          }}
+                          btn="Select date"
+                          w={100}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                  <View style={{}}>
+                    {/* {  console.log(new Date(birthday))} */}
+
+                    {Platform.OS == "web" && showDatePicker && (
+                      <Webdate.DatePickerModal
+                        locale="en"
+                        mode="single"
+                        visible={showDatePicker}
+                        onDismiss={onDismissSingle}
+                        date={defaultDate()}
+                        onConfirm={onConfirmSingle}
+                        validRange={{
+                          // startDate: new Date(new Date().getFullYear() - 18, 0, 1),  // optional
+                          endDate: new Date(
+                            new Date().getFullYear() - 18,
+                            0,
+                            1
+                          ), // optional
+                          // disabledDates: [new Date()] // optional
+                        }}
+                        // onChange={} // same props as onConfirm but triggered without confirmed by user
+                        // saveLabel="Save" // optional
+                        // uppercase={false} // optional, default is true
+                        // label="Select date" // optional
+                        // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
+                      />
+                    )}
+                  </View>
+                </View>
+                {/* <ParaOne
                   style={{
                     ...styles.formText,
                     marginLeft: 5,
@@ -463,63 +560,30 @@ function KYCRetireWithSpouseScreen({ navigation }) {
                 >
                   Enter spouse's date of birth
                 </ParaOne>
-                <View style={{ ...styles.formGroup, marginLeft: 5 }}>
-                  <View style={{ flexDirection: "row", paddingVertical: 5 }}>
+                <View style={{ ...styles.formGroup,  }}>
+                  <View style={{ }}>
                     <ParaOne style={styles.formText}>{birthdayDisplay}</ParaOne>
-                    <JarvisButton
-                      btnStyle={{ fontSize: 14 }}
-                      style={styles.loginButton}
-                      bgcolor={primary.btn}
-                      play={() => {
-                        setShowDatePicker(true);
-                      }}
-                      btn="Select date"
-                      w="40%"
-                    />
+                    <View style={{ alignItems: "center" }}>
+                      <JarvisButton
+                        btnStyle={{ fontSize: 14 }}
+                        style={styles.loginButton}
+                        bgcolor={primary.btn}
+                        play={() => {
+                          alert("hello");
+                          setShowDatePicker(true);
+                        }}
+                        btn="Select date"
+                        w={100}
+                      />
+                    </View>
                   </View>
-                </View>
-
-                {showDatePicker && (
-                  <DateTimePicker
-                    testID="birthdayDateTimePicker"
-                    maximumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                    value={defaultDate()}
-                    mode="date"
-                    is24Hour={true}
-                    display="default"
-                    onChange={(e, d) => {
-                      setShowDatePicker(false);
-                      if (typeof d != "undefined") {
-                        updateBirthday(d);
-                      }
-                    }}
-                  />
-                )}
-                {Platform.OS == "web" && showDatePicker && (
-                  <Webdate.DatePickerModal
-                    locale="en"
-                    mode="single"
-                    visible={showDatePicker}
-                    onDismiss={onDismissSingle}
-                    date={defaultDate()}
-                    onConfirm={onConfirmSingle}
-                    validRange={{
-                      // startDate: new Date(new Date().getFullYear() - 18, 0, 1),  // optional
-                      endDate: new Date(new Date().getFullYear() - 18, 0, 1), // optional
-                      // disabledDates: [new Date()] // optional
-                    }}
-                    // onChange={} // same props as onConfirm but triggered without confirmed by user
-                    // saveLabel="Save" // optional
-                    // uppercase={false} // optional, default is true
-                    // label="Select date" // optional
-                    // animationType="slide" // optional, default is 'slide' on ios/android and 'none' on web
-                  />
-                )}
+                </View> */}
               </View>
             </>
           )}
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
+
       <View style={{ width: "100%", marginTop: "auto", marginBottom: 20 }}>
         {/* <View style={[styles.centerView]}>
           <JarvisButton
@@ -609,7 +673,6 @@ const styles = StyleSheet.create({
   loginButton: {
     // alignItems: 'center',
     marginTop: 50,
-    marginLeft: 20,
   },
   imageBackground: {
     flex: 1,
@@ -633,7 +696,7 @@ const styles = StyleSheet.create({
     borderBottomColor: primary.subBase,
   },
   formGroup: {
-    width: "90%",
+    width: "100%",
     textAlign: "center",
     marginTop: 20,
     borderRadius: 5,

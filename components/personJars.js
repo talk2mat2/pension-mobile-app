@@ -74,9 +74,9 @@ const PersonJars = ({ item, index, AddJar }) => {
               <ParaOne
                 style={{
                   textAlign: "center",
-                  fontWeight: "600",
+
                   paddingBottom: 10,
-               
+                  lineHeight: 20,
                 }}
               >
                 Provider{"\n"}
@@ -97,7 +97,6 @@ const PersonJars = ({ item, index, AddJar }) => {
                   style={{
                     textAlign: "center",
                     fontWeight: "bold",
-                   
                   }}
                 >
                   £{item?.currentValue}

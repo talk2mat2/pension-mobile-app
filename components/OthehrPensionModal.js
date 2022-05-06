@@ -91,43 +91,44 @@ const OtherensionModal = ({
             Other Retirement {"\n"}Income
           </HeaderTwo>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View style={{ paddingVertical: 20 }}>
-          <ParaOne style={{ textAlign: "center", color: primary.baseText }}>
-            Enter the total value of any other income you {"\n"} may have
-            available to add to your pension {"\n"} when you retire
-          </ParaOne>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 10 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
-            Expected Annual Income
-          </ParaOne>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>£</Text>
-            <TextInput
-              keyboardType="numeric"
-              style={styles.input}
-              value={personData.expectedAnualIncome}
-              onChangeText={(text) => {
-                setPersonData({
-                  ...personData,
-                  expectedAnualIncome: text,
-                  currentValue: text,
-                });
-              }}
-            />
+        <ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View style={{ paddingVertical: 20 }}>
+            <ParaOne style={{ textAlign: "center", color: primary.baseText }}>
+              Enter the total value of any other income you {"\n"} may have
+              available to add to your pension {"\n"} when you retire
+            </ParaOne>
           </View>
-        </View>
-        {/* {stateAmountValidation && (
+          <View style={{ ...styles.hrView, marginTop: 10 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Expected Annual Income
+            </ParaOne>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text>£</Text>
+              <TextInput
+                keyboardType="numeric"
+                style={styles.input}
+                value={personData.expectedAnualIncome}
+                onChangeText={(text) => {
+                  setPersonData({
+                    ...personData,
+                    expectedAnualIncome: text,
+                    currentValue: text,
+                  });
+                }}
+              />
+            </View>
+          </View>
+          {/* {stateAmountValidation && (
           <View style={styles.formGroupError}>
             <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
               Please enter your state pension amount
@@ -135,8 +136,8 @@ const OtherensionModal = ({
           </View>
         )} */}
 
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        {/* <View
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -160,123 +161,123 @@ const OtherensionModal = ({
             />
           </View>
         </View> */}
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-            alignItems: "center",
-          }}
-        >
-          <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
-            Spouses {"\n"}Pension
-          </ParaOne>
-          <View style={{ flexDirection: "row" }}>
-            <ParaOne style={styles.radioText}>Yes</ParaOne>
-            <RadioButton
-              value="Male"
-              status={
-                personData.spousePension === "yes" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "yes",
-                  isSpouse: true,
-                });
-              }}
-            />
-            <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
-              No
-            </ParaOne>
-            <RadioButton
-              value="no"
-              status={
-                personData.spousePension === "no" ? "checked" : "unchecked"
-              }
-              onPress={() => {
-                setPersonData({
-                  ...personData,
-                  spousePension: "no",
-                  isSpouse: false,
-                });
-              }}
-            />
-          </View>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View>
-          <ParaOne
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
             style={{
-              fontSize: 16,
-              marginTop: 10,
-              marginBottom: 20,
-              color: primary.baseText,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+              alignItems: "center",
             }}
           >
-            Expected Income Start Date
-          </ParaOne>
-          <View style={{ height: 80 }}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <ParaOne
-                style={{
-                  marginRight: 20,
-                  color: primary.baseText,
-                  fontWeight: "bold",
+            <ParaOne style={{ fontSize: 16, color: primary.baseText }}>
+              Spouses {"\n"}Pension
+            </ParaOne>
+            <View style={{ flexDirection: "row" }}>
+              <ParaOne style={styles.radioText}>Yes</ParaOne>
+              <RadioButton
+                value="Male"
+                status={
+                  personData.spousePension === "yes" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "yes",
+                    isSpouse: true,
+                  });
                 }}
-              >
-                {date.toDateString()}
+              />
+              <ParaOne style={{ ...styles.radioText, marginLeft: 20 }}>
+                No
               </ParaOne>
-              <JarvisButton
-                style={[styles.loginButton]}
-                btnStyle={{ fontSize: 14 }}
-                bgcolor={primary.btn}
-                play={() => {
-                  setShowDatePicker(true);
+              <RadioButton
+                value="no"
+                status={
+                  personData.spousePension === "no" ? "checked" : "unchecked"
+                }
+                onPress={() => {
+                  setPersonData({
+                    ...personData,
+                    spousePension: "no",
+                    isSpouse: false,
+                  });
                 }}
-                btn="Select date"
-                w="40%"
               />
             </View>
-
-            <View style={[{ alignContent: "space-between" }]}>
-              {showDatePicker && (
-                <DateTimePicker
-                  testID="birthdayDateTimePicker"
-                  minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
-                  value={date}
-                  mode="date"
-                  is24Hour={true}
-                  display="default"
-                  onChange={(e, d) => {
-                    setShowDatePicker(false);
-                    if (typeof d != "undefined") {
-                      updateDate(d);
-                    }
+          </View>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View>
+            <ParaOne
+              style={{
+                fontSize: 16,
+                marginTop: 10,
+                marginBottom: 20,
+                color: primary.baseText,
+              }}
+            >
+              Expected Income Start Date
+            </ParaOne>
+            <View style={{ height: 80 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}
+              >
+                <ParaOne
+                  style={{
+                    marginRight: 20,
+                    color: primary.baseText,
+                    fontWeight: "bold",
                   }}
+                >
+                  {date.toDateString()}
+                </ParaOne>
+                <JarvisButton
+                  style={[styles.loginButton]}
+                  btnStyle={{ fontSize: 14 }}
+                  bgcolor={primary.btn}
+                  play={() => {
+                    setShowDatePicker(true);
+                  }}
+                  btn="Select date"
+                  w="40%"
                 />
-              )}
+              </View>
+
+              <View style={[{ alignContent: "space-between" }]}>
+                {showDatePicker && (
+                  <DateTimePicker
+                    testID="birthdayDateTimePicker"
+                    minimumDate={new Date(new Date().getFullYear() - 18, 0, 1)}
+                    value={date}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onChange={(e, d) => {
+                      setShowDatePicker(false);
+                      if (typeof d != "undefined") {
+                        updateDate(d);
+                      }
+                    }}
+                  />
+                )}
+              </View>
             </View>
           </View>
-        </View>
 
-        <View style={{ ...styles.hrView, marginTop: "16%" }} />
-        <View style={{ alignItems: "center", marginTop: 19 }}>
-          <JarvisButton
-            bgcolor={primary.baseText}
-            play={_next}
-            btn="Continue"
-            w={200}
-          />
-        </View>
-        <ScrollView></ScrollView>
+          <View style={{ ...styles.hrView, marginTop: "16%" }} />
+          <View style={{ alignItems: "center", marginTop: 19 }}>
+            <JarvisButton
+              bgcolor={primary.baseText}
+              play={_next}
+              btn="Continue"
+              w={200}
+            />
+          </View>
+        </ScrollView>
       </Modal>
     </Portal>
   );

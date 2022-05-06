@@ -143,7 +143,7 @@ function RTbudgetOne({ navigation }) {
           right: 0,
           zIndex: 3,
           elevation: 5,
-          paddingTop:20
+          paddingTop: 20,
         }}
       >
         <View
@@ -199,21 +199,21 @@ function RTbudgetOne({ navigation }) {
             want live when you’re retired
           </HeaderThree>
         </View>
-        <View style={{ marginTop: 15, height:600 }}>
-          <ScrollView style={{ flex: 1,marginBottom:220 }}>
-            {loading && (
-              <View
-                style={{
-                  position: "absolute",
-                  zIndex: 8,
-                  elevation: 8,
-                  left: 0,
-                  right: 0,
-                }}
-              >
-                <JarvisLoading color={primary.subText} text="Please wait" />
-              </View>
-            )}
+        <View style={{ marginTop: 15, height: 600 }}>
+          {loading && (
+            <View
+              style={{
+                position: "absolute",
+                zIndex: 8,
+                elevation: 8,
+                left: 0,
+                right: 0,
+              }}
+            >
+              <JarvisLoading color={primary.subText} text="Please wait" />
+            </View>
+          )}
+          <ScrollView style={{ flex: 1, marginBottom: 220 }}>
             {pageData.length > 0 && (
               <>
                 <BudgetOption
@@ -245,23 +245,22 @@ function RTbudgetOne({ navigation }) {
       </View>
       <View
         style={{
-       
           width: "100%",
-          height: '38%',
+          height: "38%",
           marginTop: "auto",
         }}
       >
-          <ImageBackground
+        <ImageBackground
           source={require("../../assets/jrp.png")}
           style={{
-            height:'140%',
+            height: "140%",
             width: "100%",
-            overflow:'hidden',
+            overflow: "hidden",
             flex: 1,
             alignItems: "center",
             paddingVertical: 15,
           }}
-          imageStyle={{ resizeMode: "repeat" ,flex:1,overflow:"hidden"}}
+          imageStyle={{ resizeMode: "repeat", flex: 1, overflow: "hidden" }}
         ></ImageBackground>
         {/* <Image
           style={{ flex: 1, width: undefined, height: undefined,aspectRatio:2/3 }}

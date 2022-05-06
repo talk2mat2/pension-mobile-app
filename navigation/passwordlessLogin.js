@@ -142,7 +142,7 @@ const PasswordLess = ({ visible, setVisiblility, navigation }) => {
         {emailError.status == true && (
           <View style={{ paddingHorizontal: 20 }}>
             <HelperText
-              style={{ fontSize: 15 }}
+              style={{ fontSize: 15, color: "red", fontWeight: "bold" }}
               type="error"
               visible={emailError.status}
             >

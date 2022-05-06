@@ -67,40 +67,43 @@ const StatePensionModal = ({
             Add Your State {"\n"}Pension
           </HeaderTwo>
         </View>
-        <View style={{ ...styles.hrView, marginTop: 20 }} />
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            marginVertical: 10,
-            marginTop: 20,
-          }}
-        >
-          <HeaderThree style={{ color: primary.baseText }}>
-            Enter your State{"\n"} Pension amount
-          </HeaderThree>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text>£</Text>
-            <TextInput
-              keyboardType="numeric"
-              onChangeText={(text) => {
-                setStateAmount(text), setStateAmountValidation(false);
-              }}
-              style={styles.input}
-              value={stateAmount}
-            />
+        <ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 20 }} />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginVertical: 10,
+              marginTop: 20,
+            }}
+          >
+            <HeaderThree style={{ color: primary.baseText }}>
+              Enter your State{"\n"} Pension amount
+            </HeaderThree>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text>£</Text>
+              <TextInput
+                keyboardType="numeric"
+                onChangeText={(text) => {
+                  setStateAmount(text), setStateAmountValidation(false);
+                }}
+                style={styles.input}
+                value={stateAmount}
+              />
+            </View>
           </View>
-        </View>
-        {stateAmountValidation && (
-          <View style={styles.formGroupError}>
-            <Text style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}>
-              Please enter your state pension amount
-            </Text>
-          </View>
-        )}
+          {stateAmountValidation && (
+            <View style={styles.formGroupError}>
+              <Text
+                style={{ ...styles.inputError, marginTop: 4, fontSize: 12 }}
+              >
+                Please enter your state pension amount
+              </Text>
+            </View>
+          )}
 
-        {/* <View style={{ ...styles.hrView, marginTop: 20 }} /> */}
-        {/* <View
+          {/* <View style={{ ...styles.hrView, marginTop: 20 }} /> */}
+          {/* <View
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
@@ -124,38 +127,38 @@ const StatePensionModal = ({
             />
           </View>
         </View> */}
-        <View style={{ ...styles.hrView, marginTop: 60 }} />
-        <View style={{ marginTop: 20 }}>
-          <Text style={{ fontWeight: "bold", color: primary.baseText }}>
-            <AntDesign
-              name="exclamationcircle"
-              size={17}
-              color={primary.baseText}
-            />{" "}
-            Why are we asking you this{" "}
-          </Text>
-          <ParaOne
-            style={{
-              fontWeight: "200",
-              marginTop: 10,
-              color: primary.baseText,
-            }}
-          >
-            Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
-            nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat
-            volutpat. Ut wisi enim ad minim
-          </ParaOne>
-        </View>
-        <View style={{ ...styles.hrView, marginTop: "40%" }} />
-        <View style={{ alignItems: "center", marginTop: 40 }}>
-          <JarvisButton
-            bgcolor={primary.btn}
-            play={_next}
-            btn="Continue"
-            w={200}
-          />
-        </View>
-        <ScrollView></ScrollView>
+          <View style={{ ...styles.hrView, marginTop: 60 }} />
+          <View style={{ marginTop: 20 }}>
+            <Text style={{ fontWeight: "bold", color: primary.baseText }}>
+              <AntDesign
+                name="exclamationcircle"
+                size={17}
+                color={primary.baseText}
+              />{" "}
+              Why are we asking you this{" "}
+            </Text>
+            <ParaOne
+              style={{
+                fontWeight: "200",
+                marginTop: 10,
+                color: primary.baseText,
+              }}
+            >
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam
+              nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam
+              erat volutpat. Ut wisi enim ad minim
+            </ParaOne>
+          </View>
+          <View style={{ ...styles.hrView, marginTop: "40%" }} />
+          <View style={{ alignItems: "center", marginTop: 40 }}>
+            <JarvisButton
+              bgcolor={primary.btn}
+              play={_next}
+              btn="Continue"
+              w={200}
+            />
+          </View>
+        </ScrollView>
       </Modal>
     </Portal>
   );

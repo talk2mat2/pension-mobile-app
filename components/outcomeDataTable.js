@@ -12,10 +12,6 @@ const OutcomeDatatable = () => {
           <ParaOne style={styles.PriceDetail}>80</ParaOne>
         </View>
         <View style={styles.tableRow}>
-          <ParaOne style={styles.rowData}>Spouses Retirement Age</ParaOne>
-          <ParaOne style={styles.PriceDetail}>85</ParaOne>
-        </View>
-        <View style={styles.tableRow}>
           <ParaOne style={styles.rowData}>
             Desired Monthly Retirement Income{" "}
           </ParaOne>

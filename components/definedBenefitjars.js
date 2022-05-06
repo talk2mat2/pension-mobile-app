@@ -74,10 +74,11 @@ const BenefitJars = ({ item, index, AddJar }) => {
               <ParaOne
                 style={{
                   textAlign: "center",
-
-                  lineHeight: 20,
+                  fontSize: 15,
+                  lineHeight: 19,
                   letterSpacing: 0.1,
                   paddingBottom: 10,
+                  letterSpacing:-0.5
                 }}
               >
                 Pension name{"\n"}
@@ -90,7 +91,7 @@ const BenefitJars = ({ item, index, AddJar }) => {
                   <AntDesign
                     style={{ textAlign: "center", fontWeight: "600" }}
                     name="pluscircle"
-                    size={37}
+                    size={30}
                     color={primary.subText}
                   />
                 </TouchableOpacity>

@@ -17,6 +17,7 @@ if (Platform.OS == "web") {
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
 }
+import { useFonts } from "expo-font";
 import { HeaderFour, HeaderTwo, ParaOne } from "../constant/fonts";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import * as helpers from "../Helpers";
@@ -128,6 +129,13 @@ function KYCBirthdayScreen({ navigation }) {
       setGender(u?.attributes?.gender);
     }
   }, [u]);
+  const [loaded] = useFonts({
+    LabGrotesqueLight: require("../assets/fonts/LabGrotesque-Light.ttf"),
+  });
+
+  if (!loaded) {
+    return null;
+  }
   return (
     <MyGradientBackground>
       <View
@@ -178,31 +186,10 @@ function KYCBirthdayScreen({ navigation }) {
               }
             >
               Thanks {u?.attributes?.fname} {"\n"}
-              please tell us your {"\n"}gender and date of birth? {"\n"}
+              please tell us your {"\n"}gender and date of {"\n"}birth?
             </HeaderTwo>
           </View>
-          {/* <View
-            style={{ marginTop: 10, marginBottom: 30, alignItems: "center" }}
-          >
-            <View style={{ flexDirection: "row" }}>
-              <MaterialCommunityIcons
-                name="information"
-                color={myColorsLight.black}
-                size={18}
-              />
-              <Text
-                style={{
-                  ...styles.subHeader,
-                  fontSize: 16,
-                  color: myColorsLight.lightGreyDim,
-                  paddingLeft: 3,
-                  textAlign: "center",
-                }}
-              >
-                Why are we asking you this?
-              </Text>
-            </View>
-          </View> */}
+        
           <WhyAsk reasons="" />
           <View style={{ marginHorizontal: 20, marginBottom: 4 }}>
             <ParaOne style={{ fontWeight: "bold" }}>Gender</ParaOne>
@@ -213,12 +200,13 @@ function KYCBirthdayScreen({ navigation }) {
                 {Platform.OS !== "web" && (
                   <ModalDropdown
                     defaultValue={gender || "select.."}
-                    textStyle={{ fontSize: 15, color: primary.inputText }}
-                    dropdownStyle={{ width: "70%" }}
+                    textStyle={{ fontSize: 17, color: primary.inputText }}
+                    dropdownStyle={{ width: "70%", height: 90 }}
                     dropdownTextStyle={{
-                      fontSize: 16,
+                      fontSize: 18,
                       paddingLeft: 10,
-                      fontWeight: "900",
+                      color: primary.baseText,
+                      fontFamily: "LabGrotesqueLight",
                     }}
                     onSelect={(itemIndex, itemValue) => {
                       setGender(itemValue);
@@ -226,7 +214,8 @@ function KYCBirthdayScreen({ navigation }) {
                     }}
                     style={{
                       height: 45,
-                      paddingTop: 10,
+                      justifyContent: "center",
+                      // paddingTop: 10,
                       paddingHorizontal: 10,
                       borderRadius: 10,
                       backgroundColor: primary.subBase,
@@ -252,21 +241,6 @@ function KYCBirthdayScreen({ navigation }) {
                     ))}
                   </Picker>
                 )}
-
-                {/* <Picker
-                selectedValue={u.attributes.gender}
-                onValueChange={(itemValue, itemIndex) => {
-                  setGender(itemValue);
-                  setGenderValidation(false);
-                }}
-                itemStyle={{ minHeight: 50, padding: 0 }}
-                style={{ height: 50, padding: 0, margin: 0 }}
-              >
-                <Picker.Item label="Select gender" value="none" />
-                <Picker.Item label="Male" value="Male" />
-                <Picker.Item label="Female" value="Female" />
-                <Picker.Item label="Unknown" value="Unknown" />
-              </Picker> */}
               </View>
             </View>
             {genderValidation && (

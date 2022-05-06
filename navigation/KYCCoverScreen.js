@@ -22,6 +22,7 @@ import MyGradientBackground from "../components/grdientBackGround";
 import { myColorsLight, primary } from "../constant/colors";
 import api from "../api";
 import JarvisLoader from "../components/JarvisLoader";
+import { ScrollView } from "react-native-gesture-handler";
 
 function KYCCoverScreen({ navigation }) {
   const ctx = useContext(UserContext);
@@ -104,24 +105,25 @@ function KYCCoverScreen({ navigation }) {
               height: 1,
               width: "85%",
               marginHorizontal: 25,
-              alignSelf:'center'
+              alignSelf: "center",
             }}
           />
           <View style={{ alignItems: "center", marginTop: 30 }}>
             <HeaderTwo>Welcome to Jarvis</HeaderTwo>
             {/* <Text style={styles.subHeader}>Welcome to Jarvis</Text> */}
           </View>
-          <View
-            style={{ marginTop: 30, alignItems: "center", marginBottom: 30 }}
-          >
-            <ParaOne style={{ textAlign: "center" }}>
-              To build your retirement profile we{"\n"} would need to capture
-              some information
-              {"\n"}
-              from you.
-            </ParaOne>
-          </View>
-          {/* <View
+          <ScrollView>
+            <View
+              style={{ alignItems: "center", marginBottom: 30 }}
+            >
+              <ParaOne style={{ textAlign: "center" }}>
+                To build your retirement profile we{"\n"} would need to capture
+                some information
+                {"\n"}
+                from you.
+              </ParaOne>
+            </View>
+            {/* <View
             style={{
               backgroundColor: primary.subText,
               height: 1,
@@ -129,62 +131,68 @@ function KYCCoverScreen({ navigation }) {
             }}
           /> */}
 
-          <View
-            style={{
-              borderTopWidth: 1,
-              paddingTop: 30,
-              borderTopColor: primary.subText,
-              marginHorizontal: 57,
-            }}
-          >
-            <HeaderFour style={{ letterSpacing: 0.6 }}>
-              It would take just three steps:
-            </HeaderFour>
-          </View>
-
-          <View
-            style={{ paddingHorizontal: 40, marginTop: 10, marginBottom: 100 }}
-          >
-            <View style={styles.hrView}></View>
-
-            <View style={styles.hrView}>
-              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <ParaOne
-                  style={{
-                    marginLeft: 5,
-                    marginTop: 3,
-                  }}
-                >
-                  <Text>1</Text>&nbsp;&nbsp; Personal Information
-                </ParaOne>
-              </View>
+            <View
+              style={{
+                borderTopWidth: 1,
+                paddingTop: 30,
+                borderTopColor: primary.subText,
+                marginHorizontal: 57,
+              }}
+            >
+              <HeaderFour style={{ letterSpacing: 0.6 }}>
+                It would take just three steps:
+              </HeaderFour>
             </View>
 
-            <View style={styles.hrView}>
-              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <ParaOne
-                  style={{
-                    marginLeft: 5,
-                    marginTop: 3,
-                  }}
-                >
-                  <Text>2</Text>&nbsp;&nbsp; Your Retirement Lifestyle
-                </ParaOne>
+            <View
+              style={{
+                paddingHorizontal: 40,
+                marginTop: 10,
+                marginBottom: 100,
+                paddingBottom:50
+              }}
+            >
+              <View style={styles.hrView}></View>
+
+              <View style={styles.hrView}>
+                <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                  <ParaOne
+                    style={{
+                      marginLeft: 5,
+                      marginTop: 3,
+                    }}
+                  >
+                    <Text>1</Text>&nbsp;&nbsp; Personal Information
+                  </ParaOne>
+                </View>
+              </View>
+
+              <View style={styles.hrView}>
+                <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                  <ParaOne
+                    style={{
+                      marginLeft: 5,
+                      marginTop: 3,
+                    }}
+                  >
+                    <Text>2</Text>&nbsp;&nbsp; Your Retirement Lifestyle
+                  </ParaOne>
+                </View>
+              </View>
+              <View style={styles.hrView}>
+                <View style={{ marginLeft: 10, paddingVertical: 10 }}>
+                  <ParaOne
+                    style={{
+                      marginLeft: 5,
+                      marginTop: 3,
+                    }}
+                  >
+                    <Text>3</Text>&nbsp;&nbsp; Pensions & Savings
+                  </ParaOne>
+                </View>
               </View>
             </View>
-            <View style={styles.hrView}>
-              <View style={{ marginLeft: 10, paddingVertical: 10 }}>
-                <ParaOne
-                  style={{
-                    marginLeft: 5,
-                    marginTop: 3,
-                  }}
-                >
-                  <Text>3</Text>&nbsp;&nbsp; Pensions & Savings
-                </ParaOne>
-              </View>
-            </View>
-          </View>
+          </ScrollView>
           <>
             <View
               style={{
@@ -197,7 +205,13 @@ function KYCCoverScreen({ navigation }) {
                 marginBottom: 0,
               }}
             >
-              <View style={[styles.centerView, { marginTop: 30 }]}>
+              <View
+                style={{
+                  ...styles.centerView,
+                  marginTop: 30,
+                  backgroundColor: primary.base,
+                }}
+              >
                 <ImageBackground
                   source={require("../assets/j2.png")}
                   style={{

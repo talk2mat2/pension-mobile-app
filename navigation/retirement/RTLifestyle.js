@@ -207,7 +207,7 @@ function RTLifestyle({ route, navigation }) {
     await Api.create_retirement_profile(ctx?.atk, { data: newData })
       .then((res) => {
         setIsloading(false);
-        console.log(res);
+        // console.log(res);
         ctx.setRetireProfile(res?.data);
         navigation.navigate("RTExcellent", {
           result: lifestyleData?.["Total (Gross)"],

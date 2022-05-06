@@ -166,7 +166,7 @@ const OtherSwipper = () => {
                     style={{
                       textAlign: "center",
                       fontWeight: "600",
-                      lineHeight:20
+                      lineHeight:18
                     }}
                   >
                     Other {"\n"}Retirement {"\n"}Savings
@@ -177,7 +177,7 @@ const OtherSwipper = () => {
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "600" }}
                         name="pluscircle"
-                        size={37}
+                        size={32}
                         color={primary.text}
                       />
                     </TouchableOpacity>
@@ -228,7 +228,7 @@ const OtherSwipper = () => {
                     style={{
                       textAlign: "center",
                       fontWeight: "800",
-                      lineHeight: 20,
+                      lineHeight: 17,
                     }}
                   >
                     Other {"\n"}Retirement {"\n"}Income
@@ -238,7 +238,7 @@ const OtherSwipper = () => {
                       <AntDesign
                         style={{ textAlign: "center", fontWeight: "800" }}
                         name="pluscircle"
-                        size={37}
+                        size={32}
                         color={primary.text}
                       />
                     </TouchableOpacity>

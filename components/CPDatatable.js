@@ -35,12 +35,7 @@ const CPDatatable = ({ profile, style }) => {
                 {profile?.included[0]?.retirementAge || 0}
               </ParaOne>
             </View>
-            <View style={styles.tableRow}>
-              <ParaOne style={styles.rowData}>Spouses Retirement Age</ParaOne>
-              <ParaOne style={styles.PriceDetail}>
-                {profile?.included[0]?.spouseRetirementAge || 0}
-              </ParaOne>
-            </View>
+          
             <View style={styles.tableRow}>
               <ParaOne style={styles.rowData}>
                 Desired Monthly Retirement Income{" "}

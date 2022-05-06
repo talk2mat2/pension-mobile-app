@@ -11,6 +11,7 @@ import {
   ScrollView,
   KeyboardAvoidingView,
 } from "react-native";
+import { useFonts } from "expo-font";
 let ModalDropdown;
 if (Platform.OS !== "web") {
   ModalDropdown = require("react-native-modal-dropdown");
@@ -117,7 +118,13 @@ function KYCNameScreen({ navigation }) {
     navigation.goBack();
   };
   const options = ["none", "mrs", "miss", "mr"];
+  const [loaded] = useFonts({
+    LabGrotesqueLight: require("../assets/fonts/LabGrotesque-Light.ttf"),
+  });
 
+  if (!loaded) {
+    return null;
+  }
   return (
     <MyGradientBackground>
       <View
@@ -156,13 +163,18 @@ function KYCNameScreen({ navigation }) {
           alignSelf: "center",
         }}
       />
-      <View>
+      <View
+        style={{
+          marginBottom: 90,
+          paddingBottom: 80,
+        }}
+      >
         <ScrollView showsVerticalScrollIndicator={false}>
           <View
             style={{
-              marginTop: 70,
+              marginTop: 40,
               paddingHorizontal: 20,
-              marginBottom: 200,
+              marginBottom: 90,
             }}
           >
             <View style={{ alignItems: "center", marginBottom: 40 }}>
@@ -176,12 +188,13 @@ function KYCNameScreen({ navigation }) {
               {Platform.OS !== "web" && (
                 <ModalDropdown
                   defaultValue={title || "Select"}
-                  textStyle={{ fontSize: 15 }}
+                  textStyle={{ fontSize: 18 }}
                   dropdownStyle={{ width: "70%" }}
                   dropdownTextStyle={{
                     fontSize: 16,
                     paddingLeft: 10,
-                    fontWeight: "900",
+                    color:primary.inputText,
+                    fontFamily: "LabGrotesqueLight"
                   }}
                   onSelect={(itemIndex, itemValue) => {
                     setTitle(itemValue);
@@ -302,40 +315,40 @@ function KYCNameScreen({ navigation }) {
               </View>
             )}
           </View>
-          <View style={{ position: "absolute", bottom: 0, left: 0, right: 0 }}>
-            <View style={{ alignItems: "center", marginTop: 20 }}>
-              <JarvisButton
-                bgcolor={primary.btn}
-                play={_next}
-                btn="Continue"
-                w={200}
-              />
-            </View>
-            <View
-              style={{
-                marginTop: 40,
-                width: "50%",
-                alignSelf: "center",
-                paddingBottom: 10,
-              }}
-            >
-              <ProgressBar
-                progress={0.2}
-                color={primary.subText}
-                style={{ height: 7 }}
-              />
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 20,
-                  color: primary.subText,
-                }}
-              >
-                1/5
-              </Text>
-            </View>
-          </View>
         </ScrollView>
+      </View>
+      <View style={{ position: "absolute", bottom: 0, left: 0, right: 0,backgroundColor:primary.base }}>
+        <View style={{ alignItems: "center", marginTop: 20 }}>
+          <JarvisButton
+            bgcolor={primary.btn}
+            play={_next}
+            btn="Continue"
+            w={200}
+          />
+        </View>
+        <View
+          style={{
+            marginTop: 40,
+            width: "50%",
+            alignSelf: "center",
+            paddingBottom: 10,
+          }}
+        >
+          <ProgressBar
+            progress={0.2}
+            color={primary.subText}
+            style={{ height: 7 }}
+          />
+          <Text
+            style={{
+              textAlign: "center",
+              fontSize: 20,
+              color: primary.subText,
+            }}
+          >
+            1/5
+          </Text>
+        </View>
       </View>
     </MyGradientBackground>
   );

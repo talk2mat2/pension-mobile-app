@@ -11,15 +11,20 @@ const RtOutcomeDatatable = ({ profile }) => {
       <View style={styles.slide1}>
         <View style={styles.tableRow}>
           <Text style={styles.rowData}>Your Retirement Age</Text>
-          <Text style={styles.PriceDetail}>{profile?.attributes?.retirementAge}</Text>
-        </View>
-        <View style={styles.tableRow}>
-          <Text style={styles.rowData}>Spouses Retirement Age</Text>
-          <Text style={styles.PriceDetail}>--</Text>
+          <Text style={styles.PriceDetail}>
+            {profile?.attributes?.retirementAge}
+          </Text>
         </View>
         <View style={styles.tableRow}>
           <Text style={styles.rowData}>Desired Monthly Retirement Income </Text>
-          <Text style={styles.PriceDetail}>£--,--</Text>
+          <Text style={styles.PriceDetail}>
+            £
+            {profile?.attributes?.requiredAssetValueAtRetirement
+              ? Math.ceil(
+                  profile?.attributes?.requiredAssetValueAtRetirement / 12
+                )
+              : "--,--"}
+          </Text>
         </View>
         <View style={styles.tableRow}>
           <Text style={styles.rowData}>Required Pension Fund </Text>

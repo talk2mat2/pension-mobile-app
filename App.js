@@ -74,11 +74,6 @@ export default function App() {
     nm = "",
     ntt = "";
 
-  //Development config
-  // const Auth0_Domain = helpers.API;
-  // const Auth0_ClientID = "LFi1MZQxXQW4Y1vMhEOXN7Sy11naYTcF";
-  // const Auth0_ClientSecret =
-  //   "b8fUvWYThhkLxOf4d_UsGLBayfl1pCnQTkll9U8qtHrB6VPyFsfeIH7CRdcKhh9-";
   const { Auth0_Domain, Auth0_ClientID, Auth0_ClientSecret } = Env;
   const data = [
     {
@@ -123,12 +118,6 @@ export default function App() {
       if (!s) {
         (nm = "Your device is offline"), (ntt = "danger");
       }
-      /**
-         showMessage({
-              message: nm,
-              type: ntt,
-            });
-        **/
     }
   });
   const handleLogout = () => {
@@ -172,11 +161,6 @@ export default function App() {
     Organical: require("./assets/fonts/OrganicalPersonalUseBoldItalic-2O6xe.ttf"),
   });
 
-  /*if (!loaded) {
-          return null;
-        }*/
-
-
   useEffect(() => {
     //  helpers.remove("pa_u");
     async function prepare() {
@@ -196,7 +180,7 @@ export default function App() {
           if (uu) {
             const userData = JSON.parse(uu);
             const status = userData?.included[0]?.onboardingCompleted;
-            console.log(userData,status);
+            console.log(userData, status);
             setOnboardingCompleted(status);
             if (rtk != null && uu != null) {
               //get auth0 access token using refresh token
@@ -336,11 +320,6 @@ export default function App() {
                         ),
                       }}
                     />
-                    {/* <Stack.Screen
-                      name="DashboardStacks"
-                      options={{ headerShown: false }}
-                      component={JSDasboard}
-                    /> */}
                   </>
                 ) : (
                   <Stack.Screen
